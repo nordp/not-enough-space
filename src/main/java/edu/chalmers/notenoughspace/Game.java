@@ -88,8 +88,19 @@ public class Game extends SimpleApplication {
 
         //Background planet:
         Sphere planet2 = new Sphere(100, 100, 10f);
+        planet2.setTextureMode(Sphere.TextureMode.Projected);
+
+        Material m = new Material(assetManager,
+                "Common/MatDefs/Light/Lighting.j3md");
+        m.setBoolean("UseMaterialColors",true);
+        m.setColor("Diffuse", ColorRGBA.White);
+        m.setFloat("Shininess", 64f);  // [0,128]
+
+
+        m.setTexture("DiffuseMap",
+                assetManager.loadTexture("Textures/sun.jpg"));
         Geometry gp2 = new Geometry("p2", planet2);
-        gp2.setMaterial(mat);
+        gp2.setMaterial(m);
         gp2.move(-20, 0, 10);
         rootNode.attachChild(gp2);
 

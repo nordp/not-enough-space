@@ -160,20 +160,8 @@ public class Game extends SimpleApplication {
 
 
         //Planet:
-        Sphere planet = new Sphere(100, 100, 3.2f);
-        planet.setTextureMode(Sphere.TextureMode.Projected);
-        TangentBinormalGenerator.generate(planet);
-        Material sphereMat = new Material(assetManager,
-                "Common/MatDefs/Light/Lighting.j3md");
-        sphereMat.setBoolean("UseMaterialColors",true);
-        sphereMat.setColor("Diffuse",ColorRGBA.White);
-        //sphereMat.setColor("Specular",ColorRGBA.Green);
-        sphereMat.setFloat("Shininess", 64f);  // [0,128]
-        sphereMat.setTexture("DiffuseMap",
-                assetManager.loadTexture("Textures/planet.jpg"));
-        Geometry myPlanet = new Geometry("myPlanet", planet);
-        myPlanet.setMaterial(sphereMat);
-        rootNode.attachChild(myPlanet);
+        Planet planet = new Planet(assetManager);
+        rootNode.attachChild(planet);
 
         //myPlanet.setCullHint(Spatial.CullHint.Always);
 
@@ -199,7 +187,7 @@ public class Game extends SimpleApplication {
         spot.setPosition(player.getWorldTranslation());
         spot.setDirection(player.getWorldTranslation().mult(-1));
 
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < 50; i++) {                   //TODO Replace with planet.populate();
             createBlob();
         }
 

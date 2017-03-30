@@ -155,10 +155,10 @@ public class Game extends SimpleApplication {
         Material sphereMat = new Material(assetManager,
                 "Common/MatDefs/Light/Lighting.j3md");
         sphereMat.setBoolean("UseMaterialColors",true);
-        sphereMat.setColor("Diffuse",ColorRGBA.Green);
-        sphereMat.setColor("Specular",ColorRGBA.Green);
+        sphereMat.setColor("Diffuse",ColorRGBA.White);
+        //sphereMat.setColor("Specular",ColorRGBA.Green);
         sphereMat.setFloat("Shininess", 64f);  // [0,128]
-        sphereMat.setTexture("NormalMap",
+        sphereMat.setTexture("DiffuseMap",
                 assetManager.loadTexture("Textures/planet.jpg"));
         Geometry myPlanet = new Geometry("myPlanet", planet);
         myPlanet.setMaterial(sphereMat);
@@ -336,7 +336,7 @@ public class Game extends SimpleApplication {
 
 
     private void setGoodSpeed() {
-        this.flyCam.setMoveSpeed(5);
+        this.flyCam.setMoveSpeed(50);
         this.setDisplayFps(false);
         this.setDisplayStatView(false);
     }

@@ -10,10 +10,11 @@ import com.jme3.util.TangentBinormalGenerator;
 import java.util.List;
 
 public class Planet extends Geometry {
+    public final static float PLANET_RADIUS = 3.2f;
     private List<Beamable> population;
 
     public Planet(AssetManager assetManager){
-        Sphere shape = new Sphere(100, 100, 3.2f);
+        Sphere shape = new Sphere(100, 100, PLANET_RADIUS);
         shape.setTextureMode(Sphere.TextureMode.Projected);
         TangentBinormalGenerator.generate(shape);
         Material sphereMat = new Material(assetManager,

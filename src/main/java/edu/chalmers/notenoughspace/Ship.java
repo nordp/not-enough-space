@@ -12,102 +12,141 @@ import com.jme3.math.FastMath;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Mesh;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.CameraControl;
 import com.jme3.scene.shape.Box;
 
+/**
+ * A model of a hovering space ship able to be navigated around a planet's surface.
+ */
 public class Ship extends Geometry {
 
-    private SpotLight spot;
+    /** The distance from the ship to the planet's surface. */
+    private final float SHIP_ALTITUDE = 1.8f;
 
+    /** The ship's private spot light, lighting up the surface beneath it. */
+    private SpotLight spotLight;
+
+    /**
+     * Creates a steerable ship model and attaches it to a pivot node.
+     * @param assetManager Used to load the model and texture for the ship.
+     * @param inputManager Used to map movement to key presses.
+     * @param rootNode Used to attach spotLight (must be added to highest node
+     *                 in order to light up everything in the world.
+     */
     public Ship(AssetManager assetManager, InputManager inputManager,
                 Node rootNode) {
+
         createShipModel(assetManager);
         attachModelToPivotNode();
         initMovementKeys(inputManager);
+
         initSpotLight(rootNode);
     }
 
+    /**
+     * Initializes a spotlight directed downwards from the
+     * bottom of the ship.
+     * @param rootNode The rootNode of the game world.
+     */
     private void initSpotLight(Node rootNode) {
-        spot = new SpotLight();
-        spot.setSpotRange(100);
-        spot.setSpotOuterAngle(45 * FastMath.DEG_TO_RAD);
-        spot.setSpotInnerAngle(5 * FastMath.DEG_TO_RAD);
-        spot.setPosition(this.getWorldTranslation());
-        spot.setDirection(this.getWorldTranslation().mult(-1));
+        spotLight = new SpotLight();
+        spotLight.setSpotRange(10);
+        spotLight.setSpotOuterAngle(45 * FastMath.DEG_TO_RAD);
+        spotLight.setSpotInnerAngle(5 * FastMath.DEG_TO_RAD);
+        spotLight.setPosition(this.getWorldTranslation());
+        spotLight.setDirection(this.getWorldTranslation().mult(-1));
+        spotLight.setName("shipSpotLight");
 
-        rootNode.addLight(spot);
+        rootNode.addLight(spotLight);
     }
 
+    /**
+     * Attaches the given camera to a position a bit behind and above
+     * the ship, looking at the ship with UP in the ship's direction.
+     * @param cam The camera to be used as third person camera.
+     */
     public void attachThirdPersonView(Camera cam) {
-        //Camera:
-        Node node2 = new Node();
-        CameraNode camNode = new CameraNode("CamNode", cam);
-        camNode.setControlDir(CameraControl.ControlDirection.SpatialToCamera);
-        camNode.setLocalTranslation(0, 0, -8f);
-        node2.attachChild(camNode);
-        node2.rotate(FastMath.HALF_PI + -8*FastMath.DEG_TO_RAD,
+        CameraNode followShipCamera = new CameraNode("followShipCamera", cam);
+        followShipCamera.setLocalTranslation(
+                0, 0, -(Planet.PLANET_RADIUS + SHIP_ALTITUDE + 3));
+
+        Node followShipCameraPivotNode = new Node();    //Helper node to set the default position
+                                                        //of the camera.
+        followShipCameraPivotNode.attachChild(followShipCamera);
+        followShipCameraPivotNode.rotate(FastMath.HALF_PI + -8*FastMath.DEG_TO_RAD,
                 FastMath.PI,
                 0);
+
         //PRESS C TO GET CAMERA INFO FOR SETTING CHASECAM!
-        this.getParent().attachChild(node2);
+        Node shipPivotNode = this.getParent();
+        shipPivotNode.attachChild(followShipCameraPivotNode);
     }
 
+    /**
+     * Makes it possible for the model to "move" ( = rotate) around a planet.
+     */
     private void attachModelToPivotNode() {
-        Node thisPivot = new Node("pivot");
-        thisPivot.attachChild(this);
-        thisPivot.rotate(FastMath.PI/2, 0, 0);
-        //thisPivot.attachChild(node2);     //Adds the FPV.
-
+        Node shipPivotNode = new Node("shipPivotNode");
+        shipPivotNode.attachChild(this);
+        shipPivotNode.rotate(FastMath.PI/2, 0, 0);
     }
+
 
     private void createShipModel(AssetManager assetManager) {
-        Box b = new Box(0.2f, 0.1f, 0.2f);
+        setMesh( createShipMesh() );
+        setMaterial( createShipMaterial(assetManager) );
+        setName("ship");
+        move(0, Planet.PLANET_RADIUS + SHIP_ALTITUDE, 0);
+    }
+
+    private Mesh createShipMesh() {
+        return new Box(0.2f, 0.1f, 0.2f);
+    }
+
+    private Material createShipMaterial(AssetManager assetManager) {
         Material mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Yellow);
-
-        setMesh(b);
-        setMaterial(mat);
-        setName("ship");
-        move(0, 5f, 0);
-
+        return mat;
     }
 
 
-    public Node getShipNode(Camera cam) {
-
-
-
-
+    /**
+     * Use this method when adding the ship to the world.
+     * @return The pivot node containing the ship.
+     */
+    public Node getShipPivotNode() {
         return this.getParent();
     }
 
-    public SpotLight getSpot() {
-        return spot;
-    }
 
+    /////////// MOVEMENTS BELOW //////////////
+
+    /**
+     * Makes it possible for the ship to move in all directions
+     * and rotate left and right.
+     * @param inputManager
+     */
     private void initMovementKeys(InputManager inputManager) {
-        // You can map one or several inputs to one named action
         inputManager.addMapping("forwards",  new KeyTrigger(KeyInput.KEY_I));
         inputManager.addMapping("left",   new KeyTrigger(KeyInput.KEY_J));
         inputManager.addMapping("right",  new KeyTrigger(KeyInput.KEY_L));
         inputManager.addMapping("backwards", new KeyTrigger(KeyInput.KEY_K));
         inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_C));
         inputManager.addMapping("rotateRight", new KeyTrigger(KeyInput.KEY_V));
-        inputManager.addMapping("beam", new KeyTrigger(KeyInput.KEY_SPACE));
+        inputManager.addMapping("beam", new KeyTrigger(KeyInput.KEY_SPACE)); //TODO: implement beam.
 
         // Add the names to the action listener.
         inputManager.addListener(analogListener,
                 "forwards","left","right","backwards",
                 "rotateLeft", "rotateRight", "beam");
-
     }
 
-    private Ship getMe() {
-        return this;
-    }
-
+    /**
+     * The listener controlling user input for moving the ship.
+     */
     private AnalogListener analogListener = new AnalogListener() {
 
         public void onAnalog(String name, float value, float tpf) {
@@ -131,11 +170,24 @@ public class Ship extends Geometry {
                 pivot.rotate(0, -2*tpf, 0);
             }
 
-            if (spot != null) {
-                spot.setPosition(getMe().getWorldTranslation());
-                spot.setDirection(getMe().getWorldTranslation().mult(-1));
+            //Adjust the spotLight so that it always follows the ship.
+            //TODO: Is there some way to attach the spotLight node to the
+            //TODO: ship's pivot node and still make it light up the planet??
+            if (spotLight != null) {
+                spotLight.setPosition(getMe().getWorldTranslation());
+                spotLight.setDirection(getMe().getWorldTranslation().mult(-1));
             }
         }
     };
+
+    /**
+     * To get access to the ship inside the analog listener.
+     * (Don't know how else to do it?)
+     *
+     * @return The ship object ( = this).
+     */
+    private Ship getMe() {
+        return this;
+    }
 
 }

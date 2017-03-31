@@ -11,21 +11,15 @@ import java.util.List;
 
 public class Planet extends Geometry {
     public final static float PLANET_RADIUS = 3.2f;
+
     private List<Beamable> population;
 
     public Planet(AssetManager assetManager){
         Sphere shape = new Sphere(100, 100, PLANET_RADIUS);
         shape.setTextureMode(Sphere.TextureMode.Projected);
         TangentBinormalGenerator.generate(shape);
-        Material sphereMat = new Material(assetManager,
-            "Common/MatDefs/Light/Lighting.j3md");
-        sphereMat.setBoolean("UseMaterialColors",true);
-        sphereMat.setColor("Diffuse",ColorRGBA.White);
-        sphereMat.setFloat("Shininess", 64f);  // [0,128]
-        sphereMat.setTexture("DiffuseMap", assetManager.loadTexture("Textures/planet.jpg"));
-
         setMesh(shape);
-        setMaterial(sphereMat);
+        setMaterial(assetManager.loadMaterial("Materials/PlanetMaterial.j3m"));
     }
 
     public void populate(int nCow, int nJunk){

@@ -56,7 +56,7 @@ public class Game extends SimpleApplication {
 
     }
 
-    protected Geometry player;
+    private Ship player;
     private SpotLight spot;
     private Geometry blob;
 
@@ -65,25 +65,16 @@ public class Game extends SimpleApplication {
         setFullScreen();
         setGoodSpeed();
 
+        player = new Ship(assetManager, inputManager);
 
-        //Player:
-        Box b = new Box(0.2f, 0.1f, 0.2f);
-        player = new Geometry("blue cube", b);
         Material mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Yellow);
-        player.setMaterial(mat);
-        player.move(0, 5f, 0);
+
 
         //Beamer light:
-        spot = new SpotLight();
-        spot.setSpotRange(100);
-        spot.setSpotOuterAngle(45 * FastMath.DEG_TO_RAD);
-        spot.setSpotInnerAngle(5 * FastMath.DEG_TO_RAD);
-        spot.setPosition(player.getWorldTranslation());
-        spot.setDirection(player.getWorldTranslation().mult(-1));
         //spot.setColor(ColorRGBA.Blue); //Doesn't work?!
-        rootNode.addLight(spot);
+//        rootNode.addLight(spot);
 
 
         //Background planet:
@@ -134,25 +125,10 @@ public class Game extends SimpleApplication {
 
 
 
-        //Camera:
-        Node node2 = new Node();
-        CameraNode camNode = new CameraNode("CamNode", cam);
-        camNode.setControlDir(CameraControl.ControlDirection.SpatialToCamera);
-        camNode.setLocalTranslation(0, 0, -8f);
-        node2.attachChild(camNode);
-        node2.rotate(FastMath.HALF_PI + -8*FastMath.DEG_TO_RAD,
-                FastMath.PI,
-                0);
-        //PRESS C TO GET CAMERA INFO FOR SETTING CHASECAM!
-
         //Player rotation:
-        Node playerPivot = new Node("pivot");
-        playerPivot.attachChild(player);
-        playerPivot.rotate(FastMath.PI/2, 0, 0);
-        playerPivot.attachChild(node2);     //Adds the FPV.
-        playerPivot.addLight(spot);
-        rootNode.attachChild(playerPivot);
+        rootNode.attachChild(player.getShipNode(cam));
 
+        spot = player.getSpot();
 
 
         //Planet:
@@ -169,7 +145,6 @@ public class Game extends SimpleApplication {
 
 
         //rootNode.move(0, 0, -1);
-        initKeys();
 
         happy = new AudioNode(assetManager, "Sounds/happy_1.WAV", AudioData.DataType.Buffer);
         happy.setLooping(true);  // activate continuous playing
@@ -179,9 +154,9 @@ public class Game extends SimpleApplication {
         happy.play(); // play continuously!
 
         //playerPivot.addLight(spot);
-
         spot.setPosition(player.getWorldTranslation());
         spot.setDirection(player.getWorldTranslation().mult(-1));
+
 
         for (int i = 0; i < 50; i++) {                   //TODO Replace with planet.populate();
             createBlob();
@@ -239,79 +214,6 @@ public class Game extends SimpleApplication {
     }
 
     /** Custom Keybinding: Map named actions to inputs. */
-    private void initKeys() {
-        // You can map one or several inputs to one named action
-        inputManager.addMapping("forwards",  new KeyTrigger(KeyInput.KEY_I));
-        inputManager.addMapping("left",   new KeyTrigger(KeyInput.KEY_J));
-        inputManager.addMapping("right",  new KeyTrigger(KeyInput.KEY_L));
-        inputManager.addMapping("backwards", new KeyTrigger(KeyInput.KEY_K));
-        inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_C));
-        inputManager.addMapping("rotateRight", new KeyTrigger(KeyInput.KEY_V));
-        inputManager.addMapping("beam", new KeyTrigger(KeyInput.KEY_SPACE));
-
-        // Add the names to the action listener.
-        inputManager.addListener(analogListener,
-                "forwards","left","right","backwards",
-                "rotateLeft", "rotateRight", "beam");
-
-    }
-
-    private AnalogListener analogListener = new AnalogListener() {
-
-        public void onAnalog(String name, float value, float tpf) {
-            Node pivot = (Node) rootNode.getChild("pivot");
-            if (name.equals("forwards")) {
-                pivot.rotate(-1*tpf, 0, 0);
-            }
-            if (name.equals("left")) {
-                pivot.rotate(0, 0, 1*tpf);
-            }
-            if (name.equals("right")) {
-                pivot.rotate(0, 0, -1*tpf);
-            }
-            if (name.equals("backwards")) {
-                pivot.rotate(1*tpf, 0, 0);
-            }
-            if (name.equals("rotateLeft")) {
-                pivot.rotate(0, 2*tpf, 0);
-            }
-            if (name.equals("rotateRight")) {
-                pivot.rotate(0, -2*tpf, 0);
-            }
-            if (name.equals("beam")) {
-                blob.removeControl(BallControl.class);
-                Vector3f blobPos = blob.getWorldTranslation();
-                Vector3f myPos = player.getWorldTranslation();
-                Vector3f blobToPlayerVector = myPos.subtract(blobPos).normalize();
-                blob.move(Vector3f.UNIT_Y.mult(0.01f));
-
-            }
-
-            if (rootNode.hasChild((Geometry) rootNode.getChild("blob"))) {
-                Geometry blob = (Geometry) rootNode.getChild("blob");
-                Vector3f blobPos = blob.getWorldTranslation();
-                Vector3f myPos = player.getWorldTranslation();
-
-                if (myPos.subtract(blobPos).length() < 0.8f) {
-                    AudioNode pointSound = new AudioNode(
-                            assetManager, "Sound/Effects/Gun.wav",
-                            AudioData.DataType.Buffer);
-                    pointSound.setPositional(false);
-                    pointSound.setLooping(false);
-                    pointSound.setVolume(2);
-                    rootNode.attachChild(pointSound);
-                    pointSound.playInstance();
-
-                    rootNode.detachChild(blob.getParent());
-                }
-
-                //blob.setCullHint(Spatial.CullHint.Always);
-            }
-
-            spot.setPosition(player.getWorldTranslation());
-            spot.setDirection(player.getWorldTranslation().mult(-1));
-        }
-    };
 
     @Override
     public void simpleUpdate(float tpf) {

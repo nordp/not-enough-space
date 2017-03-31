@@ -1,8 +1,6 @@
 package edu.chalmers.notenoughspace;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.audio.AudioData;
-import com.jme3.audio.AudioNode;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.AnalogListener;
@@ -11,7 +9,6 @@ import com.jme3.light.SpotLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
-import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
@@ -23,21 +20,26 @@ public class Ship extends Geometry {
 
     private SpotLight spot;
 
-    public Ship(AssetManager assetManager, InputManager inputManager) {
-        Box b = new Box(0.2f, 0.1f, 0.2f);
-        Material mat = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Yellow);
-
-        setMesh(b);
-        setMaterial(mat);
-        setName("ship");
-        move(0, 5f, 0);
-
-        initKeys(inputManager);
+    public Ship(AssetManager assetManager, InputManager inputManager,
+                Node rootNode) {
+        createShipModel(assetManager);
+        attachModelToPivotNode();
+        initMovementKeys(inputManager);
+        initSpotLight(rootNode);
     }
 
-    public Node getShipNode(Camera cam) {
+    private void initSpotLight(Node rootNode) {
+        spot = new SpotLight();
+        spot.setSpotRange(100);
+        spot.setSpotOuterAngle(45 * FastMath.DEG_TO_RAD);
+        spot.setSpotInnerAngle(5 * FastMath.DEG_TO_RAD);
+        spot.setPosition(this.getWorldTranslation());
+        spot.setDirection(this.getWorldTranslation().mult(-1));
+
+        rootNode.addLight(spot);
+    }
+
+    public void attachThirdPersonView(Camera cam) {
         //Camera:
         Node node2 = new Node();
         CameraNode camNode = new CameraNode("CamNode", cam);
@@ -48,31 +50,44 @@ public class Ship extends Geometry {
                 FastMath.PI,
                 0);
         //PRESS C TO GET CAMERA INFO FOR SETTING CHASECAM!
+        this.getParent().attachChild(node2);
+    }
 
-        spot = new SpotLight();
-        spot.setSpotRange(100);
-        spot.setSpotOuterAngle(45 * FastMath.DEG_TO_RAD);
-        spot.setSpotInnerAngle(5 * FastMath.DEG_TO_RAD);
-        spot.setPosition(this.getWorldTranslation());
-        spot.setDirection(this.getWorldTranslation().mult(-1));
-
-
+    private void attachModelToPivotNode() {
         Node thisPivot = new Node("pivot");
         thisPivot.attachChild(this);
         thisPivot.rotate(FastMath.PI/2, 0, 0);
-        thisPivot.attachChild(node2);     //Adds the FPV.
-        thisPivot.addLight(spot);
+        //thisPivot.attachChild(node2);     //Adds the FPV.
+
+    }
+
+    private void createShipModel(AssetManager assetManager) {
+        Box b = new Box(0.2f, 0.1f, 0.2f);
+        Material mat = new Material(assetManager,
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Yellow);
+
+        setMesh(b);
+        setMaterial(mat);
+        setName("ship");
+        move(0, 5f, 0);
+
+    }
+
+
+    public Node getShipNode(Camera cam) {
 
 
 
-        return thisPivot;
+
+        return this.getParent();
     }
 
     public SpotLight getSpot() {
         return spot;
     }
 
-    private void initKeys(InputManager inputManager) {
+    private void initMovementKeys(InputManager inputManager) {
         // You can map one or several inputs to one named action
         inputManager.addMapping("forwards",  new KeyTrigger(KeyInput.KEY_I));
         inputManager.addMapping("left",   new KeyTrigger(KeyInput.KEY_J));
@@ -116,8 +131,10 @@ public class Ship extends Geometry {
                 pivot.rotate(0, -2*tpf, 0);
             }
 
-            spot.setPosition(getMe().getWorldTranslation());
-            spot.setDirection(getMe().getWorldTranslation().mult(-1));
+            if (spot != null) {
+                spot.setPosition(getMe().getWorldTranslation());
+                spot.setDirection(getMe().getWorldTranslation().mult(-1));
+            }
         }
     };
 

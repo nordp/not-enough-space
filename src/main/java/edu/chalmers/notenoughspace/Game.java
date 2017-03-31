@@ -65,7 +65,7 @@ public class Game extends SimpleApplication {
         setFullScreen();
         setGoodSpeed();
 
-        player = new Ship(assetManager, inputManager);
+        player = new Ship(assetManager, inputManager, rootNode);
 
         Material mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
@@ -157,6 +157,7 @@ public class Game extends SimpleApplication {
         spot.setPosition(player.getWorldTranslation());
         spot.setDirection(player.getWorldTranslation().mult(-1));
 
+        player.attachThirdPersonView(cam);
 
         for (int i = 0; i < 50; i++) {                   //TODO Replace with planet.populate();
             createBlob();

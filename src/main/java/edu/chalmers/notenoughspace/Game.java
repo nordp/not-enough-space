@@ -89,19 +89,15 @@ public class Game extends SimpleApplication {
         //Background planet:
         Sphere planet2 = new Sphere(100, 100, 10f);
         planet2.setTextureMode(Sphere.TextureMode.Projected);
-
-        Material m = new Material(assetManager,
-                "Common/MatDefs/Light/Lighting.j3md");
-        m.setBoolean("UseMaterialColors",true);
-        m.setColor("Diffuse", ColorRGBA.White);
-        m.setFloat("Shininess", 64f);  // [0,128]
-
-
-        m.setTexture("DiffuseMap",
+        Material sunMat = new Material(assetManager,
+                "Common/MatDefs/Misc/Unshaded.j3md");   //Now "unshaded", previously "lighting".
+        sunMat.setTexture("ColorMap",
                 assetManager.loadTexture("Textures/sun.jpg"));
         Geometry gp2 = new Geometry("p2", planet2);
-        gp2.setMaterial(m);
+        gp2.setMaterial(sunMat);
         gp2.move(-20, 0, 10);
+        gp2.rotate(0, 0, FastMath.HALF_PI); //It has an ugly line at the equator,
+                                            //that's why the rotation is currently needed...
         rootNode.attachChild(gp2);
 
 

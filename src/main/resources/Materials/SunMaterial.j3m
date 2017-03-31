@@ -1,0 +1,5 @@
+Material Sun surface material : Common/MatDefs/Misc/Unshaded.j3md {
+    MaterialParameters {
+        ColorMap : Textures/sun.jpg
+    }
+}

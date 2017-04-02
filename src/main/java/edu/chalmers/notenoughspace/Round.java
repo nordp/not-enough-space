@@ -8,6 +8,9 @@ import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioData;
 import com.jme3.audio.AudioNode;
 import com.jme3.input.InputManager;
+import com.jme3.input.KeyInput;
+import com.jme3.input.controls.ActionListener;
+import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
@@ -21,13 +24,13 @@ public class Round extends AbstractAppState{
 
     SimpleApplication app;
 
+    private Ship ship;
+    private Planet planet;
     private Geometry sun;
     private DirectionalLight sunLight;
-    private Planet planet;
-    private Ship ship;
     private AudioNode happy;
 
-
+    private ActionListener pauseListener;
 
     public Round(AssetManager assetManager, InputManager inputManager){
 
@@ -57,6 +60,23 @@ public class Round extends AbstractAppState{
         happy.setPositional(true);
         happy.setVolume(1);
         happy.play(); // play continuously!
+
+        pauseListener = new ActionListener() {
+
+            public void onAction(String name, boolean value, float tpf) {
+                Round round = getMe();
+                if (name.equals("pause") && !value) {
+                    if(round.isEnabled())
+                        round.setEnabled(false);
+                    else
+                        round.setEnabled(true);
+                }
+            }
+        };
+    }
+
+    private Round getMe(){
+        return this;
     }
 
     @Override
@@ -72,7 +92,8 @@ public class Round extends AbstractAppState{
         app.getRootNode().addLight(sunLight);
         app.getRootNode().attachChild(happy);
 
-
+        app.getInputManager().addMapping("pause",  new KeyTrigger(KeyInput.KEY_P));
+        app.getInputManager().addListener(pauseListener, "pause");
     }
 
     @Override
@@ -85,6 +106,9 @@ public class Round extends AbstractAppState{
         app.getRootNode().detachChild(sun);
         app.getRootNode().removeLight(sunLight);
         app.getRootNode().detachChild(happy);
+
+        app.getInputManager().deleteMapping("pause");
+        app.getInputManager().removeListener(pauseListener);
     }
 
     @Override
@@ -92,13 +116,18 @@ public class Round extends AbstractAppState{
         // Pause and unpause
         super.setEnabled(enabled);
         if(enabled){
+            //Restore control
+            happy.play();
         } else {
+            //Remove control
+            happy.pause();
         }
     }
 
     // Note that update is only called while the state is both attached and enabled.
     @Override
     public void update(float tpf) {
+        //Update cow controls? Tick time?
     }
 
 }

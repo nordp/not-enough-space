@@ -9,6 +9,7 @@ import com.jme3.light.SpotLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Geometry;
@@ -22,6 +23,8 @@ import com.jme3.scene.shape.Box;
  */
 public class Ship extends Geometry {
 
+    private final String THIRD_PERSON_CAMERA = "followShipCamera";
+
     /** The distance from the ship to the planet's surface. */
     private final float SHIP_ALTITUDE = 1.8f;
 
@@ -30,10 +33,12 @@ public class Ship extends Geometry {
 
     /**
      * Creates a steerable ship model and attaches it to a pivot node.
+     * NOTE: Does not add the third person view camera. This is done
+     * in its own separate method.
      * @param assetManager Used to load the model and texture for the ship.
      * @param inputManager Used to map movement to key presses.
      * @param rootNode Used to attach spotLight (must be added to highest node
-     *                 in order to light up everything in the world.
+     *                 in order to light up everything in the world).
      */
     public Ship(AssetManager assetManager, InputManager inputManager,
                 Node rootNode) {
@@ -69,7 +74,7 @@ public class Ship extends Geometry {
      * @param cam The camera to be used as third person camera.
      */
     public void attachThirdPersonView(Camera cam) {
-        CameraNode followShipCamera = new CameraNode("followShipCamera", cam);
+        CameraNode followShipCamera = new CameraNode(THIRD_PERSON_CAMERA, cam);
         followShipCamera.setLocalTranslation(
                 0, 0, -(Planet.PLANET_RADIUS + SHIP_ALTITUDE + 3));
 
@@ -83,6 +88,35 @@ public class Ship extends Geometry {
         //PRESS C TO GET CAMERA INFO FOR SETTING CHASECAM!
         Node shipPivotNode = this.getParent();
         shipPivotNode.attachChild(followShipCameraPivotNode);
+    }
+
+    /**
+     * Removes the ship's third person camera (if attached) which restores
+     * the camera to the original one.
+     */
+    public void detachThirdPersonView() {
+        Node shipPivotNode = this.getParent();
+        if (shipPivotNode != null && shipPivotNode.getChild(THIRD_PERSON_CAMERA) != null) {
+            CameraNode followShipCamera = (CameraNode) shipPivotNode.getChild(THIRD_PERSON_CAMERA);
+
+            shipPivotNode.detachChild(followShipCamera.getParent());    // Removes the camera
+                                            // getParent() part needed since the CameraNode
+                                            // actually is nested inside a "camera pivot node"
+                                            // which in turn is a child of the shipPivotNode.
+
+            //Restores the original settings of the camera:
+            Camera gameCamera = followShipCamera.getCamera();
+            gameCamera.setFrame(
+                    new Vector3f(0, 0, 10f), // Location
+                    new Vector3f(-1f, 0, 0), // Left
+                    new Vector3f(0, 1f, 0), // Up
+                    new Vector3f(0, 0, -1f)); // Direction
+        }
+    }
+
+    public boolean hasThirdPersonViewAttached() {
+        Node shipPivotNode = this.getParent();
+        return shipPivotNode != null && shipPivotNode.getChild(THIRD_PERSON_CAMERA) != null;
     }
 
     /**

@@ -12,12 +12,10 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.DirectionalLight;
-import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import com.jme3.scene.shape.Sphere;
 
 public class Round extends AbstractAppState{
@@ -30,7 +28,7 @@ public class Round extends AbstractAppState{
     private DirectionalLight sunLight;
     private AudioNode happy;
 
-    private ActionListener pauseListener;
+    private ActionListener actionListener;
 
     public Round(AssetManager assetManager, InputManager inputManager){
 
@@ -61,7 +59,7 @@ public class Round extends AbstractAppState{
         happy.setVolume(1);
         happy.play(); // play continuously!
 
-        pauseListener = new ActionListener() {
+        actionListener = new ActionListener() {
 
             public void onAction(String name, boolean value, float tpf) {
                 Round round = getMe();
@@ -70,6 +68,13 @@ public class Round extends AbstractAppState{
                         round.setEnabled(false);
                     else
                         round.setEnabled(true);
+                }
+                if (name.equals("cameraMode") && !value) {
+                    if (ship.hasThirdPersonViewAttached()) {
+                        ship.detachThirdPersonView();
+                    } else {
+                        ship.attachThirdPersonView(app.getCamera());
+                    }
                 }
             }
         };
@@ -93,7 +98,11 @@ public class Round extends AbstractAppState{
         app.getRootNode().attachChild(happy);
 
         app.getInputManager().addMapping("pause",  new KeyTrigger(KeyInput.KEY_P));
-        app.getInputManager().addListener(pauseListener, "pause");
+        app.getInputManager().addListener(actionListener, "pause");
+
+        //Adds option to change camera view:
+        app.getInputManager().addMapping("cameraMode",  new KeyTrigger(KeyInput.KEY_T));
+        app.getInputManager().addListener(actionListener, "cameraMode");
     }
 
     @Override
@@ -108,7 +117,7 @@ public class Round extends AbstractAppState{
         app.getRootNode().detachChild(happy);
 
         app.getInputManager().deleteMapping("pause");
-        app.getInputManager().removeListener(pauseListener);
+        app.getInputManager().removeListener(actionListener);
     }
 
     @Override

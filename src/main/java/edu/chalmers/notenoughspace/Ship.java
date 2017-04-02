@@ -42,7 +42,8 @@ public class Ship extends Geometry {
         attachModelToPivotNode();
         initMovementKeys(inputManager);
 
-        initSpotLight(rootNode);
+//        Can't attach to rootNode on init. Try to attach to ship node.
+//        initSpotLight(rootNode);
     }
 
     /**

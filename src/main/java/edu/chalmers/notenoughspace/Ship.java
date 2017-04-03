@@ -3,6 +3,7 @@ package edu.chalmers.notenoughspace;
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
+import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.SpotLight;
@@ -31,32 +32,33 @@ public class Ship extends Geometry {
     /** The ship's private spot light, lighting up the surface beneath it. */
     private SpotLight spotLight;
 
+    /** The ship's tractor beam. */
+    private Beam beam;
+
     /**
      * Creates a steerable ship model and attaches it to a pivot node.
      * NOTE: Does not add the third person view camera. This is done
      * in its own separate method.
      * @param assetManager Used to load the model and texture for the ship.
      * @param inputManager Used to map movement to key presses.
-     * @param rootNode Used to attach spotLight (must be added to highest node
-     *                 in order to light up everything in the world).
      */
-    public Ship(AssetManager assetManager, InputManager inputManager,
-                Node rootNode) {
+    public Ship(AssetManager assetManager, InputManager inputManager) {
 
         createShipModel(assetManager);
         attachModelToPivotNode();
         initMovementKeys(inputManager);
+        initSpotLight();
 
-//        Can't attach to rootNode on init. Try to attach to ship node.
-//        initSpotLight(rootNode);
+        beam = new Beam(assetManager);
+        beam.setLocalTranslation(beam.getLocalTranslation().add(this.getLocalTranslation()));
+        this.getShipPivotNode().attachChild(beam);
     }
 
     /**
      * Initializes a spotlight directed downwards from the
      * bottom of the ship.
-     * @param rootNode The rootNode of the game world.
      */
-    private void initSpotLight(Node rootNode) {
+    private void initSpotLight() {
         spotLight = new SpotLight();
         spotLight.setSpotRange(10);
         spotLight.setSpotOuterAngle(45 * FastMath.DEG_TO_RAD);
@@ -64,8 +66,11 @@ public class Ship extends Geometry {
         spotLight.setPosition(this.getWorldTranslation());
         spotLight.setDirection(this.getWorldTranslation().mult(-1));
         spotLight.setName("shipSpotLight");
+    }
 
-        rootNode.addLight(spotLight);
+    /** Returns the ship's spotlight. */
+    public SpotLight getSpotLight() {
+        return this.spotLight;
     }
 
     /**
@@ -171,12 +176,13 @@ public class Ship extends Geometry {
         inputManager.addMapping("backwards", new KeyTrigger(KeyInput.KEY_K));
         inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_C));
         inputManager.addMapping("rotateRight", new KeyTrigger(KeyInput.KEY_V));
-        inputManager.addMapping("beam", new KeyTrigger(KeyInput.KEY_SPACE)); //TODO: implement beam.
+        inputManager.addMapping("beam", new KeyTrigger(KeyInput.KEY_SPACE));
 
         // Add the names to the action listener.
         inputManager.addListener(analogListener,
                 "forwards","left","right","backwards",
-                "rotateLeft", "rotateRight", "beam");
+                "rotateLeft", "rotateRight");
+        inputManager.addListener(actionListener, "beam");
     }
 
     /**
@@ -206,11 +212,21 @@ public class Ship extends Geometry {
             }
 
             //Adjust the spotLight so that it always follows the ship.
-            //TODO: Is there some way to attach the spotLight node to the
-            //TODO: ship's pivot node and still make it light up the planet??
             if (spotLight != null) {
                 spotLight.setPosition(getMe().getWorldTranslation());
                 spotLight.setDirection(getMe().getWorldTranslation().mult(-1));
+            }
+        }
+    };
+
+    /**
+     * The listener controlling user input for activating the beam.
+     */
+    private ActionListener actionListener = new ActionListener() {
+
+        public void onAction(String name, boolean value, float tpf) {
+            if(name.equals("beam")) {
+                beam.setActive(value);
             }
         }
     };

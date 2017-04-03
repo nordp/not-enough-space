@@ -33,7 +33,7 @@ public class Round extends AbstractAppState{
     public Round(AssetManager assetManager, InputManager inputManager){
 
         //Ship:
-        ship = new Ship(assetManager, inputManager, null);
+        ship = new Ship(assetManager, inputManager);
 
         //Planet:
         planet = new Planet(assetManager);
@@ -89,9 +89,10 @@ public class Round extends AbstractAppState{
         super.initialize(stateManager, app);
         app = (SimpleApplication) application;
 
-
         ship.attachThirdPersonView(app.getCamera());
         app.getRootNode().attachChild(ship.getShipPivotNode());
+        app.getRootNode().addLight(ship.getSpotLight());
+
         app.getRootNode().attachChild(planet);
         app.getRootNode().attachChild(sun);
         app.getRootNode().addLight(sunLight);
@@ -109,8 +110,10 @@ public class Round extends AbstractAppState{
     public void cleanup() {
         super.cleanup();
 
-        //detachThirdPersonView
+        ship.detachThirdPersonView();
         app.getRootNode().detachChild(ship.getShipPivotNode());
+        app.getRootNode().removeLight(ship.getSpotLight());
+
         app.getRootNode().detachChild(planet);
         app.getRootNode().detachChild(sun);
         app.getRootNode().removeLight(sunLight);

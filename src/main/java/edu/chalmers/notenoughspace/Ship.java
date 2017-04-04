@@ -10,6 +10,7 @@ import com.jme3.light.SpotLight;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.scene.CameraNode;
@@ -93,6 +94,10 @@ public class Ship extends Geometry {
         //PRESS C TO GET CAMERA INFO FOR SETTING CHASECAM!
         Node shipPivotNode = this.getParent();
         shipPivotNode.attachChild(followShipCameraPivotNode);
+
+        //use these to change view of the 3rd person camera
+        cam.setLocation(new Vector3f(0.09670155f, -0.5602153f, 11.6101885f));
+        cam.setRotation(new Quaternion(-4.8353246E-5f, 0.9718176f, 0.23573402f, 1.991157E-4f));
     }
 
     /**
@@ -174,7 +179,7 @@ public class Ship extends Geometry {
         inputManager.addMapping("left",   new KeyTrigger(KeyInput.KEY_J));
         inputManager.addMapping("right",  new KeyTrigger(KeyInput.KEY_L));
         inputManager.addMapping("backwards", new KeyTrigger(KeyInput.KEY_K));
-        inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_C));
+        inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_X));
         inputManager.addMapping("rotateRight", new KeyTrigger(KeyInput.KEY_V));
         inputManager.addMapping("beam", new KeyTrigger(KeyInput.KEY_SPACE));
 

@@ -10,7 +10,7 @@ import com.jme3.util.TangentBinormalGenerator;
 import java.util.List;
 
 public class Planet extends Geometry {
-    public final static float PLANET_RADIUS = 3.2f;
+    public final static float PLANET_RADIUS = 8.5f;
 
     private List<Beamable> population;
 

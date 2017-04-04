@@ -1,0 +1,5 @@
+Material Cow skin Material : Common/MatDefs/Misc/Unshaded.j3md {
+    MaterialParameters {
+        ColorMap : Textures/sun.jpg
+    }
+}

@@ -94,6 +94,9 @@ public class Round extends AbstractAppState{
         app.getRootNode().addLight(ship.getSpotLight());
 
         app.getRootNode().attachChild(planet);
+        //Test population
+        planet.populate(10,0);
+
         app.getRootNode().attachChild(sun);
         app.getRootNode().addLight(sunLight);
         app.getRootNode().attachChild(happy);

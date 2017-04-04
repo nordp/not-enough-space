@@ -17,7 +17,7 @@ public class Planet extends Node {
 
     public final static float PLANET_RADIUS = 8.5f;
 
-    private List<Beamable> population;
+    private Node population;
 
     public Planet(AssetManager assetManager){
         Sphere shape = new Sphere(100, 100, PLANET_RADIUS);
@@ -28,17 +28,18 @@ public class Planet extends Node {
         model.setMaterial(assetManager.loadMaterial("Materials/PlanetMaterial.j3m"));
         attachChild(model);
         this.assetManager = assetManager;
-        population = new ArrayList<Beamable>();
+        population = new Node();
+        attachChild(population);
     }
 
     public void populate(int nCow, int nJunk){
-        population.clear();
-        detachAllChildren();
+        population.detachAllChildren();
         for (int i = 0; i < nCow; i++){
-            Cow c = new Cow(assetManager);
+            Cow c = new Cow(assetManager, PLANET_RADIUS);
 
-            attachChild(c);
-            population.add(c);
+            //TODO Implement random placing
+            c.rotate(i,i,i);
+            population.attachChild(c);
         }
 
         for (int i = 0; i < nJunk; i++){

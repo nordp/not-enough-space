@@ -33,8 +33,10 @@ public class Planet extends Node {
 
     public void populate(int nCow, int nJunk){
         population.clear();
+        detachAllChildren();
         for (int i = 0; i < nCow; i++){
             Cow c = new Cow(assetManager);
+
             attachChild(c);
             population.add(c);
         }

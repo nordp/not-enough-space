@@ -43,9 +43,7 @@ public class Ship extends Node {
      * @param inputManager Used to map movement to key presses.
      */
     public Ship(AssetManager assetManager, InputManager inputManager) {
-
         createShip3DModel(assetManager);
-        moveShipModelToStartPosition();
 
         initMovementKeys(inputManager);
         initSpotLight();
@@ -81,17 +79,7 @@ public class Ship extends Node {
         return mat;
     }*/
 
-    /**
-     * Moves the ship model from its original position at the center of the Ship node
-     * to it's correct starting position over the planet's surface.
-     */
-    private void moveShipModelToStartPosition() {
-        Spatial shipModel = getChild("ship");
-        shipModel.move(0, Planet.PLANET_RADIUS + SHIP_ALTITUDE, 0);
 
-        this.rotate(FastMath.PI/2, 0, 0);   // Rotates the whole node and therefore
-                                            // also the ship model.
-    }
 
 
 
@@ -268,4 +256,8 @@ public class Ship extends Node {
         return this;
     }
 
+
+    public float getAltitude() {
+        return SHIP_ALTITUDE;
+    }
 }

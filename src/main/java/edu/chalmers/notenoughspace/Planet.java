@@ -15,6 +15,7 @@ import java.util.List;
 public class Planet extends Node {
     private AssetManager assetManager;
     private CowFactory cowFactory;
+    private Junk junk;
 
     public final static float PLANET_RADIUS = 13f;
 
@@ -31,7 +32,8 @@ public class Planet extends Node {
         this.assetManager = assetManager;
         population = new Node();
         attachChild(population);
-        this.cowFactory = new CowFactory(assetManager, ship, PLANET_RADIUS);            //Ship extends Node
+        this.cowFactory = new CowFactory(assetManager, ship, PLANET_RADIUS);//Ship extends Node
+        this.junk = new Junk(assetManager, PLANET_RADIUS);
     }
 
     public void populate(int nCow, int nJunk){
@@ -45,7 +47,7 @@ public class Planet extends Node {
         }
 
         for (int i = 0; i < nJunk; i++){
-            //population.add(new Junk()); //TODO Implement Junk class
+            population.attachChild(junk.createHouseModel());
         }
 
     }

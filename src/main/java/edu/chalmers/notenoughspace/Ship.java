@@ -78,19 +78,21 @@ public class Ship extends Node {
      */
     public void attachThirdPersonView(Camera cam) {
         CameraNode followShipCamera = new CameraNode(THIRD_PERSON_CAMERA, cam);
-        followShipCamera.setLocalTranslation(
-                0, 0, -(Planet.PLANET_RADIUS + SHIP_ALTITUDE + 3));
+        followShipCamera.setLocalTranslation( 0
+                , 4f, -(Planet.PLANET_RADIUS + SHIP_ALTITUDE + 3));
 
         Node followShipCameraPivotNode = new Node();    //Helper node to set the default position
                                                         //of the camera.
         followShipCameraPivotNode.attachChild(followShipCamera);
         followShipCameraPivotNode.rotate(FastMath.HALF_PI + -8*FastMath.DEG_TO_RAD,
-                FastMath.PI,
-                0);
+                FastMath.PI,0);
+
 
         //PRESS C TO GET CAMERA INFO FOR SETTING CHASECAM!
         Node shipPivotNode = this;
         shipPivotNode.attachChild(followShipCameraPivotNode);
+
+
 
         //use these to change view of the 3rd person camera
         cam.setLocation(new Vector3f(0.09670155f, -0.5602153f, 11.6101885f));

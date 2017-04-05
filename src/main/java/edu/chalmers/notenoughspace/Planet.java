@@ -15,7 +15,7 @@ import java.util.List;
 public class Planet extends Node {
     private AssetManager assetManager;
 
-    public final static float PLANET_RADIUS = 8.5f;
+    public final static float PLANET_RADIUS = 9f;
 
     private Node population;
 

@@ -1,5 +1,6 @@
 .idea/
 OpenAL64.dll
 lwjgl64.dll
-not-enough-space.iml
+*.iml
 target/
+.DS_Store 

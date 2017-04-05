@@ -14,12 +14,13 @@ import java.util.List;
 
 public class Planet extends Node {
     private AssetManager assetManager;
+    private CowFactory cowFactory;
 
     public final static float PLANET_RADIUS = 9f;
 
     private Node population;
 
-    public Planet(AssetManager assetManager){
+    public Planet(AssetManager assetManager, Ship ship){
         Sphere shape = new Sphere(100, 100, PLANET_RADIUS);
         shape.setTextureMode(Sphere.TextureMode.Projected);
         TangentBinormalGenerator.generate(shape);
@@ -30,12 +31,13 @@ public class Planet extends Node {
         this.assetManager = assetManager;
         population = new Node();
         attachChild(population);
+        this.cowFactory = new CowFactory(assetManager, ship, PLANET_RADIUS);            //Ship extends Node
     }
 
     public void populate(int nCow, int nJunk){
         population.detachAllChildren();
         for (int i = 0; i < nCow; i++){
-            Cow c = new Cow(assetManager, PLANET_RADIUS);
+            Cow c = cowFactory.createCow();
 
             //TODO Implement random placing
             c.rotate(i,i,i);

@@ -12,17 +12,12 @@ public class Cow extends Node implements Beamable{
     public static final int MAX_WALKSPEED = 100;
 
     public Cow(AssetManager assetManager, float height){
-        //Spatial for model. "this"-node located in center of planet still.
-        Spatial cow = assetManager.loadModel("Models/cow.obj");
-        cow.setMaterial(assetManager.loadMaterial("Materials/CowMaterial.j3m"));
 
-        cow.rotate(FastMath.PI + FastMath.HALF_PI,0, 0);
-        cow.setLocalTranslation(0, height, 0);
-        attachChild(cow);
     }
 
     public void setModel(Spatial model){
         detachAllChildren();
+        model.rotate(FastMath.PI + FastMath.HALF_PI,0, 0);
         attachChild(model);
     }
 }

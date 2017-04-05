@@ -16,6 +16,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.shape.Sphere;
 
 public class Round extends AbstractAppState{
@@ -36,7 +37,7 @@ public class Round extends AbstractAppState{
         ship = new Ship(assetManager, inputManager);
 
         //Planet:
-        planet = new Planet(assetManager);
+        planet = new Planet(assetManager, ship);
 
         //Sun:
         Sphere sunMesh = new Sphere(100, 100, 10f);

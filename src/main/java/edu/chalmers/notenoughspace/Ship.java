@@ -17,12 +17,11 @@ import com.jme3.scene.*;
 import com.jme3.scene.shape.Box;
 
 /**
- * A model of a hovering space ship able to be navigated around a planet's surface.
+ * A model of space ship able to be navigated around a planet's surface.
  * The Ship object itself is a node (functioning as a pivot node) containing a
  * visual space ship model.
  */
 public class Ship extends Node {
-
 
     /** The ship's private spot light, lighting up the surface beneath it. */
     private SpotLight spotLight;
@@ -41,9 +40,9 @@ public class Ship extends Node {
     public Ship(AssetManager assetManager, InputManager inputManager) {
         createShip3DModel(assetManager);
 
-        initMovementKeys(inputManager);
-        initSpotLight();
-        initBeam(assetManager);
+        initMovementKeys(inputManager); //TODO: Move somewhere else... (to an appstate?)
+        initSpotLight();    //TODO: Move somewhere else as well (to the control?).
+        initBeam(assetManager); //TODO: This should also be moved, but probably after we move the key input.
         
     }
 

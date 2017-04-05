@@ -42,8 +42,6 @@ public class Ship extends Node {
 
         initMovementKeys(inputManager); //TODO: Move somewhere else... (to an appstate?)
         initSpotLight();    //TODO: Move somewhere else as well (to the control?).
-        initBeam(assetManager); //TODO: This should also be moved, but probably after we move the key input.
-        
     }
 
     /**
@@ -104,10 +102,10 @@ public class Ship extends Node {
 
     /**
      * Initializes the beam and attaches it to this node.
-     * TODO: Check that this method works with real beam, not yet finished.
+     * TODO: This should also be moved, but probably after we move the key input.
      * @param assetManager
      */
-    private void initBeam(AssetManager assetManager) {
+    public void initBeam(AssetManager assetManager) {
         beam = new Beam(assetManager);
         beam.setLocalTranslation(beam.getLocalTranslation().add(this.getChild("ship").getLocalTranslation()));
         beam.setName("beam");

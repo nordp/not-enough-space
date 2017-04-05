@@ -41,6 +41,7 @@ public class Round extends AbstractAppState{
         ShipOverPlanetControl shipControl = new ShipOverPlanetControl();
         ship.addControl(shipControl);
         shipControl.moveShipModelToStartPosition(planet.PLANET_RADIUS, SHIP_ALTITUDE);
+        ship.initBeam(assetManager);
 
         //Planet:
         planet = new Planet(assetManager, ship);

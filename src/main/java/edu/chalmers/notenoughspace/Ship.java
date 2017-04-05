@@ -142,7 +142,7 @@ public class Ship extends Node {
     public void attachThirdPersonView(Camera cam) {
         CameraNode followShipCamera = new CameraNode(THIRD_PERSON_CAMERA, cam);
         followShipCamera.setLocalTranslation( 0
-                , 3f, -(Planet.PLANET_RADIUS + SHIP_ALTITUDE + 3));
+                , 3f, -(Planet.PLANET_RADIUS + SHIP_ALTITUDE + 5));
 
         Node followShipCameraPivotNode = new Node();    //Helper node to set the default position
         //of the camera.

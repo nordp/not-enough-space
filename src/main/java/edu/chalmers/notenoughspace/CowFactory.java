@@ -1,6 +1,8 @@
 package edu.chalmers.notenoughspace;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.light.DirectionalLight;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
@@ -28,6 +30,8 @@ public class CowFactory {
         cowModel.setMaterial(assetManager.loadMaterial("Materials/CowMaterial.j3m"));
 
         cow.addControl(new CowControl(player));
+        DirectionalLight sun = new DirectionalLight();
+        sun.setDirection(new Vector3f(-0.1f, -0.7f, -1.0f));
         return cow;
     }
 }

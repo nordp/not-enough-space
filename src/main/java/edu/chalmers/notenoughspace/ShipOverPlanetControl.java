@@ -11,6 +11,10 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 
+/**
+ * Control for a ship hovering around a planet. Includes functions
+ * for adding and removing a third person camera.
+ */
 public class ShipOverPlanetControl extends AbstractControl {
 
     private final String THIRD_PERSON_CAMERA = "followShipCamera";
@@ -32,6 +36,7 @@ public class ShipOverPlanetControl extends AbstractControl {
      * to it's correct starting position over the planet's surface.
      *
      * @param planetRadius The radius of the planet that the ship is hovering over.
+     * @param shipAltitude The ship's height above the planet's surface.
      */
     public void moveShipModelToStartPosition(float planetRadius, float shipAltitude) {
         Ship shipNode = (Ship) spatial;
@@ -49,6 +54,8 @@ public class ShipOverPlanetControl extends AbstractControl {
      * Attaches the given camera to a position a bit behind and above
      * the ship, looking at the ship with UP in the ship's direction.
      * @param cam The camera to be used as third person camera.
+     * @param planetRadius The radius of the planet that the ship is hovering over.
+     * @param shipAltitude The ship's height above the planet's surface.
      */
     public void attachThirdPersonView(Camera cam, float planetRadius, float shipAltitude) {
         CameraNode followShipCamera = new CameraNode(THIRD_PERSON_CAMERA, cam);
@@ -98,6 +105,5 @@ public class ShipOverPlanetControl extends AbstractControl {
         Node shipPivotNode = (Node) spatial;
         return shipPivotNode.getChild(THIRD_PERSON_CAMERA) != null;
     }
-
 
 }

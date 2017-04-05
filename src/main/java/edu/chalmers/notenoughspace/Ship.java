@@ -18,6 +18,8 @@ import com.jme3.scene.shape.Box;
 
 /**
  * A model of a hovering space ship able to be navigated around a planet's surface.
+ * The Ship object itself is a node (functioning as a pivot node) containing a
+ * visual space ship model.
  */
 public class Ship extends Node {
 
@@ -33,7 +35,8 @@ public class Ship extends Node {
     private Beam beam;
 
     /**
-     * Creates a steerable ship model and attaches it to a pivot node.
+     * Creates a steerable ship model and attaches it to the pivot
+     * node that is this object.
      * NOTE: Does not add the third person view camera. This is done
      * in its own separate method.
      * @param assetManager Used to load the model and texture for the ship.
@@ -41,20 +44,62 @@ public class Ship extends Node {
      */
     public Ship(AssetManager assetManager, InputManager inputManager) {
 
-        createShipModel(assetManager);
+        createShip3DModel(assetManager);
         moveShipModelToStartPosition();
+
         initMovementKeys(inputManager);
         initSpotLight();
-
-        beam = new Beam(assetManager);
-        beam.setLocalTranslation(beam.getLocalTranslation().add(this.getLocalTranslation()));
-        beam.setName("beam");
-        this.attachChild(beam);
+        initBeam(assetManager);
+        
     }
 
     /**
+     * Creates a visual model of the ship (named "ship") and attaches it
+     * to the center of the Ship object (i.e. this node).
+     * @param assetManager
+     */
+    private void createShip3DModel(AssetManager assetManager) {
+        Spatial shipModel = new Geometry("ship", createShipMesh()); //Temporary, should be a real model.
+        shipModel.setMaterial( createShipMaterial(assetManager) );  //No material needed when real model added.
+        shipModel.setName("ship");  //Important, used in many places for accessing the ship model.
+        this.attachChild(shipModel);
+    }
+
+    //Temporary helper method.
+    private Mesh createShipMesh() {
+        return new Box(0.2f, 0.1f, 0.2f);
+    }
+    
+    //Temporary helper method.
+    private Material createShipMaterial(AssetManager assetManager) {
+        Material mat = new Material(assetManager,
+                "Common/MatDefs/Misc/Unshaded.j3md");
+        mat.setColor("Color", ColorRGBA.Yellow);
+        return mat;
+    }
+
+    /**
+     * Moves the ship model from its original position at the center of the Ship node
+     * to it's correct starting position over the planet's surface.
+     */
+    private void moveShipModelToStartPosition() {
+        Spatial shipModel = getChild("ship");
+        shipModel.move(0, Planet.PLANET_RADIUS + SHIP_ALTITUDE, 0);
+
+        this.rotate(FastMath.PI/2, 0, 0);   // Rotates the whole node and therefore
+                                            // also the ship model.
+    }
+
+
+
+    /**
      * Initializes a spotlight directed downwards from the
-     * bottom of the ship.
+     * bottom of the ship. NOTE: Since a light source only affects the
+     * nodes BELOW itself in the hierarchy it must be attached to the
+     * root node of the game in order to light up the planet, cows, etc.
+     * Therefore it always has to be updated with the coordinates of
+     * the ship (which is currently done in the inputManager when the
+     * player moves the ship).
      */
     private void initSpotLight() {
         spotLight = new SpotLight();
@@ -72,6 +117,21 @@ public class Ship extends Node {
     }
 
     /**
+     * Initializes the beam and attaches it to this node.
+     * TODO: Check that this method works with real beam, not yet finished.
+     * @param assetManager
+     */
+    private void initBeam(AssetManager assetManager) {
+        beam = new Beam(assetManager);
+        beam.setLocalTranslation(beam.getLocalTranslation().add(this.getChild("ship").getLocalTranslation()));
+        beam.setName("beam");
+        this.attachChild(beam);
+    }
+
+
+    /////////// CAMERA STUFF /////////////
+    
+    /**
      * Attaches the given camera to a position a bit behind and above
      * the ship, looking at the ship with UP in the ship's direction.
      * @param cam The camera to be used as third person camera.
@@ -82,15 +142,14 @@ public class Ship extends Node {
                 , 4f, -(Planet.PLANET_RADIUS + SHIP_ALTITUDE + 3));
 
         Node followShipCameraPivotNode = new Node();    //Helper node to set the default position
-                                                        //of the camera.
+        //of the camera.
         followShipCameraPivotNode.attachChild(followShipCamera);
         followShipCameraPivotNode.rotate(FastMath.HALF_PI + -8*FastMath.DEG_TO_RAD,
                 FastMath.PI,0);
 
 
         //PRESS C TO GET CAMERA INFO FOR SETTING CHASECAM!
-        Node shipPivotNode = this;
-        shipPivotNode.attachChild(followShipCameraPivotNode);
+        this.attachChild(followShipCameraPivotNode);
 
 
 
@@ -104,14 +163,13 @@ public class Ship extends Node {
      * the camera to the original one.
      */
     public void detachThirdPersonView() {
-        Node shipPivotNode = this;
-        if (shipPivotNode.getChild(THIRD_PERSON_CAMERA) != null) {
-            CameraNode followShipCamera = (CameraNode) shipPivotNode.getChild(THIRD_PERSON_CAMERA);
+        if (this.getChild(THIRD_PERSON_CAMERA) != null) {
+            CameraNode followShipCamera = (CameraNode) this.getChild(THIRD_PERSON_CAMERA);
 
-            shipPivotNode.detachChild(followShipCamera.getParent());    // Removes the camera
-                                            // getParent() part needed since the CameraNode
-                                            // actually is nested inside a "camera pivot node"
-                                            // which in turn is a child of the shipPivotNode.
+            this.detachChild(followShipCamera.getParent());    // Removes the camera
+            // getParent() part needed since the CameraNode
+            // actually is nested inside a "camera pivot node"
+            // which in turn is a child of the shipPivotNode.
 
             //Restores the original settings of the camera:
             Camera gameCamera = followShipCamera.getCamera();
@@ -127,53 +185,7 @@ public class Ship extends Node {
         Node shipPivotNode = this;
         return shipPivotNode.getChild(THIRD_PERSON_CAMERA) != null;
     }
-
-    /**
-     * Moves the ship model from its original position at the center of the Ship node
-     * to it's correct starting position over the planet's surface.
-     */
-    private void moveShipModelToStartPosition() {
-        Spatial shipModel = getChild("ship");
-        shipModel.move(0, Planet.PLANET_RADIUS + SHIP_ALTITUDE, 0);
-
-        this.rotate(FastMath.PI/2, 0, 0);   // Rotates the whole node and therefore
-                                            // also the ship model.
-    }
-
-
-    /**
-     * Creates a visual model of the ship (named "ship") and attaches it
-     * to the center of the Ship object (i.e. this node).
-     * @param assetManager
-     */
-    private void createShipModel(AssetManager assetManager) {
-        Spatial shipModel = new Geometry("ship", createShipMesh());
-        shipModel.setMaterial( createShipMaterial(assetManager) );
-        shipModel.setName("ship");
-        this.attachChild(shipModel);
-    }
-
-    private Mesh createShipMesh() {
-        return new Box(0.2f, 0.1f, 0.2f);
-    }
-
-    private Material createShipMaterial(AssetManager assetManager) {
-        Material mat = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Yellow);
-        return mat;
-    }
-
-
-    /**
-     * Use this method when adding the ship to the world.
-     * OBSOLETE, REMOVE AS SOON AS POSSIBLE!
-     * @return The pivot node containing the ship.
-     */
-    public Node getShipPivotNode() {
-        return this;    //TODO: Remove this unnecessary method.
-    }
-
+    
 
     /////////// MOVEMENTS BELOW //////////////
 

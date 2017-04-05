@@ -46,6 +46,8 @@ public class BallControl extends AbstractControl {
 //        app.add(line3);
     }
 
+
+
     @Override
     protected void controlUpdate(float tpf) {
         Vector3f playerPos = player.getWorldTranslation();

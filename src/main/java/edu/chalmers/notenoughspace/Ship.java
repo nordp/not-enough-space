@@ -13,17 +13,13 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.scene.CameraNode;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Mesh;
-import com.jme3.scene.Node;
-import com.jme3.scene.control.CameraControl;
+import com.jme3.scene.*;
 import com.jme3.scene.shape.Box;
 
 /**
  * A model of a hovering space ship able to be navigated around a planet's surface.
  */
-public class Ship extends Geometry {
+public class Ship extends Node {
 
     private final String THIRD_PERSON_CAMERA = "followShipCamera";
 
@@ -46,13 +42,14 @@ public class Ship extends Geometry {
     public Ship(AssetManager assetManager, InputManager inputManager) {
 
         createShipModel(assetManager);
-        attachModelToPivotNode();
+        moveShipModelToStartPosition();
         initMovementKeys(inputManager);
         initSpotLight();
 
         beam = new Beam(assetManager);
         beam.setLocalTranslation(beam.getLocalTranslation().add(this.getLocalTranslation()));
-        this.getShipPivotNode().attachChild(beam);
+        beam.setName("beam");
+        this.attachChild(beam);
     }
 
     /**
@@ -64,8 +61,8 @@ public class Ship extends Geometry {
         spotLight.setSpotRange(10);
         spotLight.setSpotOuterAngle(45 * FastMath.DEG_TO_RAD);
         spotLight.setSpotInnerAngle(5 * FastMath.DEG_TO_RAD);
-        spotLight.setPosition(this.getWorldTranslation());
-        spotLight.setDirection(this.getWorldTranslation().mult(-1));
+        spotLight.setPosition(this.getChild("ship").getWorldTranslation());
+        spotLight.setDirection(this.getChild("ship").getWorldTranslation().mult(-1));
         spotLight.setName("shipSpotLight");
     }
 
@@ -92,7 +89,7 @@ public class Ship extends Geometry {
                 0);
 
         //PRESS C TO GET CAMERA INFO FOR SETTING CHASECAM!
-        Node shipPivotNode = this.getParent();
+        Node shipPivotNode = this;
         shipPivotNode.attachChild(followShipCameraPivotNode);
 
         //use these to change view of the 3rd person camera
@@ -105,8 +102,8 @@ public class Ship extends Geometry {
      * the camera to the original one.
      */
     public void detachThirdPersonView() {
-        Node shipPivotNode = this.getParent();
-        if (shipPivotNode != null && shipPivotNode.getChild(THIRD_PERSON_CAMERA) != null) {
+        Node shipPivotNode = this;
+        if (shipPivotNode.getChild(THIRD_PERSON_CAMERA) != null) {
             CameraNode followShipCamera = (CameraNode) shipPivotNode.getChild(THIRD_PERSON_CAMERA);
 
             shipPivotNode.detachChild(followShipCamera.getParent());    // Removes the camera
@@ -125,25 +122,33 @@ public class Ship extends Geometry {
     }
 
     public boolean hasThirdPersonViewAttached() {
-        Node shipPivotNode = this.getParent();
-        return shipPivotNode != null && shipPivotNode.getChild(THIRD_PERSON_CAMERA) != null;
+        Node shipPivotNode = this;
+        return shipPivotNode.getChild(THIRD_PERSON_CAMERA) != null;
     }
 
     /**
-     * Makes it possible for the model to "move" ( = rotate) around a planet.
+     * Moves the ship model from its original position at the center of the Ship node
+     * to it's correct starting position over the planet's surface.
      */
-    private void attachModelToPivotNode() {
-        Node shipPivotNode = new Node("shipPivotNode");
-        shipPivotNode.attachChild(this);
-        shipPivotNode.rotate(FastMath.PI/2, 0, 0);
+    private void moveShipModelToStartPosition() {
+        Spatial shipModel = getChild("ship");
+        shipModel.move(0, Planet.PLANET_RADIUS + SHIP_ALTITUDE, 0);
+
+        this.rotate(FastMath.PI/2, 0, 0);   // Rotates the whole node and therefore
+                                            // also the ship model.
     }
 
 
+    /**
+     * Creates a visual model of the ship (named "ship") and attaches it
+     * to the center of the Ship object (i.e. this node).
+     * @param assetManager
+     */
     private void createShipModel(AssetManager assetManager) {
-        setMesh( createShipMesh() );
-        setMaterial( createShipMaterial(assetManager) );
-        setName("ship");
-        move(0, Planet.PLANET_RADIUS + SHIP_ALTITUDE, 0);
+        Spatial shipModel = new Geometry("ship", createShipMesh());
+        shipModel.setMaterial( createShipMaterial(assetManager) );
+        shipModel.setName("ship");
+        this.attachChild(shipModel);
     }
 
     private Mesh createShipMesh() {
@@ -160,10 +165,11 @@ public class Ship extends Geometry {
 
     /**
      * Use this method when adding the ship to the world.
+     * OBSOLETE, REMOVE AS SOON AS POSSIBLE!
      * @return The pivot node containing the ship.
      */
     public Node getShipPivotNode() {
-        return this.getParent();
+        return this;    //TODO: Remove this unnecessary method.
     }
 
 
@@ -179,8 +185,8 @@ public class Ship extends Geometry {
         inputManager.addMapping("left",   new KeyTrigger(KeyInput.KEY_J));
         inputManager.addMapping("right",  new KeyTrigger(KeyInput.KEY_L));
         inputManager.addMapping("backwards", new KeyTrigger(KeyInput.KEY_K));
-        inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_X));
-        inputManager.addMapping("rotateRight", new KeyTrigger(KeyInput.KEY_V));
+        inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_V));
+        inputManager.addMapping("rotateRight", new KeyTrigger(KeyInput.KEY_B));
         inputManager.addMapping("beam", new KeyTrigger(KeyInput.KEY_SPACE));
 
         // Add the names to the action listener.
@@ -196,30 +202,29 @@ public class Ship extends Geometry {
     private AnalogListener analogListener = new AnalogListener() {
 
         public void onAnalog(String name, float value, float tpf) {
-            Node pivot = (Node) getMe().getParent();
             if (name.equals("forwards")) {
-                pivot.rotate(-1*tpf, 0, 0);
+                getMe().rotate(-1*tpf, 0, 0);
             }
             if (name.equals("left")) {
-                pivot.rotate(0, 0, 1*tpf);
+                getMe().rotate(0, 0, 1*tpf);
             }
             if (name.equals("right")) {
-                pivot.rotate(0, 0, -1*tpf);
+                getMe().rotate(0, 0, -1*tpf);
             }
             if (name.equals("backwards")) {
-                pivot.rotate(1*tpf, 0, 0);
+                getMe().rotate(1*tpf, 0, 0);
             }
             if (name.equals("rotateLeft")) {
-                pivot.rotate(0, 2*tpf, 0);
+                getMe().rotate(0, 2*tpf, 0);
             }
             if (name.equals("rotateRight")) {
-                pivot.rotate(0, -2*tpf, 0);
+                getMe().rotate(0, -2*tpf, 0);
             }
 
             //Adjust the spotLight so that it always follows the ship.
             if (spotLight != null) {
-                spotLight.setPosition(getMe().getWorldTranslation());
-                spotLight.setDirection(getMe().getWorldTranslation().mult(-1));
+                spotLight.setPosition(getMe().getChild("ship").getWorldTranslation());
+                spotLight.setDirection(getMe().getChild("ship").getWorldTranslation().mult(-1));
             }
         }
     };

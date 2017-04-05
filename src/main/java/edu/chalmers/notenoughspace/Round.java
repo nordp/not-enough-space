@@ -52,6 +52,7 @@ public class Round extends AbstractAppState{
         sun = new Geometry("sun", sunMesh);
         sun.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
         sun.move(-20, 0, 10);
+        sun.setLocalTranslation(100, 0, 0);
         sun.rotate(0, 0, FastMath.HALF_PI); //It has an ugly line at the equator,
                                             // that's why the rotation is currently needed...
 

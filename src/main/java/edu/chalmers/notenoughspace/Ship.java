@@ -59,24 +59,27 @@ public class Ship extends Node {
      * @param assetManager
      */
     private void createShip3DModel(AssetManager assetManager) {
-        Spatial shipModel = new Geometry("ship", createShipMesh()); //Temporary, should be a real model.
-        shipModel.setMaterial( createShipMaterial(assetManager) );  //No material needed when real model added.
+        //Spatial shipModel = new Geometry("ship", createShipMesh()); //Temporary, should be a real model.
+        Spatial shipModel = assetManager.loadModel("Models/ufo.obj");
+        //shipModel.setMaterial( createShipMaterial(assetManager) );  //No material needed when real model added.
+        shipModel.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));
         shipModel.setName("ship");  //Important, used in many places for accessing the ship model.
-        this.attachChild(shipModel);
+        shipModel.scale(0.02f, 0.02f, 0.02f);
+        attachChild(shipModel);
     }
-
+/*
     //Temporary helper method.
     private Mesh createShipMesh() {
         return new Box(0.2f, 0.1f, 0.2f);
     }
-    
+    /*
     //Temporary helper method.
     private Material createShipMaterial(AssetManager assetManager) {
         Material mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", ColorRGBA.Yellow);
         return mat;
-    }
+    }*/
 
     /**
      * Moves the ship model from its original position at the center of the Ship node
@@ -139,7 +142,7 @@ public class Ship extends Node {
     public void attachThirdPersonView(Camera cam) {
         CameraNode followShipCamera = new CameraNode(THIRD_PERSON_CAMERA, cam);
         followShipCamera.setLocalTranslation( 0
-                , 4f, -(Planet.PLANET_RADIUS + SHIP_ALTITUDE + 3));
+                , 3f, -(Planet.PLANET_RADIUS + SHIP_ALTITUDE + 3));
 
         Node followShipCameraPivotNode = new Node();    //Helper node to set the default position
         //of the camera.

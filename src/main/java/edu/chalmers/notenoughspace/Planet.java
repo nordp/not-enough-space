@@ -16,7 +16,7 @@ public class Planet extends Node {
     private AssetManager assetManager;
     private CowFactory cowFactory;
 
-    public final static float PLANET_RADIUS = 9f;
+    public final static float PLANET_RADIUS = 10f;
 
     private Node population;
 

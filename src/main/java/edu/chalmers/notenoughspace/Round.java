@@ -90,7 +90,7 @@ public class Round extends AbstractAppState{
         app = (SimpleApplication) application;
 
         ship.attachThirdPersonView(app.getCamera());
-        app.getRootNode().attachChild(ship.getShipPivotNode());
+        app.getRootNode().attachChild(ship);
         app.getRootNode().addLight(ship.getSpotLight());
 
         app.getRootNode().attachChild(planet);
@@ -114,7 +114,7 @@ public class Round extends AbstractAppState{
         super.cleanup();
 
         ship.detachThirdPersonView();
-        app.getRootNode().detachChild(ship.getShipPivotNode());
+        app.getRootNode().detachChild(ship);
         app.getRootNode().removeLight(ship.getSpotLight());
 
         app.getRootNode().detachChild(planet);

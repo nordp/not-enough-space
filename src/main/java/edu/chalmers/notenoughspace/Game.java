@@ -18,6 +18,8 @@ package edu.chalmers.notenoughspace;
         import com.jme3.scene.shape.Sphere;
         import com.jme3.system.AppSettings;
 
+        import java.awt.*;
+
 /**
  * This is the Main Class of your Game. You should only do initialization here.
  * Move your Logic into AppStates or Controls
@@ -31,9 +33,17 @@ public class Game extends SimpleApplication {
         //Removes the settings window at the start:
         app.showSettings = false; //Look at how to get fullscreen!
         AppSettings appSettings = new AppSettings(true);
-        appSettings.put("Width", 1020);
-        appSettings.put("Height", 800);
+//        appSettings.put("Width", 1020);
+//        appSettings.put("Height", 800);
         appSettings.put("Title", "Yahoooooo!");
+
+        DisplayMode mode = GraphicsEnvironment.getLocalGraphicsEnvironment()
+                .getDefaultScreenDevice().getDisplayMode();
+        appSettings.setResolution(mode.getWidth(), mode.getHeight());
+        appSettings.setFrequency(mode.getRefreshRate());
+
+        appSettings.setVSync(true);
+        appSettings.setFullscreen(true);
 
         app.setPauseOnLostFocus(true);
         app.setSettings(appSettings);

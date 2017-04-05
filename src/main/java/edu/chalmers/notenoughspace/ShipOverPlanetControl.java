@@ -60,12 +60,12 @@ public class ShipOverPlanetControl extends AbstractControl {
     public void attachThirdPersonView(Camera cam, float planetRadius, float shipAltitude) {
         CameraNode followShipCamera = new CameraNode(THIRD_PERSON_CAMERA, cam);
         followShipCamera.setLocalTranslation( 0
-                ,5f, -(planetRadius + shipAltitude + 8));
+                ,6f, -(planetRadius + shipAltitude + 8));
 
         Node followShipCameraPivotNode = new Node();    //Helper node to set the default position
         //of the camera.
         followShipCameraPivotNode.attachChild(followShipCamera);
-        followShipCameraPivotNode.rotate(FastMath.HALF_PI + -47*FastMath.DEG_TO_RAD,
+        followShipCameraPivotNode.rotate(FastMath.HALF_PI + -43*FastMath.DEG_TO_RAD,
                 FastMath.PI, 0);
 
 

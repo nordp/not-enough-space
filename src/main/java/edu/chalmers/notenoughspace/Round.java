@@ -21,6 +21,9 @@ import com.jme3.scene.shape.Sphere;
 
 public class Round extends AbstractAppState{
 
+    /** The distance from the ship to the planet's surface. */
+    private final float SHIP_ALTITUDE = 1.8f;
+    
     SimpleApplication app;
 
     private Ship ship;
@@ -37,7 +40,7 @@ public class Round extends AbstractAppState{
         ship = new Ship(assetManager, inputManager);
         ShipOverPlanetControl shipControl = new ShipOverPlanetControl();
         ship.addControl(shipControl);
-        shipControl.moveShipModelToStartPosition();
+        shipControl.moveShipModelToStartPosition(planet.PLANET_RADIUS, SHIP_ALTITUDE);
 
         //Planet:
         planet = new Planet(assetManager, ship);
@@ -74,10 +77,11 @@ public class Round extends AbstractAppState{
                         round.setEnabled(true);
                 }
                 if (name.equals("cameraMode") && !value) {
-                    if (ship.hasThirdPersonViewAttached()) {
-                        ship.detachThirdPersonView();
+                    if (getShipControl().hasThirdPersonViewAttached()) {
+                        getShipControl().detachThirdPersonView();
                     } else {
-                        ship.attachThirdPersonView(app.getCamera());
+                        getShipControl().attachThirdPersonView(
+                                app.getCamera(), planet.PLANET_RADIUS, SHIP_ALTITUDE);
                     }
                 }
             }
@@ -93,7 +97,7 @@ public class Round extends AbstractAppState{
         super.initialize(stateManager, app);
         app = (SimpleApplication) application;
 
-        ship.attachThirdPersonView(app.getCamera());
+        getShipControl().attachThirdPersonView(app.getCamera(), planet.PLANET_RADIUS, SHIP_ALTITUDE);
         app.getRootNode().attachChild(ship);
         app.getRootNode().addLight(ship.getSpotLight());
 
@@ -117,7 +121,7 @@ public class Round extends AbstractAppState{
     public void cleanup() {
         super.cleanup();
 
-        ship.detachThirdPersonView();
+        getShipControl().detachThirdPersonView();
         app.getRootNode().detachChild(ship);
         app.getRootNode().removeLight(ship.getSpotLight());
 
@@ -147,6 +151,11 @@ public class Round extends AbstractAppState{
     @Override
     public void update(float tpf) {
         //Update cow controls? Tick time?
+    }
+
+    //Helper method for getting the ship control.
+    private ShipOverPlanetControl getShipControl() {
+        return (ShipOverPlanetControl) ship.getControl(ShipOverPlanetControl.class);
     }
 
 }

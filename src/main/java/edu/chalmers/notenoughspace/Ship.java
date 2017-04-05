@@ -23,10 +23,6 @@ import com.jme3.scene.shape.Box;
  */
 public class Ship extends Node {
 
-    private final String THIRD_PERSON_CAMERA = "followShipCamera";
-
-    /** The distance from the ship to the planet's surface. */
-    private final float SHIP_ALTITUDE = 1.8f;
 
     /** The ship's private spot light, lighting up the surface beneath it. */
     private SpotLight spotLight;
@@ -120,63 +116,6 @@ public class Ship extends Node {
     }
 
 
-    /////////// CAMERA STUFF /////////////
-    
-    /**
-     * Attaches the given camera to a position a bit behind and above
-     * the ship, looking at the ship with UP in the ship's direction.
-     * @param cam The camera to be used as third person camera.
-     */
-    public void attachThirdPersonView(Camera cam) {
-        CameraNode followShipCamera = new CameraNode(THIRD_PERSON_CAMERA, cam);
-        followShipCamera.setLocalTranslation( 0
-                , 3f, -(Planet.PLANET_RADIUS + SHIP_ALTITUDE + 5));
-
-        Node followShipCameraPivotNode = new Node();    //Helper node to set the default position
-        //of the camera.
-        followShipCameraPivotNode.attachChild(followShipCamera);
-        followShipCameraPivotNode.rotate(FastMath.HALF_PI + -8*FastMath.DEG_TO_RAD,
-                FastMath.PI,0);
-
-
-        //PRESS C TO GET CAMERA INFO FOR SETTING CHASECAM!
-        this.attachChild(followShipCameraPivotNode);
-
-
-
-        //use these to change view of the 3rd person camera
-        cam.setLocation(new Vector3f(0.09670155f, -0.5602153f, 11.6101885f));
-        cam.setRotation(new Quaternion(-4.8353246E-5f, 0.9718176f, 0.23573402f, 1.991157E-4f));
-    }
-
-    /**
-     * Removes the ship's third person camera (if attached) which restores
-     * the camera to the original one.
-     */
-    public void detachThirdPersonView() {
-        if (this.getChild(THIRD_PERSON_CAMERA) != null) {
-            CameraNode followShipCamera = (CameraNode) this.getChild(THIRD_PERSON_CAMERA);
-
-            this.detachChild(followShipCamera.getParent());    // Removes the camera
-            // getParent() part needed since the CameraNode
-            // actually is nested inside a "camera pivot node"
-            // which in turn is a child of the shipPivotNode.
-
-            //Restores the original settings of the camera:
-            Camera gameCamera = followShipCamera.getCamera();
-            gameCamera.setFrame(
-                    new Vector3f(0, 0, 10f), // Location
-                    new Vector3f(-1f, 0, 0), // Left
-                    new Vector3f(0, 1f, 0), // Up
-                    new Vector3f(0, 0, -1f)); // Direction
-        }
-    }
-
-    public boolean hasThirdPersonViewAttached() {
-        Node shipPivotNode = this;
-        return shipPivotNode.getChild(THIRD_PERSON_CAMERA) != null;
-    }
-    
 
     /////////// MOVEMENTS BELOW //////////////
 
@@ -256,8 +195,4 @@ public class Ship extends Node {
         return this;
     }
 
-
-    public float getAltitude() {
-        return SHIP_ALTITUDE;
-    }
 }

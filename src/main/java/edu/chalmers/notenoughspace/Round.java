@@ -11,6 +11,7 @@ import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
@@ -23,13 +24,14 @@ public class Round extends AbstractAppState{
 
     /** The distance from the ship to the planet's surface. */
     private final float SHIP_ALTITUDE = 1.8f;
-    
+
     SimpleApplication app;
 
     private Ship ship;
     private Planet planet;
     private Geometry sun;
     private DirectionalLight sunLight;
+    private AmbientLight ambientLight;
     private AudioNode happy;
 
     private ActionListener actionListener;
@@ -60,6 +62,10 @@ public class Round extends AbstractAppState{
         sunLight = new DirectionalLight();
         sunLight.setDirection(new Vector3f(2,0,-1).normalizeLocal());
         sunLight.setColor(ColorRGBA.White);
+
+        //AmbientLight:
+        ambientLight = new AmbientLight(ColorRGBA.White.mult(0.3f));
+        ambientLight.setEnabled(true);
 
         //Happy :)
         happy = new AudioNode(assetManager, "Sounds/happy_1.WAV", AudioData.DataType.Buffer);
@@ -109,6 +115,7 @@ public class Round extends AbstractAppState{
 
         app.getRootNode().attachChild(sun);
         app.getRootNode().addLight(sunLight);
+        app.getRootNode().addLight(ambientLight);
         app.getRootNode().attachChild(happy);
 
         app.getInputManager().addMapping("pause",  new KeyTrigger(KeyInput.KEY_P));
@@ -130,6 +137,7 @@ public class Round extends AbstractAppState{
         app.getRootNode().detachChild(planet);
         app.getRootNode().detachChild(sun);
         app.getRootNode().removeLight(sunLight);
+        app.getRootNode().removeLight(ambientLight);
         app.getRootNode().detachChild(happy);
 
         app.getInputManager().deleteMapping("pause");

@@ -16,6 +16,7 @@ public class Planet extends Node {
     private AssetManager assetManager;
     private CowFactory cowFactory;
     private Junk junk;
+    private Satellite satellite;
 
     public final static float PLANET_RADIUS = 13f;
 
@@ -34,6 +35,7 @@ public class Planet extends Node {
         attachChild(population);
         this.cowFactory = new CowFactory(assetManager, ship, PLANET_RADIUS);//Ship extends Node
         this.junk = new Junk(assetManager, PLANET_RADIUS);
+        this.satellite = new Satellite(assetManager, PLANET_RADIUS); //todo:find the right heigh to add to radius
     }
 
     public void populate(int nCow, int nJunk){

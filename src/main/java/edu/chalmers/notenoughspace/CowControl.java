@@ -1,20 +1,17 @@
 package edu.chalmers.notenoughspace;
 
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
-        import com.jme3.math.Vector3f;
-        import com.jme3.renderer.RenderManager;
-        import com.jme3.renderer.ViewPort;
-import com.jme3.scene.Geometry;
+import com.jme3.math.Vector3f;
+import com.jme3.renderer.RenderManager;
+import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
-        import com.jme3.scene.Spatial;
-        import com.jme3.scene.control.AbstractControl;
-import com.jme3.scene.shape.Line;
+import com.jme3.scene.Spatial;
+import com.jme3.scene.control.AbstractControl;
 
 public class CowControl extends AbstractControl {
 
     private final static float REACTION_DISTANCE = 2f;
-    private final static float SPEED = 0.00001f;
+    private final static float SPEED = 0.001f;
 
     private Spatial shipModel;
 
@@ -23,9 +20,8 @@ public class CowControl extends AbstractControl {
     private float z = FastMath.rand.nextFloat() * 0.001f;
 
 
-    public CowControl(Node player) {
-        this.shipModel = player.getChild(0);
-
+    public CowControl(Ship ship) {
+        this.shipModel = ship.getChild(0);
     }
 
     @Override
@@ -37,12 +33,21 @@ public class CowControl extends AbstractControl {
         if (shipPos.distance(cowPos) < REACTION_DISTANCE) {
             Vector3f distanceVector = shipPos.subtract(cowPos);
             Vector3f projectionVector = distanceVector.project(cowPos);
-            Vector3f newZAxis = distanceVector.subtract(projectionVector).normalizeLocal();
+            Vector3f newZAxis = distanceVector.subtract(projectionVector).negate();
+            spatial.lookAt(newZAxis, cowPos);
+        }
 
-            spatial.lookAt(newZAxis, new Vector3f(0,1,0));
+        walk();
+    }
 
+    private void walk(){
+        int rand = (int)FastMath.rand.nextFloat()*100;
+        if (rand < 25) {
+            spatial.rotate(SPEED,0,0);
+        } else if (rand < 75) {
+            spatial.rotate(0,SPEED*200,0);
         } else {
-            spatial.rotate(0,0,0.002f);
+            spatial.rotate(0,0,SPEED*200);
         }
     }
 

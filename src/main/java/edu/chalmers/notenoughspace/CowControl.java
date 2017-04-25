@@ -7,26 +7,19 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
+import edu.chalmers.notenoughspace.Model.Cow;
+
+import static edu.chalmers.notenoughspace.Model.Cow.*;
 
 public class CowControl extends AbstractControl {
 
-    private final static float REACTION_DISTANCE = 3f;
-    private final static float SPEED = 0.1f;
-    private static final float SPRINT_SPEED = 0.3f;
-    private final static float MAX_DIR = 3;
-    private final static int SPRINT_COOLDOWN = 200;
-    private final static int MAX_STAMINA = 200;
-
     private Spatial shipModel;
 
-    private float walkDir;
-    private int stamina;
-    private CowMood mood;
+    private Cow cow;
 
-    public CowControl(Ship ship) {
-        this.shipModel = ship.getChild(0);
-        mood = CowMood.CALM;
-        stamina = MAX_STAMINA;
+    public CowControl(ShipNode shipNode, Cow cow) {
+        this.shipModel = shipNode.getChild(0);
+        this.cow = cow;
     }
 
     @Override
@@ -35,29 +28,19 @@ public class CowControl extends AbstractControl {
         Vector3f shipPos = shipModel.getWorldTranslation();
         Vector3f cowPos = cowModel.getWorldTranslation();
 
-        if (shipPos.distance(cowPos) < REACTION_DISTANCE) {
-            mood = CowMood.SCARED;
-        } else {
-            mood = CowMood.CALM;
-        }
-        if (stamina < 0){
-            mood = CowMood.TIRED;
-            if (stamina < -SPRINT_COOLDOWN){
-                stamina = MAX_STAMINA;
-            }
-        }
+        cow.updateMood(shipPos.distance(cowPos));
 
 
-        switch (mood){
+        switch (cow.getMood()){
             case CALM:
 
                 //Change walkDir twice in 100.
                 float rand = FastMath.rand.nextFloat();
                 if (rand*100 < 2) {
-                    walkDir = FastMath.DEG_TO_RAD*(FastMath.rand.nextFloat()*MAX_DIR-MAX_DIR/2);
+                    cow.setWalkDir(FastMath.DEG_TO_RAD*(FastMath.rand.nextFloat()*MAX_DIR-MAX_DIR/2));
                 }
                 //Walk
-                spatial.rotate(SPEED*tpf,walkDir,0);
+                spatial.rotate(SPEED*tpf,cow.getWalkDir(),0);
 
                 break;
 
@@ -86,13 +69,13 @@ public class CowControl extends AbstractControl {
                 }
 
                 spatial.rotate(SPRINT_SPEED*tpf, FastMath.DEG_TO_RAD*sprintDir, 0);
-                stamina--;
+                cow.reduceStamina();
                 break;
 
             case TIRED:
                 //Walk
-                spatial.rotate(SPEED/2*tpf,walkDir/2*tpf,0);
-                stamina--;
+                spatial.rotate(SPEED/2*tpf,cow.getWalkDir()/2*tpf,0);
+                cow.reduceStamina();
                 break;
         }
     }

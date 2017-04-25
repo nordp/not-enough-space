@@ -7,27 +7,27 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.SpotLight;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
-import com.jme3.math.Quaternion;
-import com.jme3.math.Vector3f;
-import com.jme3.renderer.Camera;
 import com.jme3.scene.*;
-import com.jme3.scene.shape.Box;
+import edu.chalmers.notenoughspace.Model.Ship;
+
+import static edu.chalmers.notenoughspace.Model.Ship.*;
 
 /**
  * A model of space ship able to be navigated around a planet's surface.
- * The Ship object itself is a node (functioning as a pivot node) containing a
+ * The ShipNode object itself is a node (functioning as a pivot node) containing a
  * visual space ship model.
  */
-public class Ship extends Node {
+public class ShipNode extends Node {
 
     /** The ship's private spot light, lighting up the surface beneath it. */
     private SpotLight spotLight;
 
     /** The ship's tractor beam. */
     private Beam beam;
+
+    //** The model ship. */
+    private Ship ship;
 
     /**
      * Creates a steerable ship model and attaches it to the pivot
@@ -37,7 +37,9 @@ public class Ship extends Node {
      * @param assetManager Used to load the model and texture for the ship.
      * @param inputManager Used to map movement to key presses.
      */
-    public Ship(AssetManager assetManager, InputManager inputManager) {
+    public ShipNode(Ship ship, AssetManager assetManager, InputManager inputManager) {
+        this.ship = ship;
+
         createShip3DModel(assetManager);
 
         initMovementKeys(inputManager); //TODO: Move somewhere else... (to an appstate?)
@@ -46,7 +48,7 @@ public class Ship extends Node {
 
     /**
      * Creates a visual model of the ship (named "ship") and attaches it
-     * to the center of the Ship object (i.e. this node).
+     * to the center of the ShipNode object (i.e. this node).
      * @param assetManager
      */
     private void createShip3DModel(AssetManager assetManager) {
@@ -78,7 +80,7 @@ public class Ship extends Node {
 
     /**
      * Initializes a spotlight directed downwards from the
-     * bottom of the ship. NOTE: Since a light source only affects the
+     * bottom oa f the ship. NOTE: Since a light source only affects the
      * nodes BELOW itself in the hierarchy it must be attached to the
      * root node of the game in order to light up the planet, cows, etc.
      * Therefore it always has to be updated with the coordinates of
@@ -106,7 +108,7 @@ public class Ship extends Node {
      * @param assetManager
      */
     public void initBeam(AssetManager assetManager) {
-        beam = new Beam(assetManager);
+        beam = new Beam(ship, assetManager);
         beam.setLocalTranslation(beam.getLocalTranslation().add(this.getChild("ship").getLocalTranslation()));
         beam.setName("beam");
         this.attachChild(beam);
@@ -144,22 +146,22 @@ public class Ship extends Node {
 
         public void onAnalog(String name, float value, float tpf) {
             if (name.equals("forwards")) {
-                getMe().rotate(-1*tpf, 0, 0);
+                getMe().rotate(-SPEED*tpf, 0, 0);
             }
             if (name.equals("left")) {
-                getMe().rotate(0, 0, 1*tpf);
+                getMe().rotate(0, 0, SPEED*tpf);
             }
             if (name.equals("right")) {
-                getMe().rotate(0, 0, -1*tpf);
+                getMe().rotate(0, 0, -SPEED*tpf);
             }
             if (name.equals("backwards")) {
-                getMe().rotate(1*tpf, 0, 0);
+                getMe().rotate(SPEED*tpf, 0, 0);
             }
             if (name.equals("rotateLeft")) {
-                getMe().rotate(0, 2*tpf, 0);
+                getMe().rotate(0, ROTATION_SPEED*tpf, 0);
             }
             if (name.equals("rotateRight")) {
-                getMe().rotate(0, -2*tpf, 0);
+                getMe().rotate(0, -ROTATION_SPEED*tpf, 0);
             }
 
             //Adjust the spotLight so that it always follows the ship.
@@ -188,7 +190,7 @@ public class Ship extends Node {
      *
      * @return The ship object ( = this).
      */
-    private Ship getMe() {
+    private ShipNode getMe() {
         return this;
     }
 

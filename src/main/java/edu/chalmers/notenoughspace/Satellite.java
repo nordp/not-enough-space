@@ -19,7 +19,7 @@ import com.jme3.scene.shape.Box;
 
     /**
      * A model of space ship able to be navigated around a planet's surface.
-     * The Ship object itself is a node (functioning as a pivot node) containing a
+     * The ShipNode object itself is a node (functioning as a pivot node) containing a
      * visual space ship model.
      */
     public class Satellite extends Node {
@@ -49,7 +49,7 @@ import com.jme3.scene.shape.Box;
 
         /**
          * Creates a visual model of the ship (named "ship") and attaches it
-         * to the center of the Ship object (i.e. this node).
+         * to the center of the ShipNode object (i.e. this node).
          * @param assetManager
          */
         private void createSatelliteModel(AssetManager assetManager) {

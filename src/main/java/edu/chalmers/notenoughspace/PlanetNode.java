@@ -1,28 +1,27 @@
 package edu.chalmers.notenoughspace;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.material.Material;
-import com.jme3.math.ColorRGBA;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
+import edu.chalmers.notenoughspace.Model.Planet;
 
-import java.util.ArrayList;
-import java.util.List;
+import static edu.chalmers.notenoughspace.Model.Planet.*;
 
-public class Planet extends Node {
+public class PlanetNode extends Node {
     private AssetManager assetManager;
     private CowFactory cowFactory;
     private Junk junk;
     private Satellite satellite;
 
-    public final static float PLANET_RADIUS = 13f;
-
     private Node population;
 
-    public Planet(AssetManager assetManager, Ship ship){
+    private Planet planet;
+
+    public PlanetNode(Planet planet, AssetManager assetManager, ShipNode shipNode){
+        this.planet = planet;
         Sphere shape = new Sphere(100, 100, PLANET_RADIUS);
         shape.setTextureMode(Sphere.TextureMode.Projected);
         TangentBinormalGenerator.generate(shape);
@@ -33,7 +32,7 @@ public class Planet extends Node {
         this.assetManager = assetManager;
         population = new Node();
         attachChild(population);
-        this.cowFactory = new CowFactory(assetManager, ship, PLANET_RADIUS);//Ship extends Node
+        this.cowFactory = new CowFactory(assetManager, shipNode, PLANET_RADIUS);//ShipNode extends Node
         this.junk = new Junk(assetManager, PLANET_RADIUS);
         this.satellite = new Satellite(assetManager, PLANET_RADIUS); //todo:find the right heigh to add to radius
     }
@@ -41,7 +40,7 @@ public class Planet extends Node {
     public void populate(int nCow, int nJunk){
         population.detachAllChildren();
         for (int i = 0; i < nCow; i++){
-            Cow c = cowFactory.createCow();
+            Spatial c = cowFactory.createCow();
 
             //TODO Implement random placing
             c.rotate(i,i,i);

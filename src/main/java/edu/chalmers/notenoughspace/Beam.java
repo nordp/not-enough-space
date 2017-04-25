@@ -27,6 +27,7 @@ public class Beam extends Node {
         this.ship = ship;
         setBeamModel(assetManager);
         controller = new BeamControl();
+        setActive(true);
         setActive(false);
     }
 

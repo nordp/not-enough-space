@@ -18,7 +18,10 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
+import edu.chalmers.notenoughspace.Model.Planet;
 import edu.chalmers.notenoughspace.Model.Ship;
+
+import static edu.chalmers.notenoughspace.Model.Planet.*;
 
 public class Round extends AbstractAppState{
 
@@ -42,11 +45,11 @@ public class Round extends AbstractAppState{
         shipNode = new ShipNode(new Ship(), assetManager, inputManager);
         ShipOverPlanetControl shipControl = new ShipOverPlanetControl();
         shipNode.addControl(shipControl);
-        shipControl.moveShipModelToStartPosition(planetNode.PLANET_RADIUS, SHIP_ALTITUDE);
+        shipControl.moveShipModelToStartPosition(PLANET_RADIUS, SHIP_ALTITUDE);
         shipNode.initBeam(assetManager);
 
         //PlanetNode:
-        planetNode = new PlanetNode(assetManager, shipNode);
+        planetNode = new PlanetNode(new Planet(), assetManager, shipNode);
 
         //Sun:
         Sphere sunMesh = new Sphere(100, 100, 10f);
@@ -89,7 +92,7 @@ public class Round extends AbstractAppState{
                         getShipControl().detachThirdPersonView();
                     } else {
                         getShipControl().attachThirdPersonView(
-                                app.getCamera(), planetNode.PLANET_RADIUS, SHIP_ALTITUDE);
+                                app.getCamera(), PLANET_RADIUS, SHIP_ALTITUDE);
                     }
                 }
             }
@@ -105,7 +108,7 @@ public class Round extends AbstractAppState{
         super.initialize(stateManager, app);
         app = (SimpleApplication) application;
 
-        getShipControl().attachThirdPersonView(app.getCamera(), planetNode.PLANET_RADIUS, SHIP_ALTITUDE);
+        getShipControl().attachThirdPersonView(app.getCamera(), PLANET_RADIUS, SHIP_ALTITUDE);
         app.getRootNode().attachChild(shipNode);
         app.getRootNode().addLight(shipNode.getSpotLight());
 

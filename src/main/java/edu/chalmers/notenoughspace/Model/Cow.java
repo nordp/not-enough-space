@@ -1,6 +1,6 @@
 package edu.chalmers.notenoughspace.Model;
 
-public class Cow implements Beamable {
+public class Cow {
 
     public final static float REACTION_DISTANCE = 3f;
     public final static float SPEED = 0.1f;

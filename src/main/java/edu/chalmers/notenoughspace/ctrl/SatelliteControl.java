@@ -13,11 +13,6 @@ import edu.chalmers.notenoughspace.nodes.SatelliteNode;
  */
 public class SatelliteControl extends AbstractControl {
 
-    private Spatial satelliteModel;
-
-    public SatelliteControl(SatelliteNode satelliteNode){
-        this.satelliteModel = satelliteNode.getChild(0);
-    }
 
     @Override
     protected void controlUpdate(float tpf) {

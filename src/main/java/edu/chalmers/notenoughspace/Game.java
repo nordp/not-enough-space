@@ -17,6 +17,7 @@ package edu.chalmers.notenoughspace;
         import com.jme3.scene.shape.Box;
         import com.jme3.scene.shape.Sphere;
         import com.jme3.system.AppSettings;
+        import edu.chalmers.notenoughspace.Assets.ModelLoaderFactory;
 
         import java.awt.*;
 
@@ -63,7 +64,7 @@ public class Game extends SimpleApplication {
     public void simpleInitApp() {
         setFullScreen();
         setGoodSpeed();
-
+        ModelLoaderFactory.setAssetManager(assetManager);
         stateManager.attach(new Round(assetManager, inputManager));
 
 //        Material mat = new Material(assetManager,

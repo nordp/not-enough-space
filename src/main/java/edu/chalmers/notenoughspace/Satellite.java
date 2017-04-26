@@ -38,7 +38,7 @@ import com.jme3.scene.shape.Box;
             satelliteModel.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));
             satelliteModel.scale(0.01f, 0.01f, 0.01f);
             satellite.attachChild(satelliteModel);
-            satellite.addControl(new SatelliteControl((Node) satellite, new Satellite(height, assetManager)));
+            //satellite.addControl(new SatelliteControl((Node) satellite, new Satellite(height, assetManager)));
 
             return satelliteModel;
         }

@@ -9,20 +9,26 @@ class ModelManager implements IModelLoader {
 
     private AssetManager assetManager;
 
+    protected ModelManager(AssetManager assetManager){
+        this.assetManager = assetManager;
+    }
+
     public Spatial loadModel(String modelId) {
-        Spatial model= null;
+        Spatial model = null;
         if (modelId.equals("cow")) {
-            Spatial cowModel = assetManager.loadModel("Models/cow.obj");
-            cowModel.rotate(FastMath.HALF_PI, FastMath.HALF_PI, FastMath.PI);
+            model = assetManager.loadModel("Models/cow.obj");
+            model.setMaterial(assetManager.loadMaterial("Materials/CowMaterial.j3m"));
+            model.rotate(FastMath.HALF_PI, FastMath.HALF_PI, FastMath.PI);
         } else if (modelId.equals("satellite")){
-            Spatial satelliteModel = assetManager.loadModel("Models/ufo.obj");
+            model = assetManager.loadModel("Models/ufo.obj");
         } else if (modelId.equals("house")){
             Spatial houseModel = assetManager.loadModel("Models/house.obj");
-            houseModel.rotate(FastMath.PI + FastMath.HALF_PI, FastMath.PI, 0);
+            model.rotate(FastMath.PI + FastMath.HALF_PI, FastMath.PI, 0);
         } else if (modelId.equals("ship")){
-            Spatial shipModel = assetManager.loadModel("Models/ufo.obj");
-        } else
+            model = assetManager.loadModel("Models/ufo.obj");
+        } else {
             return null;
+        }
         return model;
     }
 }

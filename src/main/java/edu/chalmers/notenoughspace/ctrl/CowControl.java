@@ -9,22 +9,20 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.model.Cow;
 import edu.chalmers.notenoughspace.nodes.ShipNode;
+import edu.chalmers.notenoughspace.util.NodeUtil;
 
 import static edu.chalmers.notenoughspace.model.Cow.*;
 
 public class CowControl extends AbstractControl {
-
-    private Spatial shipModel;
-
     private Cow cow;
 
-    public CowControl(ShipNode shipNode, Cow cow) {
-        this.shipModel = shipNode.getChild(0);
-        this.cow = cow;
+    public CowControl() {
+        this.cow = new Cow();
     }
 
     @Override
     protected void controlUpdate(float tpf) {
+        Spatial shipModel = NodeUtil.getRoot(spatial).getChild("ship");
         Spatial cowModel = ((Node) spatial).getChild(0);
         Vector3f shipPos = shipModel.getWorldTranslation();
         Vector3f cowPos = cowModel.getWorldTranslation();

@@ -31,7 +31,7 @@ public class PlanetNode extends Node {
         this.assetManager = assetManager;
         population = new Node();
         attachChild(population);
-        this.nodeFactory = new NodeFactory(shipNode, PLANET_RADIUS);//ShipNode extends Node
+        this.nodeFactory = new NodeFactory();
     }
 
     public void populate(int nCow, int nJunk, int nSatellite){

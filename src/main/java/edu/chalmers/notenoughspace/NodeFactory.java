@@ -10,6 +10,7 @@ import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.ctrl.SatelliteControl;
 import edu.chalmers.notenoughspace.model.Cow;
 import edu.chalmers.notenoughspace.ctrl.CowControl;
+import edu.chalmers.notenoughspace.model.Planet;
 import edu.chalmers.notenoughspace.nodes.JunkNode;
 import edu.chalmers.notenoughspace.nodes.SatelliteNode;
 import edu.chalmers.notenoughspace.nodes.ShipNode;
@@ -19,22 +20,18 @@ import edu.chalmers.notenoughspace.nodes.ShipNode;
  */
 public class NodeFactory {
     private IModelLoader modelLoader;
-    private Node player;
-    private float height;
 
-    public NodeFactory(Node player, float height){
+    public NodeFactory(){
         this.modelLoader = ModelLoaderFactory.getModelLoader();
-        this.player = player;
-        this.height = height;
     }
 
     public Spatial createCow(){
         //Spatial for model. "this"-node located in center of planet still.
         Node cow = new Node();
         Spatial cowModel = modelLoader.loadModel("cow");
-        cowModel.setLocalTranslation(0, height, 0);
+        cowModel.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
         cow.attachChild(cowModel);
-        cow.addControl(new CowControl((ShipNode) player, new Cow()));
+        cow.addControl(new CowControl());
 
         //Debug Cow
 
@@ -56,7 +53,7 @@ public class NodeFactory {
         Node junkNode = new JunkNode();
         Spatial junkModel = modelLoader.loadModel("house");
 
-        junkModel.setLocalTranslation(0, height, 0);
+        junkModel.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
         junkModel.scale(0.01f, 0.01f, 0.01f);
 
         junkNode.attachChild(junkModel);
@@ -68,7 +65,7 @@ public class NodeFactory {
         Node satelliteNode = new SatelliteNode();
         Spatial satelliteModel = modelLoader.loadModel("satellite");
 
-        satelliteModel.setLocalTranslation(0,height+2,0);
+        satelliteModel.setLocalTranslation(0,Planet.PLANET_RADIUS+2,0);
         satelliteModel.scale(0.01f, 0.01f, 0.01f);
 
         satelliteNode.attachChild(satelliteModel);

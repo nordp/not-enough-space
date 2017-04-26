@@ -16,9 +16,6 @@ public class Junk extends Node {
     public Junk(AssetManager assetManager, float height){
         this.height = height;
         this.assetManager = assetManager;
-
-        createHouseModel();
-
     }
 
 

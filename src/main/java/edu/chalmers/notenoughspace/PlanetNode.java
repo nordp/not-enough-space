@@ -34,10 +34,10 @@ public class PlanetNode extends Node {
         attachChild(population);
         this.cowFactory = new CowFactory(assetManager, shipNode, PLANET_RADIUS);//ShipNode extends Node
         this.junk = new Junk(assetManager, PLANET_RADIUS);
-        this.satellite = new Satellite(assetManager, PLANET_RADIUS); //todo:find the right heigh to add to radius
+        this.satellite = new Satellite(PLANET_RADIUS + 2, assetManager); //todo:find the right heigh to add to radius
     }
 
-    public void populate(int nCow, int nJunk){
+    public void populate(int nCow, int nJunk, int nSatellite){
         population.detachAllChildren();
         for (int i = 0; i < nCow; i++){
             Spatial c = cowFactory.createCow();
@@ -49,6 +49,10 @@ public class PlanetNode extends Node {
 
         for (int i = 0; i < nJunk; i++){
             population.attachChild(junk.createHouseModel());
+        }
+
+        for (int i = 0; i < nSatellite; i++){
+            population.attachChild(satellite.createSatellite(assetManager));
         }
 
     }

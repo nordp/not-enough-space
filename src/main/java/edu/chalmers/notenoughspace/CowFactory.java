@@ -4,18 +4,20 @@ import com.jme3.asset.AssetManager;
 import com.jme3.math.FastMath;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import edu.chalmers.notenoughspace.Assets.IModelLoader;
+import edu.chalmers.notenoughspace.Assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.Model.Cow;
 
 /**
  * Created by Phnor on 2017-04-04.
  */
 public class CowFactory {
-    private AssetManager assetManager;
+    private IModelLoader modelLoader;
     private Node player;
     private float height;
 
-    public CowFactory(AssetManager assetManager, Node player, float height){
-        this.assetManager = assetManager;
+    public CowFactory(AssetManager modelLoader, Node player, float height){
+        this.modelLoader = ModelLoaderFactory.getModelLoader();
         this.player = player;
         this.height = height;
     }
@@ -23,10 +25,8 @@ public class CowFactory {
     public Spatial createCow(){
         //Spatial for model. "this"-node located in center of planet still.
         Node cow = new Node();
-        Spatial cowModel = assetManager.loadModel("Models/cow.obj");
+        Spatial cowModel = modelLoader.loadModel("cow");
         cowModel.setLocalTranslation(0, height, 0);
-        cowModel.rotate(FastMath.HALF_PI, FastMath.HALF_PI, FastMath.PI);
-        cowModel.setMaterial(assetManager.loadMaterial("Materials/CowMaterial.j3m"));
         cow.attachChild(cowModel);
         cow.addControl(new CowControl((ShipNode) player, new Cow()));
 

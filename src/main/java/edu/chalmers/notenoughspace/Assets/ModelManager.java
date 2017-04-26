@@ -5,11 +5,11 @@ import com.jme3.math.FastMath;
 import com.jme3.scene.Spatial;
 
 
-class ModelManager {
+class ModelManager implements IModelLoader {
 
     private AssetManager assetManager;
 
-    public Spatial LoadModel(String modelId) {
+    public Spatial loadModel(String modelId) {
         Spatial model= null;
         if (modelId.equals("cow")) {
             Spatial cowModel = assetManager.loadModel("Models/cow.obj");

@@ -53,7 +53,7 @@ public class PlanetNode extends Node {
         }
 
         for (int i = 0; i < nSatellite; i++){
-            population.attachChild(satelliteNode.createSatellite(assetManager));
+            //population.attachChild(satelliteNode.createSatellite());
         }
 
     }

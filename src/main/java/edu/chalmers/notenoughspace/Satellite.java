@@ -26,7 +26,7 @@ import com.jme3.scene.shape.Box;
 
         /** The ship's private spot light, lighting up the surface beneath it. */
         private SpotLight spotLight;
-        private float height;
+        private float height; //1.8f
         private AssetManager assetManager;
 
 

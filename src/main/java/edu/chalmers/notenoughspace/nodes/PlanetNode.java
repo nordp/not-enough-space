@@ -6,16 +6,14 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
-import edu.chalmers.notenoughspace.CowFactory;
+import edu.chalmers.notenoughspace.NodeFactory;
 import edu.chalmers.notenoughspace.model.Planet;
 
 import static edu.chalmers.notenoughspace.model.Planet.*;
 
 public class PlanetNode extends Node {
     private AssetManager assetManager;
-    private CowFactory cowFactory;
-    private JunkNode junkNode;
-    private SatelliteNode satelliteNode;
+    private NodeFactory nodeFactory;
 
     private Node population;
 
@@ -33,15 +31,13 @@ public class PlanetNode extends Node {
         this.assetManager = assetManager;
         population = new Node();
         attachChild(population);
-        this.cowFactory = new CowFactory(assetManager, shipNode, PLANET_RADIUS);//ShipNode extends Node
-        this.junkNode = new JunkNode(assetManager, PLANET_RADIUS);
-        this.satelliteNode = new SatelliteNode(PLANET_RADIUS + 2, assetManager); //todo:find the right heigh to add to radius
+        this.nodeFactory = new NodeFactory(shipNode, PLANET_RADIUS);//ShipNode extends Node
     }
 
     public void populate(int nCow, int nJunk, int nSatellite){
         population.detachAllChildren();
         for (int i = 0; i < nCow; i++){
-            Spatial c = cowFactory.createCow();
+            Spatial c = nodeFactory.createCow();
 
             //TODO Implement random placing
             c.rotate(i,i,i);
@@ -49,11 +45,11 @@ public class PlanetNode extends Node {
         }
 
         for (int i = 0; i < nJunk; i++){
-            population.attachChild(junkNode.createHouseModel());
+            population.attachChild(nodeFactory.createJunk());
         }
 
         for (int i = 0; i < nSatellite; i++){
-            //population.attachChild(satelliteNode.createSatellite());
+            population.attachChild(nodeFactory.createSatellite());
         }
 
     }

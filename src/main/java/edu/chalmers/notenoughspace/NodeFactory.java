@@ -1,23 +1,28 @@
 package edu.chalmers.notenoughspace;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.math.FastMath;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import edu.chalmers.notenoughspace.assets.IModelLoader;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
+import edu.chalmers.notenoughspace.ctrl.SatelliteControl;
 import edu.chalmers.notenoughspace.model.Cow;
 import edu.chalmers.notenoughspace.ctrl.CowControl;
+import edu.chalmers.notenoughspace.nodes.JunkNode;
+import edu.chalmers.notenoughspace.nodes.SatelliteNode;
 import edu.chalmers.notenoughspace.nodes.ShipNode;
 
 /**
  * Created by Phnor on 2017-04-04.
  */
-public class CowFactory {
+public class NodeFactory {
     private IModelLoader modelLoader;
     private Node player;
     private float height;
 
-    public CowFactory(AssetManager modelLoader, Node player, float height){
+    public NodeFactory(Node player, float height){
         this.modelLoader = ModelLoaderFactory.getModelLoader();
         this.player = player;
         this.height = height;
@@ -46,4 +51,33 @@ public class CowFactory {
 
         return cow;
     }
+
+    public Spatial createJunk(){
+        Node junkNode = new JunkNode();
+        Spatial junkModel = modelLoader.loadModel("house");
+
+        junkModel.setLocalTranslation(0, height, 0);
+        junkModel.scale(0.01f, 0.01f, 0.01f);
+
+        junkNode.attachChild(junkModel);
+        
+        return junkNode;
+    }
+
+    public Spatial createSatellite(){
+        Node satelliteNode = new SatelliteNode();
+        Spatial satelliteModel = modelLoader.loadModel("satellite");
+
+        satelliteModel.setLocalTranslation(0,height+2,0);
+        satelliteModel.scale(0.01f, 0.01f, 0.01f);
+
+        satelliteNode.attachChild(satelliteModel);
+        satelliteNode.addControl(new SatelliteControl());
+
+        return satelliteModel;
+    }
+
+    //public Spatial createPlanet(){} TODO
+
+    //public Spatial createShip(){} TODO
 }

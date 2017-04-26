@@ -1,12 +1,13 @@
 package edu.chalmers.notenoughspace;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.math.FastMath;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import edu.chalmers.notenoughspace.Assets.IModelLoader;
-import edu.chalmers.notenoughspace.Assets.ModelLoaderFactory;
-import edu.chalmers.notenoughspace.Model.Cow;
+import edu.chalmers.notenoughspace.assets.IModelLoader;
+import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
+import edu.chalmers.notenoughspace.model.Cow;
+import edu.chalmers.notenoughspace.ctrl.CowControl;
+import edu.chalmers.notenoughspace.nodes.ShipNode;
 
 /**
  * Created by Phnor on 2017-04-04.

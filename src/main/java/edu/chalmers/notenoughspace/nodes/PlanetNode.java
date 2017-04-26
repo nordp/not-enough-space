@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace;
+package edu.chalmers.notenoughspace.nodes;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.scene.Geometry;
@@ -6,15 +6,16 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
-import edu.chalmers.notenoughspace.Model.Planet;
+import edu.chalmers.notenoughspace.CowFactory;
+import edu.chalmers.notenoughspace.model.Planet;
 
-import static edu.chalmers.notenoughspace.Model.Planet.*;
+import static edu.chalmers.notenoughspace.model.Planet.*;
 
 public class PlanetNode extends Node {
     private AssetManager assetManager;
     private CowFactory cowFactory;
-    private Junk junk;
-    private Satellite satellite;
+    private JunkNode junkNode;
+    private SatelliteNode satelliteNode;
 
     private Node population;
 
@@ -33,8 +34,8 @@ public class PlanetNode extends Node {
         population = new Node();
         attachChild(population);
         this.cowFactory = new CowFactory(assetManager, shipNode, PLANET_RADIUS);//ShipNode extends Node
-        this.junk = new Junk(assetManager, PLANET_RADIUS);
-        this.satellite = new Satellite(PLANET_RADIUS + 2, assetManager); //todo:find the right heigh to add to radius
+        this.junkNode = new JunkNode(assetManager, PLANET_RADIUS);
+        this.satelliteNode = new SatelliteNode(PLANET_RADIUS + 2, assetManager); //todo:find the right heigh to add to radius
     }
 
     public void populate(int nCow, int nJunk, int nSatellite){
@@ -48,11 +49,11 @@ public class PlanetNode extends Node {
         }
 
         for (int i = 0; i < nJunk; i++){
-            population.attachChild(junk.createHouseModel());
+            population.attachChild(junkNode.createHouseModel());
         }
 
         for (int i = 0; i < nSatellite; i++){
-            population.attachChild(satellite.createSatellite(assetManager));
+            population.attachChild(satelliteNode.createSatellite(assetManager));
         }
 
     }

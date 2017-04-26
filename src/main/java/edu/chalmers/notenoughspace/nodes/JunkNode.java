@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace;
+package edu.chalmers.notenoughspace.nodes;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.math.FastMath;
@@ -8,12 +8,12 @@ import com.jme3.scene.Spatial;
 /**
  * Created by juliaortheden on 2017-04-05.
  */
-public class Junk extends Node {
+public class JunkNode extends Node {
 
     private float height;
     private AssetManager assetManager;
 
-    public Junk(AssetManager assetManager, float height){
+    public JunkNode(AssetManager assetManager, float height){
         this.height = height;
         this.assetManager = assetManager;
     }

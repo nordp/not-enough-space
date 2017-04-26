@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.Assets;
+package edu.chalmers.notenoughspace.assets;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.math.FastMath;

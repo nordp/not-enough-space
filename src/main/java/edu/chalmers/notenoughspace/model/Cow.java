@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.Model;
+package edu.chalmers.notenoughspace.model;
 
 public class Cow {
 

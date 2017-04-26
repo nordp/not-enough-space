@@ -18,10 +18,13 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
-import edu.chalmers.notenoughspace.Model.Planet;
-import edu.chalmers.notenoughspace.Model.Ship;
+import edu.chalmers.notenoughspace.model.Planet;
+import edu.chalmers.notenoughspace.model.Ship;
+import edu.chalmers.notenoughspace.ctrl.ShipControl;
+import edu.chalmers.notenoughspace.nodes.PlanetNode;
+import edu.chalmers.notenoughspace.nodes.ShipNode;
 
-import static edu.chalmers.notenoughspace.Model.Planet.*;
+import static edu.chalmers.notenoughspace.model.Planet.*;
 
 public class Round extends AbstractAppState{
 
@@ -43,7 +46,7 @@ public class Round extends AbstractAppState{
 
         //ShipNode:
         shipNode = new ShipNode(new Ship(), assetManager, inputManager);
-        ShipOverPlanetControl shipControl = new ShipOverPlanetControl();
+        ShipControl shipControl = new ShipControl();
         shipNode.addControl(shipControl);
         shipControl.moveShipModelToStartPosition(PLANET_RADIUS, SHIP_ALTITUDE);
         shipNode.initBeam(assetManager);
@@ -167,8 +170,8 @@ public class Round extends AbstractAppState{
     }
 
     //Helper method for getting the shipNode control.
-    private ShipOverPlanetControl getShipControl() {
-        return (ShipOverPlanetControl) shipNode.getControl(ShipOverPlanetControl.class);
+    private ShipControl getShipControl() {
+        return (ShipControl) shipNode.getControl(ShipControl.class);
     }
 
 }

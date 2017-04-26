@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.Model;
+package edu.chalmers.notenoughspace.model;
 
 /**
  * Created by Vibergf on 25/04/2017.

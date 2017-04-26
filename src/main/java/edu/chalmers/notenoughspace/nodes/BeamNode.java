@@ -1,29 +1,25 @@
-package edu.chalmers.notenoughspace;
+package edu.chalmers.notenoughspace.nodes;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.input.InputManager;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
-import com.sun.org.apache.bcel.internal.generic.FADD;
-import edu.chalmers.notenoughspace.Model.Ship;
+import edu.chalmers.notenoughspace.model.Ship;
+import edu.chalmers.notenoughspace.ctrl.BeamControl;
 
 /**
  * Created by Vibergf on 03/04/2017.
  */
-public class Beam extends Node {
+public class BeamNode extends Node {
 
     private BeamControl controller;
 
     private Ship ship;
 
-    public Beam(Ship ship, AssetManager assetManager){
+    public BeamNode(Ship ship, AssetManager assetManager){
         this.ship = ship;
         setBeamModel(assetManager);
         controller = new BeamControl();

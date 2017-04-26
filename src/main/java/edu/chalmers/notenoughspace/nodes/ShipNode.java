@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace;
+package edu.chalmers.notenoughspace.nodes;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.input.InputManager;
@@ -9,9 +9,9 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.SpotLight;
 import com.jme3.math.FastMath;
 import com.jme3.scene.*;
-import edu.chalmers.notenoughspace.Model.Ship;
+import edu.chalmers.notenoughspace.model.Ship;
 
-import static edu.chalmers.notenoughspace.Model.Ship.*;
+import static edu.chalmers.notenoughspace.model.Ship.*;
 
 /**
  * A model of space ship able to be navigated around a planet's surface.
@@ -23,8 +23,8 @@ public class ShipNode extends Node {
     /** The ship's private spot light, lighting up the surface beneath it. */
     private SpotLight spotLight;
 
-    /** The ship's tractor beam. */
-    private Beam beam;
+    /** The ship's tractor beamNode. */
+    private BeamNode beamNode;
 
     //** The model ship. */
     private Ship ship;
@@ -103,15 +103,15 @@ public class ShipNode extends Node {
     }
 
     /**
-     * Initializes the beam and attaches it to this node.
+     * Initializes the beamNode and attaches it to this node.
      * TODO: This should also be moved, but probably after we move the key input.
      * @param assetManager
      */
     public void initBeam(AssetManager assetManager) {
-        beam = new Beam(ship, assetManager);
-        beam.setLocalTranslation(beam.getLocalTranslation().add(this.getChild("ship").getLocalTranslation()));
-        beam.setName("beam");
-        this.attachChild(beam);
+        beamNode = new BeamNode(ship, assetManager);
+        beamNode.setLocalTranslation(beamNode.getLocalTranslation().add(this.getChild("ship").getLocalTranslation()));
+        beamNode.setName("beamNode");
+        this.attachChild(beamNode);
     }
 
 
@@ -130,13 +130,13 @@ public class ShipNode extends Node {
         inputManager.addMapping("backwards", new KeyTrigger(KeyInput.KEY_K));
         inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_V));
         inputManager.addMapping("rotateRight", new KeyTrigger(KeyInput.KEY_B));
-        inputManager.addMapping("beam", new KeyTrigger(KeyInput.KEY_SPACE));
+        inputManager.addMapping("beamNode", new KeyTrigger(KeyInput.KEY_SPACE));
 
         // Add the names to the action listener.
         inputManager.addListener(analogListener,
                 "forwards","left","right","backwards",
                 "rotateLeft", "rotateRight");
-        inputManager.addListener(actionListener, "beam");
+        inputManager.addListener(actionListener, "beamNode");
     }
 
     /**
@@ -173,13 +173,13 @@ public class ShipNode extends Node {
     };
 
     /**
-     * The listener controlling user input for activating the beam.
+     * The listener controlling user input for activating the beamNode.
      */
     private ActionListener actionListener = new ActionListener() {
 
         public void onAction(String name, boolean value, float tpf) {
-            if(name.equals("beam")) {
-                beam.setActive(value);
+            if(name.equals("beamNode")) {
+                beamNode.setActive(value);
             }
         }
     };

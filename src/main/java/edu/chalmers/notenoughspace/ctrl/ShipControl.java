@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace;
+package edu.chalmers.notenoughspace.ctrl;
 
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
@@ -9,17 +9,18 @@ import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
+import edu.chalmers.notenoughspace.nodes.ShipNode;
 
 /**
  * Control for a ship hovering around a planet. Includes functions
  * for adding and removing a third person camera.
  */
-public class ShipOverPlanetControl extends AbstractControl {
+public class ShipControl extends AbstractControl {
 
     private final String THIRD_PERSON_CAMERA = "followShipCamera";
 
 
-    public ShipOverPlanetControl() {
+    public ShipControl() {
     }
 
     protected void controlUpdate(float v) {

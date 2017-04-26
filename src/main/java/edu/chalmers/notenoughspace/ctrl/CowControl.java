@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace;
+package edu.chalmers.notenoughspace.ctrl;
 
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
@@ -7,9 +7,10 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.Model.Cow;
+import edu.chalmers.notenoughspace.model.Cow;
+import edu.chalmers.notenoughspace.nodes.ShipNode;
 
-import static edu.chalmers.notenoughspace.Model.Cow.*;
+import static edu.chalmers.notenoughspace.model.Cow.*;
 
 public class CowControl extends AbstractControl {
 

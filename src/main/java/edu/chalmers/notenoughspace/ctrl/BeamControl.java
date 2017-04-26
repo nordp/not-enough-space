@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace;
+package edu.chalmers.notenoughspace.ctrl;
 
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;

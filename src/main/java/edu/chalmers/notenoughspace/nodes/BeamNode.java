@@ -1,29 +1,29 @@
-package edu.chalmers.notenoughspace;
+package edu.chalmers.notenoughspace.nodes;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.input.InputManager;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
-import com.jme3.math.FastMath;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Box;
-import com.sun.org.apache.bcel.internal.generic.FADD;
+import edu.chalmers.notenoughspace.model.Ship;
+import edu.chalmers.notenoughspace.ctrl.BeamControl;
 
 /**
  * Created by Vibergf on 03/04/2017.
  */
-public class Beam extends Node {
+public class BeamNode extends Node {
 
-    private boolean active = true;
     private BeamControl controller;
 
-    public Beam(AssetManager assetManager){
+    private Ship ship;
+
+    public BeamNode(Ship ship, AssetManager assetManager){
+        this.ship = ship;
         setBeamModel(assetManager);
         controller = new BeamControl();
+        setActive(true);
         setActive(false);
     }
 
@@ -44,9 +44,9 @@ public class Beam extends Node {
     }
 
     public void setActive(boolean active) {
-        if(this.active == active)
+        if(ship.isBeamActive() == active)
             return;
-        this.active = active;
+        ship.setBeamActive(active);
         if(active){
             setCullHint(CullHint.Never);
             addControl(controller);
@@ -54,9 +54,5 @@ public class Beam extends Node {
             setCullHint(CullHint.Always);
             removeControl(controller);
         }
-    }
-
-    public boolean isActive() {
-        return active;
     }
 }

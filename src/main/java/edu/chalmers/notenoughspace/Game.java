@@ -1,22 +1,9 @@
 package edu.chalmers.notenoughspace;
 
         import com.jme3.app.SimpleApplication;
-        import com.jme3.audio.AudioData;
-        import com.jme3.audio.AudioNode;
-        import com.jme3.light.DirectionalLight;
-        import com.jme3.light.SpotLight;
-        import com.jme3.material.Material;
-        import com.jme3.math.ColorRGBA;
-        import com.jme3.math.FastMath;
-        import com.jme3.math.Vector3f;
         import com.jme3.renderer.RenderManager;
-        import com.jme3.scene.Geometry;
-        import com.jme3.scene.Mesh;
-        import com.jme3.scene.Node;
-        import com.jme3.scene.VertexBuffer;
-        import com.jme3.scene.shape.Box;
-        import com.jme3.scene.shape.Sphere;
         import com.jme3.system.AppSettings;
+        import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 
         import java.awt.*;
 
@@ -63,7 +50,7 @@ public class Game extends SimpleApplication {
     public void simpleInitApp() {
         setFullScreen();
         setGoodSpeed();
-
+        ModelLoaderFactory.setAssetManager(assetManager);
         stateManager.attach(new Round(assetManager, inputManager));
 
 //        Material mat = new Material(assetManager,

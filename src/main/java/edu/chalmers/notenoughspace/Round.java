@@ -17,18 +17,24 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
 import com.jme3.scene.shape.Sphere;
+import edu.chalmers.notenoughspace.model.Planet;
+import edu.chalmers.notenoughspace.model.Ship;
+import edu.chalmers.notenoughspace.ctrl.ShipControl;
+import edu.chalmers.notenoughspace.nodes.PlanetNode;
+import edu.chalmers.notenoughspace.nodes.ShipNode;
+
+import static edu.chalmers.notenoughspace.model.Planet.*;
 
 public class Round extends AbstractAppState{
 
-    /** The distance from the ship to the planet's surface. */
+    /** The distance from the shipNode to the planetNode's surface. */
     private final float SHIP_ALTITUDE = 1.8f;
 
     SimpleApplication app;
 
-    private Ship ship;
-    private Planet planet;
+    private ShipNode shipNode;
+    private PlanetNode planetNode;
     private Geometry sun;
     private DirectionalLight sunLight;
     private AmbientLight ambientLight;
@@ -38,15 +44,15 @@ public class Round extends AbstractAppState{
 
     public Round(AssetManager assetManager, InputManager inputManager){
 
-        //Ship:
-        ship = new Ship(assetManager, inputManager);
-        ShipOverPlanetControl shipControl = new ShipOverPlanetControl();
-        ship.addControl(shipControl);
-        shipControl.moveShipModelToStartPosition(planet.PLANET_RADIUS, SHIP_ALTITUDE);
-        ship.initBeam(assetManager);
+        //ShipNode:
+        shipNode = new ShipNode(new Ship(), assetManager, inputManager);
+        ShipControl shipControl = new ShipControl();
+        shipNode.addControl(shipControl);
+        shipControl.moveShipModelToStartPosition(PLANET_RADIUS, SHIP_ALTITUDE);
+        shipNode.initBeam(assetManager);
 
-        //Planet:
-        planet = new Planet(assetManager, ship);
+        //PlanetNode:
+        planetNode = new PlanetNode(new Planet(), assetManager, shipNode);
 
         //Sun:
         Sphere sunMesh = new Sphere(100, 100, 10f);
@@ -89,7 +95,7 @@ public class Round extends AbstractAppState{
                         getShipControl().detachThirdPersonView();
                     } else {
                         getShipControl().attachThirdPersonView(
-                                app.getCamera(), planet.PLANET_RADIUS, SHIP_ALTITUDE);
+                                app.getCamera(), PLANET_RADIUS, SHIP_ALTITUDE);
                     }
                 }
             }
@@ -105,13 +111,13 @@ public class Round extends AbstractAppState{
         super.initialize(stateManager, app);
         app = (SimpleApplication) application;
 
-        getShipControl().attachThirdPersonView(app.getCamera(), planet.PLANET_RADIUS, SHIP_ALTITUDE);
-        app.getRootNode().attachChild(ship);
-        app.getRootNode().addLight(ship.getSpotLight());
+        getShipControl().attachThirdPersonView(app.getCamera(), PLANET_RADIUS, SHIP_ALTITUDE);
+        app.getRootNode().attachChild(shipNode);
+        app.getRootNode().addLight(shipNode.getSpotLight());
 
-        app.getRootNode().attachChild(planet);
+        app.getRootNode().attachChild(planetNode);
         //Test population
-        planet.populate(10,10);
+        planetNode.populate(10,10, 1);
 
         app.getRootNode().attachChild(sun);
         app.getRootNode().addLight(sunLight);
@@ -131,10 +137,10 @@ public class Round extends AbstractAppState{
         super.cleanup();
 
         getShipControl().detachThirdPersonView();
-        app.getRootNode().detachChild(ship);
-        app.getRootNode().removeLight(ship.getSpotLight());
+        app.getRootNode().detachChild(shipNode);
+        app.getRootNode().removeLight(shipNode.getSpotLight());
 
-        app.getRootNode().detachChild(planet);
+        app.getRootNode().detachChild(planetNode);
         app.getRootNode().detachChild(sun);
         app.getRootNode().removeLight(sunLight);
         app.getRootNode().removeLight(ambientLight);
@@ -163,9 +169,9 @@ public class Round extends AbstractAppState{
         //Update cow controls? Tick time?
     }
 
-    //Helper method for getting the ship control.
-    private ShipOverPlanetControl getShipControl() {
-        return (ShipOverPlanetControl) ship.getControl(ShipOverPlanetControl.class);
+    //Helper method for getting the shipNode control.
+    private ShipControl getShipControl() {
+        return (ShipControl) shipNode.getControl(ShipControl.class);
     }
 
 }

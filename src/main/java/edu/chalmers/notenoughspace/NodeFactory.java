@@ -71,7 +71,7 @@ public class NodeFactory {
         satelliteNode.attachChild(satelliteModel);
         satelliteNode.addControl(new SatelliteControl());
 
-        return satelliteModel;
+        return satelliteNode;
     }
 
     //public Spatial createPlanet(){} TODO

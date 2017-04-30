@@ -33,19 +33,6 @@ public class NodeFactory {
         cow.attachChild(cowModel);
         cow.addControl(new CowControl());
 
-        //Debug Cow
-
-//        Geometry x = new Geometry("z",new Arrow(new Vector3f(1,0,0)));
-//        Geometry y = new Geometry("z",new Arrow(new Vector3f(0,3,0)));
-//        Geometry z = new Geometry("z",new Arrow(new Vector3f(0,0,6)));
-//        x.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
-//        y.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
-//        z.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
-//        cow.attachChild(x);
-//        cow.attachChild(y);
-//        cow.attachChild(z);
-
-
         return cow;
     }
 

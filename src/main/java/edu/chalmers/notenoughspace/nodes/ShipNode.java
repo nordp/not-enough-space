@@ -60,23 +60,6 @@ public class ShipNode extends Node {
         shipModel.scale(0.02f, 0.02f, 0.02f);
         attachChild(shipModel);
     }
-/*
-    //Temporary helper method.
-    private Mesh createShipMesh() {
-        return new Box(0.2f, 0.1f, 0.2f);
-    }
-    /*
-    //Temporary helper method.
-    private Material createShipMaterial(AssetManager assetManager) {
-        Material mat = new Material(assetManager,
-                "Common/MatDefs/Misc/Unshaded.j3md");
-        mat.setColor("Color", ColorRGBA.Yellow);
-        return mat;
-    }*/
-
-
-
-
 
     /**
      * Initializes a spotlight directed downwards from the

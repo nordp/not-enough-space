@@ -29,7 +29,6 @@ public class BeamNode extends Node {
 
     private void setBeamModel(AssetManager assetManager){
         Geometry model = (Geometry) assetManager.loadModel("Models/beam.obj");
-//        model.setMaterial(assetManager.loadMaterial("Materials/CowMaterial.j3m"));
         Material mat = new Material(assetManager,
                 "Common/MatDefs/Misc/Unshaded.j3md");
         mat.setColor("Color", new ColorRGBA(0.9f, 0.9f, 0.3f, 0.6f));
@@ -37,8 +36,6 @@ public class BeamNode extends Node {
         model.setMaterial(mat);
         model.setQueueBucket(RenderQueue.Bucket.Transparent);
 
-//        model.scale(0.05f);
-//        model.rotate(-FastMath.HALF_PI, 0f, 0f);
         model.setLocalTranslation(0f, 0.24f, 0f);
         attachChild(model);
     }

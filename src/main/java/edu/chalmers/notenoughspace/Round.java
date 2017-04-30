@@ -45,8 +45,8 @@ public class Round extends AbstractAppState{
     public Round(AssetManager assetManager, InputManager inputManager){
 
         //ShipNode:
-        shipNode = new ShipNode(new Ship(), assetManager, inputManager);
-        ShipControl shipControl = new ShipControl();
+        shipNode = new ShipNode(new Ship(), assetManager);
+        ShipControl shipControl = new ShipControl(inputManager);
         shipNode.addControl(shipControl);
         shipControl.moveShipModelToStartPosition(PLANET_RADIUS, SHIP_ALTITUDE);
         shipNode.initBeam(assetManager);

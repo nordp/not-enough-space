@@ -30,19 +30,17 @@ public class ShipNode extends Node {
     private Ship ship;
 
     /**
-     * Creates a steerable ship model and attaches it to the pivot
+     * Creates a ship model and attaches it to the pivot
      * node that is this object.
      * NOTE: Does not add the third person view camera. This is done
      * in its own separate method.
      * @param assetManager Used to load the model and texture for the ship.
-     * @param inputManager Used to map movement to key presses.
      */
-    public ShipNode(Ship ship, AssetManager assetManager, InputManager inputManager) {
+    public ShipNode(Ship ship, AssetManager assetManager) {
         this.ship = ship;
 
         createShip3DModel(assetManager);
 
-        initMovementKeys(inputManager); //TODO: Move somewhere else... (to an appstate?)
         initSpotLight();    //TODO: Move somewhere else as well (to the control?).
     }
 
@@ -97,84 +95,7 @@ public class ShipNode extends Node {
         this.attachChild(beamNode);
     }
 
-
-
-    /////////// MOVEMENTS BELOW //////////////
-
-    /**
-     * Makes it possible for the ship to move in all directions
-     * and rotate left and right.
-     * @param inputManager
-     */
-    private void initMovementKeys(InputManager inputManager) {
-        inputManager.addMapping("forwards",  new KeyTrigger(KeyInput.KEY_I));
-        inputManager.addMapping("left",   new KeyTrigger(KeyInput.KEY_J));
-        inputManager.addMapping("right",  new KeyTrigger(KeyInput.KEY_L));
-        inputManager.addMapping("backwards", new KeyTrigger(KeyInput.KEY_K));
-        inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_V));
-        inputManager.addMapping("rotateRight", new KeyTrigger(KeyInput.KEY_B));
-        inputManager.addMapping("beamNode", new KeyTrigger(KeyInput.KEY_SPACE));
-
-        // Add the names to the action listener.
-        inputManager.addListener(analogListener,
-                "forwards","left","right","backwards",
-                "rotateLeft", "rotateRight");
-        inputManager.addListener(actionListener, "beamNode");
+    public void activateBeam(boolean value) {
+        beamNode.setActive(value);
     }
-
-    /**
-     * The listener controlling user input for moving the ship.
-     */
-    private AnalogListener analogListener = new AnalogListener() {
-
-        public void onAnalog(String name, float value, float tpf) {
-            if (name.equals("forwards")) {
-                getMe().rotate(-SPEED*tpf, 0, 0);
-            }
-            if (name.equals("left")) {
-                getMe().rotate(0, 0, SPEED*tpf);
-            }
-            if (name.equals("right")) {
-                getMe().rotate(0, 0, -SPEED*tpf);
-            }
-            if (name.equals("backwards")) {
-                getMe().rotate(SPEED*tpf, 0, 0);
-            }
-            if (name.equals("rotateLeft")) {
-                getMe().rotate(0, ROTATION_SPEED*tpf, 0);
-            }
-            if (name.equals("rotateRight")) {
-                getMe().rotate(0, -ROTATION_SPEED*tpf, 0);
-            }
-
-            //Adjust the spotLight so that it always follows the ship.
-            if (spotLight != null) {
-                spotLight.setPosition(getMe().getChild("ship").getWorldTranslation());
-                spotLight.setDirection(getMe().getChild("ship").getWorldTranslation().mult(-1));
-            }
-        }
-    };
-
-    /**
-     * The listener controlling user input for activating the beamNode.
-     */
-    private ActionListener actionListener = new ActionListener() {
-
-        public void onAction(String name, boolean value, float tpf) {
-            if(name.equals("beamNode")) {
-                beamNode.setActive(value);
-            }
-        }
-    };
-
-    /**
-     * To get access to the ship inside the analog listener.
-     * (Don't know how else to do it?)
-     *
-     * @return The ship object ( = this).
-     */
-    private ShipNode getMe() {
-        return this;
-    }
-
 }

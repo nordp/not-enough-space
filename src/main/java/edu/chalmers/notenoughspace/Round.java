@@ -35,7 +35,7 @@ public class Round extends AbstractAppState {
      * The distance from the shipNode to the planetNode's surface.
      */
     private final float SHIP_ALTITUDE = 1.8f;
-    private final int ROUND_TIME = 6; //seconds
+    private final int ROUND_TIME = 120; //seconds
 
     SimpleApplication app;
 

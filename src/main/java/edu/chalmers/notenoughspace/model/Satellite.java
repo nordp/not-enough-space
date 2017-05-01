@@ -3,8 +3,6 @@ package edu.chalmers.notenoughspace.model;
 
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
-import com.sun.tools.internal.xjc.ModelLoader;
-import javafx.scene.shape.Sphere;
 
 
     public class Satellite {

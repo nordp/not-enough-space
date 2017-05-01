@@ -6,7 +6,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
-import edu.chalmers.notenoughspace.NodeFactory;
 import edu.chalmers.notenoughspace.model.Planet;
 
 import static edu.chalmers.notenoughspace.model.Planet.*;

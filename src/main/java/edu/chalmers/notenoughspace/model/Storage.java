@@ -12,7 +12,8 @@ public class Storage {
 
     private List<Beamable> beamableList = new LinkedList();
 
-    public void calculateScore(){
+    public int calculateScore(){
+        return calculateWeight();       //TODO Temporary scoring system
     }
 
     public int calculateWeight() {

@@ -35,7 +35,7 @@ public class Round extends AbstractAppState {
      * The distance from the shipNode to the planetNode's surface.
      */
     private final float SHIP_ALTITUDE = 1.8f;
-    private final int ROUND_TIME = 120; //seconds
+    private final int ROUND_TIME = 6; //seconds
 
     SimpleApplication app;
 
@@ -57,10 +57,8 @@ public class Round extends AbstractAppState {
 
         //ShipNode:
         shipNode = new ShipNode(new Ship(), assetManager);
-        ShipControl shipControl = new ShipControl(inputManager);
-        shipNode.addControl(shipControl);
-        shipControl.moveShipModelToStartPosition(PLANET_RADIUS, SHIP_ALTITUDE);
-        shipNode.initBeam(assetManager);
+        //Moved initialization of shipControl and beam to initialize(), otherwise
+        //the restart didn't work.
 
         //PlanetNode:
         planetNode = new PlanetNode(new Planet(), assetManager, shipNode);
@@ -122,6 +120,12 @@ public class Round extends AbstractAppState {
         super.initialize(stateManager, app);
         app = (SimpleApplication) application;
 
+        ShipControl shipControl = new ShipControl(app.getInputManager());
+        shipNode.addControl(shipControl);
+        shipControl.moveShipModelToStartPosition(PLANET_RADIUS, SHIP_ALTITUDE);
+        shipNode.initBeam(app.getAssetManager());
+
+
         getShipControl().attachThirdPersonView(app.getCamera(), PLANET_RADIUS, SHIP_ALTITUDE);
         app.getRootNode().attachChild(shipNode);
         app.getRootNode().addLight(shipNode.getSpotLight());
@@ -159,6 +163,7 @@ public class Round extends AbstractAppState {
         app.getRootNode().removeLight(sunLight);
         app.getRootNode().removeLight(ambientLight);
         app.getRootNode().detachChild(happy);
+        happy.stop();   //Why is this needed? (Without it the music keeps playing!)
 
         app.getInputManager().deleteMapping("pause");
         app.getInputManager().removeListener(actionListener);
@@ -192,6 +197,7 @@ public class Round extends AbstractAppState {
     }
 
     private void initTimerText() {
+        elapsedTime = 0;
         BitmapFont font = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
         timeLeftText = new BitmapText(font);
         timeLeftText.setSize(50);
@@ -205,14 +211,24 @@ public class Round extends AbstractAppState {
         elapsedTime += tpf;
 
         if (roundFinished()) {
-            setEnabled(false);
+            returnToMenu();
         }
 
         timeLeftText.setText("Time left: " +
                 StringFormatUtil.toTimeFormat(ROUND_TIME - elapsedTime));
     }
 
-    public boolean roundFinished() {
+    private boolean roundFinished() {
         return elapsedTime >= ROUND_TIME;
+    }
+
+    private void restartRound() {
+        app.getStateManager().detach(this);
+        app.getStateManager().attach(new Round(app.getAssetManager(), app.getInputManager()));
+    }
+
+    private void returnToMenu() {
+        app.getStateManager().detach(this);
+        app.getStateManager().attach(new Menu());
     }
 }

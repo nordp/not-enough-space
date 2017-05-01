@@ -47,7 +47,8 @@ public class Game extends SimpleApplication {
         setFullScreen();
         setGoodSpeed();
         ModelLoaderFactory.setAssetManager(assetManager);
-        stateManager.attach(new Round(assetManager, inputManager));
+        //stateManager.attach(new Round(assetManager, inputManager));
+        stateManager.attach(new Menu());
     }
 
 

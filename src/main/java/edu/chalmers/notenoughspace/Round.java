@@ -7,8 +7,6 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioData;
 import com.jme3.audio.AudioNode;
-import com.jme3.font.BitmapFont;
-import com.jme3.font.BitmapText;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -25,7 +23,7 @@ import edu.chalmers.notenoughspace.model.Ship;
 import edu.chalmers.notenoughspace.ctrl.ShipControl;
 import edu.chalmers.notenoughspace.nodes.PlanetNode;
 import edu.chalmers.notenoughspace.nodes.ShipNode;
-import edu.chalmers.notenoughspace.util.StringFormatUtil;
+import edu.chalmers.notenoughspace.view.HUDNode;
 
 import static edu.chalmers.notenoughspace.model.Planet.*;
 
@@ -45,7 +43,7 @@ public class Round extends AbstractAppState {
     private DirectionalLight sunLight;
     private AmbientLight ambientLight;
     private AudioNode happy;
-    private BitmapText timeLeftText;
+    private HUDNode hud;
 
     /**
      * The total time the round has been active, in seconds.
@@ -147,7 +145,10 @@ public class Round extends AbstractAppState {
         app.getInputManager().addListener(actionListener, "cameraMode");
 
         elapsedTime = 0;    //Init time.
-        initTimerText();
+
+        //Init HUD
+        hud = new HUDNode(app.getContext().getSettings().getHeight(), app.getContext().getSettings().getWidth());
+        app.getGuiNode().attachChild(hud);
     }
 
     @Override
@@ -168,7 +169,7 @@ public class Round extends AbstractAppState {
         app.getInputManager().deleteMapping("pause");
         app.getInputManager().removeListener(actionListener);
 
-        app.getGuiNode().detachChild(timeLeftText);
+        app.getGuiNode().detachChild(hud);
     }
 
     @Override
@@ -196,26 +197,15 @@ public class Round extends AbstractAppState {
         return (ShipControl) shipNode.getControl(ShipControl.class);
     }
 
-    private void initTimerText() {
-        elapsedTime = 0;
-        BitmapFont font = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
-        timeLeftText = new BitmapText(font);
-        timeLeftText.setSize(50);
-        timeLeftText.move(0,
-                app.getContext().getSettings().getHeight(),
-                0);
-        app.getGuiNode().attachChild(timeLeftText);
-    }
 
     private void updateTimer(float tpf) {
         elapsedTime += tpf;
+        hud.updateTimer(ROUND_TIME - elapsedTime);
 
         if (roundFinished()) {
             returnToMenu();
         }
 
-        timeLeftText.setText("Time left: " +
-                StringFormatUtil.toTimeFormat(ROUND_TIME - elapsedTime));
     }
 
     private boolean roundFinished() {

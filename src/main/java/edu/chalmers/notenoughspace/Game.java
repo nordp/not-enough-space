@@ -48,7 +48,6 @@ public class Game extends SimpleApplication {
         setGoodSpeed();
         ModelLoaderFactory.setAssetManager(assetManager);
         stateManager.attach(new Round(assetManager, inputManager));
-
     }
 
 

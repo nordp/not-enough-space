@@ -162,6 +162,8 @@ public class Round extends AbstractAppState {
 
         app.getInputManager().deleteMapping("pause");
         app.getInputManager().removeListener(actionListener);
+
+        app.getGuiNode().detachChild(timeLeftText);
     }
 
     @Override
@@ -181,9 +183,7 @@ public class Round extends AbstractAppState {
     @Override
     public void update(float tpf) {
         //Update cow controls? Tick time?
-        elapsedTime += tpf;
-        timeLeftText.setText("Time left: " +
-                StringFormatUtil.toTimeFormat(ROUND_TIME - elapsedTime));
+        updateTimer(tpf);
     }
 
     //Helper method for getting the shipNode control.
@@ -199,5 +199,20 @@ public class Round extends AbstractAppState {
                 app.getContext().getSettings().getHeight(),
                 0);
         app.getGuiNode().attachChild(timeLeftText);
+    }
+
+    private void updateTimer(float tpf) {
+        elapsedTime += tpf;
+
+        if (roundFinished()) {
+            setEnabled(false);
+        }
+
+        timeLeftText.setText("Time left: " +
+                StringFormatUtil.toTimeFormat(ROUND_TIME - elapsedTime));
+    }
+
+    public boolean roundFinished() {
+        return elapsedTime >= ROUND_TIME;
     }
 }

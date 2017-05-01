@@ -7,6 +7,8 @@ import com.jme3.app.state.AppStateManager;
 import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioData;
 import com.jme3.audio.AudioNode;
+import com.jme3.font.BitmapFont;
+import com.jme3.font.BitmapText;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -23,13 +25,17 @@ import edu.chalmers.notenoughspace.model.Ship;
 import edu.chalmers.notenoughspace.ctrl.ShipControl;
 import edu.chalmers.notenoughspace.nodes.PlanetNode;
 import edu.chalmers.notenoughspace.nodes.ShipNode;
+import edu.chalmers.notenoughspace.util.StringFormatUtil;
 
 import static edu.chalmers.notenoughspace.model.Planet.*;
 
-public class Round extends AbstractAppState{
+public class Round extends AbstractAppState {
 
-    /** The distance from the shipNode to the planetNode's surface. */
+    /**
+     * The distance from the shipNode to the planetNode's surface.
+     */
     private final float SHIP_ALTITUDE = 1.8f;
+    private final int ROUND_TIME = 120; //seconds
 
     SimpleApplication app;
 
@@ -39,10 +45,15 @@ public class Round extends AbstractAppState{
     private DirectionalLight sunLight;
     private AmbientLight ambientLight;
     private AudioNode happy;
+    private BitmapText timeLeftText;
 
+    /**
+     * The total time the round has been active, in seconds.
+     */
+    private float elapsedTime;
     private ActionListener actionListener;
 
-    public Round(AssetManager assetManager, InputManager inputManager){
+    public Round(AssetManager assetManager, InputManager inputManager) {
 
         //ShipNode:
         shipNode = new ShipNode(new Ship(), assetManager);
@@ -62,11 +73,11 @@ public class Round extends AbstractAppState{
         sun.move(-20, 0, 10);
         sun.setLocalTranslation(-100, 0, 0);
         sun.rotate(0, 0, FastMath.HALF_PI); //It has an ugly line at the equator,
-                                            // that's why the rotation is currently needed...
+        // that's why the rotation is currently needed...
 
         //Sunlight:
         sunLight = new DirectionalLight();
-        sunLight.setDirection(new Vector3f(2,0,-1).normalizeLocal());
+        sunLight.setDirection(new Vector3f(2, 0, -1).normalizeLocal());
         sunLight.setColor(ColorRGBA.White);
 
         //AmbientLight:
@@ -85,7 +96,7 @@ public class Round extends AbstractAppState{
             public void onAction(String name, boolean value, float tpf) {
                 Round round = getMe();
                 if (name.equals("pause") && !value) {
-                    if(round.isEnabled())
+                    if (round.isEnabled())
                         round.setEnabled(false);
                     else
                         round.setEnabled(true);
@@ -102,7 +113,7 @@ public class Round extends AbstractAppState{
         };
     }
 
-    private Round getMe(){
+    private Round getMe() {
         return this;
     }
 
@@ -117,19 +128,22 @@ public class Round extends AbstractAppState{
 
         app.getRootNode().attachChild(planetNode);
         //Test population
-        planetNode.populate(10,10, 1);
+        planetNode.populate(10, 10, 1);
 
         app.getRootNode().attachChild(sun);
         app.getRootNode().addLight(sunLight);
         app.getRootNode().addLight(ambientLight);
         app.getRootNode().attachChild(happy);
 
-        app.getInputManager().addMapping("pause",  new KeyTrigger(KeyInput.KEY_P));
+        app.getInputManager().addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
         app.getInputManager().addListener(actionListener, "pause");
 
         //Adds option to change camera view:
-        app.getInputManager().addMapping("cameraMode",  new KeyTrigger(KeyInput.KEY_T));
+        app.getInputManager().addMapping("cameraMode", new KeyTrigger(KeyInput.KEY_T));
         app.getInputManager().addListener(actionListener, "cameraMode");
+
+        elapsedTime = 0;    //Init time.
+        initTimerText();
     }
 
     @Override
@@ -154,7 +168,7 @@ public class Round extends AbstractAppState{
     public void setEnabled(boolean enabled) {
         // Pause and unpause
         super.setEnabled(enabled);
-        if(enabled){
+        if (enabled) {
             //Restore control
             happy.play();
         } else {
@@ -167,6 +181,9 @@ public class Round extends AbstractAppState{
     @Override
     public void update(float tpf) {
         //Update cow controls? Tick time?
+        elapsedTime += tpf;
+        timeLeftText.setText("Time left: " +
+                StringFormatUtil.toTimeFormat(ROUND_TIME - elapsedTime));
     }
 
     //Helper method for getting the shipNode control.
@@ -174,4 +191,13 @@ public class Round extends AbstractAppState{
         return (ShipControl) shipNode.getControl(ShipControl.class);
     }
 
+    private void initTimerText() {
+        BitmapFont font = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
+        timeLeftText = new BitmapText(font);
+        timeLeftText.setSize(50);
+        timeLeftText.move(0,
+                app.getContext().getSettings().getHeight(),
+                0);
+        app.getGuiNode().attachChild(timeLeftText);
+    }
 }

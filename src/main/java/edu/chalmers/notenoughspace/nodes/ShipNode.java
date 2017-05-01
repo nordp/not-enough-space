@@ -96,6 +96,7 @@ public class ShipNode extends Node {
     }
 
     public void activateBeam(boolean value) {
+        ship.setBeamActive(value);  //Is this how we do it? (Setting both the model and the "real" beam.)
         beamNode.setActive(value);
     }
 }

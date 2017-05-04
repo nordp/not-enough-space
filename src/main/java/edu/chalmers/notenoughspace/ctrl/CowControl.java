@@ -27,7 +27,7 @@ public class CowControl extends AbstractControl {
         Vector3f shipPos = shipModel.getWorldTranslation();
         Vector3f cowPos = cowModel.getWorldTranslation();
 
-        cow.updateMood(shipPos.distance(cowPos));
+        cow.updateState(shipPos.distance(cowPos));
 
 
         switch (cow.getMood()){
@@ -39,7 +39,7 @@ public class CowControl extends AbstractControl {
                     cow.setWalkDir(FastMath.DEG_TO_RAD*(FastMath.rand.nextFloat()*MAX_DIR-MAX_DIR/2));
                 }
                 //Walk
-                spatial.rotate(SPEED*tpf,cow.getWalkDir(),0);
+                spatial.rotate(cow.getSpeed()*tpf,cow.getWalkDir(),0);
 
                 break;
 
@@ -56,8 +56,8 @@ public class CowControl extends AbstractControl {
                 Spatial left = ((Node)spatial.clone()).getChild(0);
                 Spatial right = ((Node)spatial.clone()).getChild(0);
 
-                left.getParent().rotate(SPEED*tpf,FastMath.DEG_TO_RAD*MAX_DIR,0);
-                right.getParent().rotate(SPEED*tpf,FastMath.DEG_TO_RAD*-MAX_DIR,0);
+                left.getParent().rotate(cow.getSpeed()*tpf,FastMath.DEG_TO_RAD*MAX_DIR,0);
+                right.getParent().rotate(cow.getSpeed()*tpf,FastMath.DEG_TO_RAD*-MAX_DIR,0);
 
                 float sprintDir;
                 if (left.getWorldTranslation().distance(shipModel.getWorldTranslation()) <
@@ -73,7 +73,7 @@ public class CowControl extends AbstractControl {
 
             case TIRED:
                 //Walk
-                spatial.rotate(SPEED/2*tpf,cow.getWalkDir()/2*tpf,0);
+                spatial.rotate(cow.getSpeed()/2*tpf,cow.getWalkDir()/2*tpf,0);
                 cow.reduceStamina();
                 break;
         }

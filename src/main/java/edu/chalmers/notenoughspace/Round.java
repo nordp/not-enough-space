@@ -48,7 +48,7 @@ public class Round extends AbstractAppState {
     /**
      * The total time the round has been active, in seconds.
      */
-    private float elapsedTime;
+    private CountDownTimer timer;
     private ActionListener actionListener;
 
     public Round(AssetManager assetManager, InputManager inputManager) {
@@ -144,7 +144,12 @@ public class Round extends AbstractAppState {
         app.getInputManager().addMapping("cameraMode", new KeyTrigger(KeyInput.KEY_T));
         app.getInputManager().addListener(actionListener, "cameraMode");
 
-        elapsedTime = 0;    //Init time.
+        timer = new CountDownTimer(ROUND_TIME) {
+            @Override
+            public void onTimeOut() {
+                returnToMenu();
+            }
+        };    //Init timer.
 
         //Init HUD
         hud = new HUDNode(app.getContext().getSettings().getHeight(), app.getContext().getSettings().getWidth());
@@ -199,17 +204,8 @@ public class Round extends AbstractAppState {
 
 
     private void updateTimer(float tpf) {
-        elapsedTime += tpf;
-        hud.updateTimer(ROUND_TIME - elapsedTime);
-
-        if (roundFinished()) {
-            returnToMenu();
-        }
-
-    }
-
-    private boolean roundFinished() {
-        return elapsedTime >= ROUND_TIME;
+        timer.tick(tpf);
+        hud.updateTimer(timer.getTimeLeft());
     }
 
     private void restartRound() {

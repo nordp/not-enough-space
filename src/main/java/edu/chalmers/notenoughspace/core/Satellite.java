@@ -4,25 +4,30 @@ package edu.chalmers.notenoughspace.core;
 import com.jme3.math.Vector3f;
 
 
-    public class Satellite {
+public class Satellite extends Spatial3D {
 
-        //public static final float SPEED = 1;
-        public static final float satelliteRadius = 1;     //what distance?!
-        private Vector3f worldLocation = new Vector3f();
-        private Ship ship;
+    //public static final float SPEED = 1;
+    public static final float satelliteRadius = 1;     //what distance?!
+    private Vector3f worldLocation = new Vector3f();
+    private Ship ship;
 
-        Satellite() {
-
-        }
-
-        /**
-         * @return the worldLocation
-         */
-        public Vector3f getWorldLocation() {
-            return worldLocation;
-        }
+    Satellite(Spatial3D parent) {
+        super(parent);
 
     }
+
+    public void update() {
+
+    }
+
+    /**
+     * @return the worldLocation
+     */
+    public Vector3f getWorldLocation() {
+        return worldLocation;
+    }
+
+}
 
     /**
      * make the satellite explode if the ship is closer than satelliteRadius

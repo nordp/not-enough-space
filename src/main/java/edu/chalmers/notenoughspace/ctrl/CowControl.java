@@ -15,8 +15,8 @@ import static edu.chalmers.notenoughspace.core.Cow.*;
 public class CowControl extends AbstractControl {
     private Cow cow;
 
-    public CowControl() {
-        this.cow = new Cow();
+    public CowControl(Cow cow) {
+        this.cow = cow;
     }
 
     @Override

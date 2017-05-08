@@ -13,7 +13,7 @@ import edu.chalmers.notenoughspace.ctrl.BeamControl;
 /**
  * Created by Vibergf on 03/04/2017.
  */
-public class BeamNode extends Node {
+class BeamNode extends Node {
 
     private BeamControl controller;
 

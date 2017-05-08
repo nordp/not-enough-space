@@ -18,28 +18,26 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
+import edu.chalmers.notenoughspace.core.Camera;
 import edu.chalmers.notenoughspace.core.Planet;
 import edu.chalmers.notenoughspace.core.Ship;
-import edu.chalmers.notenoughspace.ctrl.ShipControl;
-import edu.chalmers.notenoughspace.nodes.PlanetNode;
-import edu.chalmers.notenoughspace.nodes.ShipNode;
+import edu.chalmers.notenoughspace.ctrl.SpatialHandler;
 import edu.chalmers.notenoughspace.view.HUDNode;
-
-import static edu.chalmers.notenoughspace.core.Planet.*;
 
 public class Round extends AbstractAppState {
 
     /**
-     * The distance from the shipNode to the planetNode's surface.
+     * The distance from the ship to the planet's surface.
      */
     private final float SHIP_ALTITUDE = 1.8f;
     private final int ROUND_TIME = 120; //seconds
 
     SimpleApplication app;
 
-    private ShipNode shipNode;
-    private PlanetNode planetNode;
+    private Ship ship;
+    private Planet planet;
     private Geometry sun;
+    private Camera camera;
     private DirectionalLight sunLight;
     private AmbientLight ambientLight;
     private AudioNode happy;
@@ -51,16 +49,8 @@ public class Round extends AbstractAppState {
     private CountDownTimer timer;
     private ActionListener actionListener;
 
+
     public Round(AssetManager assetManager, InputManager inputManager) {
-
-        //ShipNode:
-        shipNode = new ShipNode(new Ship(), assetManager);
-        //Moved initialization of shipControl and beam to initialize(), otherwise
-        //the restart didn't work.
-
-        //PlanetNode:
-        planetNode = new PlanetNode(new Planet(), assetManager, shipNode);
-
         //Sun:
         Sphere sunMesh = new Sphere(100, 100, 10f);
         sunMesh.setTextureMode(Sphere.TextureMode.Projected);
@@ -97,14 +87,14 @@ public class Round extends AbstractAppState {
                     else
                         round.setEnabled(true);
                 }
-                if (name.equals("cameraMode") && !value) {
-                    if (getShipControl().hasThirdPersonViewAttached()) {
+                /*if (name.equals("cameraMode") && !value) {
+                    if (ship.getShipControl().hasThirdPersonViewAttached()) {
                         getShipControl().detachThirdPersonView();
                     } else {
                         getShipControl().attachThirdPersonView(
                                 app.getCamera(), PLANET_RADIUS, SHIP_ALTITUDE);
                     }
-                }
+                }*/
             }
         };
     }
@@ -118,19 +108,23 @@ public class Round extends AbstractAppState {
         super.initialize(stateManager, app);
         app = (SimpleApplication) application;
 
-        ShipControl shipControl = new ShipControl(app.getInputManager());
-        shipNode.addControl(shipControl);
-        shipControl.moveShipModelToStartPosition(PLANET_RADIUS, SHIP_ALTITUDE);
-        shipNode.initBeam(app.getAssetManager());
 
+        new SpatialHandler(app.getRootNode(), app.getInputManager());
 
-        getShipControl().attachThirdPersonView(app.getCamera(), PLANET_RADIUS, SHIP_ALTITUDE);
-        app.getRootNode().attachChild(shipNode);
-        app.getRootNode().addLight(shipNode.getSpotLight());
+        //ShipNode:
+        ship = new Ship(null);
+        //Moved initialization of shipControl and beam to initialize(), otherwise
+        //the restart didn't work.
 
-        app.getRootNode().attachChild(planetNode);
+        //PlanetNode:
+        planet = new Planet(null);
+
+        //app.getCamera();
+        camera = new Camera(ship);
+
+        //app.getRootNode().attachChild(planet);
         //Test population
-        planetNode.populate(10, 10, 1);
+        planet.populate(10, 10, 1);
 
         app.getRootNode().attachChild(sun);
         app.getRootNode().addLight(sunLight);
@@ -160,11 +154,11 @@ public class Round extends AbstractAppState {
     public void cleanup() {
         super.cleanup();
 
-        getShipControl().detachThirdPersonView();
-        app.getRootNode().detachChild(shipNode);
-        app.getRootNode().removeLight(shipNode.getSpotLight());
+        //getShipControl().detachThirdPersonView();
+        //app.getRootNode().detachChild(ship);
+        //app.getRootNode().removeLight(ship.getSpotLight());
 
-        app.getRootNode().detachChild(planetNode);
+        //app.getRootNode().detachChild(planet);
         app.getRootNode().detachChild(sun);
         app.getRootNode().removeLight(sunLight);
         app.getRootNode().removeLight(ambientLight);
@@ -197,10 +191,10 @@ public class Round extends AbstractAppState {
         updateTimer(tpf);
     }
 
-    //Helper method for getting the shipNode control.
-    private ShipControl getShipControl() {
-        return (ShipControl) shipNode.getControl(ShipControl.class);
-    }
+    //Helper method for getting the ship control.
+    /*private ShipControl getShipControl() {
+        return (ShipControl) ship.getControl(ShipControl.class);
+    }*/
 
 
     private void updateTimer(float tpf) {

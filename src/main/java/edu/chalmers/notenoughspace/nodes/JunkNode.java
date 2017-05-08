@@ -8,7 +8,7 @@ import com.jme3.scene.Spatial;
 /**
  * Created by juliaortheden on 2017-04-05.
  */
-public class JunkNode extends Node {
+class JunkNode extends Node {
 
     public JunkNode(){
 

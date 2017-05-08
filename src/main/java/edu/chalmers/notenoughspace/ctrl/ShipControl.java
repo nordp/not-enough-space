@@ -5,16 +5,14 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
-import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.nodes.ShipNode;
+import edu.chalmers.notenoughspace.core.Ship;
 
 /**
  * Control for a ship hovering around a planet. Includes functions
@@ -24,14 +22,16 @@ public class ShipControl extends AbstractControl {
     private final String THIRD_PERSON_CAMERA = "followShipCamera";
     private final float MAX_DISTANCE_TO_CAMERA = 3f;
     private boolean usingCameraDrag = true;
+    private Ship ship;
 
     /**
      * Node for the camera following the ship.
      */
     private Node followShipCameraPivotNode;
 
-    public ShipControl(InputManager inputManager) {
+    public ShipControl(InputManager inputManager, Ship ship) {
         initMovementKeys(inputManager);
+        this.ship = ship;
     }
 
     protected void controlUpdate(float v) {
@@ -41,23 +41,6 @@ public class ShipControl extends AbstractControl {
     protected void controlRender(RenderManager renderManager, ViewPort viewPort) {
 
     }
-
-    /**
-     * Moves the ship core from its original position at the center of the Ship node
-     * to it's correct starting position over the planet's surface.
-     *
-     * @param planetRadius The radius of the planet that the ship is hovering over.
-     * @param shipAltitude The ship's height above the planet's surface.
-     */
-    public void moveShipModelToStartPosition(float planetRadius, float shipAltitude) {
-        ShipNode shipNode = (ShipNode) spatial;
-        Spatial shipModel = shipNode.getChild("ship");
-        shipModel.move(0, planetRadius + shipAltitude, 0);
-
-        shipNode.rotate(FastMath.PI/2, 0, 0);   // Rotates the whole node and therefore
-        // also the ship core.
-    }
-
 
     /////////// CAMERA STUFF /////////////
 
@@ -73,14 +56,14 @@ public class ShipControl extends AbstractControl {
         followShipCamera.setLocalTranslation( 0
                 ,6f, -(planetRadius + shipAltitude + 8));
 
-        followShipCameraPivotNode = new Node();    //Helper node to set the default position
+        /*followShipCameraPivotNode = new Node();    //Helper node to set the default position
         //of the camera.
         followShipCameraPivotNode.attachChild(followShipCamera);
-        followShipCameraPivotNode.rotate(FastMath.HALF_PI + -35/*originally 43*/*FastMath.DEG_TO_RAD,
-                FastMath.PI, 0);
+        followShipCameraPivotNode.rotate(FastMath.HALF_PI + -35*FastMath.DEG_TO_RAD,
+                FastMath.PI, 0); //originally 43
 
         //PRESS C TO GET CAMERA INFO FOR SETTING CHASECAM!
-        ((ShipNode) spatial).attachChild(followShipCameraPivotNode);
+        ((ShipNode) spatial).attachChild(followShipCameraPivotNode);*/
 
         if (usingCameraDrag) {
             setupDraggingCamera(followShipCamera);
@@ -92,7 +75,7 @@ public class ShipControl extends AbstractControl {
         //Calculates the boundaries for how far from the cameras focal point the
         //ship can move without the camera following it.
         Vector3f camPos = followShipCamera.getWorldTranslation();
-        Vector3f shipPos = getShip().getWorldTranslation();
+        Vector3f shipPos = new Vector3f(ship.getTranslation().x, ship.getTranslation().y, ship.getTranslation().z);
         Vector3f camToShip = shipPos.subtract(camPos);
 
         Vector3f realRightVector = camToShip.cross(shipPos).normalize().normalizeLocal();
@@ -139,7 +122,7 @@ public class ShipControl extends AbstractControl {
      * Removes the ship's third person camera (if attached) which restores
      * the camera to the original one.
      */
-    public void detachThirdPersonView() {
+    /*public void detachThirdPersonView() {
         ShipNode ship = (ShipNode) spatial;
         if (ship.getChild(THIRD_PERSON_CAMERA) != null) {
             CameraNode followShipCamera = (CameraNode) ship.getChild(THIRD_PERSON_CAMERA);
@@ -157,7 +140,7 @@ public class ShipControl extends AbstractControl {
                     new Vector3f(0, 1f, 0), // Up
                     new Vector3f(0, 0, -1f)); // Direction
         }
-    }
+    }*/
 
     public boolean hasThirdPersonViewAttached() {
         Node shipPivotNode = (Node) spatial;
@@ -198,27 +181,27 @@ public class ShipControl extends AbstractControl {
 
             if (name.equals("forwards")) {
                 spatial.rotate(-1 * tpf, 0, 0);
-                if (usingCameraDrag && distanceToCameraBoundary("backwardPoint") < MAX_DISTANCE_TO_CAMERA) {
+                /*if (usingCameraDrag && distanceToCameraBoundary("backwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(-drag * tpf, 0, 0);
-                }
+                }*/
             }
             if (name.equals("left")) {
                 spatial.rotate(0, 0, 1*tpf);
-                if (usingCameraDrag && distanceToCameraBoundary("rightPoint") < MAX_DISTANCE_TO_CAMERA) {
+                /*if (usingCameraDrag && distanceToCameraBoundary("rightPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(0, 0, drag * tpf);
-                }
+                }*/
             }
             if (name.equals("right")) {
                 spatial.rotate(0, 0, -1*tpf);
-                if (usingCameraDrag && distanceToCameraBoundary("leftPoint") < MAX_DISTANCE_TO_CAMERA) {
+                /*if (usingCameraDrag && distanceToCameraBoundary("leftPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(0, 0, -drag * tpf);
-                }
+                }*/
             }
             if (name.equals("backwards")) {
                 spatial.rotate(1*tpf, 0, 0);
-                if (usingCameraDrag && distanceToCameraBoundary("forwardPoint") < MAX_DISTANCE_TO_CAMERA) {
+                /*if (usingCameraDrag && distanceToCameraBoundary("forwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(drag * tpf, 0, 0);
-                }
+                }*/
             }
             if (name.equals("rotateLeft")) {
                 spatial.rotate(0, 2*tpf, 0);
@@ -227,23 +210,23 @@ public class ShipControl extends AbstractControl {
                 spatial.rotate(0, -2*tpf, 0);
             }
 
-            ShipNode ship = (ShipNode) spatial;
+            /*ShipNode ship = (ShipNode) spatial;
             //Adjust the spotLight so that it always follows the ship.
             if (ship.getSpotLight() != null) {
-                ship.getSpotLight().setPosition(ship.getChild("ship").getWorldTranslation());
-                ship.getSpotLight().setDirection(ship.getChild("ship").getWorldTranslation().mult(-1));
-            }
+                ship.getSpotLight().setPosition(ship.getChild("ship").getTranslation());
+                ship.getSpotLight().setDirection(ship.getChild("ship").getTranslation().mult(-1));
+            }*/
 
 
         }
     };
 
-    private float distanceToCameraBoundary(String boundaryName) {
-        Vector3f shipPos = getShip().getWorldTranslation();
-        Vector3f boundaryPos = followShipCameraPivotNode.getChild(boundaryName).getWorldTranslation();
+    /*private float distanceToCameraBoundary(String boundaryName) {
+        Vector3f shipPos = ship.getTranslation();
+        Vector3f boundaryPos = followShipCameraPivotNode.getChild(boundaryName).getTranslation();
 
         return shipPos.distance(boundaryPos);
-    }
+    }*/
 
     /**
      * The listener controlling user input for activating the beam.
@@ -252,15 +235,15 @@ public class ShipControl extends AbstractControl {
 
         public void onAction(String name, boolean value, float tpf) {
             if(name.equals("beam")) {
-                ((ShipNode) spatial).activateBeam(value);
+                ship.setBeamActive(value);
             }
         }
     };
 
     /**Helper method for easy access to the ship core.*/
-    private Spatial getShip() {
+    /*private Spatial getShip() {
         return (Spatial) ((ShipNode) spatial).getChild("ship");
-    }
+    }*/
 
 
 }

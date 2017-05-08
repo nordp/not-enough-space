@@ -11,7 +11,7 @@ import edu.chalmers.notenoughspace.core.Planet;
 /**
  * Created by Phnor on 2017-04-04.
  */
-public class NodeFactory {
+class NodeFactory {
     private IModelLoader modelLoader;
 
     public NodeFactory(){
@@ -24,7 +24,7 @@ public class NodeFactory {
         Spatial cowModel = modelLoader.loadModel("cow");
         cowModel.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
         cow.attachChild(cowModel);
-        cow.addControl(new CowControl());
+        cow.addControl(new CowControl(null));
 
         return cow;
     }

@@ -11,7 +11,7 @@ import edu.chalmers.notenoughspace.core.Ship;
  * The ShipNode object itself is a node (functioning as a pivot node) containing a
  * visual space ship core.
  */
-public class ShipNode extends Node {
+class ShipNode extends Node {
 
     /** The ship's private spot light, lighting up the surface beneath it. */
     private SpotLight spotLight;
@@ -34,7 +34,7 @@ public class ShipNode extends Node {
 
         createShip3DModel(assetManager);
 
-        initSpotLight();    //TODO: Move somewhere else as well (to the control?).
+        //initSpotLight();    //TODO: Move somewhere else as well (to the control?).
     }
 
     /**
@@ -61,15 +61,7 @@ public class ShipNode extends Node {
      * the ship (which is currently done in the inputManager when the
      * player moves the ship).
      */
-    private void initSpotLight() {
-        spotLight = new SpotLight();
-        spotLight.setSpotRange(10);
-        spotLight.setSpotOuterAngle(45 * FastMath.DEG_TO_RAD);
-        spotLight.setSpotInnerAngle(5 * FastMath.DEG_TO_RAD);
-        spotLight.setPosition(this.getChild("ship").getWorldTranslation());
-        spotLight.setDirection(this.getChild("ship").getWorldTranslation().mult(-1));
-        spotLight.setName("shipSpotLight");
-    }
+
 
     /** Returns the ship's spotlight. */
     public SpotLight getSpotLight() {
@@ -81,12 +73,15 @@ public class ShipNode extends Node {
      * TODO: This should also be moved, but probably after we move the key input.
      * @param assetManager
      */
+
+    //MOVED
+    /*
     public void initBeam(AssetManager assetManager) {
         beamNode = new BeamNode(ship, assetManager);
         beamNode.setLocalTranslation(beamNode.getLocalTranslation().add(this.getChild("ship").getLocalTranslation()));
         beamNode.setName("beamNode");
         this.attachChild(beamNode);
-    }
+    }*/
 
     public void activateBeam(boolean value) {
         beamNode.setActive(value);

@@ -1,5 +1,8 @@
 package edu.chalmers.notenoughspace.core;
 
+import edu.chalmers.notenoughspace.event.AttachedEvent;
+import edu.chalmers.notenoughspace.event.Bus;
+
 import javax.media.j3d.Transform3D;
 import javax.vecmath.Vector3f;
 import java.util.ArrayList;
@@ -9,30 +12,36 @@ import java.util.ArrayList;
  */
 public abstract class Spatial3D {
 
-    private Transform3D localTranslation;
-    private Transform3D worldTranslation;
+    private Transform3D transformation;
+    private Vector3f translation;
 
-    private ArrayList<Spatial3D> children;
+    protected ArrayList<Spatial3D> children;
 
     public Spatial3D(Spatial3D parent){
-        localTranslation = new Transform3D();
-        worldTranslation = new Transform3D();
+        transformation = new Transform3D();
+        transformation = new Transform3D();
         children = new ArrayList<Spatial3D>();
+
+        Bus.getInstance().post(new AttachedEvent(parent, this, true));
     }
 
-//    public Transform3D getWorldTranslation() {
-//        return position;
-//    }
-//
+    public Vector3f getTranslation() {
+        return translation;
+    }
+
 //    public void setPosition(Vector3f position) {
 //        this.position = position;
 //    }
 
     public void attachChild(Spatial3D child){
         children.add(child);
+        Bus.getInstance().post(new AttachedEvent(this, child, true));
     }
 
     public void detachChild(Spatial3D child){
         children.remove(child);
+        Bus.getInstance().post(new AttachedEvent(this, child, false));
     }
+
+    public abstract void update();
 }

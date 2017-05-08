@@ -2,7 +2,11 @@ package edu.chalmers.notenoughspace.assets;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.math.FastMath;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
+import com.jme3.scene.shape.Sphere;
+import com.jme3.util.TangentBinormalGenerator;
+import edu.chalmers.notenoughspace.core.Planet;
 
 
 class ModelManager implements IModelLoader {
@@ -29,6 +33,14 @@ class ModelManager implements IModelLoader {
         } else if (modelId.equals("ship")){
             model = assetManager.loadModel("Models/ufo.obj");
             model.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));
+        } else if (modelId.equals("planet")){
+            Sphere shape = new Sphere(100, 100, Planet.PLANET_RADIUS);
+            shape.setTextureMode(Sphere.TextureMode.Projected);
+            TangentBinormalGenerator.generate(shape);
+            Geometry geom = new Geometry("planet", shape);
+            geom.setMesh(shape);
+            geom.setMaterial(assetManager.loadMaterial("Materials/PlanetMaterial.j3m"));
+            model = geom;
         } else {
             return null;
         }

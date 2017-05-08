@@ -6,7 +6,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.nodes.SatelliteNode;
 
 /**
  * Created by juliaortheden on 2017-04-26.

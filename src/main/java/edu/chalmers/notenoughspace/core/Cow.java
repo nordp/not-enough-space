@@ -2,7 +2,7 @@ package edu.chalmers.notenoughspace.core;
 
 import com.jme3.math.FastMath;
 
-public class Cow {
+public class Cow extends Spatial3D{
 
     public final static float REACTION_DISTANCE = 3f;
     public static final float SPRINT_SPEED = 0.3f;
@@ -22,9 +22,14 @@ public class Cow {
     private int stamina;
     private CowMood mood;
 
-    public Cow(){
+    public Cow(Spatial3D parent){
+        super(parent);
         mood = CowMood.CALM;
         stamina = MAX_STAMINA;
+    }
+
+    public void update() {
+
     }
 
     public void reduceStamina(){

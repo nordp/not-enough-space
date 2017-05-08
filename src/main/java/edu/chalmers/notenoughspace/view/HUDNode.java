@@ -4,7 +4,7 @@ import com.jme3.font.BitmapFont;
 import com.jme3.font.BitmapText;
 import com.jme3.scene.Node;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
-import edu.chalmers.notenoughspace.model.Storage;
+import edu.chalmers.notenoughspace.core.Storage;
 import edu.chalmers.notenoughspace.util.StringFormatUtil;
 
 /**

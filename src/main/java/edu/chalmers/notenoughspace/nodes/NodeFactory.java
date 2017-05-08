@@ -1,19 +1,12 @@
 package edu.chalmers.notenoughspace.nodes;
 
-import com.jme3.asset.AssetManager;
-import com.jme3.math.FastMath;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import edu.chalmers.notenoughspace.assets.IModelLoader;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.ctrl.SatelliteControl;
-import edu.chalmers.notenoughspace.model.Cow;
 import edu.chalmers.notenoughspace.ctrl.CowControl;
-import edu.chalmers.notenoughspace.model.Planet;
-import edu.chalmers.notenoughspace.nodes.JunkNode;
-import edu.chalmers.notenoughspace.nodes.SatelliteNode;
-import edu.chalmers.notenoughspace.nodes.ShipNode;
+import edu.chalmers.notenoughspace.core.Planet;
 
 /**
  * Created by Phnor on 2017-04-04.
@@ -26,7 +19,7 @@ public class NodeFactory {
     }
 
     public Spatial createCow(){
-        //Spatial for model. "this"-node located in center of planet still.
+        //Spatial for core. "this"-node located in center of planet still.
         Node cow = new Node();
         Spatial cowModel = modelLoader.loadModel("cow");
         cowModel.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);

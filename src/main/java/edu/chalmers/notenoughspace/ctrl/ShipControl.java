@@ -43,7 +43,7 @@ public class ShipControl extends AbstractControl {
     }
 
     /**
-     * Moves the ship model from its original position at the center of the Ship node
+     * Moves the ship core from its original position at the center of the Ship node
      * to it's correct starting position over the planet's surface.
      *
      * @param planetRadius The radius of the planet that the ship is hovering over.
@@ -55,7 +55,7 @@ public class ShipControl extends AbstractControl {
         shipModel.move(0, planetRadius + shipAltitude, 0);
 
         shipNode.rotate(FastMath.PI/2, 0, 0);   // Rotates the whole node and therefore
-        // also the ship model.
+        // also the ship core.
     }
 
 
@@ -257,7 +257,7 @@ public class ShipControl extends AbstractControl {
         }
     };
 
-    /**Helper method for easy access to the ship model.*/
+    /**Helper method for easy access to the ship core.*/
     private Spatial getShip() {
         return (Spatial) ((ShipNode) spatial).getChild("ship");
     }

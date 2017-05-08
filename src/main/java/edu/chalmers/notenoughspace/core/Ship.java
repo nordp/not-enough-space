@@ -1,6 +1,4 @@
-package edu.chalmers.notenoughspace.model;
-
-import com.jme3.math.Vector3f;
+package edu.chalmers.notenoughspace.core;
 
 /**
  * Created by Vibergf on 25/04/2017.
@@ -9,7 +7,6 @@ public class Ship {
 
     public static final float SPEED = 1;
     public static final float ROTATION_SPEED = 2;
-    private Vector3f worldLocation = new Vector3f();
 
     private int energy;
     private boolean beamActive;
@@ -25,11 +22,5 @@ public class Ship {
 
     public void setBeamActive(boolean beamActive) {
         this.beamActive = beamActive;
-    }
-    /**
-     * @return the worldLocation
-     */
-    public Vector3f getWorldLocation() {
-        return worldLocation;
     }
 }

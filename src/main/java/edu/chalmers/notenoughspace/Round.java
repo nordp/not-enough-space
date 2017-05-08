@@ -18,14 +18,14 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
-import edu.chalmers.notenoughspace.model.Planet;
-import edu.chalmers.notenoughspace.model.Ship;
+import edu.chalmers.notenoughspace.core.Planet;
+import edu.chalmers.notenoughspace.core.Ship;
 import edu.chalmers.notenoughspace.ctrl.ShipControl;
 import edu.chalmers.notenoughspace.nodes.PlanetNode;
 import edu.chalmers.notenoughspace.nodes.ShipNode;
 import edu.chalmers.notenoughspace.view.HUDNode;
 
-import static edu.chalmers.notenoughspace.model.Planet.*;
+import static edu.chalmers.notenoughspace.core.Planet.*;
 
 public class Round extends AbstractAppState {
 

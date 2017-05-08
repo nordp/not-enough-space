@@ -7,7 +7,7 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import edu.chalmers.notenoughspace.model.Ship;
+import edu.chalmers.notenoughspace.core.Ship;
 import edu.chalmers.notenoughspace.ctrl.BeamControl;
 
 /**

@@ -1,7 +1,6 @@
-package edu.chalmers.notenoughspace.model;
+package edu.chalmers.notenoughspace.core;
 
 
-import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 
 
@@ -23,12 +22,6 @@ import com.jme3.math.Vector3f;
             return worldLocation;
         }
 
-        /**
-         * @return the distance between the satellite's vector and the ship's vector
-         */
-        public float getDistance() {
-            return getWorldLocation().distance(ship.getWorldLocation());
-        }
     }
 
     /**

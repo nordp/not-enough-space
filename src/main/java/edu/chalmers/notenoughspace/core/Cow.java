@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.model;
+package edu.chalmers.notenoughspace.core;
 
 import com.jme3.math.FastMath;
 

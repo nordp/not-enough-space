@@ -7,11 +7,10 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.model.Cow;
-import edu.chalmers.notenoughspace.nodes.ShipNode;
+import edu.chalmers.notenoughspace.core.Cow;
 import edu.chalmers.notenoughspace.util.NodeUtil;
 
-import static edu.chalmers.notenoughspace.model.Cow.*;
+import static edu.chalmers.notenoughspace.core.Cow.*;
 
 public class CowControl extends AbstractControl {
     private Cow cow;

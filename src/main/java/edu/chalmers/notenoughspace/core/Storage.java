@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.model;
+package edu.chalmers.notenoughspace.core;
 
 import edu.chalmers.notenoughspace.nodes.Beamable;
 

@@ -3,4 +3,6 @@ OpenAL64.dll
 lwjgl64.dll
 *.iml
 target/
-.DS_Store 
+.DS_Store
+inspector/
+*.html

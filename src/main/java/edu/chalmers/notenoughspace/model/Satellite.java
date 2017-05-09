@@ -1,52 +1,45 @@
 package edu.chalmers.notenoughspace.model;
 
 
-import com.jme3.math.FastMath;
-import com.jme3.math.Vector3f;
+public class Satellite {
 
-
-    public class Satellite {
-
-        //public static final float SPEED = 1;
-        public static final float satelliteRadius = 1;     //what distance?!
-        private Vector3f worldLocation = new Vector3f();
+        public final static float SATELLITE_RADIUS = 1;     //what distance?!
         private Ship ship;
 
-        Satellite() {
 
-        }
+
 
         /**
-         * @return the worldLocation
+         * @return the position of the spatial
          */
-        public Vector3f getWorldLocation() {
-            return worldLocation;
-        }
+        //public Vector3f getPosition() { return satelliteControl.getSatellite().getWorldTranslation(); }
 
         /**
          * @return the distance between the satellite's vector and the ship's vector
          */
-        public float getDistance() {
-            return getWorldLocation().distance(ship.getWorldLocation());
-        }
-    }
+        /*public float getDistanceToShip() {
+            return getPosition().distance(ship.getPosition());
+        }*/
 
-    /**
-     * make the satellite explode if the ship is closer than satelliteRadius
-     */
-   /* public void explode(){
-        if(getDistance()<= satelliteRadius) {
-            Sphere sphere = new Sphere();
-            app.getRootNode().attachChild();
-            sphere.setMaterial(ModelManager.loadMaterial("sun"));
-            sphere.move(-20, 0, 10);
-            sphere.setLocalTranslation(-100, 0, 0);
-            sphere.rotate(0, 0, FastMath.HALF_PI);
+        /**
+         * make the satellite explode if the ship is closer than satelliteRadius
+         */
+        public void explode() {
 
-        }
+            //app.getRootNode().detachChild(satelliteNode);
+
+            //implement some explode animation, growing sun?
+            /*Spatial sun = nodeFactory.createSun().scale(0.2f, 0.2f, 0.2f);
+            satelliteNode.attachChild(sun);
+            */
+
 
         }
-    }
+
+        public void explodeWhenCollision(float distanceToShip){
+            while(distanceToShip <= SATELLITE_RADIUS){
+
+            }
+         }
 
 }
- */

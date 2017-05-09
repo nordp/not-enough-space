@@ -9,12 +9,11 @@ public class Ship {
 
     public static final float SPEED = 1;
     public static final float ROTATION_SPEED = 2;
-    private Vector3f worldLocation = new Vector3f();
 
     private int energy;
     private boolean beamActive;
 
-    public Ship(){
+    public Ship() {
         energy = 100;
         beamActive = false;
     }
@@ -25,11 +24,5 @@ public class Ship {
 
     public void setBeamActive(boolean beamActive) {
         this.beamActive = beamActive;
-    }
-    /**
-     * @return the worldLocation
-     */
-    public Vector3f getWorldLocation() {
-        return worldLocation;
     }
 }

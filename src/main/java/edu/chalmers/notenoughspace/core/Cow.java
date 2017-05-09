@@ -1,6 +1,8 @@
 package edu.chalmers.notenoughspace.core;
 
 import com.jme3.math.FastMath;
+import edu.chalmers.notenoughspace.event.AttachedEvent;
+import edu.chalmers.notenoughspace.event.Bus;
 
 public class Cow extends Spatial3D{
 
@@ -26,6 +28,10 @@ public class Cow extends Spatial3D{
         super(parent);
         mood = CowMood.CALM;
         stamina = MAX_STAMINA;
+    }
+
+    protected void fireEvent(Spatial3D parent) {
+        Bus.getInstance().post(new AttachedEvent(parent, this, true));
     }
 
     public void update() {

@@ -14,5 +14,6 @@ public class AttachedEvent {
         this.parent = parent;
         this.child = child;
         this.attached = attached;
+        System.out.println("Event fired");
     }
 }

@@ -14,6 +14,10 @@ public class Planet extends Spatial3D{
         super(parent);
     }
 
+    protected void fireEvent(Spatial3D parent) {
+        Bus.getInstance().post(new AttachedEvent(parent, this, true));
+    }
+
     public void update() {
 
     }

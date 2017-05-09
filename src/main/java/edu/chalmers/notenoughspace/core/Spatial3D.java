@@ -19,11 +19,12 @@ public abstract class Spatial3D {
 
     public Spatial3D(Spatial3D parent){
         transformation = new Transform3D();
-        transformation = new Transform3D();
+        translation = new Vector3f();
         children = new ArrayList<Spatial3D>();
-
-        Bus.getInstance().post(new AttachedEvent(parent, this, true));
+        fireEvent(parent);
     }
+
+    protected abstract void fireEvent(Spatial3D parent);
 
     public Vector3f getTranslation() {
         return translation;

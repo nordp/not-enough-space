@@ -1,5 +1,8 @@
 package edu.chalmers.notenoughspace.core;
 
+import edu.chalmers.notenoughspace.event.AttachedEvent;
+import edu.chalmers.notenoughspace.event.Bus;
+
 /**
  * Created by Vibergf on 25/04/2017.
  */
@@ -20,6 +23,10 @@ public class Ship extends Spatial3D {
         //beamNode.setLocalTranslation(beamNode.getLocalTranslation().add(this.getChild("ship").getLocalTranslation()));
     }
 
+    protected void fireEvent(Spatial3D parent) {
+        Bus.getInstance().post(new AttachedEvent(parent, this, true));
+    }
+
     public void update() {
 
     }
@@ -37,6 +44,10 @@ public class Ship extends Spatial3D {
 
         public Beam(Spatial3D parent) {
             super(parent);
+        }
+
+        protected void fireEvent(Spatial3D parent) {
+            Bus.getInstance().post(new AttachedEvent(parent, this, true));
         }
 
         public void update() {

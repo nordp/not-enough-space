@@ -2,6 +2,8 @@ package edu.chalmers.notenoughspace.core;
 
 
 import com.jme3.math.Vector3f;
+import edu.chalmers.notenoughspace.event.AttachedEvent;
+import edu.chalmers.notenoughspace.event.Bus;
 
 
 public class Satellite extends Spatial3D {
@@ -14,6 +16,10 @@ public class Satellite extends Spatial3D {
     Satellite(Spatial3D parent) {
         super(parent);
 
+    }
+
+    protected void fireEvent(Spatial3D parent) {
+        Bus.getInstance().post(new AttachedEvent(parent, this, true));
     }
 
     public void update() {

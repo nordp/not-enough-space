@@ -21,7 +21,7 @@ public class CowControl extends AbstractControl {
 
     @Override
     protected void controlUpdate(float tpf) {
-        Spatial shipModel = NodeUtil.getRoot(spatial).getChild("ship");
+        /*Spatial shipModel = NodeUtil.getRoot(spatial).getChild("ship");
         Spatial cowModel = ((Node) spatial).getChild(0);
         Vector3f shipPos = shipModel.getWorldTranslation();
         Vector3f cowPos = cowModel.getWorldTranslation();
@@ -47,8 +47,8 @@ public class CowControl extends AbstractControl {
                 Vector3f projectionVector = distanceVector.project(cowPos);
                 Vector3f newZAxis = distanceVector.subtract(projectionVector).negate();
                 spatial.lookAt(newZAxis, cowPos);
-                spatial.rotate((FastMath.DEG_TO_RAD*-60),0,0);
-                */
+                //spatial.rotate((FastMath.DEG_TO_RAD*-60),0,0);
+
 
 
                 //Turn left or right?
@@ -76,6 +76,7 @@ public class CowControl extends AbstractControl {
                 cow.reduceStamina();
                 break;
         }
+        */
     }
 
     @Override

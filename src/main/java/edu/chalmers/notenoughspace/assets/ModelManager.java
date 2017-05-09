@@ -2,7 +2,9 @@ package edu.chalmers.notenoughspace.assets;
 
 import com.jme3.asset.AssetManager;
 import com.jme3.math.FastMath;
+import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
+import javafx.scene.shape.Sphere;
 
 
 class ModelManager implements IModelLoader {
@@ -27,8 +29,13 @@ class ModelManager implements IModelLoader {
             model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
             model.rotate(FastMath.PI + FastMath.HALF_PI, FastMath.PI, 0);
         } else if (modelId.equals("ship")){
-            model = assetManager.loadModel("Models/ufo.obj");
-            model.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));
+                model = assetManager.loadModel("Models/ufo.obj");
+                model.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));
+        } else if (modelId.equals("sun")) {
+            com.jme3.scene.shape.Sphere sunMesh = new com.jme3.scene.shape.Sphere(100, 100, 10f);
+            sunMesh.setTextureMode(com.jme3.scene.shape.Sphere.TextureMode.Projected);
+            model = new Geometry("sun", sunMesh);
+            model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
         } else {
             return null;
         }

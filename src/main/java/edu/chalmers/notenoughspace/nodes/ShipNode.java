@@ -83,7 +83,9 @@ class ShipNode extends Node {
         this.attachChild(beamNode);
     }*/
 
-    public void activateBeam(boolean value) {
+    //MOVED
+    /*public void activateBeam(boolean value) {
         beamNode.setActive(value);
-    }
+    }*/
+
 }

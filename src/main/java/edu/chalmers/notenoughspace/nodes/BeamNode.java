@@ -8,14 +8,13 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import edu.chalmers.notenoughspace.core.Ship;
-import edu.chalmers.notenoughspace.ctrl.BeamControl;
 
 /**
  * Created by Vibergf on 03/04/2017.
  */
 class BeamNode extends Node {
 
-    private BeamControl controller;
+    /*private BeamControl controller;
 
     private Ship ship;
 
@@ -51,5 +50,5 @@ class BeamNode extends Node {
             setCullHint(CullHint.Always);
             removeControl(controller);
         }
-    }
+    }*/
 }

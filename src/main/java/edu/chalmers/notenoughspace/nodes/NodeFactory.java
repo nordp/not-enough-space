@@ -4,8 +4,6 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import edu.chalmers.notenoughspace.assets.IModelLoader;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
-import edu.chalmers.notenoughspace.ctrl.SatelliteControl;
-import edu.chalmers.notenoughspace.ctrl.CowControl;
 import edu.chalmers.notenoughspace.core.Planet;
 
 /**
@@ -18,7 +16,7 @@ class NodeFactory {
         this.modelLoader = ModelLoaderFactory.getModelLoader();
     }
 
-    public Spatial createCow(){
+    /*public Spatial createCow(){
         //Spatial for core. "this"-node located in center of planet still.
         Node cow = new Node();
         Spatial cowModel = modelLoader.loadModel("cow");
@@ -52,7 +50,7 @@ class NodeFactory {
         satelliteNode.addControl(new SatelliteControl());
 
         return satelliteNode;
-    }
+    }*/
 
     //public Spatial createPlanet(){} TODO
 

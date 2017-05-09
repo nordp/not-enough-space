@@ -11,6 +11,7 @@ import edu.chalmers.notenoughspace.core.Planet;
 import static edu.chalmers.notenoughspace.core.Planet.*;
 
 class PlanetNode extends Node {
+    /*
     private AssetManager assetManager;
     private NodeFactory nodeFactory;
 
@@ -52,4 +53,5 @@ class PlanetNode extends Node {
         }
 
     }
+    */
 }

@@ -10,39 +10,13 @@ import java.util.ArrayList;
 /**
  * Created by Vibergf on 08/05/2017.
  */
-public abstract class Spatial3D {
+public interface Spatial3D {
 
-    private Transform3D transformation;
-    private Vector3f translation;
-
-    protected ArrayList<Spatial3D> children;
-
-    public Spatial3D(Spatial3D parent){
-        transformation = new Transform3D();
-        translation = new Vector3f();
-        children = new ArrayList<Spatial3D>();
-        fireEvent(parent);
-    }
-
-    protected abstract void fireEvent(Spatial3D parent);
-
-    public Vector3f getTranslation() {
-        return translation;
-    }
-
-//    public void setPosition(Vector3f position) {
-//        this.position = position;
+//    public Spatial3D(Spatial3D parent){
+//        fireEvent(parent);
 //    }
 
-    public void attachChild(Spatial3D child){
-        children.add(child);
-        Bus.getInstance().post(new AttachedEvent(this, child, true));
-    }
+    void fireEvent(Spatial3D parent);
 
-    public void detachChild(Spatial3D child){
-        children.remove(child);
-        Bus.getInstance().post(new AttachedEvent(this, child, false));
-    }
-
-    public abstract void update();
+//    void update();
 }

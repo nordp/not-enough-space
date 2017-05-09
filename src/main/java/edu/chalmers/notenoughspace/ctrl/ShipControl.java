@@ -75,7 +75,7 @@ public class ShipControl extends AbstractControl {
         //Calculates the boundaries for how far from the cameras focal point the
         //ship can move without the camera following it.
         Vector3f camPos = followShipCamera.getWorldTranslation();
-        Vector3f shipPos = new Vector3f(ship.getTranslation().x, ship.getTranslation().y, ship.getTranslation().z);
+        Vector3f shipPos = spatial.getWorldTranslation();
         Vector3f camToShip = shipPos.subtract(camPos);
 
         Vector3f realRightVector = camToShip.cross(shipPos).normalize().normalizeLocal();

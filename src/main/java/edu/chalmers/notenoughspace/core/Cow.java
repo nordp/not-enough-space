@@ -4,7 +4,9 @@ import com.jme3.math.FastMath;
 import edu.chalmers.notenoughspace.event.AttachedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
-public class Cow extends Spatial3D{
+import javax.vecmath.Vector3f;
+
+public class Cow implements Spatial3D, Beamable{
 
     public final static float REACTION_DISTANCE = 3f;
     public static final float SPRINT_SPEED = 0.3f;
@@ -19,23 +21,27 @@ public class Cow extends Spatial3D{
      */
     public static final int CHANGE_SPEED_CHANCE = 2;
 
-    private float walkDir;
+    private Vector3f direction;
     private float speed;
     private int stamina;
     private CowMood mood;
+    private BeamState beamState;
 
     public Cow(Spatial3D parent){
-        super(parent);
+//        super(parent);
         mood = CowMood.CALM;
+        beamState = BeamState.NOT_IN_BEAM;
         stamina = MAX_STAMINA;
     }
 
-    protected void fireEvent(Spatial3D parent) {
+    public void fireEvent(Spatial3D parent) {
         Bus.getInstance().post(new AttachedEvent(parent, this, true));
     }
 
-    public void update() {
-
+    public void update(Vector3f position, Vector3f shipPosition) {
+//        updateMood(distance);
+//        updateSpeed();
+//        updateDirection?
     }
 
     public void reduceStamina(){
@@ -46,21 +52,16 @@ public class Cow extends Spatial3D{
         return this.mood;
     }
 
-    public float getWalkDir() {
-        return walkDir;
+    public Vector3f getDirection() {
+        return direction;
     }
 
     public float getSpeed() {
         return speed;
     }
 
-    public void setWalkDir(float walkDir) {
-        this.walkDir = walkDir;
-    }
-
-    public void updateState(float distance) {
-        updateMood(distance);
-        updateSpeed();
+    public void setDirection(Vector3f direction) {
+        this.direction = direction;
     }
 
     private void updateSpeed() {
@@ -83,4 +84,15 @@ public class Cow extends Spatial3D{
         }
     }
 
+    public BeamState isInBeam() {
+        return beamState;
+    }
+
+    public void setInBeam(BeamState beamState){
+        this.beamState = beamState;
+    }
+
+    public int getWeight() {
+        return 1;
+    }
 }

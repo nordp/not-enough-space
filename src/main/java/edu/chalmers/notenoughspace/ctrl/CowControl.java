@@ -35,10 +35,10 @@ public class CowControl extends AbstractControl {
                 //Change walkDir twice in 100.
                 float rand = FastMath.rand.nextFloat();
                 if (rand*100 < 2) {
-                    cow.setWalkDir(FastMath.DEG_TO_RAD*(FastMath.rand.nextFloat()*MAX_DIR-MAX_DIR/2));
+                    cow.setDirection(FastMath.DEG_TO_RAD*(FastMath.rand.nextFloat()*MAX_DIR-MAX_DIR/2));
                 }
                 //Walk
-                spatial.rotate(cow.getSpeed()*tpf,cow.getWalkDir(),0);
+                spatial.rotate(cow.getSpeed()*tpf,cow.getDirection(),0);
 
                 break;
 
@@ -72,7 +72,7 @@ public class CowControl extends AbstractControl {
 
             case TIRED:
                 //Walk
-                spatial.rotate(cow.getSpeed()/2*tpf,cow.getWalkDir()/2*tpf,0);
+                spatial.rotate(cow.getSpeed()/2*tpf,cow.getDirection()/2*tpf,0);
                 cow.reduceStamina();
                 break;
         }

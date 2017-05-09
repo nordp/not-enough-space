@@ -3,18 +3,23 @@ package edu.chalmers.notenoughspace.core;
 import edu.chalmers.notenoughspace.event.AttachedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
+import java.util.ArrayList;
+
 /**
  * Created by Vibergf on 25/04/2017.
  */
-public class Planet extends Spatial3D{
+public class Planet implements Spatial3D{
 
     public final static float PLANET_RADIUS = 13f;
 
+    private ArrayList<Spatial3D> population;
+
     public Planet(Spatial3D parent){
-        super(parent);
+//        super(parent);
+        population = new ArrayList<Spatial3D>();
     }
 
-    protected void fireEvent(Spatial3D parent) {
+    public void fireEvent(Spatial3D parent) {
         Bus.getInstance().post(new AttachedEvent(parent, this, true));
     }
 
@@ -23,7 +28,7 @@ public class Planet extends Spatial3D{
     }
 
     public void populate(int nCow, int nJunk, int nSatellite){
-        children.clear();
+//        children.clear();
         for (int i = 0; i < nCow; i++){
             Spatial3D c = new Cow(this);
 

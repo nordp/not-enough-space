@@ -34,8 +34,8 @@ class BeamNode extends Node {
         mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
         model.setMaterial(mat);
         model.setQueueBucket(RenderQueue.Bucket.Transparent);
-
-        model.setLocalTranslation(0f, 0.24f, 0f);
+//
+//        model.setLocalTranslation(0f, 0.24f, 0f);
         attachChild(model);
     }
 

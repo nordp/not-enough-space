@@ -20,7 +20,7 @@ class NodeFactory {
         //Spatial for core. "this"-node located in center of planet still.
         Node cow = new Node();
         Spatial cowModel = modelLoader.loadModel("cow");
-        cowModel.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
+//        cowModel.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
         cow.attachChild(cowModel);
         cow.addControl(new CowControl(null));
 
@@ -31,8 +31,8 @@ class NodeFactory {
         Node junkNode = new JunkNode();
         Spatial junkModel = modelLoader.loadModel("house");
 
-        junkModel.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
-        junkModel.scale(0.01f, 0.01f, 0.01f);
+//        junkModel.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
+//        junkModel.scale(0.01f, 0.01f, 0.01f);
 
         junkNode.attachChild(junkModel);
         
@@ -43,8 +43,8 @@ class NodeFactory {
         Node satelliteNode = new SatelliteNode();
         Spatial satelliteModel = modelLoader.loadModel("satellite");
 
-        satelliteModel.setLocalTranslation(0,Planet.PLANET_RADIUS+2,0);
-        satelliteModel.scale(0.01f, 0.01f, 0.01f);
+//        satelliteModel.setLocalTranslation(0,Planet.PLANET_RADIUS+2,0);
+//        satelliteModel.scale(0.01f, 0.01f, 0.01f);
 
         satelliteNode.attachChild(satelliteModel);
         satelliteNode.addControl(new SatelliteControl());

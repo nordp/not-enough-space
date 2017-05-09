@@ -1,6 +1,7 @@
 package edu.chalmers.notenoughspace.ctrl;
 
 import com.google.common.eventbus.Subscribe;
+import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.light.SpotLight;
 import com.jme3.math.FastMath;
@@ -17,12 +18,14 @@ import edu.chalmers.notenoughspace.event.Bus;
  */
 public class SpatialHandler {
 
+    private SimpleApplication app;
     private Node rootNode;
     private InputManager inputManager;
 
-    public SpatialHandler(Node rootNode, InputManager inputManager){
-        this.rootNode = rootNode;
-        this.inputManager = inputManager;
+    public SpatialHandler(SimpleApplication app){
+        this.app = app;
+        this.rootNode = app.getRootNode();
+        this.inputManager = app.getInputManager();
         Bus.getInstance().register(this);
         System.out.println("Registered?");
     }
@@ -38,14 +41,24 @@ public class SpatialHandler {
 
         if (event.entity instanceof Cow) {
             model = ModelLoaderFactory.getModelLoader().loadModel("cow");
+            model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
+
             control = new CowControl((Cow) event.entity);
             parent = rootNode.getChild("planet");
         } else if (event.entity instanceof Junk){
             model = ModelLoaderFactory.getModelLoader().loadModel("junk");
-            parent = rootNode.getChild("planet");
+            model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
+            model.scale(0.01f, 0.01f, 0.01f);
+
             control = new JunkControl();
+            parent = rootNode.getChild("planet");
         } else if (event.entity instanceof Ship) {
             model = ModelLoaderFactory.getModelLoader().loadModel("ship");
+            model.setName("shipModel");
+            model.scale(0.02f, 0.02f, 0.02f);
+            model.move(0, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0);
+
+            node.setName("ship");
 
             SpotLight spotLight = new SpotLight();
             spotLight.setSpotRange(10);
@@ -62,26 +75,37 @@ public class SpatialHandler {
              * @param planetRadius The radius of the planet that the ship is hovering over.
              * @param shipAltitude The ship's height above the planet's surface.
              */
-            //shipModel.move(0, planetRadius + shipAltitude, 0);
             control = new ShipControl(inputManager, (Ship) event.entity);
             node.setName("ship");
         } else if (event.entity instanceof Satellite){
             model = ModelLoaderFactory.getModelLoader().loadModel("satellite");
+            model.setLocalTranslation(0,Planet.PLANET_RADIUS+2,0);
+            model.scale(0.01f, 0.01f, 0.01f);
+
             control = new SatelliteControl();
         } else if (event.entity instanceof Beam){
             model = ModelLoaderFactory.getModelLoader().loadModel("beam");
+            model.setName("beamModel");
+            model.setLocalTranslation(0f, 0.24f, 0f);
+            model.move(rootNode.getChild("shipModel").getLocalTranslation());
+            node.setName("beam");
             control = new BeamControl();
             parent = rootNode.getChild("ship");
         } else if (event.entity instanceof Planet) {
             model = ModelLoaderFactory.getModelLoader().loadModel("planet");
-            control = new PlanetControl((Planet) event.entity);
+            model.setName("planetModel");
             node.setName("planet");
+            control = new PlanetControl((Planet) event.entity);
         } else {
             throw new IllegalArgumentException("entity must be Entity from model package");
         }
 
         node.attachChild(model);
         node.addControl(control);
+
+        //Temporary place, maybe move somewhere else and/or bind to key
+        if(event.entity instanceof Ship)
+             ((ShipControl)control).attachThirdPersonView(app.getCamera(), Planet.PLANET_RADIUS, Ship.ALTITUDE);
 
         //All entities get one geometry and one node each. The parent node of each entity has the name of the entity
         ((Node)parent).attachChild(node);

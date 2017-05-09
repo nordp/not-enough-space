@@ -5,14 +5,18 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
+import com.jme3.light.SpotLight;
+import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.core.Ship;
+import edu.chalmers.notenoughspace.util.NodeUtil;
 
 /**
  * Control for a ship hovering around a planet. Includes functions
@@ -56,14 +60,14 @@ class ShipControl extends AbstractControl {
         followShipCamera.setLocalTranslation( 0
                 ,6f, -(planetRadius + shipAltitude + 8));
 
-        /*followShipCameraPivotNode = new Node();    //Helper node to set the default position
+        followShipCameraPivotNode = new Node();    //Helper node to set the default position
         //of the camera.
         followShipCameraPivotNode.attachChild(followShipCamera);
         followShipCameraPivotNode.rotate(FastMath.HALF_PI + -35*FastMath.DEG_TO_RAD,
                 FastMath.PI, 0); //originally 43
 
         //PRESS C TO GET CAMERA INFO FOR SETTING CHASECAM!
-        ((ShipNode) spatial).attachChild(followShipCameraPivotNode);*/
+        ((Node) spatial).attachChild(followShipCameraPivotNode);
 
         if (usingCameraDrag) {
             setupDraggingCamera(followShipCamera);
@@ -210,12 +214,13 @@ class ShipControl extends AbstractControl {
                 spatial.rotate(0, -2*tpf, 0);
             }
 
-            /*ShipNode ship = (ShipNode) spatial;
+//            Node rootNode = NodeUtil.getRoot(spatial);
+//            SpotLight light = rootNode.getWorldLightList().
             //Adjust the spotLight so that it always follows the ship.
-            if (ship.getSpotLight() != null) {
-                ship.getSpotLight().setPosition(ship.getChild("ship").getTranslation());
-                ship.getSpotLight().setDirection(ship.getChild("ship").getTranslation().mult(-1));
-            }*/
+//            if (ship.getSpotLight() != null) {
+//                ship.getSpotLight().setPosition(ship.getChild("ship").getTranslation());
+//                ship.getSpotLight().setDirection(ship.getChild("ship").getTranslation().mult(-1));
+//            }
 
 
         }

@@ -26,10 +26,7 @@ import edu.chalmers.notenoughspace.view.HUDNode;
 
 public class Round extends AbstractAppState {
 
-    /**
-     * The distance from the ship to the planet's surface.
-     */
-    private final float SHIP_ALTITUDE = 1.8f;
+
     private final int ROUND_TIME = 120; //seconds
 
     SimpleApplication app;
@@ -109,7 +106,7 @@ public class Round extends AbstractAppState {
         app = (SimpleApplication) application;
 
 
-        new SpatialHandler(app.getRootNode(), app.getInputManager());
+        new SpatialHandler(app);
 
         //ShipNode:
         ship = new Ship();

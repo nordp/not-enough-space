@@ -2,6 +2,7 @@ package edu.chalmers.notenoughspace.core;
 
 import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.event.BeamCollisionEvent;
+import edu.chalmers.notenoughspace.event.BeamToggleEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * Created by Phnor on 2017-05-09.
  */
 public class Beam implements Entity {
-    private boolean beamActive = false;
+    private boolean active = true;
 
     private List<Beamable> objectsInBeam;
 
@@ -21,6 +22,8 @@ public class Beam implements Entity {
         objectsInBeam = new ArrayList<Beamable>();
         Bus.getInstance().register(this);
         Bus.getInstance().post(new EntityCreatedEvent(this));
+
+        setActive(false);
     }
 
     @Subscribe
@@ -46,20 +49,14 @@ public class Beam implements Entity {
     }
 
     public void setActive(boolean active) {
-        if(beamActive = active){
+        if(this.active == active){
             return;
         }
-
-        beamActive = active;
-
-        if(active){
-//                attachChild(beam);
-        }else{
-//                detachChild(beam);
-        }
+        this.active = active;
+        Bus.getInstance().post(new BeamToggleEvent(active));
     }
 
-    public boolean isBeamActive() {
-        return beamActive;
+    public boolean isActive() {
+        return active;
     }
 }

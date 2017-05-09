@@ -48,7 +48,7 @@ class ShipNode extends Node {
         //shipModel.setMaterial( createShipMaterial(assetManager) );  //No material needed when real core added.
         shipModel.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));
         shipModel.setName("ship");  //Important, used in many places for accessing the ship core.
-        shipModel.scale(0.02f, 0.02f, 0.02f);
+//        shipModel.scale(0.02f, 0.02f, 0.02f);
         attachChild(shipModel);
     }
 

@@ -64,7 +64,7 @@ public class SpatialHandler {
              */
             //shipModel.move(0, planetRadius + shipAltitude, 0);
             control = new ShipControl(inputManager, (Ship) event.entity);
-
+            node.setName("ship");
         } else if (event.entity instanceof Satellite){
             model = ModelLoaderFactory.getModelLoader().loadModel("satellite");
             control = new SatelliteControl();

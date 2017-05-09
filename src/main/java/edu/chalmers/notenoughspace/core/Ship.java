@@ -21,10 +21,11 @@ public class Ship implements Entity {
 
     public Ship(){
 //        super(parent);
+        Bus.getInstance().post(new EntityCreatedEvent(this));
         energy = 100;
         beam = new Beam(this);
 //        detachChild(beam);
-        Bus.getInstance().post(new EntityCreatedEvent(this));
+
 
         //beamNode.setLocalTranslation(beamNode.getLocalTranslation().add(this.getChild("ship").getLocalTranslation()));
     }

@@ -10,12 +10,12 @@ import com.jme3.scene.control.AbstractControl;
 /**
  * Created by juliaortheden on 2017-04-26.
  */
-public class SatelliteControl extends AbstractControl {
+class SatelliteControl extends AbstractControl {
 
 
     @Override
     protected void controlUpdate(float tpf) {
-        spatial.rotate(FastMath.HALF_PI, 0, 0);
+        spatial.rotate(0.01f, 0, 0);
 
     }
 

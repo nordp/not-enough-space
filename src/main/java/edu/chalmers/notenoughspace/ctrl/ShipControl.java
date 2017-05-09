@@ -18,7 +18,7 @@ import edu.chalmers.notenoughspace.core.Ship;
  * Control for a ship hovering around a planet. Includes functions
  * for adding and removing a third person camera.
  */
-public class ShipControl extends AbstractControl {
+class ShipControl extends AbstractControl {
     private final String THIRD_PERSON_CAMERA = "followShipCamera";
     private final float MAX_DISTANCE_TO_CAMERA = 3f;
     private boolean usingCameraDrag = true;

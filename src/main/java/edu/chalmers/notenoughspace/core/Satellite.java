@@ -2,24 +2,20 @@ package edu.chalmers.notenoughspace.core;
 
 
 import com.jme3.math.Vector3f;
-import edu.chalmers.notenoughspace.event.AttachedEvent;
+import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
 
-public class Satellite implements Spatial3D {
+public class Satellite implements Entity {
 
     //public static final float SPEED = 1;
     public static final float satelliteRadius = 1;     //what distance?!
     private Vector3f worldLocation = new Vector3f();
     private Ship ship;
 
-    Satellite(Spatial3D parent) {
+    Satellite() {
 //        super(parent);
-
-    }
-
-    public void fireEvent(Spatial3D parent) {
-        Bus.getInstance().post(new AttachedEvent(parent, this, true));
+        Bus.getInstance().post(new EntityCreatedEvent(this));
     }
 
     public void update() {

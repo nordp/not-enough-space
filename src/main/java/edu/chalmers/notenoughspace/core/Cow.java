@@ -1,12 +1,12 @@
 package edu.chalmers.notenoughspace.core;
 
 import com.jme3.math.FastMath;
-import edu.chalmers.notenoughspace.event.AttachedEvent;
+import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
 import javax.vecmath.Vector3f;
 
-public class Cow implements Spatial3D, Beamable{
+public class Cow implements Entity, Beamable{
 
     public final static float REACTION_DISTANCE = 3f;
     public static final float SPRINT_SPEED = 0.3f;
@@ -27,15 +27,12 @@ public class Cow implements Spatial3D, Beamable{
     private CowMood mood;
     private BeamState beamState;
 
-    public Cow(Spatial3D parent){
+    public Cow(){
 //        super(parent);
         mood = CowMood.CALM;
         beamState = BeamState.NOT_IN_BEAM;
         stamina = MAX_STAMINA;
-    }
-
-    public void fireEvent(Spatial3D parent) {
-        Bus.getInstance().post(new AttachedEvent(parent, this, true));
+        Bus.getInstance().post(new EntityCreatedEvent(this));
     }
 
     public void update(Vector3f position, Vector3f shipPosition) {

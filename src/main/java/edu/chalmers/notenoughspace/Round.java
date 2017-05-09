@@ -112,12 +112,12 @@ public class Round extends AbstractAppState {
         new SpatialHandler(app.getRootNode(), app.getInputManager());
 
         //ShipNode:
-        ship = new Ship(null);
+        ship = new Ship();
         //Moved initialization of shipControl and beam to initialize(), otherwise
         //the restart didn't work.
 
         //PlanetNode:
-        planet = new Planet(null);
+        planet = new Planet();
 
         //app.getCamera();
         camera = new Camera(ship);

@@ -1,14 +1,9 @@
 package edu.chalmers.notenoughspace.ctrl;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.scene.Geometry;
-import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.core.Cow;
 import edu.chalmers.notenoughspace.core.Planet;
-import edu.chalmers.notenoughspace.event.AttachedEvent;
-import edu.chalmers.notenoughspace.event.Bus;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -33,7 +28,7 @@ public class SpatialHandlerTest {
 
                 ModelLoaderFactory.setAssetManager(getAssetManager());
 
-                Planet p = new Planet(null);
+                Planet p = new Planet();
 
                 p.populate(1,0,0);
 
@@ -46,7 +41,7 @@ public class SpatialHandlerTest {
 
                 assertTrue(getRootNode().getChildren().size() == 4);
 
-                Cow c = new Cow(p);
+                Cow c = new Cow();
 
                 assertTrue(getRootNode().getChild(p.toString()).equals(p));
                 assertTrue(getRootNode().getChild(c.toString()).equals(c));

@@ -7,7 +7,7 @@ import com.jme3.scene.control.AbstractControl;
 /**
  * Created by Phnor on 2017-05-09.
  */
-class JunkControl extends AbstractControl {
+public class JunkControl extends AbstractControl {
 
     protected void controlUpdate(float v) {
 

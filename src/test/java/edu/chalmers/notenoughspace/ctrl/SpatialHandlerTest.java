@@ -4,6 +4,7 @@ import com.jme3.app.SimpleApplication;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.core.Cow;
 import edu.chalmers.notenoughspace.core.Planet;
+import edu.chalmers.notenoughspace.view.SpatialHandler;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

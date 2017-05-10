@@ -3,9 +3,6 @@ package edu.chalmers.notenoughspace.ctrl;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import edu.chalmers.notenoughspace.core.PlanetaryInhabitant;
-import edu.chalmers.notenoughspace.util.VectorUtil;
-
-import static edu.chalmers.notenoughspace.util.VectorUtil.*;
 
 import javax.vecmath.Vector3f;
 
@@ -55,5 +52,14 @@ public class JMEInhabitant implements PlanetaryInhabitant {
 
     public PlanetaryInhabitant clone() {
         return new JMEInhabitant(node.clone());
+    }
+
+    //Util Methods
+    private static javax.vecmath.Vector3f jmeToVecmath(com.jme3.math.Vector3f vector) {
+        return new javax.vecmath.Vector3f(vector.x, vector.y, vector.z);
+    }
+
+    private static com.jme3.math.Vector3f vecmathToJme(javax.vecmath.Vector3f vector){
+        return new com.jme3.math.Vector3f(vector.x, vector.y, vector.z);
     }
 }

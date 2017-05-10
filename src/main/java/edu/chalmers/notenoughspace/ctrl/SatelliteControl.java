@@ -10,7 +10,7 @@ import com.jme3.scene.control.AbstractControl;
 /**
  * Created by juliaortheden on 2017-04-26.
  */
-class SatelliteControl extends AbstractControl {
+public class SatelliteControl extends AbstractControl {
 
 
     @Override

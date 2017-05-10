@@ -5,7 +5,6 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.AnalogListener;
 import com.jme3.input.controls.KeyTrigger;
-import com.jme3.light.SpotLight;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
@@ -16,13 +15,12 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.core.Ship;
-import edu.chalmers.notenoughspace.util.NodeUtil;
 
 /**
  * Control for a ship hovering around a planet. Includes functions
  * for adding and removing a third person camera.
  */
-class ShipControl extends AbstractControl {
+public class ShipControl extends AbstractControl {
     private final String THIRD_PERSON_CAMERA = "followShipCamera";
     private final float MAX_DISTANCE_TO_CAMERA = 3f;
     private boolean usingCameraDrag = true;

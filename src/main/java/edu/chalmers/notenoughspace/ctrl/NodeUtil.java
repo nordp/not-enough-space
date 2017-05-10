@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.util;
+package edu.chalmers.notenoughspace.ctrl;
 
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;

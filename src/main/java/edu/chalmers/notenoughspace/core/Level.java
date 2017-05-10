@@ -2,7 +2,6 @@ package edu.chalmers.notenoughspace.core;
 
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.GameOverEvent;
-import edu.chalmers.notenoughspace.util.CountDownTimer;
 
 public class Level {
 

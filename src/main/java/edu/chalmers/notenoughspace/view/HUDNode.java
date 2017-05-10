@@ -5,7 +5,6 @@ import com.jme3.font.BitmapText;
 import com.jme3.scene.Node;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.core.Storage;
-import edu.chalmers.notenoughspace.util.StringFormatUtil;
 
 /**
  * Created by Phnor on 2017-05-01.
@@ -42,12 +41,40 @@ public class HUDNode extends Node {
 
     public void updateTimer(float seconds){             //TODO: Make HUD listen to changes in model by observer pattern
         timerText.setText("Time left: " +
-                StringFormatUtil.toTimeFormat(seconds));
+                toTimeFormat(seconds));
     }
 
     public void updateStorage(Storage storage){
         scoreText.setText("Poäng: " + storage.calculateScore());
         weightText.setText(storage.calculateWeight() + "kg");
+    }
+
+    /**
+     * Converts a given number of seconds into standard
+     * digital clock format: mm:ss:hh.
+     * @param seconds The number of seconds to convert. If negative the time 00:00:00 is returned.
+     */
+    private static String toTimeFormat(float seconds) {
+        if (seconds < 0) {
+            seconds = 0;
+        }
+
+        int m = (int) seconds / 60;
+        int s = (int) seconds % 60;
+        int h = (int) ((seconds*100) % 100);
+
+        String mm = toTwoDigitsFormat(m);
+        String ss = toTwoDigitsFormat(s);
+        String hh = toTwoDigitsFormat(h);
+
+        return mm + ":" + ss + ":" + hh;
+    }
+
+    private static String toTwoDigitsFormat(int number) {
+        if (number < 10) {
+            return "0" + number;
+        }
+        return "" + number;
     }
 
 }

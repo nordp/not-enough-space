@@ -3,7 +3,7 @@ package edu.chalmers.notenoughspace.util;
 import com.jme3.scene.Node;
 import org.junit.Test;
 
-import static edu.chalmers.notenoughspace.util.NodeUtil.getRoot;
+import static edu.chalmers.notenoughspace.ctrl.NodeUtil.getRoot;
 import static org.junit.Assert.*;
 
 /**

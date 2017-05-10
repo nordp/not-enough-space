@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.ctrl;
+package edu.chalmers.notenoughspace.view;
 
 import com.google.common.eventbus.Subscribe;
 import com.jme3.app.SimpleApplication;
@@ -11,6 +11,7 @@ import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.core.*;
+import edu.chalmers.notenoughspace.ctrl.*;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 

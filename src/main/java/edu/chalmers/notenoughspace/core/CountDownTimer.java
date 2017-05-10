@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.util;
+package edu.chalmers.notenoughspace.core;
 
 public abstract class CountDownTimer {
 

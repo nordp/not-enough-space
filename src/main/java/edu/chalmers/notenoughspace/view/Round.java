@@ -4,10 +4,8 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioData;
 import com.jme3.audio.AudioNode;
-import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
@@ -19,10 +17,6 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
 import edu.chalmers.notenoughspace.core.Level;
-import edu.chalmers.notenoughspace.core.Planet;
-import edu.chalmers.notenoughspace.core.Ship;
-import edu.chalmers.notenoughspace.ctrl.SpatialHandler;
-import edu.chalmers.notenoughspace.event.Bus;
 
 public class Round extends AbstractAppState {
 

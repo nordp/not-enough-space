@@ -11,7 +11,7 @@ import edu.chalmers.notenoughspace.event.Bus;
 /**
  * Created by Vibergf on 03/04/2017.
  */
-class BeamControl extends AbstractControl {
+public class BeamControl extends AbstractControl {
 
     public BeamControl(){
         Bus.getInstance().register(this);

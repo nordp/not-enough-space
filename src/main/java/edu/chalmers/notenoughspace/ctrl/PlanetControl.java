@@ -8,7 +8,7 @@ import edu.chalmers.notenoughspace.core.Planet;
 /**
  * Created by Phnor on 2017-05-08.
  */
-class PlanetControl extends AbstractControl {
+public class PlanetControl extends AbstractControl {
     private Planet planet;
 
     public PlanetControl(Planet planet) {

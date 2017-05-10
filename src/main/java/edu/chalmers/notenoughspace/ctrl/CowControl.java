@@ -4,13 +4,8 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.core.Cow;
-import edu.chalmers.notenoughspace.util.NodeUtil;
 
-import static edu.chalmers.notenoughspace.core.Cow.*;
-
-import javax.vecmath.Vector3f;
-
-class CowControl extends AbstractControl {
+public class CowControl extends AbstractControl {
     private Cow cow;
 
     public CowControl(Cow cow) {

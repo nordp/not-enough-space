@@ -33,6 +33,10 @@ public class JMEInhabitant implements PlanetaryInhabitant {
         node.rotate(angle, 0f, 0f);
     }
 
+    public void rotateSideways(float angle) {
+        node.rotate(0f, 0f, angle);
+    }
+
     public void rotateModel(float angle){
         node.rotate(0f, angle, 0f);
     }

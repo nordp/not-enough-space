@@ -26,7 +26,7 @@ class BeamControl extends AbstractControl {
     }
 
     protected void controlUpdate(float v) {
-        spatial.rotate(0f, 0.01f * v, 0f);
+
     }
 
     protected void controlRender(RenderManager renderManager, ViewPort viewPort) {

@@ -3,8 +3,6 @@ package edu.chalmers.notenoughspace.core;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
-import javax.vecmath.Vector3f;
-
 public class Cow implements Entity, Beamable{
 
     public final static float REACTION_DISTANCE = 3f;

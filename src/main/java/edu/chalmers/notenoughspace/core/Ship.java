@@ -20,24 +20,41 @@ public class Ship implements Entity {
 
     public Ship(){
         Bus.getInstance().post(new EntityCreatedEvent(this));
-//        super(parent);
+
         energy = 100;
         beam = new Beam(this);
-//        detachChild(beam);
 
-        //beamNode.setLocalTranslation(beamNode.getLocalTranslation().add(this.getChild("ship").getLocalTranslation()));
     }
-
 
     public void update() {
 
     }
 
-    public boolean isBeamActive() {
-        return beam.isActive();
+    public void moveForwards(PlanetaryInhabitant body, float tpf) {
+        body.rotateForward(-1 * tpf);
     }
 
-    public void setBeamActive(boolean beamActive) {
+    public void moveBackwards(PlanetaryInhabitant body, float tpf) {
+        body.rotateForward(1 * tpf);
+    }
+
+    public void moveLeft(PlanetaryInhabitant body, float tpf) {
+        body.rotateSideways(1 * tpf);
+    }
+
+    public void moveRight(PlanetaryInhabitant body, float tpf) {
+        body.rotateSideways(-1 * tpf);
+    }
+
+    public void rotateLeft(PlanetaryInhabitant body, float tpf){
+        body.rotateModel(2 * tpf);
+    }
+
+    public void rotateRight(PlanetaryInhabitant body, float tpf){
+        body.rotateModel(-2 * tpf);
+    }
+
+    public void toggleBeam(boolean beamActive) {
         beam.setActive(beamActive);
     }
 

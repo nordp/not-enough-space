@@ -8,6 +8,7 @@ import javax.vecmath.Vector3f;
 public interface PlanetaryInhabitant {
 
     void rotateForward(float angle);
+    void rotateSideways(float angle);
     void rotateModel(float angle);
     Vector3f getLocalTranslation();
     Vector3f getWorldTranslation();

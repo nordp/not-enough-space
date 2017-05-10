@@ -5,6 +5,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.light.SpotLight;
 import com.jme3.math.FastMath;
+import com.jme3.scene.LightNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
@@ -64,10 +65,13 @@ public class SpatialHandler {
             spotLight.setSpotRange(10);
             spotLight.setSpotOuterAngle(45 * FastMath.DEG_TO_RAD);
             spotLight.setSpotInnerAngle(5 * FastMath.DEG_TO_RAD);
-            spotLight.setPosition(model.getWorldTranslation());
+//            spotLight.setPosition(model.getWorldTranslation());
             spotLight.setDirection(model.getWorldTranslation().mult(-1));
             spotLight.setName("shipSpotLight");
-            rootNode.addLight(spotLight);
+            LightNode spotLightNode = new LightNode("shipSpotLightNode", spotLight);
+            spotLightNode.setLocalTranslation(model.getWorldTranslation());
+//            rootNode.addLight(spotLight);
+            rootNode.attachChild(spotLightNode);
             /**
              * Moves the ship core from its original position at the center of the Ship node
              * to it's correct starting position over the planet's surface.

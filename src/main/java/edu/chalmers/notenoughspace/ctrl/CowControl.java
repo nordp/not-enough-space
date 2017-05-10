@@ -19,10 +19,6 @@ class CowControl extends AbstractControl {
 
     @Override
     protected void controlUpdate(float tpf) {
-//        Spatial shipModel = NodeUtil.getRoot(spatial).getChild("ship");
-//        Spatial cowModel = ((Node) spatial).getChild(0);
-//        Vector3f shipPos = shipModel.getWorldTranslation();
-//        Vector3f cowPos = cowModel.getWorldTranslation();
         JMEInhabitant body = new JMEInhabitant(spatial);
         JMEInhabitant ship = new JMEInhabitant(NodeUtil.getRoot(spatial).getChild("ship"));
 

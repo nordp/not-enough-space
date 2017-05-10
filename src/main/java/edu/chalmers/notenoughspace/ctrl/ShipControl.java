@@ -79,7 +79,7 @@ class ShipControl extends AbstractControl {
         //Calculates the boundaries for how far from the cameras focal point the
         //ship can move without the camera following it.
         Vector3f camPos = followShipCamera.getWorldTranslation();
-        Vector3f shipPos = spatial.getWorldTranslation();
+        Vector3f shipPos = getShipModel().getWorldTranslation();
         Vector3f camToShip = shipPos.subtract(camPos);
 
         Vector3f realRightVector = camToShip.cross(shipPos).normalize().normalizeLocal();
@@ -126,12 +126,11 @@ class ShipControl extends AbstractControl {
      * Removes the ship's third person camera (if attached) which restores
      * the camera to the original one.
      */
-    /*public void detachThirdPersonView() {
-        ShipNode ship = (ShipNode) spatial;
-        if (ship.getChild(THIRD_PERSON_CAMERA) != null) {
-            CameraNode followShipCamera = (CameraNode) ship.getChild(THIRD_PERSON_CAMERA);
+    public void detachThirdPersonView() {
+        if (((Node) spatial).getChild(THIRD_PERSON_CAMERA) != null) {
+            CameraNode followShipCamera = (CameraNode) ((Node) spatial).getChild(THIRD_PERSON_CAMERA);
 
-            ship.detachChild(followShipCamera.getParent());    // Removes the camera
+            ((Node) spatial).detachChild(followShipCamera.getParent());    // Removes the camera
             // getParent() part needed since the CameraNode
             // actually is nested inside a "camera pivot node"
             // which in turn is a child of the shipPivotNode.
@@ -144,7 +143,7 @@ class ShipControl extends AbstractControl {
                     new Vector3f(0, 1f, 0), // Up
                     new Vector3f(0, 0, -1f)); // Direction
         }
-    }*/
+    }
 
     public boolean hasThirdPersonViewAttached() {
         Node shipPivotNode = (Node) spatial;
@@ -159,19 +158,19 @@ class ShipControl extends AbstractControl {
      * @param inputManager
      */
     private void initMovementKeys(InputManager inputManager) {
-        inputManager.addMapping("forwards",  new KeyTrigger(KeyInput.KEY_I));
-        inputManager.addMapping("left",   new KeyTrigger(KeyInput.KEY_J));
-        inputManager.addMapping("right",  new KeyTrigger(KeyInput.KEY_L));
-        inputManager.addMapping("backwards", new KeyTrigger(KeyInput.KEY_K));
+        inputManager.addMapping("moveForwards",  new KeyTrigger(KeyInput.KEY_I));
+        inputManager.addMapping("moveLeft",   new KeyTrigger(KeyInput.KEY_J));
+        inputManager.addMapping("moveRight",  new KeyTrigger(KeyInput.KEY_L));
+        inputManager.addMapping("moveBackwards", new KeyTrigger(KeyInput.KEY_K));
         inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_V));
         inputManager.addMapping("rotateRight", new KeyTrigger(KeyInput.KEY_B));
-        inputManager.addMapping("beam", new KeyTrigger(KeyInput.KEY_SPACE));
+        inputManager.addMapping("toggleBeam", new KeyTrigger(KeyInput.KEY_SPACE));
 
         // Add the names to the action listener.
         inputManager.addListener(analogListener,
-                "forwards","left","right","backwards",
+                "moveForwards","moveLeft","moveRight","moveBackwards",
                 "rotateLeft", "rotateRight");
-        inputManager.addListener(actionListener, "beam");
+        inputManager.addListener(actionListener, "toggleBeam");
     }
 
 
@@ -182,36 +181,37 @@ class ShipControl extends AbstractControl {
 
         public void onAnalog(String name, float value, float tpf) {
             float drag = 0.25f;
+            JMEInhabitant body = new JMEInhabitant(spatial);
 
-            if (name.equals("forwards")) {
-                spatial.rotate(-1 * tpf, 0, 0);
-                /*if (usingCameraDrag && distanceToCameraBoundary("backwardPoint") < MAX_DISTANCE_TO_CAMERA) {
+            if (name.equals("moveForwards")) {
+                ship.moveForwards(body, tpf);
+                if (usingCameraDrag && distanceToCameraBoundary("backwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(-drag * tpf, 0, 0);
-                }*/
+                }
             }
-            if (name.equals("left")) {
-                spatial.rotate(0, 0, 1*tpf);
-                /*if (usingCameraDrag && distanceToCameraBoundary("rightPoint") < MAX_DISTANCE_TO_CAMERA) {
+            if (name.equals("moveLeft")) {
+                ship.moveLeft(body, tpf);
+                if (usingCameraDrag && distanceToCameraBoundary("rightPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(0, 0, drag * tpf);
-                }*/
+                }
             }
-            if (name.equals("right")) {
-                spatial.rotate(0, 0, -1*tpf);
-                /*if (usingCameraDrag && distanceToCameraBoundary("leftPoint") < MAX_DISTANCE_TO_CAMERA) {
+            if (name.equals("moveRight")) {
+                ship.moveRight(body, tpf);
+                if (usingCameraDrag && distanceToCameraBoundary("leftPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(0, 0, -drag * tpf);
-                }*/
+                }
             }
-            if (name.equals("backwards")) {
-                spatial.rotate(1*tpf, 0, 0);
-                /*if (usingCameraDrag && distanceToCameraBoundary("forwardPoint") < MAX_DISTANCE_TO_CAMERA) {
+            if (name.equals("moveBackwards")) {
+                ship.moveBackwards(body, tpf);
+                if (usingCameraDrag && distanceToCameraBoundary("forwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(drag * tpf, 0, 0);
-                }*/
+                }
             }
             if (name.equals("rotateLeft")) {
-                spatial.rotate(0, 2*tpf, 0);
+                ship.rotateLeft(body, tpf);
             }
             if (name.equals("rotateRight")) {
-                spatial.rotate(0, -2*tpf, 0);
+               ship.rotateRight(body, tpf);
             }
 
 //            Node rootNode = NodeUtil.getRoot(spatial);
@@ -226,12 +226,12 @@ class ShipControl extends AbstractControl {
         }
     };
 
-    /*private float distanceToCameraBoundary(String boundaryName) {
-        Vector3f shipPos = ship.getTranslation();
-        Vector3f boundaryPos = followShipCameraPivotNode.getChild(boundaryName).getTranslation();
+    private float distanceToCameraBoundary(String boundaryName) {
+        Vector3f shipPos = getShipModel().getWorldTranslation();
+        Vector3f boundaryPos = followShipCameraPivotNode.getChild(boundaryName).getWorldTranslation();
 
         return shipPos.distance(boundaryPos);
-    }*/
+    }
 
     /**
      * The listener controlling user input for activating the beam.
@@ -239,16 +239,16 @@ class ShipControl extends AbstractControl {
     private ActionListener actionListener = new ActionListener() {
 
         public void onAction(String name, boolean value, float tpf) {
-            if(name.equals("beam")) {
-                ship.setBeamActive(value);
+            if(name.equals("toggleBeam")) {
+                ship.toggleBeam(value);
             }
         }
     };
 
     /**Helper method for easy access to the ship core.*/
-    /*private Spatial getShip() {
-        return (Spatial) ((ShipNode) spatial).getChild("ship");
-    }*/
+    private Spatial getShipModel() {
+        return ((Node) spatial).getChild("shipModel");
+    }
 
 
 }

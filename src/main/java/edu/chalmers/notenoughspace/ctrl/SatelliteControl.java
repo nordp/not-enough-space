@@ -1,7 +1,5 @@
 package edu.chalmers.notenoughspace.ctrl;
 
-import com.jme3.math.FastMath;
-import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Spatial;
@@ -17,6 +15,7 @@ public class SatelliteControl extends AbstractControl {
     protected void controlUpdate(float tpf) {
         spatial.rotate(0.01f, 0, 0);
 
+        // TODO satellite.explodeWhenCollision();
     }
 
     @Override

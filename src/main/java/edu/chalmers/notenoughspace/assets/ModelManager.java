@@ -53,6 +53,11 @@ class ModelManager implements IModelLoader {
             geom.setMesh(shape);
             geom.setMaterial(assetManager.loadMaterial("Materials/PlanetMaterial.j3m"));
             model = geom;
+        } else if (modelId.equals("sun")) {
+            com.jme3.scene.shape.Sphere sunMesh = new com.jme3.scene.shape.Sphere(100, 100, 10f);
+            sunMesh.setTextureMode(com.jme3.scene.shape.Sphere.TextureMode.Projected);
+            model = new Geometry("sun", sunMesh);
+            model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
         } else {
             throw new IllegalArgumentException("No such model");
         }

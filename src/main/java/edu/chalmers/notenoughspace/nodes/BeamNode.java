@@ -7,15 +7,14 @@ import com.jme3.math.ColorRGBA;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
-import edu.chalmers.notenoughspace.model.Ship;
-import edu.chalmers.notenoughspace.ctrl.BeamControl;
+import edu.chalmers.notenoughspace.core.Ship;
 
 /**
  * Created by Vibergf on 03/04/2017.
  */
-public class BeamNode extends Node {
+class BeamNode extends Node {
 
-    private BeamControl controller;
+    /*private BeamControl controller;
 
     private Ship ship;
 
@@ -35,8 +34,8 @@ public class BeamNode extends Node {
         mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
         model.setMaterial(mat);
         model.setQueueBucket(RenderQueue.Bucket.Transparent);
-
-        model.setLocalTranslation(0f, 0.24f, 0f);
+//
+//        model.setLocalTranslation(0f, 0.24f, 0f);
         attachChild(model);
     }
 
@@ -51,5 +50,5 @@ public class BeamNode extends Node {
             setCullHint(CullHint.Always);
             removeControl(controller);
         }
-    }
+    }*/
 }

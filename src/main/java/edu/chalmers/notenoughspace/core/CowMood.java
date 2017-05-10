@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.model;
+package edu.chalmers.notenoughspace.core;
 
 /**
  * Created by Phnor on 2017-04-05.

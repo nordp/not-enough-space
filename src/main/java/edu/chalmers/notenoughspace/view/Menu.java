@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace;
+package edu.chalmers.notenoughspace.view;
 
 
 import com.jme3.app.Application;
@@ -41,8 +41,8 @@ public class Menu extends AbstractAppState {
         super.initialize(stateManager, app);
         app = (SimpleApplication) application;
 
-        round = new Round(app.getAssetManager(), app.getInputManager());
-        round.setEnabled(false);
+        round = new Round();
+        //round.setEnabled(false);
 
         app.getInputManager().addMapping("startRound", new KeyTrigger(KeyInput.KEY_RETURN));
         app.getInputManager().addListener(actionListener, "startRound");

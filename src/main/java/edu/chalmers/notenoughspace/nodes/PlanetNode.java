@@ -6,11 +6,12 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
-import edu.chalmers.notenoughspace.model.Planet;
+import edu.chalmers.notenoughspace.core.Planet;
 
-import static edu.chalmers.notenoughspace.model.Planet.*;
+import static edu.chalmers.notenoughspace.core.Planet.*;
 
-public class PlanetNode extends Node {
+class PlanetNode extends Node {
+    /*
     private AssetManager assetManager;
     private NodeFactory nodeFactory;
 
@@ -52,4 +53,5 @@ public class PlanetNode extends Node {
         }
 
     }
+    */
 }

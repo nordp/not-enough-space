@@ -1,6 +1,4 @@
-package edu.chalmers.notenoughspace.model;
-
-import edu.chalmers.notenoughspace.nodes.Beamable;
+package edu.chalmers.notenoughspace.core;
 
 import java.util.LinkedList;
 import java.util.*;

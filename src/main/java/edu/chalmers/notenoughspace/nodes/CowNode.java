@@ -8,7 +8,7 @@ import com.jme3.scene.Spatial;
  * Created by Phnor on 2017-05-09.
  */
 
-public class CowNode extends Node {
+class CowNode extends Node {
 
     Node shipNode;
 

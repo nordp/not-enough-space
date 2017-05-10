@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace;
+package edu.chalmers.notenoughspace.view;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -18,41 +18,54 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
-import edu.chalmers.notenoughspace.core.Camera;
+import edu.chalmers.notenoughspace.core.Level;
 import edu.chalmers.notenoughspace.core.Planet;
 import edu.chalmers.notenoughspace.core.Ship;
 import edu.chalmers.notenoughspace.ctrl.SpatialHandler;
-import edu.chalmers.notenoughspace.view.HUDNode;
+import edu.chalmers.notenoughspace.event.Bus;
 
 public class Round extends AbstractAppState {
 
-
-    private final int ROUND_TIME = 120; //seconds
-
     SimpleApplication app;
 
-    private Ship ship;
-    private Planet planet;
+    private Level level;
+
     private Geometry sun;
-    private Camera camera;
     private DirectionalLight sunLight;
     private AmbientLight ambientLight;
     private AudioNode happy;
     private HUDNode hud;
-
-    /**
-     * The total time the round has been active, in seconds.
-     */
-    private CountDownTimer timer;
     private ActionListener actionListener;
+    private boolean paused;
 
+    @Override
+    public void initialize(AppStateManager stateManager, Application application) {
+        super.initialize(stateManager, application);
+        //Init level
+        level = new Level();
+    }
 
-    public Round(AssetManager assetManager, InputManager inputManager) {
+    @Override
+    public void stateAttached(AppStateManager stateManager) {
+        super.stateAttached(stateManager);
+        app = (SimpleApplication) stateManager.getApplication();
+        initScene(app);
+        initSound(app);
+        initInput(app);
+        new SpatialHandler(app);
+
+        //Init HUD
+        hud = new HUDNode(app.getContext().getSettings().getHeight(), app.getContext().getSettings().getWidth());
+        app.getGuiNode().attachChild(hud);
+    }
+
+    private void initScene(SimpleApplication app) {
+
         //Sun:
         Sphere sunMesh = new Sphere(100, 100, 10f);
         sunMesh.setTextureMode(Sphere.TextureMode.Projected);
         sun = new Geometry("sun", sunMesh);
-        sun.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
+        sun.setMaterial(app.getAssetManager().loadMaterial("Materials/SunMaterial.j3m"));
         sun.move(-20, 0, 10);
         sun.setLocalTranslation(-100, 0, 0);
         sun.rotate(0, 0, FastMath.HALF_PI); //It has an ugly line at the equator,
@@ -66,24 +79,29 @@ public class Round extends AbstractAppState {
         //AmbientLight:
         ambientLight = new AmbientLight(ColorRGBA.White.mult(0.3f));
         ambientLight.setEnabled(true);
+        app.getRootNode().attachChild(sun);
+        app.getRootNode().addLight(sunLight);
+        app.getRootNode().addLight(ambientLight);
+    }
 
+    private void initSound(SimpleApplication app) {
         //Happy :)
-        happy = new AudioNode(assetManager, "Sounds/happy_1.WAV", AudioData.DataType.Buffer);
+        happy = new AudioNode(app.getAssetManager(), "Sounds/happy_1.WAV", AudioData.DataType.Buffer);
         happy.setLooping(true);  // activate continuous playing
         happy.setPositional(true);
         happy.setVolume(1);
         happy.play(); // play continuously!
+        app.getRootNode().attachChild(happy);
+    }
 
+    private void initInput(SimpleApplication app) {
         actionListener = new ActionListener() {
 
             public void onAction(String name, boolean value, float tpf) {
-                Round round = getMe();
                 if (name.equals("pause") && !value) {
-                    if (round.isEnabled())
-                        round.setEnabled(false);
-                    else
-                        round.setEnabled(true);
+                    pausePressed();
                 }
+
                 /*if (name.equals("cameraMode") && !value) {
                     if (ship.getShipControl().hasThirdPersonViewAttached()) {
                         getShipControl().detachThirdPersonView();
@@ -94,39 +112,6 @@ public class Round extends AbstractAppState {
                 }*/
             }
         };
-    }
-
-    private Round getMe() {
-        return this;
-    }
-
-    @Override
-    public void initialize(AppStateManager stateManager, Application application) {
-        super.initialize(stateManager, app);
-        app = (SimpleApplication) application;
-
-
-        new SpatialHandler(app);
-
-        //ShipNode:
-        ship = new Ship();
-        //Moved initialization of shipControl and beam to initialize(), otherwise
-        //the restart didn't work.
-
-        //PlanetNode:
-        planet = new Planet();
-
-        //app.getCamera();
-        camera = new Camera(ship);
-
-        //app.getRootNode().attachChild(planet);
-        //Test population
-        planet.populate(10, 10, 1);
-
-        app.getRootNode().attachChild(sun);
-        app.getRootNode().addLight(sunLight);
-        app.getRootNode().addLight(ambientLight);
-        app.getRootNode().attachChild(happy);
 
         app.getInputManager().addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
         app.getInputManager().addListener(actionListener, "pause");
@@ -134,17 +119,10 @@ public class Round extends AbstractAppState {
         //Adds option to change camera view:
         app.getInputManager().addMapping("cameraMode", new KeyTrigger(KeyInput.KEY_T));
         app.getInputManager().addListener(actionListener, "cameraMode");
+    }
 
-        timer = new CountDownTimer(ROUND_TIME) {
-            @Override
-            public void onTimeOut() {
-                returnToMenu();
-            }
-        };    //Init timer.
-
-        //Init HUD
-        hud = new HUDNode(app.getContext().getSettings().getHeight(), app.getContext().getSettings().getWidth());
-        app.getGuiNode().attachChild(hud);
+    private void pausePressed() {
+        paused = !paused;
     }
 
     @Override
@@ -174,9 +152,11 @@ public class Round extends AbstractAppState {
         super.setEnabled(enabled);
         if (enabled) {
             //Restore control
+            paused = false;
             happy.play();
         } else {
             //Remove control
+            paused = true;
             happy.pause();
         }
     }
@@ -184,24 +164,15 @@ public class Round extends AbstractAppState {
     // Note that update is only called while the state is both attached and enabled.
     @Override
     public void update(float tpf) {
-        //Update cow controls? Tick time?
-        updateTimer(tpf);
-    }
-
-    //Helper method for getting the ship control.
-    /*private ShipControl getShipControl() {
-        return (ShipControl) ship.getControl(ShipControl.class);
-    }*/
-
-
-    private void updateTimer(float tpf) {
-        timer.tick(tpf);
-        hud.updateTimer(timer.getTimeLeft());
+        if (!paused) {
+            level.update(tpf);
+            hud.updateTimer(level.getTimeLeft());
+        }
     }
 
     private void restartRound() {
         app.getStateManager().detach(this);
-        app.getStateManager().attach(new Round(app.getAssetManager(), app.getInputManager()));
+        app.getStateManager().attach(new Round());
     }
 
     private void returnToMenu() {

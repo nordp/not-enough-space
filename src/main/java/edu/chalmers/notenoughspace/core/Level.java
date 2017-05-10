@@ -31,7 +31,7 @@ public class Level {
     }
 
     public void update(float tpf) {
-        timer.tick(tpf/1000);
+        timer.tick(tpf);
     }
 
     private void levelOver() {

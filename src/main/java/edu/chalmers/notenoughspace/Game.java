@@ -1,11 +1,14 @@
 package edu.chalmers.notenoughspace;
 
-        import com.jme3.app.SimpleApplication;
-        import com.jme3.renderer.RenderManager;
-        import com.jme3.system.AppSettings;
-        import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
+import com.jme3.app.SimpleApplication;
+import com.jme3.renderer.RenderManager;
+import com.jme3.system.AppSettings;
+import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
+import edu.chalmers.notenoughspace.view.Menu;
 
-        import java.awt.*;
+import java.awt.GraphicsEnvironment;
+import java.awt.DisplayMode;
+
 
 /**
  * This is the Main Class of your Game. You should only do initialization here.
@@ -37,17 +40,11 @@ public class Game extends SimpleApplication {
         app.start();
     }
 
-    private void setFullScreen() {
-
-
-    }
 
     @Override
     public void simpleInitApp() {
-        setFullScreen();
         setGoodSpeed();
         ModelLoaderFactory.setAssetManager(assetManager);
-        //stateManager.attach(new Round(assetManager, inputManager));
         stateManager.attach(new Menu());
     }
 

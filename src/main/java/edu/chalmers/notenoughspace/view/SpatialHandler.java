@@ -71,8 +71,8 @@ public class SpatialHandler {
             spotLight.setName("shipSpotLight");
             LightNode spotLightNode = new LightNode("shipSpotLightNode", spotLight);
             spotLightNode.setLocalTranslation(model.getWorldTranslation());
-//            rootNode.addLight(spotLight);
-            rootNode.attachChild(spotLightNode);
+            rootNode.addLight(spotLight);
+            node.attachChild(spotLightNode);
             /**
              * Moves the ship core from its original position at the center of the Ship node
              * to it's correct starting position over the planet's surface.

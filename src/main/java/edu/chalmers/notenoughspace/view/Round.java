@@ -11,6 +11,7 @@ import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.AmbientLight;
 import com.jme3.light.DirectionalLight;
+import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
@@ -25,7 +26,7 @@ public class Round extends AbstractAppState {
     private Level level;
 
     private Geometry sun;
-    private DirectionalLight sunLight;
+    private PointLight sunLight;
     private AmbientLight ambientLight;
     private AudioNode happy;
     private HUDNode hud;
@@ -66,9 +67,9 @@ public class Round extends AbstractAppState {
         // that's why the rotation is currently needed...
 
         //Sunlight:
-        sunLight = new DirectionalLight();
-        sunLight.setDirection(new Vector3f(2, 0, -1).normalizeLocal());
-        sunLight.setColor(ColorRGBA.White);
+        sunLight = new PointLight(sun.getWorldTranslation(), ColorRGBA.White, 1000);
+//        sunLight.setDirection(new Vector3f(2, 0, -1).normalizeLocal());
+//        sunLight.setColor(ColorRGBA.White);
 
         //AmbientLight:
         ambientLight = new AmbientLight(ColorRGBA.White.mult(0.3f));

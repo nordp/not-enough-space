@@ -15,11 +15,13 @@ import java.util.List;
 public class Beam implements Entity {
     private boolean active = true;
 
-    private List<Beamable> objectsInBeam;
+    private List<BeamableEntity> objectsInBeam;
+
+    private PlanetaryInhabitant body;
 
     public Beam(Entity parent) {
 //            super(parent);
-        objectsInBeam = new ArrayList<Beamable>();
+        objectsInBeam = new ArrayList<BeamableEntity>();
         Bus.getInstance().register(this);
         Bus.getInstance().post(new EntityCreatedEvent(this));
 
@@ -28,14 +30,14 @@ public class Beam implements Entity {
 
     @Subscribe
     public void beamCollisionEvent(BeamCollisionEvent event){
-        List<Beamable> newObjectsInBeam = event.collidingObjects;
-        for(Beamable b : objectsInBeam) {
+        List<BeamableEntity> newObjectsInBeam = event.collidingObjects;
+        for(BeamableEntity b : objectsInBeam) {
             if(!newObjectsInBeam.contains(b)) {
                 b.setInBeam(BeamState.NOT_IN_BEAM);
                 //TODO Fire spatial event?
             }
         }
-        for(Beamable b : newObjectsInBeam) {
+        for(BeamableEntity b : newObjectsInBeam) {
             if(!objectsInBeam.contains(b)) {
                 b.setInBeam(BeamState.IN_BEAM);
                 //TODO Fire spatial event?
@@ -58,5 +60,13 @@ public class Beam implements Entity {
 
     public boolean isActive() {
         return active;
+    }
+
+    public PlanetaryInhabitant getPlanetaryInhabitant() {
+        return body;
+    }
+
+    public void setPlanetaryInhabitant(PlanetaryInhabitant body) {
+        this.body = body;
     }
 }

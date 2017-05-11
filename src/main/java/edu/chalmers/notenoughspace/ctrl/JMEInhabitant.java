@@ -2,6 +2,7 @@ package edu.chalmers.notenoughspace.ctrl;
 
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import edu.chalmers.notenoughspace.core.Planet;
 import edu.chalmers.notenoughspace.core.PlanetaryInhabitant;
 
 import javax.vecmath.Vector3f;
@@ -42,6 +43,9 @@ public class JMEInhabitant implements PlanetaryInhabitant {
         return jmeToVecmath(model.getLocalTranslation());
     }
 
+    public void setDistanceToPlanetsCenter(float distance) {
+        model.setLocalTranslation(0, distance, 0);}
+    
     public Vector3f getWorldTranslation() {
         return jmeToVecmath(model.getWorldTranslation());
     }

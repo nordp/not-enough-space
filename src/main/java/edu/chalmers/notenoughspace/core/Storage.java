@@ -8,7 +8,7 @@ import java.util.*;
  */
 public class Storage {
 
-    private List<Beamable> beamableList = new LinkedList();
+    private List<BeamableEntity> beamableEntityList = new LinkedList();
 
     public int calculateScore(){
         return calculateWeight();       //TODO Temporary scoring system
@@ -16,8 +16,8 @@ public class Storage {
 
     public int calculateWeight() {
         int weight = 0;
-        for (int i = 0; i < beamableList.size(); i++) {
-            weight += beamableList.get(i).getWeight();
+        for (int i = 0; i < beamableEntityList.size(); i++) {
+            weight += beamableEntityList.get(i).getWeight();
         }
      return weight;
     }

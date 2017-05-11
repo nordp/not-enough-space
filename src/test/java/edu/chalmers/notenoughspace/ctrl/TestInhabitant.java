@@ -42,6 +42,12 @@ public class TestInhabitant implements PlanetaryInhabitant {
         return position;
     }
 
+    public void setDistanceToPlanetsCenter(float distance) {
+        Transform3D transform = new Transform3D();
+        transform.setTranslation(new Vector3f(0, distance, 0));
+        transform.transform(position);
+    }
+
     public Vector3f getWorldTranslation() {
         return position;
     }

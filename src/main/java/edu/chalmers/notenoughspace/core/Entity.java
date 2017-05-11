@@ -5,9 +5,7 @@ package edu.chalmers.notenoughspace.core;
  */
 public interface Entity {
 
-//    public Entity(Entity parent){
-//        fireEvent(parent);
-//    }
+    PlanetaryInhabitant getPlanetaryInhabitant();
+    void setPlanetaryInhabitant(PlanetaryInhabitant body);
 
-//    void update();
 }

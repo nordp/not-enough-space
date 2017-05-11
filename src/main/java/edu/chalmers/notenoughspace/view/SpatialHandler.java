@@ -15,7 +15,6 @@ import edu.chalmers.notenoughspace.core.*;
 import edu.chalmers.notenoughspace.ctrl.*;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
-import edu.chalmers.notenoughspace.event.EntityStateChangedEvent;
 
 /**
  * Created by Phnor on 2017-05-08.

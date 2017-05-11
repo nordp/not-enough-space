@@ -18,6 +18,8 @@ public class Ship implements Entity {
     private int energy;
     public Beam beam;
 
+    private PlanetaryInhabitant body;
+
     public Ship(){
         Bus.getInstance().post(new EntityCreatedEvent(this));
 
@@ -58,4 +60,11 @@ public class Ship implements Entity {
         beam.setActive(beamActive);
     }
 
+    public PlanetaryInhabitant getPlanetaryInhabitant() {
+        return body;
+    }
+
+    public void setPlanetaryInhabitant(PlanetaryInhabitant body) {
+        this.body = body;
+    }
 }

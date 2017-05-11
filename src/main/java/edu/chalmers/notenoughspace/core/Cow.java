@@ -3,13 +3,14 @@ package edu.chalmers.notenoughspace.core;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
-public class Cow implements Entity, Beamable{
+public class Cow implements BeamableEntity {
 
-    public final static float REACTION_DISTANCE = 3f;
+    public static final float REACTION_DISTANCE = 3f;
     public static final float SPRINT_SPEED = 0.3f;
-    public final static float MAX_DIR = 90;
-    public final static int SPRINT_COOLDOWN = 200;
-    public final static int MAX_STAMINA = 200;
+    public static final float MAX_DIR = 90;
+    public static final int SPRINT_COOLDOWN = 3000;
+    public static final int MAX_STAMINA = 3000;
+    public static final int STAMINA_REDUCTION = 1000;
 
     public static final float MIN_WALKSPEED = 0.01f;
     public static final float MAX_WALKSPEED = 0.15f;
@@ -25,6 +26,8 @@ public class Cow implements Entity, Beamable{
     private CowMood mood;
     private BeamState beamState;
 
+    private PlanetaryInhabitant body;
+
     public Cow(){
 //        super(parent);
         mood = CowMood.CALM;
@@ -33,7 +36,7 @@ public class Cow implements Entity, Beamable{
         Bus.getInstance().post(new EntityCreatedEvent(this));
     }
 
-    public void update(PlanetaryInhabitant body, PlanetaryInhabitant ship, float tpf) {
+    public void update(PlanetaryInhabitant ship, float tpf) {
         updateMood(body.distance(ship));
         updateSpeed();
         updateDirection(body, ship, tpf);
@@ -65,7 +68,7 @@ public class Cow implements Entity, Beamable{
 
                 float rand = (float) Math.random();
                 if (rand*100 < CHANGE_DIRECTION_CHANCE) {
-                    setWalkDir((float)Math.toRadians((Math.random()*MAX_DIR-MAX_DIR/2)));
+                    walkDir = (float)Math.toRadians((Math.random()*MAX_DIR-MAX_DIR/2));
                 }
                 //Walk
                 body.rotateForward(speed * tpf);
@@ -101,36 +104,20 @@ public class Cow implements Entity, Beamable{
 
                 body.rotateForward(SPRINT_SPEED * tpf);
                 body.rotateModel((float)Math.toRadians(sprintDir * tpf));
-                reduceStamina();
+                stamina -= STAMINA_REDUCTION * tpf;
                 break;
 
             case TIRED:
                 //Walk
                 body.rotateForward(speed/2 * tpf);
                 body.rotateModel((float)Math.toRadians(walkDir/2 * tpf));
-                reduceStamina();
+                stamina -= STAMINA_REDUCTION * tpf;
                 break;
         }
     }
 
-    public void reduceStamina(){
-        stamina--;
-    }
-
     public CowMood getMood(){
         return this.mood;
-    }
-
-    public float getWalkDir() {
-        return walkDir;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setWalkDir(float walkDir) {
-        this.walkDir = walkDir;
     }
 
     public BeamState isInBeam() {
@@ -141,7 +128,15 @@ public class Cow implements Entity, Beamable{
         this.beamState = beamState;
     }
 
-    public int getWeight() {
+    public int getWeight() { // TODO the whole weight thing, along with special cows
         return 1;
+    }
+
+    public PlanetaryInhabitant getPlanetaryInhabitant() {
+        return body;
+    }
+
+    public void setPlanetaryInhabitant(PlanetaryInhabitant body) {
+        this.body = body;
     }
 }

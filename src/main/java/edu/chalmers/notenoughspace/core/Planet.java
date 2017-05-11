@@ -14,6 +14,8 @@ public class Planet implements Entity {
 
     private ArrayList<Entity> population;
 
+    private PlanetaryInhabitant body;
+
     public Planet(){
 //        super(parent);
         population = new ArrayList<Entity>();
@@ -41,5 +43,13 @@ public class Planet implements Entity {
         for (int i = 0; i < nSatellite; i++){
             new Satellite();
         }
+    }
+
+    public PlanetaryInhabitant getPlanetaryInhabitant() {
+        return body;
+    }
+
+    public void setPlanetaryInhabitant(PlanetaryInhabitant body) {
+        this.body = body;
     }
 }

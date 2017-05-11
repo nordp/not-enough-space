@@ -21,7 +21,7 @@ public class CowControl extends AbstractControl {
         JMEInhabitant body = new JMEInhabitant(spatial);
         JMEInhabitant ship = new JMEInhabitant(NodeUtil.getRoot(spatial).getChild("ship"));
 
-        cow.update(body, ship, tpf);
+        cow.update(ship, tpf);
 
         //TODO: This animation adjusting code should not be in the control. (But where should it be??)
         if (cow.getMood() == CowMood.SCARED) {

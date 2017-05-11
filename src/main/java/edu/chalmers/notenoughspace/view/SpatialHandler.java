@@ -109,6 +109,8 @@ public class SpatialHandler {
         node.attachChild(model);
         node.addControl(control);
 
+        event.entity.setPlanetaryInhabitant(new JMEInhabitant(node));
+
         //Temporary place, maybe move somewhere else and/or bind to key
         if(event.entity instanceof Ship)
              ((ShipControl)control).attachThirdPersonView(app.getCamera(), Planet.PLANET_RADIUS, Ship.ALTITUDE);

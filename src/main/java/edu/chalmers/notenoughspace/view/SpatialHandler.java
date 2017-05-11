@@ -1,6 +1,7 @@
 package edu.chalmers.notenoughspace.view;
 
 import com.google.common.eventbus.Subscribe;
+import com.jme3.animation.AnimControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.light.SpotLight;
@@ -14,6 +15,7 @@ import edu.chalmers.notenoughspace.core.*;
 import edu.chalmers.notenoughspace.ctrl.*;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
+import edu.chalmers.notenoughspace.event.EntityStateChangedEvent;
 
 /**
  * Created by Phnor on 2017-05-08.
@@ -116,4 +118,5 @@ public class SpatialHandler {
         ((Node)parent).attachChild(node);
         //rootNode.detachChildNamed(event.entity.toString());
     }
+
 }

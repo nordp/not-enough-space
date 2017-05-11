@@ -34,19 +34,22 @@ public class Satellite implements Entity {
     /**
      * make the satellite explode if the ship is closer than satelliteRadius
      */
-   /* public void explode(){
-        if(getDistance()<= satelliteRadius) {
-            Sphere sphere = new Sphere();
-            app.getRootNode().attachChild();
-            sphere.setMaterial(ModelManager.loadMaterial("sun"));
-            sphere.move(-20, 0, 10);
-            sphere.setLocalTranslation(-100, 0, 0);
-            sphere.rotate(0, 0, FastMath.HALF_PI);
+    /*
+    public void explode() {
 
-        }
+        //app.getRootNode().detachChild(satelliteNode);
+
+        //implement some explode animation, growing sun?
+            /*Spatial sun = nodeFactory.createSun().scale(0.2f, 0.2f, 0.2f);
+            satelliteNode.attachChild(sun);
+
+
+
+    }
+
+    public void explodeWhenCollision(float distanceToShip){
+        while(distanceToShip <= SATELLITE_RADIUS){
 
         }
     }
-
-}
  */

@@ -5,6 +5,7 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 
 import com.jme3.input.controls.KeyTrigger;
@@ -29,7 +30,7 @@ public class Menu extends AbstractAppState {
         actionListener = new ActionListener() {
 
             public void onAction(String name, boolean value, float tpf) {
-                if (name.equals("StartButton")|| name.equals("QuitButton") || name.equals("OptionsButton") && !value) {
+                if (name.equals("start")|| name.equals("QuitButton") || name.equals("OptionsButton") && !value) {
                     startRound();
 
                 }
@@ -48,15 +49,15 @@ public class Menu extends AbstractAppState {
         app.getInputManager().setCursorVisible(true);
 
 
-        app.getInputManager().addMapping("start", new MouseButtonTrigger(1));
-        app.getInputManager().addListener(actionListener, "Start");
+    app.getInputManager().addMapping("start", new KeyTrigger(KeyInput.KEY_RETURN));
+    app.getInputManager().addListener(actionListener, "start");
 
-        app.getInputManager().addMapping("options", new MouseButtonTrigger(1));
+        /*app.getInputManager().addMapping("options", new MouseButtonTrigger(1));
         app.getInputManager().addListener(actionListener, "options");
 
         app.getInputManager().addMapping("exit", new MouseButtonTrigger(1));
         app.getInputManager().addListener(actionListener, "exit");
-
+*/
     }
 
     private void startRound() {
@@ -98,20 +99,20 @@ public class Menu extends AbstractAppState {
         exitRoundText.setText("EXIT");
         app.getGuiNode().attachChild(exitRoundText);
 
-    }
+    }*/
 
     @Override
     public void cleanup() {
         super.cleanup();
         app.getGuiNode().detachAllChildren();
-        app.getInputManager().deleteMapping("startRound");
-        app.getInputManager().deleteMapping("options");
-        app.getInputManager().deleteMapping("exit");
+        app.getInputManager().deleteMapping("start");
+        //app.getInputManager().deleteMapping("options");
+        //app.getInputManager().deleteMapping("exit");
         app.getInputManager().removeListener(actionListener);
 
     }
 
-*/
+
 
         public void simpleInitMenu() {
             NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(

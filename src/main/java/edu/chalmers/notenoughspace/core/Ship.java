@@ -29,7 +29,7 @@ public class Ship implements Entity {
     }
 
     public void update() {
-
+        beam.update();
     }
 
     public void moveForwards(PlanetaryInhabitant body, float tpf) {

@@ -47,7 +47,25 @@ public class Beam implements Entity {
     }
 
     public void update() {
+        if (isActive()) {
+            for (BeamableEntity b : objectsInBeam) {
+                liftEntityTowardsShip(b);
+            }
+        }
+    }
 
+    //Helper
+    private void liftEntityTowardsShip(BeamableEntity b) {
+        PlanetaryInhabitant inhabitant = b.getPlanetaryInhabitant();
+        float currentHeight = inhabitant.getLocalTranslation().y;
+
+        if (currentHeight > Planet.PLANET_RADIUS + Ship.ALTITUDE) {
+            //TODO: Remove beamed object from world and put into storage.
+            //TODO: EntityBeamedEvent?
+            return;
+        }
+
+        inhabitant.setDistanceToPlanetsCenter(currentHeight + 0.01f);
     }
 
     public void setActive(boolean active) {

@@ -49,9 +49,10 @@ public class Cow implements BeamableEntity {
             mood = CowMood.CALM;
         }
         if (stamina < 0){
-            mood = CowMood.TIRED;
             if (stamina < -SPRINT_COOLDOWN){
                 stamina = MAX_STAMINA;
+            }else{
+                mood = CowMood.TIRED;
             }
         }
     }

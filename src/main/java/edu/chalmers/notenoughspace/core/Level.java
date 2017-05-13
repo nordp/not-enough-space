@@ -19,7 +19,7 @@ public class Level {
         ship = new Ship();
         planet = new Planet();
         //Test population
-        planet.populate(10, 10, 1);
+        planet.populate(10, 10, 1, 1);
         //Init timer.
         timer = new CountDownTimer(LEVEL_TIME) {
             @Override

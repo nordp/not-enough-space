@@ -31,14 +31,14 @@ public class SpatialHandlerTest {
 
                 Planet p = new Planet();
 
-                p.populate(1,0,0);
+                p.populate(1,0,0, 1);
 
                 assertTrue(getRootNode().getChildren().size() == 2);
 
                 assertTrue(getRootNode().getChild(0).getName().equals(p.toString()));
 
 
-                p.populate(1,2,0);
+                p.populate(1,2,0, 1);
 
                 assertTrue(getRootNode().getChildren().size() == 4);
 

@@ -102,6 +102,11 @@ public class SpatialHandler {
             model.setName("planetModel");
             node.setName("planet");
             control = new PlanetControl((Planet) event.entity);
+        } else if (event.entity instanceof Farmer) {
+            model = ModelLoaderFactory.getModelLoader().loadModel("farmer");
+            control = new FarmerControl((Farmer) event.entity);
+            model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
+            model.scale(0.01f, 0.01f, 0.01f);
         } else {
             throw new IllegalArgumentException("entity must be Entity from model package");
         }

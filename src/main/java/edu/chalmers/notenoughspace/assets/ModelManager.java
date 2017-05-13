@@ -65,6 +65,9 @@ class ModelManager implements IModelLoader {
             sunMesh.setTextureMode(com.jme3.scene.shape.Sphere.TextureMode.Projected);
             model = new Geometry("sun", sunMesh);
             model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
+        } else if(modelId.equals("farmer")) {
+            model = assetManager.loadModel("Models/farmer.obj");
+            model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
         } else {
             throw new IllegalArgumentException("No such model");
         }

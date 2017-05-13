@@ -27,7 +27,7 @@ public class Planet implements Entity {
 
     }
 
-    public void populate(int nCow, int nJunk, int nSatellite){
+    public void populate(int nCow, int nJunk, int nSatellite, int nFarmer){
 //        children.clear();
         for (int i = 0; i < nCow; i++){
             Entity c = new Cow();
@@ -42,6 +42,10 @@ public class Planet implements Entity {
 
         for (int i = 0; i < nSatellite; i++){
             new Satellite();
+        }
+
+        for (int i = 0; i < nFarmer; i++){
+            new Farmer();
         }
     }
 

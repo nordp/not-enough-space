@@ -92,11 +92,11 @@
             <artifactId>jme3-lwjgl</artifactId>
             <version>${jme3_v}</version>
         </dependency>
-            <dependency>
-                <groupId>org.jmonkeyengine</groupId>
-                <artifactId>jme3-niftygui</artifactId>
-                <version>3.1.0-stable</version>
-            </dependency>
+        <dependency>
+            <groupId>org.jmonkeyengine</groupId>
+            <artifactId>jme3-niftygui</artifactId>
+            <version>3.1.0-stable</version>
+        </dependency>
     </dependencies>
     <properties>
         <jme3_g>org.jmonkeyengine</jme3_g>

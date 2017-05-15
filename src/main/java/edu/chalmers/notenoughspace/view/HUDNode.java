@@ -9,7 +9,7 @@ import edu.chalmers.notenoughspace.core.Storage;
 /**
  * Created by Phnor on 2017-05-01.
  */
-public class HUDNode extends Node {
+/*public class HUDNode extends Node {
 
     BitmapText timerText;
     BitmapText scoreText;
@@ -54,7 +54,7 @@ public class HUDNode extends Node {
      * digital clock format: mm:ss:hh.
      * @param seconds The number of seconds to convert. If negative the time 00:00:00 is returned.
      */
-    private static String toTimeFormat(float seconds) {
+   /* private static String toTimeFormat(float seconds) {
         if (seconds < 0) {
             seconds = 0;
         }
@@ -78,3 +78,4 @@ public class HUDNode extends Node {
     }
 
 }
+*/

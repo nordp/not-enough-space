@@ -5,12 +5,12 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.font.BitmapFont;
-import com.jme3.font.BitmapText;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
+
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.input.controls.MouseButtonTrigger;
+
 
 
 public class Menu extends AbstractAppState {
@@ -19,20 +19,17 @@ public class Menu extends AbstractAppState {
     private Round round;
 
 
-    private BitmapText startRoundText;
-    private BitmapText optionsText;
-    private BitmapText exitRoundText;
-
-
     public Menu() {
         actionListener = new ActionListener() {
 
             public void onAction(String name, boolean value, float tpf) {
-                if (name.equals("startRound") || (name.equals("options") || (name.equals("exit"))) && !value) {
+                if (name.equals("start") || name.equals("options") || name.equals("exit") && !value) {
                     startRound();
 
                 }
-            };
+            }
+
+            ;
         };
     }
 
@@ -41,30 +38,31 @@ public class Menu extends AbstractAppState {
         super.initialize(stateManager, app);
         app = (SimpleApplication) application;
 
-        round = new Round();
-        //round.setEnabled(false);
+        GUI gui = new GUI(app);
+        round = new Round(gui);
 
-        app.getInputManager().addMapping("startRound", new KeyTrigger(KeyInput.KEY_RETURN));
-        app.getInputManager().addListener(actionListener, "startRound");
 
-        app.getInputManager().addMapping("options", new KeyTrigger(KeyInput.KEY_SPACE));
+        app.getInputManager().setCursorVisible(true);
+
+
+        app.getInputManager().addMapping("start", new KeyTrigger(KeyInput.KEY_RETURN));
+        app.getInputManager().addListener(actionListener, "start");
+
+        app.getInputManager().addMapping("options", new MouseButtonTrigger(1));
         app.getInputManager().addListener(actionListener, "options");
 
         app.getInputManager().addMapping("exit", new MouseButtonTrigger(1));
         app.getInputManager().addListener(actionListener, "exit");
 
-
-        initStartRoundText();
-        initOptionsText();
-        initExitText();
     }
 
     private void startRound() {
         app.getStateManager().detach(this);
         app.getStateManager().attach(round);
         round.setEnabled(true);
-    }
 
+    }
+/*
     private void initStartRoundText() {
         BitmapFont font = app.getAssetManager().loadFont("Interface/Fonts/Default.fnt");
         startRoundText = new BitmapText(font);
@@ -97,19 +95,18 @@ public class Menu extends AbstractAppState {
         exitRoundText.setText("EXIT");
         app.getGuiNode().attachChild(exitRoundText);
 
-    }
+    }*/
 
     @Override
     public void cleanup() {
         super.cleanup();
         app.getGuiNode().detachAllChildren();
-        app.getInputManager().deleteMapping("startRound");
+        app.getInputManager().deleteMapping("start");
         app.getInputManager().deleteMapping("options");
         app.getInputManager().deleteMapping("exit");
         app.getInputManager().removeListener(actionListener);
 
     }
 
-
-
 }
+

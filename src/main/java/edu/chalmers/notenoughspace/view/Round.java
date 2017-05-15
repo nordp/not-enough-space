@@ -29,9 +29,14 @@ public class Round extends AbstractAppState {
     private PointLight sunLight;
     private AmbientLight ambientLight;
     private AudioNode happy;
-    private HUDNode hud;
+    //private HUDNode hud;
     private ActionListener actionListener;
     private boolean paused;
+    private GUI gui;
+
+    public Round (GUI gui) {
+        this.gui = gui;
+    }
 
     @Override
     public void initialize(AppStateManager stateManager, Application application) {
@@ -49,9 +54,7 @@ public class Round extends AbstractAppState {
         initInput(app);
         new SpatialHandler(app);
 
-        //Init HUD
-        hud = new HUDNode(app.getContext().getSettings().getHeight(), app.getContext().getSettings().getWidth());
-        app.getGuiNode().attachChild(hud);
+        gui.setScreen("hud");
     }
 
     private void initScene(SimpleApplication app) {
@@ -138,7 +141,7 @@ public class Round extends AbstractAppState {
         app.getInputManager().deleteMapping("pause");
         app.getInputManager().removeListener(actionListener);
 
-        app.getGuiNode().detachChild(hud);
+       // app.getGuiNode().detachChild(hud);
     }
 
     @Override
@@ -161,13 +164,13 @@ public class Round extends AbstractAppState {
     public void update(float tpf) {
         if (!paused) {
             level.update(tpf);
-            hud.updateTimer(level.getTimeLeft());
+            //hud.updateTimer(level.getTimeLeft());
         }
     }
 
     private void restartRound() {
         app.getStateManager().detach(this);
-        app.getStateManager().attach(new Round());
+        app.getStateManager().attach(new Round(gui));
     }
 
     private void returnToMenu() {

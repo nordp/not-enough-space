@@ -58,6 +58,11 @@ public class JMEInhabitant implements PlanetaryInhabitant {
         return new JMEInhabitant(node.clone());
     }
 
+    public void move(Vector3f relativeMovement) {
+        model.move(vecmathToJme(relativeMovement));
+    }
+
+
     //Util Methods
     private static javax.vecmath.Vector3f jmeToVecmath(com.jme3.math.Vector3f vector) {
         return new javax.vecmath.Vector3f(vector.x, vector.y, vector.z);

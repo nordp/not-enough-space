@@ -61,4 +61,8 @@ public class TestInhabitant implements PlanetaryInhabitant {
     public PlanetaryInhabitant clone() {
         return new TestInhabitant((Vector3f) position.clone());
     }
+
+    public void move(Vector3f relativeMovement) {
+        //TODO
+    }
 }

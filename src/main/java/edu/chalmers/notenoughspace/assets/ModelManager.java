@@ -68,6 +68,10 @@ class ModelManager implements IModelLoader {
         } else if(modelId.equals("farmer")) {
             model = assetManager.loadModel("Models/farmer.obj");
             model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
+        } else if (modelId.equals("hayfork")) {
+            //TODO: Hayfork model
+            model = assetManager.loadModel("Models/Beata.j3o");
+            model.scale(0.1f);
         } else {
             throw new IllegalArgumentException("No such model");
         }

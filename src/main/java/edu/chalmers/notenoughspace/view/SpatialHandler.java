@@ -6,6 +6,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.light.SpotLight;
 import com.jme3.math.FastMath;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.LightNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -107,6 +108,19 @@ public class SpatialHandler {
             control = new FarmerControl((Farmer) event.entity);
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
             model.scale(0.01f, 0.01f, 0.01f);
+        } else if (event.entity instanceof Hayfork) {
+            Hayfork hayfork = (Hayfork) event.entity;
+            model = ModelLoaderFactory.getModelLoader().loadModel("hayfork");
+
+            Entity thrower = hayfork.getThrower();
+            javax.vecmath.Vector3f throwerWorldTranslation =
+                    thrower.getPlanetaryInhabitant().getWorldTranslation();
+
+            model.setLocalTranslation(new Vector3f(throwerWorldTranslation.x,
+                    throwerWorldTranslation.y,
+                    throwerWorldTranslation.z));
+
+            control = new HayforkControl(hayfork);
         } else {
             throw new IllegalArgumentException("entity must be Entity from model package");
         }

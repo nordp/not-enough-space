@@ -15,4 +15,5 @@ public interface PlanetaryInhabitant {
     Vector3f getWorldTranslation();
     float distance(PlanetaryInhabitant other);
     PlanetaryInhabitant clone();
+    void move(Vector3f relativeMovement);
 }

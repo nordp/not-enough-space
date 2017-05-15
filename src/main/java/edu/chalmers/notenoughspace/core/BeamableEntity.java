@@ -1,6 +1,6 @@
 package edu.chalmers.notenoughspace.core;
 
-public interface Beamable {
+public interface BeamableEntity extends Entity{
 
     BeamState isInBeam();
     void setInBeam(BeamState beamState);

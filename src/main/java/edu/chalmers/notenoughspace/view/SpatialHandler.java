@@ -1,10 +1,12 @@
 package edu.chalmers.notenoughspace.view;
 
 import com.google.common.eventbus.Subscribe;
+import com.jme3.animation.AnimControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.light.SpotLight;
 import com.jme3.math.FastMath;
+import com.jme3.math.Vector3f;
 import com.jme3.scene.LightNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -71,8 +73,8 @@ public class SpatialHandler {
             spotLight.setName("shipSpotLight");
             LightNode spotLightNode = new LightNode("shipSpotLightNode", spotLight);
             spotLightNode.setLocalTranslation(model.getWorldTranslation());
-//            rootNode.addLight(spotLight);
-            rootNode.attachChild(spotLightNode);
+            rootNode.addLight(spotLight);
+            node.attachChild(spotLightNode);
             /**
              * Moves the ship core from its original position at the center of the Ship node
              * to it's correct starting position over the planet's surface.
@@ -101,12 +103,32 @@ public class SpatialHandler {
             model.setName("planetModel");
             node.setName("planet");
             control = new PlanetControl((Planet) event.entity);
+        } else if (event.entity instanceof Farmer) {
+            model = ModelLoaderFactory.getModelLoader().loadModel("farmer");
+            control = new FarmerControl((Farmer) event.entity);
+            model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
+            model.scale(0.01f, 0.01f, 0.01f);
+        } else if (event.entity instanceof Hayfork) {
+            Hayfork hayfork = (Hayfork) event.entity;
+            model = ModelLoaderFactory.getModelLoader().loadModel("hayfork");
+
+            Entity thrower = hayfork.getThrower();
+            javax.vecmath.Vector3f throwerWorldTranslation =
+                    thrower.getPlanetaryInhabitant().getWorldTranslation();
+
+            model.setLocalTranslation(new Vector3f(throwerWorldTranslation.x,
+                    throwerWorldTranslation.y,
+                    throwerWorldTranslation.z));
+
+            control = new HayforkControl(hayfork);
         } else {
             throw new IllegalArgumentException("entity must be Entity from model package");
         }
 
         node.attachChild(model);
         node.addControl(control);
+
+        event.entity.setPlanetaryInhabitant(new JMEInhabitant(node));
 
         //Temporary place, maybe move somewhere else and/or bind to key
         if(event.entity instanceof Ship)
@@ -116,4 +138,5 @@ public class SpatialHandler {
         ((Node)parent).attachChild(node);
         //rootNode.detachChildNamed(event.entity.toString());
     }
+
 }

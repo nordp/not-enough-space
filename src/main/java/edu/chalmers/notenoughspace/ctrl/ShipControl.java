@@ -37,7 +37,7 @@ public class ShipControl extends AbstractControl {
     }
 
     protected void controlUpdate(float v) {
-
+        ship.update();
     }
 
     protected void controlRender(RenderManager renderManager, ViewPort viewPort) {

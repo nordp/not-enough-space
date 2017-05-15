@@ -1,5 +1,8 @@
 package edu.chalmers.notenoughspace.assets;
 
+import com.jme3.animation.AnimChannel;
+import com.jme3.animation.AnimControl;
+import com.jme3.animation.AnimEventListener;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
@@ -24,9 +27,13 @@ class ModelManager implements IModelLoader {
     public Spatial loadModel(String modelId) {      //TODO Make Modelmanager not depend on stringID
         Spatial model;
         if (modelId.equals("cow")) {
-            model = assetManager.loadModel("Models/cow.obj");
-            model.setMaterial(assetManager.loadMaterial("Materials/CowMaterial.j3m"));
-            model.rotate(FastMath.HALF_PI, FastMath.HALF_PI, FastMath.PI);
+            model = assetManager.loadModel("Models/Beata.j3o");
+            model.scale(0.15f);
+            AnimControl control = model.getControl(AnimControl.class);
+            AnimChannel channel = control.createChannel();
+            channel.setAnim("my_animation");    //My_animation is the name of the walk animation,
+                                                //will try to change that soon!
+            channel.setSpeed(2.5f);
         } else if (modelId.equals("satellite")){
             model = assetManager.loadModel("Models/ufo.obj");
             model.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));
@@ -58,6 +65,13 @@ class ModelManager implements IModelLoader {
             sunMesh.setTextureMode(com.jme3.scene.shape.Sphere.TextureMode.Projected);
             model = new Geometry("sun", sunMesh);
             model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
+        } else if(modelId.equals("farmer")) {
+            model = assetManager.loadModel("Models/farmer.obj");
+            model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
+        } else if (modelId.equals("hayfork")) {
+            //TODO: Hayfork model
+            model = assetManager.loadModel("Models/Beata.j3o");
+            model.scale(0.1f);
         } else {
             throw new IllegalArgumentException("No such model");
         }

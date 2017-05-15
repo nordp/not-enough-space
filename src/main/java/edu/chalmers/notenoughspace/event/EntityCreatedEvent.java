@@ -10,6 +10,12 @@ public class EntityCreatedEvent {
 
     public EntityCreatedEvent(Entity entity) {
         this.entity = entity;
-        System.out.println("EntityCreatedEvent fired");
+        System.out.println("EntityCreatedEvent fired: " + getClassName());
+    }
+
+    private String getClassName() {
+        String classString = entity.getClass().toString();
+        String[] words = classString.split("[.]");
+        return words[words.length - 1];
     }
 }

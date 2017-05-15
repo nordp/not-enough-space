@@ -11,7 +11,9 @@ public interface PlanetaryInhabitant {
     void rotateSideways(float angle);
     void rotateModel(float angle);
     Vector3f getLocalTranslation();
+    void setDistanceToPlanetsCenter(float distance);
     Vector3f getWorldTranslation();
     float distance(PlanetaryInhabitant other);
     PlanetaryInhabitant clone();
+    void move(Vector3f relativeMovement);
 }

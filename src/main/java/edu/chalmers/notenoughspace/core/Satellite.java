@@ -13,6 +13,8 @@ public class Satellite implements Entity {
     private Vector3f worldLocation = new Vector3f();
     private Ship ship;
 
+    private PlanetaryInhabitant body;
+
     Satellite() {
 //        super(parent);
         Bus.getInstance().post(new EntityCreatedEvent(this));
@@ -29,6 +31,13 @@ public class Satellite implements Entity {
         return worldLocation;
     }
 
+    public PlanetaryInhabitant getPlanetaryInhabitant() {
+        return body;
+    }
+
+    public void setPlanetaryInhabitant(PlanetaryInhabitant body) {
+        this.body = body;
+    }
 }
 
     /**

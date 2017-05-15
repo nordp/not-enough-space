@@ -35,6 +35,7 @@ public class StartMenuControl extends AbstractAppState implements ScreenControll
         application.getInputManager().deleteMapping("start");
         application.getInputManager().deleteMapping("options");
         application.getInputManager().deleteMapping("exit");
+        application.getGuiNode().detachAllChildren();
         //TODO: clean up what you initialized in the initialize method,
         //e.g. remove all spatials from rootNode
         //this is called on the OpenGL thread after the AppState has been detached

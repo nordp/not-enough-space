@@ -25,19 +25,23 @@ public class Menu extends AbstractAppState {
     private ActionListener actionListener;
     private SimpleApplication app;
     private Round round;
+    private HUDNode hud;
 
     public Menu() {
         actionListener = new ActionListener() {
 
             public void onAction(String name, boolean value, float tpf) {
-                if (name.equals("start")|| name.equals("QuitButton") || name.equals("OptionsButton") && !value) {
+                if (name.equals("start") || name.equals("QuitButton") || name.equals("OptionsButton") && !value) {
                     startRound();
 
                 }
-            };
+            }
+
+            ;
         };
     }
-@Override
+
+    @Override
     public void initialize(AppStateManager stateManager, Application application) {
         super.initialize(stateManager, app);
         app = (SimpleApplication) application;
@@ -49,8 +53,8 @@ public class Menu extends AbstractAppState {
         app.getInputManager().setCursorVisible(true);
 
 
-    app.getInputManager().addMapping("start", new KeyTrigger(KeyInput.KEY_RETURN));
-    app.getInputManager().addListener(actionListener, "start");
+        app.getInputManager().addMapping("start", new KeyTrigger(KeyInput.KEY_RETURN));
+        app.getInputManager().addListener(actionListener, "start");
 
         /*app.getInputManager().addMapping("options", new MouseButtonTrigger(1));
         app.getInputManager().addListener(actionListener, "options");
@@ -113,135 +117,139 @@ public class Menu extends AbstractAppState {
     }
 
 
+    public void simpleInitMenu() {
+        NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
+                app.getAssetManager(), app.getInputManager(), app.getAudioRenderer(), app.getGuiViewPort());
+        Nifty nifty = niftyDisplay.getNifty();
+        app.getGuiViewPort().addProcessor(niftyDisplay);
+        app.getFlyByCamera().setDragToRotate(true);
 
-        public void simpleInitMenu() {
-            NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
-                    app.getAssetManager(), app.getInputManager(), app.getAudioRenderer(), app.getGuiViewPort());
-            Nifty nifty = niftyDisplay.getNifty();
-            app.getGuiViewPort().addProcessor(niftyDisplay);
-            app.getFlyByCamera().setDragToRotate(true);
+        nifty.loadStyleFile("nifty-default-styles.xml");
+        nifty.loadControlFile("nifty-default-controls.xml");
 
-            nifty.loadStyleFile("nifty-default-styles.xml");
-            nifty.loadControlFile("nifty-default-controls.xml");
+        // add start screen
 
-            // add start screen
+        nifty.addScreen("start", new ScreenBuilder("start") {
+            {
+                controller(new edu.chalmers.notenoughspace.ctrl.StartMenuControl());
+                layer(new LayerBuilder("background") {
+                    {
+                        childLayoutCenter();
+                        //backgroundColor("#000f");
 
-            nifty.addScreen("start", new ScreenBuilder("start") {
-                {
-                    controller(new DefaultScreenController());
-                    layer(new LayerBuilder("background") {
-                        {
-                            childLayoutCenter();
-                            //backgroundColor("#000f");
-
-                            // add image
-                            image(new ImageBuilder() {{
-                                filename("Textures/space.jpg");
-                                height("100%");
-                                width("100%");
-                            }});
-
+                        // add image
+                        image(new ImageBuilder() {{
+                            filename("Textures/space.jpg");
+                            height("100%");
+                            width("100%");
+                        }});
 
 
-                            layer(new LayerBuilder("foreground") {
-                                {
-                                    childLayoutVertical();
-                                    // backgroundColor("#0000");
-                                }
-                            });
+                        layer(new LayerBuilder("foreground") {
+                            {
+                                childLayoutVertical();
+                                // backgroundColor("#0000");
+                            }
+                        });
 
 
-                            // panel added
-                            panel(new PanelBuilder("panel_top") {
-                                {
-                                    childLayoutCenter();
-                                    //alignCenter();
-                                    //backgroundColor("#f008");
+                        // panel added
+                        panel(new PanelBuilder("panel_top") {
+                            {
+                                childLayoutCenter();
+                                //alignCenter();
+                                //backgroundColor("#f008");
+                                height("25%");
+                                width("75%");
+
+                                // add text
+                                text(new TextBuilder() {{
+                                    text("My Cool Game");
+                                    font("Interface/Fonts/Default.fnt");
+                                    height("100%");
+                                    width("100%");
+                                }});
+
+                            }
+                        });
+
+
+                        panel(new PanelBuilder("panel_mid") {
+                            {
+                                childLayoutCenter();
+                                alignCenter();
+
+                                //backgroundColor("#0f08");
+                                height("25%");
+                                width("75%");
+
+                                control(new ButtonBuilder("OptionsButton", "Options") {{
+                                    alignCenter();
+                                    valignCenter();
                                     height("25%");
-                                    width("75%");
+                                    width("25%");
+                                }});
+                            }
+                        });
 
-                                    // add text
-                                    text(new TextBuilder() {{
-                                        text("My Cool Game");
-                                        font("Interface/Fonts/Default.fnt");
-                                        height("100%");
-                                        width("100%");
+                        panel(new PanelBuilder("panel_bottom") {
+                            {
+                                childLayoutHorizontal();
+                                alignCenter();
+                                //backgroundColor("#00f8");
+                                height("25%");
+                                width("75%");
+
+
+                                panel(new PanelBuilder("panel_bottom_left") {{
+                                    childLayoutCenter();
+                                    valignCenter();
+                                    //backgroundColor("#44f8");
+                                    height("50%");
+                                    width("50%");
+
+                                    // add control
+                                    control(new ButtonBuilder("StartButton", "Start") {{
+                                        alignCenter();
+                                        valignCenter();
+                                        height("50%");
+                                        width("50%");
+                                        visibleToMouse(true);
+                                        interactOnClick("startGame(hud)");
                                     }});
 
                                 }});
 
-
-
-                                    panel(new PanelBuilder("panel_mid") {
-                                        {
-                                            childLayoutCenter();
-                                            alignCenter();
-
-                                            //backgroundColor("#0f08");
-                                            height("25%");
-                                            width("75%");
-
-                                            control(new ButtonBuilder("OptionsButton", "Options") {{
-                                                alignCenter();
-                                                valignCenter();
-                                                height("25%");
-                                                width("25%");
-                                            }});
-                                        }});
-
-                                    panel(new PanelBuilder("panel_bottom") {
-                                        {
-                                            childLayoutHorizontal();
-                                            alignCenter();
-                                            //backgroundColor("#00f8");
-                                            height("25%");
-                                            width("75%");
-
-
-
-                                    panel(new PanelBuilder("panel_bottom_left") {{
+                                panel(new PanelBuilder("panel_bottom_right") {
+                                    {
                                         childLayoutCenter();
                                         valignCenter();
-                                        //backgroundColor("#44f8");
+                                        // backgroundColor("#88f8");
                                         height("50%");
                                         width("50%");
 
                                         // add control
-                                        control(new ButtonBuilder("StartButton", "Start") {{
+                                        control(new ButtonBuilder("QuitButton", "Quit") {{
                                             alignCenter();
                                             valignCenter();
                                             height("50%");
                                             width("50%");
+                                            visibleToMouse(true);
+                                            interactOnClick("quitGame");
                                         }});
-
-                                    }});
-
-                                    panel(new PanelBuilder("panel_bottom_right") {
-                                        {
-                                            childLayoutCenter();
-                                            valignCenter();
-                                            // backgroundColor("#88f8");
-                                            height("50%");
-                                            width("50%");
-
-                                            // add control
-                                            control(new ButtonBuilder("QuitButton", "Quit") {{
-                                                alignCenter();
-                                                valignCenter();
-                                                height("50%");
-                                                width("50%");
-                                            }});
-                                        }});
-                                     }});
-                                }});
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
 
 
+            }
+        }.build(nifty));
 
 
-
-      }}.build(nifty));
-
-
-    nifty.gotoScreen("start"); // start the screen
+        nifty.gotoScreen("start"); // start the screen
     }
 }
+

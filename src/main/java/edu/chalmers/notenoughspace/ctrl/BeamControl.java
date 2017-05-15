@@ -1,10 +1,16 @@
 package edu.chalmers.notenoughspace.ctrl;
 
 import com.google.common.eventbus.Subscribe;
+import com.jme3.app.SimpleApplication;
+import com.jme3.bounding.BoundingBox;
+import com.jme3.material.Material;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
+import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
+import com.jme3.scene.debug.WireBox;
 import edu.chalmers.notenoughspace.event.BeamToggleEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
@@ -24,7 +30,7 @@ public class BeamControl extends AbstractControl {
         else
             spatial.setCullHint(Spatial.CullHint.Always);
     }
-
+boolean tmp = true;
     protected void controlUpdate(float v) {
 
     }

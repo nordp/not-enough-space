@@ -3,6 +3,7 @@ package edu.chalmers.notenoughspace.core;
 public interface BeamableEntity extends Entity{
 
     BeamState isInBeam();
-    void setInBeam(BeamState beamState);
+    void enterBeam();
+    void exitBeam();
     int getWeight();
 }

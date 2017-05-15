@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.ctrl;
+/*package edu.chalmers.notenoughspace.ctrl;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -7,14 +7,15 @@ import com.jme3.app.state.AppStateManager;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import edu.chalmers.notenoughspace.event.Bus;
+import edu.chalmers.notenoughspace.event.GameOverEvent;
 
 /**
  * Created by juliaortheden on 2017-05-12.
- */
-public class StartMenuControl implements ScreenController {
+
+class StartMenuControl implements ScreenController {
 
     Nifty nifty;
-
 
     public void bind(Nifty nifty, Screen screen) {
         this.nifty = nifty;
@@ -28,14 +29,4 @@ public class StartMenuControl implements ScreenController {
         //throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    /** custom methods */
-    public void startButtonClicked(String nextScreen) {
-        nifty.gotoScreen(nextScreen);  // switch to another screen
-        // start the game and do some more stuff...
-    }
-
-    public void quitButtonClicked() {
-        //application.stop();
-    }
-
-}
+}*/

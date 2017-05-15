@@ -17,6 +17,7 @@ import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
+import com.jme3.util.SkyFactory;
 import edu.chalmers.notenoughspace.core.Level;
 
 public class Round extends AbstractAppState {
@@ -71,6 +72,8 @@ public class Round extends AbstractAppState {
         //AmbientLight:
         ambientLight = new AmbientLight(ColorRGBA.White.mult(0.3f));
         ambientLight.setEnabled(true);
+        app.getRootNode().attachChild(SkyFactory.createSky(
+                app.getAssetManager(), "Textures/skybox.dds", SkyFactory.EnvMapType.CubeMap));
         app.getRootNode().attachChild(sun);
         app.getRootNode().addLight(sunLight);
         app.getRootNode().addLight(ambientLight);

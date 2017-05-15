@@ -3,7 +3,7 @@
        xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd ">
     <useStyles filename="nifty-default-styles.xml" />
     <useControls filename="nifty-default-controls.xml" />
-    <screen id="menu" controller="edu.chalmers.notenoughspace.ctrl.StartMenuControl">
+    <screen id="menu" controller="edu.chalmers.notenoughspace.view.StateManager">
         <layer id="background" childLayout="center">
             <image filename="Textures/space.jpg" height="100%" width="100%"></image>
         </layer>
@@ -26,7 +26,7 @@
             </panel>
         </layer>
     </screen>
-    <screen id="hud" controller="edu.chalmers.notenoughspace.ctrl.StartMenuControl">
+    <screen id="hud" controller="edu.chalmers.notenoughspace.view.StateManager">
         <layer id = "foreground" childLayout="vertical">
             <panel id="panel_top" height="25%" width="75%" align="center" childLayout="center">
                 <text text="HUD" font="Interface/Fonts/Default.fnt" width="100%" height="100%" />

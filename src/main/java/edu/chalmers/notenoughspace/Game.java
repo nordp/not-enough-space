@@ -5,6 +5,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.view.Menu;
+import edu.chalmers.notenoughspace.view.StateManager;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.DisplayMode;
@@ -45,7 +46,8 @@ public class Game extends SimpleApplication {
     public void simpleInitApp() {
         setGoodSpeed();
         ModelLoaderFactory.setAssetManager(assetManager);
-        stateManager.attach(new Menu());
+        stateManager = new StateManager(this);
+        //stateManager.attach(new Menu());
     }
 
 

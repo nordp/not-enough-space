@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.view;
+/*package edu.chalmers.notenoughspace.view;
 
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
@@ -10,7 +10,7 @@ import edu.chalmers.notenoughspace.ctrl.StartMenuControl;
 
 /**
  * Created by juliaortheden on 2017-05-15.
- */
+ *
 public class GUI {
 
     private SimpleApplication app;
@@ -23,10 +23,10 @@ public class GUI {
         NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(app.getAssetManager(), app.getInputManager(),
                 app.getAudioRenderer(), app.getGuiViewPort());
 
-        /** Create a new NiftyGUI object */
+        /** Create a new NiftyGUI object *
         nifty = niftyDisplay.getNifty();
 
-        /** Read your XML and initialize your custom ScreenController */
+        /** Read your XML and initialize your custom ScreenController *
         nifty.fromXml("Interface/Screens.xml", "menu", new StartMenuControl());
 
         // attach the Nifty display to the gui view port as a processor
@@ -39,3 +39,4 @@ public class GUI {
         nifty.gotoScreen(screen);
     }
 }
+*/

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nifty xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd ">
+    <screen id="menu">
+        <layer id="kurt">
+        </layer>
+        <layer id="bengt" backgroundColor="#0000" childLayout="vertical">
+            <panel id="panel_top" height="25%" width="75%" align="center" childLayout="center">
+                <text text="My Cool Game" font="Interface/Fonts/Default.fnt" width="100%" height="100%" />
+            </panel>
+        </layer>
+    </screen>
+    <screen id="hud">
+        <layer id = "foreground" childLayout="vertical">
+            <panel id="panel_top" height="25%" width="75%" align="center" childLayout="center">
+                <text text="HUD" font="Interface/Fonts/Default.fnt" width="100%" height="100%" />
+            </panel>
+        </layer>
+    </screen>
+</nifty>

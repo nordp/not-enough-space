@@ -1,5 +1,7 @@
 package edu.chalmers.notenoughspace.core;
 
+import edu.chalmers.notenoughspace.event.BeamEnteredEvent;
+import edu.chalmers.notenoughspace.event.BeamExitedEvent;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
@@ -125,8 +127,14 @@ public class Cow implements BeamableEntity {
         return beamState;
     }
 
-    public void setInBeam(BeamState beamState){
-        this.beamState = beamState;
+    public void enterBeam(){
+        this.beamState = BeamState.IN_BEAM;
+        Bus.getInstance().post(new BeamEnteredEvent(this));
+    }
+
+    public void exitBeam(){
+        this.beamState = BeamState.NOT_IN_BEAM;
+        Bus.getInstance().post(new BeamExitedEvent(this));
     }
 
     public int getWeight() { // TODO the whole weight thing, along with special cows

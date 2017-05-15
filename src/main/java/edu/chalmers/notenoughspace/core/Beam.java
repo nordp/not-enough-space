@@ -1,7 +1,5 @@
 package edu.chalmers.notenoughspace.core;
 
-import com.google.common.eventbus.Subscribe;
-import edu.chalmers.notenoughspace.event.BeamCollisionEvent;
 import edu.chalmers.notenoughspace.event.BeamToggleEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
@@ -26,24 +24,6 @@ public class Beam implements Entity {
         Bus.getInstance().post(new EntityCreatedEvent(this));
 
         setActive(false);
-    }
-
-    @Subscribe
-    public void beamCollisionEvent(BeamCollisionEvent event){
-        List<BeamableEntity> newObjectsInBeam = event.collidingObjects;
-        for(BeamableEntity b : objectsInBeam) {
-            if(!newObjectsInBeam.contains(b)) {
-                b.setInBeam(BeamState.NOT_IN_BEAM);
-                //TODO Fire spatial event?
-            }
-        }
-        for(BeamableEntity b : newObjectsInBeam) {
-            if(!objectsInBeam.contains(b)) {
-                b.setInBeam(BeamState.IN_BEAM);
-                //TODO Fire spatial event?
-            }
-        }
-        objectsInBeam = newObjectsInBeam;
     }
 
     public void update() {

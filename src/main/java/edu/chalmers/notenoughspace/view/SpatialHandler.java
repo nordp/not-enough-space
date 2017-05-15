@@ -54,7 +54,7 @@ public class SpatialHandler {
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
             model.scale(0.01f, 0.01f, 0.01f);
 
-            control = new JunkControl();
+            control = new JunkControl((Junk) event.entity);
             parent = rootNode.getChild("planet");
         } else if (event.entity instanceof Ship) {
             model = ModelLoaderFactory.getModelLoader().loadModel("ship");
@@ -88,7 +88,7 @@ public class SpatialHandler {
             model = ModelLoaderFactory.getModelLoader().loadModel("satellite");
             model.setLocalTranslation(0,Planet.PLANET_RADIUS+2,0);
             model.scale(0.01f, 0.01f, 0.01f);
-
+            node.rotate(1f, 0f, 0f); // TEMPORARY
             control = new SatelliteControl();
         } else if (event.entity instanceof Beam){
             model = ModelLoaderFactory.getModelLoader().loadModel("beam");

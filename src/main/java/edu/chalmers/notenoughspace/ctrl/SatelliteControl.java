@@ -1,8 +1,10 @@
 package edu.chalmers.notenoughspace.ctrl;
 
+import com.jme3.bounding.BoundingVolume;
+import com.jme3.collision.CollisionResults;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
-import com.jme3.scene.Spatial;
+import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
 
 /**
@@ -15,7 +17,16 @@ public class SatelliteControl extends AbstractControl {
     protected void controlUpdate(float tpf) {
         spatial.rotate(0.01f, 0, 0);
 
-        // TODO satellite.explodeWhenCollision();
+        //Collision
+        if(((Node)spatial).getChildren().size() > 0) { //TEMPORARY, remove when proper explosion handling is implemented
+            CollisionResults results = new CollisionResults();
+            BoundingVolume bv = ((Node) spatial).getChild(0).getWorldBound();
+            (NodeUtil.getRoot(spatial).getChild("shipModel")).collideWith(bv, results);
+
+            if (results.size() > 0) {
+                ((Node) spatial).detachAllChildren();
+            }
+        }
     }
 
     @Override

@@ -44,16 +44,16 @@ public class Menu extends AbstractAppState {
 
         app.getInputManager().setCursorVisible(true);
 
-
-        app.getInputManager().addMapping("start", new KeyTrigger(KeyInput.KEY_RETURN));
-        app.getInputManager().addListener(actionListener, "start");
+/*
+        //app.getInputManager().addMapping("start", new KeyTrigger(KeyInput.KEY_RETURN));
+        //app.getInputManager().addListener(actionListener, "start");
 
         app.getInputManager().addMapping("options", new MouseButtonTrigger(1));
         app.getInputManager().addListener(actionListener, "options");
 
         app.getInputManager().addMapping("exit", new MouseButtonTrigger(1));
         app.getInputManager().addListener(actionListener, "exit");
-
+*/
     }
 
     private void startRound() {

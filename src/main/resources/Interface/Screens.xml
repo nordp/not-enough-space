@@ -1,16 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<nifty xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://nifty-gui.sourceforge.net/nifty-1.3.xsd ">
-    <screen id="menu">
-        <layer id="kurt">
+<nifty xmlns="http://nifty-gui.lessvoid.com/nifty-gui">
+    <useStyles filename="nifty-default-styles.xml" />
+    <useControls filename="nifty-default-controls.xml" />
+    <screen id="menu" controller="edu.chalmers.notenoughspace.view.StateManager">
+        <layer id="background" childLayout="center">
+            <image filename="Textures/space.jpg" height="100%" width="100%"></image>
         </layer>
-        <layer id="bengt" backgroundColor="#0000" childLayout="vertical">
-            <panel id="panel_top" height="25%" width="75%" align="center" childLayout="center">
-                <text text="My Cool Game" font="Interface/Fonts/Default.fnt" width="100%" height="100%" />
+        <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
+            <panel id="panel_top" height="50%" width="75%" align="center" childLayout="center">
+                <image filename="Textures/title.png" align="center" valign="center" height="20%" width="70%"></image>
+            </panel>
+            <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="horizontal" >
+            <panel id="panel_bottom_left" height="50%" width="50%" valign="center" childLayout="center">
+                <image filename="Textures/button.jpg" label="Start" id="StartButton" align="center" valign="center"
+                       height="80%" width="80%" visibleToMouse="true" >
+                    <interact onClick="startButtonClicked(hud)"/>
+                </image>
+            </panel>
+            <panel id="panel_bottom_right" height="50%" width="50%" valign="center" childLayout="center">
+                <image filename="Textures/quitbutton.jpg" label="Start" id="StartButton" align="center" valign="center"
+                       height="80%" width="80%" visibleToMouse="true" >
+                    <interact onClick="quitButtonClicked()"/>
+                </image>
+            </panel>
             </panel>
         </layer>
     </screen>
-    <screen id="hud">
+    <screen id="hud" controller="edu.chalmers.notenoughspace.view.StateManager">
         <layer id = "foreground" childLayout="vertical">
             <panel id="panel_top" height="25%" width="75%" align="center" childLayout="center">
                 <text text="HUD" font="Interface/Fonts/Default.fnt" width="100%" height="100%" />

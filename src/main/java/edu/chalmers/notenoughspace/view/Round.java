@@ -18,11 +18,17 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.SkyFactory;
+import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.screen.Screen;
+import de.lessvoid.nifty.screen.ScreenController;
 import edu.chalmers.notenoughspace.core.Level;
 
-public class Round extends AbstractAppState {
+import javax.annotation.Nonnull;
+
+public class Round extends AbstractAppState implements ScreenController{
 
     SimpleApplication app;
+    Nifty nifty;
 
     private Level level;
 
@@ -147,6 +153,7 @@ public class Round extends AbstractAppState {
         super.setEnabled(enabled);
         if (enabled) {
             //Restore control
+            nifty.gotoScreen("hud");
             paused = false;
             happy.play();
         } else {
@@ -165,13 +172,15 @@ public class Round extends AbstractAppState {
         }
     }
 
-    private void restartRound() {
-        app.getStateManager().detach(this);
-        app.getStateManager().attach(new Round());
+    public void bind(@Nonnull Nifty nifty, @Nonnull Screen screen) {
+        this.nifty = nifty;
     }
 
-    private void returnToMenu() {
-        app.getStateManager().detach(this);
-        app.getStateManager().attach(new Menu());
+    public void onStartScreen() {
+
+    }
+
+    public void onEndScreen() {
+
     }
 }

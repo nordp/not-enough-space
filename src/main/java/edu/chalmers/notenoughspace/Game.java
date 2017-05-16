@@ -1,11 +1,13 @@
 package edu.chalmers.notenoughspace;
 
 import com.jme3.app.SimpleApplication;
+import com.jme3.app.state.AbstractAppState;
+import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
+import de.lessvoid.nifty.Nifty;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
-import edu.chalmers.notenoughspace.view.Menu;
-import edu.chalmers.notenoughspace.view.StateManager;
+import edu.chalmers.notenoughspace.view.*;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.DisplayMode;
@@ -46,8 +48,24 @@ public class Game extends SimpleApplication {
     public void simpleInitApp() {
         setGoodSpeed();
         ModelLoaderFactory.setAssetManager(assetManager);
-        stateManager = new StateManager(this);
-        //stateManager.attach(new Menu());
+
+        /** Init states */
+        Menu menu = new Menu();
+        Round round = new Round();
+        Paused paused = new Paused();
+
+        /** Init nifty GUI */
+        NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
+        Nifty nifty = niftyDisplay.getNifty();
+        nifty.registerScreenController(menu);
+        nifty.registerScreenController(round);
+        nifty.registerScreenController(paused);
+        nifty.fromXml("Interface/Screens.xml", "menu", menu);
+        guiViewPort.addProcessor(niftyDisplay);
+
+        stateManager = new StateManager(this, menu, round, paused);
+
+
     }
 
 
@@ -66,5 +84,7 @@ public class Game extends SimpleApplication {
         this.flyCam.setMoveSpeed(50);
         this.setDisplayFps(false);
         this.setDisplayStatView(false);
+        // disable the fly cam TODO Place somewhere else
+        flyCam.setDragToRotate(true);
     }
 }

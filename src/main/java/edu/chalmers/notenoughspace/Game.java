@@ -57,10 +57,13 @@ public class Game extends SimpleApplication {
         /** Init nifty GUI */
         NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
         Nifty nifty = niftyDisplay.getNifty();
-        nifty.registerScreenController(menu);
-        nifty.registerScreenController(round);
-        nifty.registerScreenController(paused);
+
+        //TODO Make sure no dead ScreenControllers are initialized
         nifty.fromXml("Interface/Screens.xml", "menu", menu);
+        menu.bind(nifty, nifty.getScreen("menu"));
+        round.bind(nifty, nifty.getScreen("hud"));
+        paused.bind(nifty, nifty.getScreen("paused"));
+
         guiViewPort.addProcessor(niftyDisplay);
 
         stateManager = new StateManager(this, menu, round, paused);

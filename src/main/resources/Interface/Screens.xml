@@ -35,7 +35,7 @@
             </panel>
         </layer>
     </screen>
-    <screen id="pause" controller="edu.chalmers.notenoughspace.view.Round">
+    <screen id="paused" controller="edu.chalmers.notenoughspace.view.Paused">
         <layer childLayout="center">
             <text text="Pause" font="Interface/Fonts/Default.fnt" width="10%" height="75%" backgroundColor="#ffff" />
         </layer>

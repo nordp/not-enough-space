@@ -1,8 +1,7 @@
 package edu.chalmers.notenoughspace.core;
 
-import edu.chalmers.notenoughspace.event.BeamToggleEvent;
-import edu.chalmers.notenoughspace.event.Bus;
-import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
+import com.google.common.eventbus.Subscribe;
+import edu.chalmers.notenoughspace.event.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +33,18 @@ public class Beam implements Entity {
         }
     }
 
+    @Subscribe
+    public void addToBeam(BeamEnteredEvent event) {
+        BeamableEntity beamable = event.beamable;
+        objectsInBeam.add(beamable);
+    }
+
+    @Subscribe
+    public void removeFromBeam(BeamExitedEvent event) {
+        BeamableEntity beamable = event.beamable;
+        objectsInBeam.remove(beamable);
+    }
+
     //Helper
     private void liftEntityTowardsShip(BeamableEntity b) {
         PlanetaryInhabitant inhabitant = b.getPlanetaryInhabitant();
@@ -44,7 +55,6 @@ public class Beam implements Entity {
             //TODO: EntityBeamedEvent?
             return;
         }
-
         inhabitant.setDistanceToPlanetsCenter(currentHeight + 0.01f);
     }
 

@@ -10,6 +10,8 @@ public class BeamEnteredEvent {
     public BeamableEntity beamable;
 
     public BeamEnteredEvent(BeamableEntity beamable){
+
         this.beamable = beamable;
+        System.out.println("BeamEnteredEvent fired.");
     }
 }

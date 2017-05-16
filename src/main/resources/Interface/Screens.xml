@@ -27,11 +27,18 @@
         </layer>
     </screen>
     <screen id="hud" controller="edu.chalmers.notenoughspace.view.Round">
-        <layer id = "foreground" childLayout="vertical" valign="top" align="center">
-            <panel id="panel_top" align="center" childLayout="horizontal">
-                <text text="CowCount" font="Interface/Fonts/Default.fnt" width="10%" height="75%" backgroundColor="#ffff"/>
-                <text text="Timer" font="Interface/Fonts/Default.fnt" width="10%" height="100%" />
-                <text text="CowCount" font="Interface/Fonts/Default.fnt" width="10%" height="75%" />
+        <layer childLayout="vertical" valign="top" align="center">
+            <panel id="panel_top" align="center" width="25%" height="15%" childLayout="horizontal">
+                <text text="CowCount" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
+                <text text="Timer" font="Interface/Fonts/Default.fnt" width="33%" height="100%" backgroundColor="#1111"/>
+                <text text="StorageWeight" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
+            </panel>
+        </layer>
+        <layer childLayout="horizontal" valign="bottom" align="left">
+            <panel id="storage_panel" align="left" valign="bottom" width="10%" height="25%" childLayout="vertical">
+                <text text="Storage" font="Interface/Fonts/Default.fnt"/>
+                <image filename="Icons/cow.jpg" width="100%" height="50%"/>
+                <image filename="Icons/junk.jpg" width="100%" height="50%"/>
             </panel>
         </layer>
     </screen>

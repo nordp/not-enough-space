@@ -18,11 +18,24 @@ import com.jme3.math.Vector3f;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.SkyFactory;
+import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.elements.Element;
+import de.lessvoid.nifty.elements.render.TextRenderer;
+import de.lessvoid.nifty.screen.Screen;
+import de.lessvoid.nifty.screen.ScreenController;
+import edu.chalmers.notenoughspace.core.BeamableEntity;
+import edu.chalmers.notenoughspace.core.CountDownTimer;
 import edu.chalmers.notenoughspace.core.Level;
+import edu.chalmers.notenoughspace.core.Storage;
 
-public class Round extends AbstractAppState {
+import javax.annotation.Nonnull;
+import java.util.LinkedList;
+import java.util.List;
+
+public class Round extends AbstractAppState implements ScreenController {
 
     SimpleApplication app;
+    Nifty nifty;
 
     private Level level;
 
@@ -138,7 +151,7 @@ public class Round extends AbstractAppState {
         app.getInputManager().deleteMapping("pause");
         app.getInputManager().removeListener(actionListener);
 
-       // app.getGuiNode().detachChild(hud);
+        // app.getGuiNode().detachChild(hud);
     }
 
     @Override
@@ -147,6 +160,7 @@ public class Round extends AbstractAppState {
         super.setEnabled(enabled);
         if (enabled) {
             //Restore control
+            nifty.gotoScreen("hud");
             paused = false;
             happy.play();
         } else {
@@ -161,17 +175,62 @@ public class Round extends AbstractAppState {
     public void update(float tpf) {
         if (!paused) {
             level.update(tpf);
-            //hud.updateTimer(level.getTimeLeft());
+            updateHUD(10,10, level.getTimeLeft()); //TODO Get values from storage
+
         }
     }
 
-    private void restartRound() {
-        app.getStateManager().detach(this);
-        app.getStateManager().attach(new Round());
+    private void updateHUD(int score, float weight, float timeLeft) {
+        Element counterElement = nifty.getCurrentScreen().findElementById("cowCount");
+        counterElement.getRenderer(TextRenderer.class).setText(score + " x COW");
+
+        Element weightElement = nifty.getCurrentScreen().findElementById("weightCount");
+        weightElement.getRenderer(TextRenderer.class).setText(weight + " KG");
+
+        Element timerElement = nifty.getCurrentScreen().findElementById("timer");
+        timerElement.getRenderer(TextRenderer.class).setText("Time left: " + toTimeFormat(timeLeft));
     }
 
-    private void returnToMenu() {
-        app.getStateManager().detach(this);
-        app.getStateManager().attach(new Menu());
+    public void bind(@Nonnull Nifty nifty, @Nonnull Screen screen) {
+        this.nifty = nifty;
+    }
+
+    public void onStartScreen() {
+
+    }
+
+    public void onEndScreen() {
+
+    }
+
+    /** Util methods */
+
+    /**
+     * Converts a given number of seconds into standard
+     * digital clock format: mm:ss:hh.
+     *
+     * @param seconds The number of seconds to convert. If negative the time 00:00:00 is returned.
+     */
+    private static String toTimeFormat(float seconds) {
+        if (seconds < 0) {
+            seconds = 0;
+        }
+
+        int m = (int) seconds / 60;
+        int s = (int) seconds % 60;
+        int h = (int) ((seconds * 100) % 100);
+
+        String mm = toTwoDigitsFormat(m);
+        String ss = toTwoDigitsFormat(s);
+        String hh = toTwoDigitsFormat(h);
+
+        return mm + ":" + ss + ":" + hh;
+    }
+
+    private static String toTwoDigitsFormat(int number) {
+        if (number < 10) {
+            return "0" + number;
+        }
+        return "" + number;
     }
 }

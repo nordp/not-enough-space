@@ -2,7 +2,7 @@
 <nifty xmlns="http://nifty-gui.lessvoid.com/nifty-gui">
     <useStyles filename="nifty-default-styles.xml" />
     <useControls filename="nifty-default-controls.xml" />
-    <screen id="menu" controller="edu.chalmers.notenoughspace.view.StateManager">
+    <screen id="menu" controller="edu.chalmers.notenoughspace.view.Menu">
         <layer id="background" childLayout="center">
             <image filename="Textures/space.jpg" height="100%" width="100%"></image>
         </layer>
@@ -12,13 +12,13 @@
             </panel>
             <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="horizontal" >
             <panel id="panel_bottom_left" height="50%" width="50%" valign="center" childLayout="center">
-                <image filename="Textures/button.jpg" label="Start" id="StartButton" align="center" valign="center"
+                <image filename="Textures/button.png" label="Start" id="StartButton" align="center" valign="center"
                        height="80%" width="80%" visibleToMouse="true" >
                     <interact onClick="startButtonClicked(hud)"/>
                 </image>
             </panel>
             <panel id="panel_bottom_right" height="50%" width="50%" valign="center" childLayout="center">
-                <image filename="Textures/quitbutton.jpg" label="Start" id="StartButton" align="center" valign="center"
+                <image filename="Textures/quitbutton.png" label="Start" id="StartButton" align="center" valign="center"
                        height="80%" width="80%" visibleToMouse="true" >
                     <interact onClick="quitButtonClicked()"/>
                 </image>
@@ -26,11 +26,25 @@
             </panel>
         </layer>
     </screen>
-    <screen id="hud" controller="edu.chalmers.notenoughspace.view.StateManager">
-        <layer id = "foreground" childLayout="vertical">
-            <panel id="panel_top" height="25%" width="75%" align="center" childLayout="center">
-                <text text="HUD" font="Interface/Fonts/Default.fnt" width="100%" height="100%" />
+    <screen id="hud" controller="edu.chalmers.notenoughspace.view.Round">
+        <layer childLayout="vertical" valign="top" align="center">
+            <panel id="panel_top" align="center" width="25%" height="15%" childLayout="horizontal">
+                <text id="cowCount" text="cowCount" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
+                <text id="timer" font="Interface/Fonts/Default.fnt" width="33%" height="100%" backgroundColor="#1111"/>
+                <text id="weightCount" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
             </panel>
+        </layer>
+        <layer childLayout="horizontal" valign="bottom" align="left">
+            <panel id="storage_panel" align="left" valign="bottom" width="10%" height="25%" childLayout="vertical">
+                <text text="Storage" font="Interface/Fonts/Default.fnt"/>
+                <image filename="Icons/cow.jpg" width="100%" height="50%"/>
+                <image filename="Icons/junk.jpg" width="100%" height="50%"/>
+            </panel>
+        </layer>
+    </screen>
+    <screen id="paused" controller="edu.chalmers.notenoughspace.view.Paused">
+        <layer childLayout="center">
+            <text text="Pause" font="Interface/Fonts/Default.fnt" width="10%" height="75%" backgroundColor="#ffff" />
         </layer>
     </screen>
 </nifty>

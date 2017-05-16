@@ -21,14 +21,14 @@ public class Menu extends AbstractAppState implements ScreenController{
 
     private SimpleApplication app;
     private Nifty nifty;
-
+    private StateManager stateManager;
 
     @Override
     public void initialize(AppStateManager stateManager, Application application) {
         super.initialize(stateManager, application);
         app = (SimpleApplication) application;
+        this.stateManager = (StateManager) stateManager;
         app.getInputManager().setCursorVisible(true);
-
     }
 
     public void bind(@Nonnull Nifty nifty, @Nonnull Screen screen) {
@@ -41,6 +41,21 @@ public class Menu extends AbstractAppState implements ScreenController{
 
     public void onEndScreen() {
         //NA
+    }
+
+    @Override
+    public void setEnabled(boolean enabled) {
+        super.setEnabled(enabled);
+        nifty.gotoScreen("menu");
+    }
+
+    /** Button/Navigation methods */
+    public void startButtonClicked(String nextScreen) {
+        stateManager.setState(GameState.RUNNING);
+    }
+
+    public void quitButtonClicked() {
+        app.stop();
     }
 }
 

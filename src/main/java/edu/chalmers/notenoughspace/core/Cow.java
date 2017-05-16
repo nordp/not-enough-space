@@ -16,8 +16,23 @@ public class Cow implements BeamableEntity {
 
     public static final float MIN_WALKSPEED = 0.01f;
     public static final float MAX_WALKSPEED = 0.15f;
+
+    public static final float MIN_SIZE = 0.70f;
+    public static final float MAX_SIZE = 1.50f;
+
+    public static final float BASE_WEIGHT = 1f;
+    public static final float BASE_POINTS = 1f;
+
     /**
-     * Chance in 100 that cow should change speed
+     * Control variables for golden cows.
+     */
+    public static final int GOLD_CHANCE = 2;
+    public static final float GOLD_SIZE = 0.60f;
+    public static final float GOLD_POINTS_MODIFIER = 5f;
+    public static final float GOLD_SPEED_MODIFIER = 2f;
+
+    /**
+     * Chance in 100 that cow should change speed or direction
      */
     public static final int CHANGE_SPEED_CHANCE = 2;
     public static final int CHANGE_DIRECTION_CHANCE = 2;
@@ -28,6 +43,13 @@ public class Cow implements BeamableEntity {
     private CowMood mood;
     private BeamState beamState;
 
+    //Size will determine the scale, weight and points modifiers for the cow, unless it's a golden cow.
+    private float sizeModifier;
+    private float pointsModifier;
+    private float speedModifier;
+
+    private boolean golden;
+
     private PlanetaryInhabitant body;
 
     public Cow(){
@@ -35,6 +57,20 @@ public class Cow implements BeamableEntity {
         mood = CowMood.CALM;
         beamState = BeamState.NOT_IN_BEAM;
         stamina = MAX_STAMINA;
+
+        if(Math.random()*100 < GOLD_CHANCE){
+            golden = true;
+            sizeModifier = GOLD_SIZE;
+            pointsModifier = GOLD_POINTS_MODIFIER;
+            speedModifier = GOLD_SPEED_MODIFIER;
+        }else{
+            golden = false;
+            float size = (float)Math.random() * (MAX_SIZE - MIN_SIZE) + MIN_SIZE;
+            sizeModifier = size;
+            pointsModifier = size;
+            speedModifier = -1 * (size - MAX_SIZE - MIN_SIZE); //Invert the size-speed relation
+        }
+
         Bus.getInstance().post(new EntityCreatedEvent(this));
     }
 
@@ -61,7 +97,7 @@ public class Cow implements BeamableEntity {
 
     private void updateSpeed() {
         if (Math.random()*100 < CHANGE_SPEED_CHANCE) {
-            speed = (float)Math.random() * (MAX_WALKSPEED - MIN_WALKSPEED) + MIN_WALKSPEED;
+            speed = ((float)Math.random() * (MAX_WALKSPEED - MIN_WALKSPEED) + MIN_WALKSPEED) * speedModifier;
         }
     }
 
@@ -109,7 +145,7 @@ public class Cow implements BeamableEntity {
                     sprintDir = MAX_DIR;
                 }
 
-                body.rotateForward(SPRINT_SPEED * tpf);
+                body.rotateForward(SPRINT_SPEED * speedModifier * tpf);
                 body.rotateModel((float)Math.toRadians(sprintDir * tpf));
                 stamina -= STAMINA_REDUCTION * tpf;
                 break;
@@ -141,8 +177,20 @@ public class Cow implements BeamableEntity {
         Bus.getInstance().post(new BeamExitedEvent(this));
     }
 
-    public int getWeight() { // TODO the whole weight thing, along with special cows
-        return 1;
+    public float getWeight() { // TODO the whole weight thing, along with special cows
+        return BASE_WEIGHT * sizeModifier;
+    }
+
+    public float getPoints() {
+        return BASE_POINTS * pointsModifier;
+    }
+
+    public float getSize(){
+        return sizeModifier;
+    }
+
+    public boolean isGolden(){
+        return golden;
     }
 
     public PlanetaryInhabitant getPlanetaryInhabitant() {

@@ -5,5 +5,6 @@ public interface BeamableEntity extends Entity{
     BeamState isInBeam();
     void enterBeam();
     void exitBeam();
-    int getWeight();
+    float getWeight();
+    float getPoints();
 }

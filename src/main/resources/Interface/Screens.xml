@@ -2,7 +2,7 @@
 <nifty xmlns="http://nifty-gui.lessvoid.com/nifty-gui">
     <useStyles filename="nifty-default-styles.xml" />
     <useControls filename="nifty-default-controls.xml" />
-    <screen id="menu" controller="edu.chalmers.notenoughspace.view.StateManager">
+    <screen id="menu" controller="edu.chalmers.notenoughspace.view.Menu">
         <layer id="background" childLayout="center">
             <image filename="Textures/space.jpg" height="100%" width="100%"></image>
         </layer>
@@ -26,11 +26,18 @@
             </panel>
         </layer>
     </screen>
-    <screen id="hud" controller="edu.chalmers.notenoughspace.view.StateManager">
-        <layer id = "foreground" childLayout="vertical">
-            <panel id="panel_top" height="25%" width="75%" align="center" childLayout="center">
-                <text text="HUD" font="Interface/Fonts/Default.fnt" width="100%" height="100%" />
+    <screen id="hud" controller="edu.chalmers.notenoughspace.view.Round">
+        <layer id = "foreground" childLayout="vertical" valign="top" align="center">
+            <panel id="panel_top" align="center" childLayout="horizontal">
+                <text text="CowCount" font="Interface/Fonts/Default.fnt" width="10%" height="75%" backgroundColor="#ffff"/>
+                <text text="Timer" font="Interface/Fonts/Default.fnt" width="10%" height="100%" />
+                <text text="CowCount" font="Interface/Fonts/Default.fnt" width="10%" height="75%" />
             </panel>
+        </layer>
+    </screen>
+    <screen id="pause" controller="edu.chalmers.notenoughspace.view.Round">
+        <layer childLayout="center">
+            <text text="Pause" font="Interface/Fonts/Default.fnt" width="10%" height="75%" backgroundColor="#ffff" />
         </layer>
     </screen>
 </nifty>

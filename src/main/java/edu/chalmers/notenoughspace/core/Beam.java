@@ -51,8 +51,7 @@ public class Beam implements Entity {
         float currentHeight = inhabitant.getLocalTranslation().y;
 
         if (currentHeight > Planet.PLANET_RADIUS + Ship.ALTITUDE) {
-            //TODO: Remove beamed object from world and put into storage.
-            //TODO: EntityBeamedEvent?
+            Bus.getInstance().post(new EntityStoredEvent(b));
             return;
         }
         inhabitant.setDistanceToPlanetsCenter(currentHeight + 0.01f);

@@ -17,6 +17,7 @@ public class Ship implements Entity {
 
     private int energy;
     public Beam beam;
+    private Storage storage;
 
     private PlanetaryInhabitant body;
 
@@ -25,7 +26,7 @@ public class Ship implements Entity {
 
         energy = 100;
         beam = new Beam(this);
-
+        storage = new Storage();
     }
 
     public void update() {

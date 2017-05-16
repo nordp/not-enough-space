@@ -1,5 +1,9 @@
 package edu.chalmers.notenoughspace.core;
 
+import com.google.common.eventbus.Subscribe;
+import edu.chalmers.notenoughspace.event.Bus;
+import edu.chalmers.notenoughspace.event.EntityStoredEvent;
+
 import java.util.LinkedList;
 import java.util.*;
 
@@ -9,6 +13,10 @@ import java.util.*;
 public class Storage {
 
     private List<BeamableEntity> beamableEntityList = new LinkedList();
+
+    public Storage() {
+        Bus.getInstance().register(this);
+    }
 
     public int calculateScore(){
         return calculateWeight();       //TODO Temporary scoring system
@@ -20,5 +28,13 @@ public class Storage {
             weight += beamableEntityList.get(i).getWeight();
         }
      return weight;
+    }
+
+    @Subscribe
+    public void entityStored(EntityStoredEvent event) {
+        if (!beamableEntityList.contains(event.beamedObject)) {
+            beamableEntityList.add(event.beamedObject);
+            System.out.println("Object added to Storage.");
+        }
     }
 }

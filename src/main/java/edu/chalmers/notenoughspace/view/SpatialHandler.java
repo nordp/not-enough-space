@@ -16,6 +16,7 @@ import edu.chalmers.notenoughspace.core.*;
 import edu.chalmers.notenoughspace.ctrl.*;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
+import edu.chalmers.notenoughspace.event.EntityStoredEvent;
 
 /**
  * Created by Phnor on 2017-05-08.
@@ -32,6 +33,16 @@ public class SpatialHandler {
         this.inputManager = app.getInputManager();
         Bus.getInstance().register(this);
         System.out.println("Registered?");
+    }
+
+    @Subscribe
+    public void entityStored(EntityStoredEvent event) {
+        System.out.println("Event reached");
+
+        BeamableEntity beamedObject = event.beamedObject;
+        Spatial parent = rootNode;
+
+        //TODO: How to actually get the object so that we can remove it?
     }
 
     @Subscribe

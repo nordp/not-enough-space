@@ -77,7 +77,7 @@ public class Cow implements BeamableEntity {
     public void update(PlanetaryInhabitant ship, float tpf) {
         updateMood(body.distance(ship));
         updateSpeed();
-        updateDirection(body, ship, tpf);
+        updateDirection(ship, tpf);
     }
 
     private void updateMood(float distanceFromShip){
@@ -101,7 +101,7 @@ public class Cow implements BeamableEntity {
         }
     }
 
-    private void updateDirection(PlanetaryInhabitant body, PlanetaryInhabitant ship, float tpf){
+    private void updateDirection(PlanetaryInhabitant ship, float tpf){
         if (isInBeam() == BeamState.IN_BEAM) {
             return;
         }

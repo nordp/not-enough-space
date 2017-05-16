@@ -39,13 +39,18 @@ public class JMEInhabitant implements PlanetaryInhabitant {
         node.rotate(0f, angle, 0f);
     }
 
+    public void setDirection(Vector3f goal) {
+        model.lookAt(vecmathToJme(goal),
+                new com.jme3.math.Vector3f(0, goal.z, -goal.y));
+    }
+
     public Vector3f getLocalTranslation() {
         return jmeToVecmath(model.getLocalTranslation());
     }
 
     public void setDistanceToPlanetsCenter(float distance) {
         model.setLocalTranslation(0, distance, 0);}
-    
+
     public Vector3f getWorldTranslation() {
         return jmeToVecmath(model.getWorldTranslation());
     }

@@ -38,6 +38,11 @@ public class TestInhabitant implements PlanetaryInhabitant {
         transform.transform(position);
     }
 
+    public void setDirection(Vector3f goal) {
+        //TODO
+    }
+
+
     public Vector3f getLocalTranslation() {
         return position;
     }

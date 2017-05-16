@@ -10,6 +10,7 @@ public interface PlanetaryInhabitant {
     void rotateForward(float angle);
     void rotateSideways(float angle);
     void rotateModel(float angle);
+    void setDirection(Vector3f goal);
     Vector3f getLocalTranslation();
     void setDistanceToPlanetsCenter(float distance);
     Vector3f getWorldTranslation();

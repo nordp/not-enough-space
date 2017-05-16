@@ -26,10 +26,12 @@ public class Hayfork implements Entity {
         if (direction == null) {
             Vector3f myPosition = body.getWorldTranslation();
             Vector3f shipPosition = ship.getWorldTranslation();
+            body.setDirection(shipPosition);    //Aims the hayfork towards the ship
             shipPosition.sub(myPosition);
             shipPosition.normalize();
             shipPosition.scale(0.1f);
-            direction = shipPosition;
+            direction = shipPosition;   //The direction the spear will be moving in
+
         }
 
         body.move(direction);

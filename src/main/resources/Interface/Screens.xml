@@ -12,13 +12,13 @@
             </panel>
             <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="horizontal" >
             <panel id="panel_bottom_left" height="50%" width="50%" valign="center" childLayout="center">
-                <image filename="Textures/button.jpg" label="Start" id="StartButton" align="center" valign="center"
+                <image filename="Textures/button.png" label="Start" id="StartButton" align="center" valign="center"
                        height="80%" width="80%" visibleToMouse="true" >
                     <interact onClick="startButtonClicked(hud)"/>
                 </image>
             </panel>
             <panel id="panel_bottom_right" height="50%" width="50%" valign="center" childLayout="center">
-                <image filename="Textures/quitbutton.jpg" label="Start" id="StartButton" align="center" valign="center"
+                <image filename="Textures/quitbutton.png" label="Start" id="StartButton" align="center" valign="center"
                        height="80%" width="80%" visibleToMouse="true" >
                     <interact onClick="quitButtonClicked()"/>
                 </image>

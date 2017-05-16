@@ -41,7 +41,11 @@ public class Junk implements BeamableEntity{
         Bus.getInstance().post(new BeamExitedEvent(this));
     }
 
-    public int getWeight() {
-        return 1;
+    public float getWeight() {
+        return 1f;
+    }
+
+    public float getPoints() {
+        return 0f;
     }
 }

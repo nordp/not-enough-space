@@ -28,7 +28,7 @@ class ModelManager implements IModelLoader {
         Spatial model;
         if (modelId.equals("cow")) {
             model = assetManager.loadModel("Models/Beata.j3o");
-            model.scale(0.15f);
+            model.scale(0.10f);
             AnimControl control = model.getControl(AnimControl.class);
             AnimChannel channel = control.createChannel();
             channel.setAnim("my_animation");    //My_animation is the name of the walk animation,

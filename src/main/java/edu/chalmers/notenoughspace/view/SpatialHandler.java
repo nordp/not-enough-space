@@ -44,10 +44,16 @@ public class SpatialHandler {
         Spatial parent = rootNode;
 
         if (event.entity instanceof Cow) {
+            Cow cow = (Cow) event.entity;
             model = ModelLoaderFactory.getModelLoader().loadModel("cow");
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
+            model.scale(cow.getSize());
 
-            control = new CowControl((Cow) event.entity);
+            if(cow.isGolden()){
+                //setMaterial? model = new model?
+            }
+
+            control = new CowControl(cow);
             parent = rootNode.getChild("planet");
         } else if (event.entity instanceof Junk){
             model = ModelLoaderFactory.getModelLoader().loadModel("junk");

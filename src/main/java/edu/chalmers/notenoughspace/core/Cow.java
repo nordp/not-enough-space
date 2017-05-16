@@ -66,6 +66,10 @@ public class Cow implements BeamableEntity {
     }
 
     private void updateDirection(PlanetaryInhabitant body, PlanetaryInhabitant ship, float tpf){
+        if (isInBeam() == BeamState.IN_BEAM) {
+            return;
+        }
+
         switch (mood){
             case CALM:
 

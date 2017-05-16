@@ -31,8 +31,7 @@ class ModelManager implements IModelLoader {
             model.scale(0.15f);
             AnimControl control = model.getControl(AnimControl.class);
             AnimChannel channel = control.createChannel();
-            channel.setAnim("my_animation");    //My_animation is the name of the walk animation,
-                                                //will try to change that soon!
+            channel.setAnim("WalkCycle");
             channel.setSpeed(2.5f);
         } else if (modelId.equals("satellite")){
             model = assetManager.loadModel("Models/ufo.obj");

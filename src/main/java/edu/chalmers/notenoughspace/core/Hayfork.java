@@ -1,6 +1,5 @@
 package edu.chalmers.notenoughspace.core;
 
-import edu.chalmers.notenoughspace.ctrl.JMEInhabitant;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 
@@ -23,7 +22,7 @@ public class Hayfork implements Entity {
 
     }
 
-    public void update(JMEInhabitant ship, float tpf) {
+    public void update(PlanetaryInhabitant ship, float tpf) {
         if (direction == null) {
             Vector3f myPosition = body.getWorldTranslation();
             Vector3f shipPosition = ship.getWorldTranslation();

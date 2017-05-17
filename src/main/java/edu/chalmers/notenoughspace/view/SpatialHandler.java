@@ -39,10 +39,14 @@ public class SpatialHandler {
     public void entityStored(EntityStoredEvent event) {
         System.out.println("Event reached");
 
-        BeamableEntity beamedObject = event.beamedObject;
-        Spatial parent = rootNode;
+        Entity beamedObject = event.beamedObject;
+        String objectName = beamedObject.toString();
 
-        //TODO: How to actually get the object so that we can remove it?
+        Node planet = (Node) rootNode.getChild("planet");
+        Spatial cowNode = planet.getChild(objectName);
+
+        cowNode.removeControl(CowControl.class);
+        planet.detachChild(cowNode);
     }
 
     @Subscribe

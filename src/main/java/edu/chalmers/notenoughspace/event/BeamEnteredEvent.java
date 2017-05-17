@@ -7,11 +7,15 @@ import edu.chalmers.notenoughspace.core.BeamableEntity;
  */
 public class BeamEnteredEvent {
 
-    public BeamableEntity beamable;
+    private BeamableEntity beamable;
 
     public BeamEnteredEvent(BeamableEntity beamable){
 
         this.beamable = beamable;
         System.out.println("BeamEnteredEvent fired.");
+    }
+
+    public BeamableEntity getBeamable(){
+        return beamable;
     }
 }

@@ -6,11 +6,18 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
+import edu.chalmers.notenoughspace.core.Satellite;
 
 /**
  * Created by juliaortheden on 2017-04-26.
  */
 public class SatelliteControl extends AbstractControl {
+
+    private Satellite satellite;
+
+    public SatelliteControl(Satellite satellite){
+        this.satellite = satellite;
+    }
 
 
     @Override

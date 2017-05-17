@@ -32,9 +32,9 @@ public class Storage {
 
     @Subscribe
     public void entityStored(EntityStoredEvent event) {
-        if (!beamableEntityList.contains(event.beamedObject)) {
-            beamableEntityList.add(event.beamedObject);
-            Bus.getInstance().post(this);
+        if (!beamableEntityList.contains(event.getBeamableEntity())) {
+            beamableEntityList.add(event.getBeamableEntity());
+            System.out.println("Object added to Storage.");
         }
     }
 }

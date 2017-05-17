@@ -6,7 +6,7 @@ import edu.chalmers.notenoughspace.core.Entity;
  * Created by Phnor on 2017-05-08.
  */
 public class EntityCreatedEvent {
-    public Entity entity;
+    private Entity entity;
 
     public EntityCreatedEvent(Entity entity) {
         this.entity = entity;
@@ -17,5 +17,9 @@ public class EntityCreatedEvent {
         String classString = entity.getClass().toString();
         String[] words = classString.split("[.]");
         return words[words.length - 1];
+    }
+
+    public Entity getEntity(){
+        return entity;
     }
 }

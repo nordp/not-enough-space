@@ -35,13 +35,13 @@ public class Beam implements Entity {
 
     @Subscribe
     public void addToBeam(BeamEnteredEvent event) {
-        BeamableEntity beamable = event.beamable;
+        BeamableEntity beamable = event.getBeamable();
         objectsInBeam.add(beamable);
     }
 
     @Subscribe
     public void removeFromBeam(BeamExitedEvent event) {
-        BeamableEntity beamable = event.beamable;
+        BeamableEntity beamable = event.getBeamableEntity();
         objectsInBeam.remove(beamable);
     }
 

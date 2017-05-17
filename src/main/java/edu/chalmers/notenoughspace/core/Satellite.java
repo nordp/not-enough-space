@@ -4,6 +4,7 @@ package edu.chalmers.notenoughspace.core;
 import com.jme3.math.Vector3f;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
+import edu.chalmers.notenoughspace.event.SatelliteCollisionEvent;
 
 
 public class Satellite implements Entity {
@@ -21,7 +22,9 @@ public class Satellite implements Entity {
     }
 
     public void update() {
-
+        if(ship.getPlanetaryInhabitant().distance(body) < satelliteRadius){
+            Bus.getInstance().post(new SatelliteCollisionEvent(this));
+        }
     }
 
     /**

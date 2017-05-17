@@ -25,7 +25,7 @@ public class BeamControl extends AbstractControl {
 
     @Subscribe
     public void beamToggleEvent(BeamToggleEvent event){
-        if(event.enabled)
+        if(event.getEnabled())
             spatial.setCullHint(Spatial.CullHint.Never);
         else
             spatial.setCullHint(Spatial.CullHint.Always);

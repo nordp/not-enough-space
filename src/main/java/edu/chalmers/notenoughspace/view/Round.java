@@ -1,5 +1,6 @@
 package edu.chalmers.notenoughspace.view;
 
+import com.google.common.eventbus.Subscribe;
 import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
@@ -27,6 +28,9 @@ import edu.chalmers.notenoughspace.core.BeamableEntity;
 import edu.chalmers.notenoughspace.core.CountDownTimer;
 import edu.chalmers.notenoughspace.core.Level;
 import edu.chalmers.notenoughspace.core.Storage;
+import edu.chalmers.notenoughspace.event.Bus;
+import edu.chalmers.notenoughspace.event.EntityStoredEvent;
+import edu.chalmers.notenoughspace.event.StorageChangeEvent;
 
 import javax.annotation.Nonnull;
 import java.util.LinkedList;
@@ -47,6 +51,9 @@ public class Round extends AbstractAppState implements ScreenController {
     private ActionListener actionListener;
     private boolean paused;
 
+    public Round(){
+        Bus.getInstance().register(this);
+    }
 
     @Override
     public void initialize(AppStateManager stateManager, Application application) {
@@ -175,20 +182,26 @@ public class Round extends AbstractAppState implements ScreenController {
     public void update(float tpf) {
         if (!paused) {
             level.update(tpf);
-            updateHUD(10,10, level.getTimeLeft()); //TODO Get values from storage
+            hudUpdate(); //TODO Get values from storage
 
         }
     }
 
-    private void updateHUD(int score, float weight, float timeLeft) {
-        Element counterElement = nifty.getCurrentScreen().findElementById("cowCount");
-        counterElement.getRenderer(TextRenderer.class).setText(score + " x COW");
-
-        Element weightElement = nifty.getCurrentScreen().findElementById("weightCount");
-        weightElement.getRenderer(TextRenderer.class).setText(weight + " KG");
+    private void hudUpdate() {
+        float timeLeft = level.getTimeLeft();
 
         Element timerElement = nifty.getCurrentScreen().findElementById("timer");
         timerElement.getRenderer(TextRenderer.class).setText("Time left: " + toTimeFormat(timeLeft));
+    }
+
+    //** Eventbased HUD updates */
+    @Subscribe
+    public void updateStorageHUD(StorageChangeEvent event){
+        Element counterElement = nifty.getCurrentScreen().findElementById("cowCount");
+        counterElement.getRenderer(TextRenderer.class).setText(event.getNewScore() + " POINTS");
+
+        Element weightElement = nifty.getCurrentScreen().findElementById("weightCount");
+        weightElement.getRenderer(TextRenderer.class).setText(event.getNewWeight() + " KG");
     }
 
     public void bind(@Nonnull Nifty nifty, @Nonnull Screen screen) {

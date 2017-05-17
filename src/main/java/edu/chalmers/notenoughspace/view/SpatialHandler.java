@@ -18,8 +18,6 @@ import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityStoredEvent;
 
-import javax.sound.sampled.LineUnavailableException;
-
 /**
  * Created by Phnor on 2017-05-08.
  */
@@ -41,27 +39,23 @@ public class SpatialHandler {
     public void entityStored(EntityStoredEvent event) {
         System.out.println("Event reached");
 
-        Entity beamedObject = event.beamedObject;
-        String objectName = beamedObject.toString();
+        BeamableEntity beamedObject = event.getBeamableEntity();
+        Spatial parent = rootNode;
 
-        Node planet = (Node) rootNode.getChild("planet");
-        Spatial cowNode = planet.getChild(objectName);
-
-        cowNode.removeControl(AbstractControl.class);
-        planet.detachChild(cowNode);
+        //TODO: How to actually get the object so that we can remove it?
     }
 
     @Subscribe
     public void entityCreated(EntityCreatedEvent event) {
         System.out.println("Event reached");
 
-        Node node = new Node(event.entity.toString());
+        Node node = new Node(event.getEntity().toString());
         Spatial model;
         AbstractControl control;
         Spatial parent = rootNode;
 
-        if (event.entity instanceof Cow) {
-            Cow cow = (Cow) event.entity;
+        if (event.getEntity() instanceof Cow) {
+            Cow cow = (Cow) event.getEntity();
             model = ModelLoaderFactory.getModelLoader().loadModel("cow");
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
             model.scale(cow.getSize());
@@ -72,14 +66,14 @@ public class SpatialHandler {
 
             control = new CowControl(cow);
             parent = rootNode.getChild("planet");
-        } else if (event.entity instanceof Junk){
+        } else if (event.getEntity() instanceof Junk){
             model = ModelLoaderFactory.getModelLoader().loadModel("junk");
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
             model.scale(0.01f, 0.01f, 0.01f);
 
-            control = new JunkControl((Junk) event.entity);
+            control = new JunkControl((Junk) event.getEntity());
             parent = rootNode.getChild("planet");
-        } else if (event.entity instanceof Ship) {
+        } else if (event.getEntity() instanceof Ship) {
             model = ModelLoaderFactory.getModelLoader().loadModel("ship");
             model.setName("shipModel");
             model.scale(0.02f, 0.02f, 0.02f);
@@ -96,19 +90,8 @@ public class SpatialHandler {
             spotLight.setName("shipSpotLight");
             LightNode spotLightNode = new LightNode("shipSpotLightNode", spotLight);
             spotLightNode.setLocalTranslation(model.getWorldTranslation());
-
-            //So that the ship model is never in shadow:
-            SpotLight lightUpShip = spotLight.clone();
-            LightNode lightUpShipNode = new LightNode("lightUpShipNode", lightUpShip);
-            lightUpShipNode.setLocalTranslation(model.getWorldTranslation().add(0, 5, 0));
-
             rootNode.addLight(spotLight);
             node.attachChild(spotLightNode);
-
-            //Light for the ship model:
-            rootNode.addLight(lightUpShip);
-            node.attachChild(lightUpShipNode);
-
             /**
              * Moves the ship core from its original position at the center of the Ship node
              * to it's correct starting position over the planet's surface.
@@ -116,15 +99,15 @@ public class SpatialHandler {
              * @param planetRadius The radius of the planet that the ship is hovering over.
              * @param shipAltitude The ship's height above the planet's surface.
              */
-            control = new ShipControl(inputManager, (Ship) event.entity);
+            control = new ShipControl(inputManager, (Ship) event.getEntity());
             node.setName("ship");
-        } else if (event.entity instanceof Satellite){
+        } else if (event.getEntity() instanceof Satellite){
             model = ModelLoaderFactory.getModelLoader().loadModel("satellite");
             model.setLocalTranslation(0,Planet.PLANET_RADIUS+2,0);
             model.scale(0.01f, 0.01f, 0.01f);
             node.rotate(1f, 0f, 0f); // TEMPORARY
-            control = new SatelliteControl();
-        } else if (event.entity instanceof Beam){
+            control = new SatelliteControl((Satellite) event.getEntity());
+        } else if (event.getEntity() instanceof Beam){
             model = ModelLoaderFactory.getModelLoader().loadModel("beam");
             model.setName("beamModel");
             model.setLocalTranslation(0f, 0.24f, 0f);
@@ -132,18 +115,18 @@ public class SpatialHandler {
             node.setName("beam");
             control = new BeamControl();
             parent = rootNode.getChild("ship");
-        } else if (event.entity instanceof Planet) {
+        } else if (event.getEntity() instanceof Planet) {
             model = ModelLoaderFactory.getModelLoader().loadModel("planet");
             model.setName("planetModel");
             node.setName("planet");
-            control = new PlanetControl((Planet) event.entity);
-        } else if (event.entity instanceof Farmer) {
+            control = new PlanetControl((Planet) event.getEntity());
+        } else if (event.getEntity() instanceof Farmer) {
             model = ModelLoaderFactory.getModelLoader().loadModel("farmer");
-            control = new FarmerControl((Farmer) event.entity);
+            control = new FarmerControl((Farmer) event.getEntity());
             model.setLocalTranslation(0, Planet.PLANET_RADIUS + 0.95f/*remove*/, 0);
             model.scale(0.01f, 0.01f, 0.01f);
-        } else if (event.entity instanceof Hayfork) {
-            Hayfork hayfork = (Hayfork) event.entity;
+        } else if (event.getEntity() instanceof Hayfork) {
+            Hayfork hayfork = (Hayfork) event.getEntity();
             model = ModelLoaderFactory.getModelLoader().loadModel("hayfork");
 
             Entity thrower = hayfork.getThrower();
@@ -162,10 +145,10 @@ public class SpatialHandler {
         node.attachChild(model);
         node.addControl(control);
 
-        event.entity.setPlanetaryInhabitant(new JMEInhabitant(node));
+        event.getEntity().setPlanetaryInhabitant(new JMEInhabitant(node));
 
         //Temporary place, maybe move somewhere else and/or bind to key
-        if(event.entity instanceof Ship)
+        if(event.getEntity() instanceof Ship)
              ((ShipControl)control).attachThirdPersonView(app.getCamera(), Planet.PLANET_RADIUS, Ship.ALTITUDE);
 
         //All entities get one geometry and one node each. The parent node of each entity has the name of the entity

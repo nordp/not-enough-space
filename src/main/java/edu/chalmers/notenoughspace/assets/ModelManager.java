@@ -26,8 +26,11 @@ class ModelManager implements IModelLoader {
 
     public Spatial loadModel(String modelId) {      //TODO Make Modelmanager not depend on stringID
         Spatial model;
-        if (modelId.equals("cow")) {
-            model = assetManager.loadModel("Models/Beata.j3o");
+        if (modelId.equals("cow") || modelId.equals("goldenCow")) {
+            if(modelId.equals("goldenCow"))
+                model = assetManager.loadModel("Models/goldenCow.j3o");
+            else
+                model = assetManager.loadModel("Models/Beata.j3o");
             model.scale(0.10f);
             AnimControl control = model.getControl(AnimControl.class);
             AnimChannel channel = control.createChannel();

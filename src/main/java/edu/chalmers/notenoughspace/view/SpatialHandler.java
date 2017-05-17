@@ -56,7 +56,10 @@ public class SpatialHandler {
 
         if (event.getEntity() instanceof Cow) {
             Cow cow = (Cow) event.getEntity();
-            model = ModelLoaderFactory.getModelLoader().loadModel("cow");
+            if(cow.isGolden())
+                model = ModelLoaderFactory.getModelLoader().loadModel("goldenCow");
+            else
+                model = ModelLoaderFactory.getModelLoader().loadModel("cow");
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
             model.scale(cow.getSize());
 

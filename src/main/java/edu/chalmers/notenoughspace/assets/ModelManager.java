@@ -41,8 +41,9 @@ class ModelManager implements IModelLoader {
             model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
             model.rotate(FastMath.PI + FastMath.HALF_PI, FastMath.PI, 0);
         } else if (modelId.equals("ship")){
-            model = assetManager.loadModel("Models/ufo.obj");
-            model.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));
+            model = assetManager.loadModel("Models/redUFO.j3o");
+            //model.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));
+            model.scale(18);
         } else if (modelId.equals("beam")){
             model = assetManager.loadModel("Models/beam.obj");
             Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");

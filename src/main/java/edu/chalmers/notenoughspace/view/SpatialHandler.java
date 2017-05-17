@@ -18,6 +18,8 @@ import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityStoredEvent;
 
+import javax.sound.sampled.LineUnavailableException;
+
 /**
  * Created by Phnor on 2017-05-08.
  */
@@ -94,8 +96,19 @@ public class SpatialHandler {
             spotLight.setName("shipSpotLight");
             LightNode spotLightNode = new LightNode("shipSpotLightNode", spotLight);
             spotLightNode.setLocalTranslation(model.getWorldTranslation());
+
+            //So that the ship model is never in shadow:
+            SpotLight lightUpShip = spotLight.clone();
+            LightNode lightUpShipNode = new LightNode("lightUpShipNode", lightUpShip);
+            lightUpShipNode.setLocalTranslation(model.getWorldTranslation().add(0, 5, 0));
+
             rootNode.addLight(spotLight);
             node.attachChild(spotLightNode);
+
+            //Light for the ship model:
+            rootNode.addLight(lightUpShip);
+            node.attachChild(lightUpShipNode);
+
             /**
              * Moves the ship core from its original position at the center of the Ship node
              * to it's correct starting position over the planet's surface.

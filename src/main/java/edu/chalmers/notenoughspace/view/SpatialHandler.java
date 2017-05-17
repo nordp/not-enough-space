@@ -123,7 +123,7 @@ public class SpatialHandler {
         } else if (event.entity instanceof Farmer) {
             model = ModelLoaderFactory.getModelLoader().loadModel("farmer");
             control = new FarmerControl((Farmer) event.entity);
-            model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
+            model.setLocalTranslation(0, Planet.PLANET_RADIUS + 0.95f/*remove*/, 0);
             model.scale(0.01f, 0.01f, 0.01f);
         } else if (event.entity instanceof Hayfork) {
             Hayfork hayfork = (Hayfork) event.entity;

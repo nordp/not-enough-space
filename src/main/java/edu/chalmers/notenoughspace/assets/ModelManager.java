@@ -65,8 +65,14 @@ class ModelManager implements IModelLoader {
             model = new Geometry("sun", sunMesh);
             model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
         } else if(modelId.equals("farmer")) {
-            model = assetManager.loadModel("Models/farmer.obj");
-            model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
+            model = assetManager.loadModel("Models/Herman.j3o");
+            //model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
+            model.scale(14f);
+            AnimControl control = model.getControl(AnimControl.class);
+            AnimChannel channel = control.createChannel();
+            channel.setAnim("run.001");
+            channel.setSpeed(8f);
+            model.rotate(0, -FastMath.HALF_PI, 0);
         } else if (modelId.equals("hayfork")) {
             model = assetManager.loadModel("Models/spear.j3o");
             model.scale(0.3f);

@@ -15,12 +15,20 @@
                 <image filename="Textures/button.png" label="Start" id="StartButton" align="center" valign="center"
                        height="80%" width="80%" visibleToMouse="true" >
                     <interact onClick="startButtonClicked(hud)"/>
+                    <effect>
+                        <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
+                        <onHover name="border" post="true" color="999f" border="2px"/>
+                    </effect>
                 </image>
             </panel>
             <panel id="panel_bottom_right" height="50%" width="50%" valign="center" childLayout="center">
                 <image filename="Textures/quitbutton.png" label="Start" id="StartButton" align="center" valign="center"
                        height="80%" width="80%" visibleToMouse="true" >
                     <interact onClick="quitButtonClicked()"/>
+                    <effect>
+                        <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
+                        <onHover name="border" post="true" color="999f" border="2px"/>
+                    </effect>
                 </image>
             </panel>
             </panel>

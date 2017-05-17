@@ -2,7 +2,6 @@ package edu.chalmers.notenoughspace.assets;
 
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
-import com.jme3.animation.AnimEventListener;
 import com.jme3.asset.AssetManager;
 import com.jme3.material.Material;
 import com.jme3.material.RenderState;
@@ -39,7 +38,7 @@ class ModelManager implements IModelLoader {
             model.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));
         } else if (modelId.equals("junk")){
             model = assetManager.loadModel("Models/house.obj");
-            model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
+            model.setMaterial(assetManager.loadMaterial("Materials/house.j3m"));
             model.rotate(FastMath.PI + FastMath.HALF_PI, FastMath.PI, 0);
         } else if (modelId.equals("ship")){
             model = assetManager.loadModel("Models/ufo.obj");

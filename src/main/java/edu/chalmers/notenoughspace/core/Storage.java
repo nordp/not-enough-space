@@ -34,7 +34,7 @@ public class Storage {
     public void entityStored(EntityStoredEvent event) {
         if (!beamableEntityList.contains(event.beamedObject)) {
             beamableEntityList.add(event.beamedObject);
-            System.out.println("Object added to Storage.");
+            Bus.getInstance().post(this);
         }
     }
 }

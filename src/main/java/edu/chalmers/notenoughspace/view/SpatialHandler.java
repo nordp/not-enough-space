@@ -45,7 +45,7 @@ public class SpatialHandler {
         Node planet = (Node) rootNode.getChild("planet");
         Spatial cowNode = planet.getChild(objectName);
 
-        cowNode.removeControl(CowControl.class);
+        cowNode.removeControl(AbstractControl.class);
         planet.detachChild(cowNode);
     }
 

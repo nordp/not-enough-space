@@ -41,7 +41,10 @@ public class Menu extends AbstractAppState implements ScreenController{
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        nifty.gotoScreen("menu");
+        if (enabled && isInitialized()) {
+            app.getInputManager().setCursorVisible(true);
+            nifty.gotoScreen("menu");
+        }
     }
 
     /** Button/Navigation methods */

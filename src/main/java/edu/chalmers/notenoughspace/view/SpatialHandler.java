@@ -43,10 +43,9 @@ public class SpatialHandler {
         Spatial parent = rootNode;
 
         String objectName = beamedObject.toString();
-        Node planet = (Node) rootNode.getChild("planet");
-        Spatial storedObject = planet.getChild(objectName);
+        Spatial storedObject = rootNode.getChild(objectName);
         storedObject.removeControl(AbstractControl.class);
-        planet.detachChild(storedObject);
+        storedObject.removeFromParent();
     }
 
     @Subscribe

@@ -166,6 +166,7 @@ public class Round extends AbstractAppState implements ScreenController {
         super.setEnabled(enabled);
         if (enabled) {
             //Restore control
+            app.getInputManager().setCursorVisible(false);
             nifty.gotoScreen("hud");
             paused = false;
             happy.play();

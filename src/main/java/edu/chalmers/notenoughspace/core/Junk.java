@@ -21,4 +21,8 @@ public class Junk extends BeamableEntity{
     public float getPoints() {
         return 0f;
     }
+
+    public void update() {
+        gravitate();
+    }
 }

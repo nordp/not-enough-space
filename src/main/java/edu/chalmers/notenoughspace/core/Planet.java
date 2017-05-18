@@ -17,6 +17,7 @@ public class Planet extends Entity {
 
     public Planet(){
 //        super(parent);
+        super(new ZeroGravityStrategy());
         population = new ArrayList<Entity>();
         Bus.getInstance().post(new EntityCreatedEvent(this));
         Bus.getInstance().register(this);

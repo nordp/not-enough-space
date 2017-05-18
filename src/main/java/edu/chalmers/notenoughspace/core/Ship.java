@@ -21,6 +21,7 @@ public class Ship extends Entity {
 
 
     public Ship(){
+        super(new ZeroGravityStrategy());
         Bus.getInstance().post(new EntityCreatedEvent(this));
 
         energy = 100;

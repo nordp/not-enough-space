@@ -20,6 +20,7 @@ public class Beam extends Entity {
 
     public Beam(Entity parent) {
 //            super(parent);
+        super(new ZeroGravityStrategy());
         objectsInBeam = new ArrayList<BeamableEntity>();
         Bus.getInstance().register(this);
         Bus.getInstance().post(new EntityCreatedEvent(this));

@@ -6,6 +6,11 @@ package edu.chalmers.notenoughspace.core;
 public abstract class Entity {
 
     protected PlanetaryInhabitant body;
+    protected GravityStrategy gravityStrategy;
+
+    public Entity(GravityStrategy gravityStrategy) {
+        this.gravityStrategy = gravityStrategy;
+    }
 
     public PlanetaryInhabitant getPlanetaryInhabitant() { return body;}
 
@@ -13,4 +18,7 @@ public abstract class Entity {
 
     public String getID(){ return this.toString(); }
 
+    protected void gravitate() {
+        gravityStrategy.gravitate(body);
+    }
 }

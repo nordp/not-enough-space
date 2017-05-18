@@ -16,6 +16,7 @@ public class Hayfork extends Entity {
     private Vector3f direction;
 
     public Hayfork(Entity thrower){
+        super(new ZeroGravityStrategy());
         this.thrower = thrower;
         Bus.getInstance().post(new EntityCreatedEvent(this));
 

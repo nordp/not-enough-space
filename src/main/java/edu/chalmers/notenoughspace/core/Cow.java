@@ -103,6 +103,11 @@ public class Cow extends BeamableEntity {
             return;
         }
 
+        if (body.getLocalTranslation().y > Planet.PLANET_RADIUS) {
+            gravitate();
+            return;
+        }
+
         switch (mood){
             case CALM:
 

@@ -15,6 +15,7 @@ public class Farmer extends Entity{
 
 
     public Farmer(){
+        super(new ZeroGravityStrategy());
         Bus.getInstance().post(new EntityCreatedEvent(this));
     }
 

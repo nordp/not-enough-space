@@ -11,6 +11,7 @@ public class Satellite extends Entity {
 
 
     Satellite() {
+        super(new ZeroGravityStrategy());
         Bus.getInstance().post(new EntityCreatedEvent(this));
     }
 

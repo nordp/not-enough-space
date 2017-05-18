@@ -19,9 +19,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.debug.WireBox;
-import edu.chalmers.notenoughspace.core.BeamState;
-import edu.chalmers.notenoughspace.core.Cow;
-import edu.chalmers.notenoughspace.core.CowMood;
+import edu.chalmers.notenoughspace.core.*;
 import edu.chalmers.notenoughspace.event.BeamEnteredEvent;
 import edu.chalmers.notenoughspace.event.BeamExitedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
@@ -47,6 +45,14 @@ public class CowControl extends AbstractControl {
         }
 
         //TODO: Same here...
+        float yDistanceToShip = Ship.ALTITUDE + Planet.PLANET_RADIUS -
+                cow.getPlanetaryInhabitant().getLocalTranslation().y;
+
+        //Adjust model size depending on height above ground (the higher the smaller):
+        if (yDistanceToShip > 1f) {
+            model.setLocalScale(ORIGINAL_SCALE * yDistanceToShip/Ship.ALTITUDE);
+        }
+
         if (cow.isInBeam() == BeamState.IN_BEAM) {
             AnimControl control = model.getControl(AnimControl.class);
             AnimChannel channel = control.getChannel(0);
@@ -54,10 +60,8 @@ public class CowControl extends AbstractControl {
                 channel.setAnim("jigger");
             }
             channel.setSpeed(10);
-            model.setLocalScale(model.getLocalScale().x - 0.0005f);
-
         } else {
-            model.setLocalScale(ORIGINAL_SCALE);
+            //model.setLocalScale(ORIGINAL_SCALE);
             AnimControl control = model.getControl(AnimControl.class);
             AnimChannel channel = control.getChannel(0);
             if (!channel.getAnimationName().equals("WalkCycle")) {

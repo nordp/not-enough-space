@@ -4,7 +4,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.core.Farmer;
-import edu.chalmers.notenoughspace.core.PlanetaryInhabitant;
 import edu.chalmers.notenoughspace.core.Ship;
 
 /**
@@ -19,7 +18,7 @@ public class FarmerControl extends AbstractControl {
     }
 
     protected void controlUpdate(float tpf) {
-        farmer.update(new JMEInhabitant(NodeUtil.getRoot(spatial).getChild("ship")), tpf);
+        farmer.update(new JMEInhabitant(ControlUtil.getRoot(spatial).getChild("ship")), tpf);
         //TODO: Borde ej skapa nytt objekt varje update
     }
 

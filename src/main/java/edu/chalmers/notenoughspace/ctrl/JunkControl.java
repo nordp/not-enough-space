@@ -24,20 +24,17 @@ public class JunkControl extends AbstractControl {
 
     protected void controlUpdate(float v) {
 
-        CollisionResults results = new CollisionResults();
-        BoundingVolume bv = ((Node) spatial).getChild(0).getWorldBound();
-        (NodeUtil.getRoot(spatial).getChild("beamModel")).collideWith(bv, results);
+        boolean colliding = ControlUtil.checkCollision(((Node) spatial).getChild(0), (ControlUtil.getRoot(spatial).getChild("beamModel")));
 
-        if (NodeUtil.getRoot(spatial).getChild("beamModel").getCullHint() == Spatial.CullHint.Never && results.size() > 0) {
+        if (colliding && ControlUtil.getRoot(spatial).getChild("beamModel").getCullHint() == Spatial.CullHint.Never) {
             if(junk.isInBeam() == BeamState.NOT_IN_BEAM){
                 junk.enterBeam();
-                //((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);
+//                ((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);
             }
         }else{
-            junk.update();  //applies gravity, maybe it should just be called gravitate?
             if(junk.isInBeam() == BeamState.IN_BEAM){
                 junk.exitBeam();
-                //((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);
+//                ((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);
             }
         }
     }

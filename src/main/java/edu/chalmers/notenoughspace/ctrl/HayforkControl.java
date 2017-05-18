@@ -18,7 +18,7 @@ public class HayforkControl extends AbstractControl {
     }
 
     protected void controlUpdate(float tpf) {
-        hayfork.update(new JMEInhabitant(NodeUtil.getRoot(spatial).getChild("ship")), tpf);
+        hayfork.update(new JMEInhabitant(ControlUtil.getRoot(spatial).getChild("ship")), tpf);
     }
 
     protected void controlRender(RenderManager renderManager, ViewPort viewPort) {

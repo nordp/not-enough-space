@@ -212,7 +212,7 @@ public class ShipControl extends AbstractControl {
                ship.rotateRight(tpf);
             }
 
-//            Node rootNode = NodeUtil.getRoot(spatial);
+//            Node rootNode = ControlUtil.getRoot(spatial);
 //            SpotLight light = rootNode.getWorldLightList().
             //Adjust the spotLight so that it always follows the ship.
 //            if (ship.getSpotLight() != null) {

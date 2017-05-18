@@ -25,14 +25,10 @@ public class SatelliteControl extends AbstractControl {
         spatial.rotate(0.01f, 0, 0);
 
         //Collision
-        if(((Node)spatial).getChildren().size() > 0) { //TEMPORARY, remove when proper explosion handling is implemented
-            CollisionResults results = new CollisionResults();
-            BoundingVolume bv = ((Node) spatial).getChild(0).getWorldBound();
-            (NodeUtil.getRoot(spatial).getChild("shipModel")).collideWith(bv, results);
+        boolean colliding = ControlUtil.checkCollision(((Node) spatial).getChild(0), (ControlUtil.getRoot(spatial).getChild("shipModel")));
 
-            if (results.size() > 0) {
-                satellite.collision();
-            }
+        if (colliding) {
+            satellite.collision();
         }
     }
 

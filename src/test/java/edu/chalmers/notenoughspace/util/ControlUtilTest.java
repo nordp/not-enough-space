@@ -3,13 +3,13 @@ package edu.chalmers.notenoughspace.util;
 import com.jme3.scene.Node;
 import org.junit.Test;
 
-import static edu.chalmers.notenoughspace.ctrl.NodeUtil.getRoot;
+import static edu.chalmers.notenoughspace.ctrl.ControlUtil.getRoot;
 import static org.junit.Assert.*;
 
 /**
  * Created by Phnor on 2017-04-26.
  */
-public class NodeUtilTest {
+public class ControlUtilTest {
     @Test
     public void getRootTest() throws Exception {
         Node initial = new Node();

@@ -13,10 +13,7 @@ import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.core.*;
 import edu.chalmers.notenoughspace.ctrl.*;
-import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
-import edu.chalmers.notenoughspace.event.Bus;
-import edu.chalmers.notenoughspace.event.BeamableStoredEvent;
-import edu.chalmers.notenoughspace.event.EntityRemovedEvent;
+import edu.chalmers.notenoughspace.event.*;
 
 /**
  * Created by Phnor on 2017-05-08.
@@ -160,6 +157,14 @@ public class SpatialHandler {
         //All entities get one geometry and one node each. The parent node of each entity has the name of the entity
         ((Node)parent).attachChild(node);
         //rootNode.detachChildNamed(event.entity.toString());
+    }
+
+    @Subscribe
+    public void satelliteCollision(SatelliteCollisionEvent event){
+        Node parent = (Node) rootNode.getChild(event.getSatellite().getID());
+        Spatial explosion = EffectFactory.createEffect(app.getAssetManager(), "satelliteExplosion");
+        explosion.setLocalTranslation(parent.getChild(0).getWorldTranslation());
+        rootNode.attachChild(explosion);
     }
 
 }

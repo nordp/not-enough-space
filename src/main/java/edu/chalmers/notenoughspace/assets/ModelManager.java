@@ -39,9 +39,10 @@ class ModelManager implements IModelLoader {
             model = assetManager.loadModel("Models/ufo.obj");
             model.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));
         } else if (modelId.equals("junk")){
-            model = assetManager.loadModel("Models/house.obj");
-            model.setMaterial(assetManager.loadMaterial("Materials/house.j3m"));
-            model.rotate(FastMath.PI + FastMath.HALF_PI, FastMath.PI, 0);
+            model = assetManager.loadModel("Models/barn.j3o");
+            //model.setMaterial(assetManager.loadMaterial("Materials/house.j3m"));
+            model.scale(20);
+            //model.rotate(0, FastMath.PI, 0);
         } else if (modelId.equals("ship")){
             model = assetManager.loadModel("Models/redUFO.j3o");
             //model.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));

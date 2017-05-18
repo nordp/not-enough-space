@@ -70,8 +70,8 @@ public class SpatialHandler {
         } else if (event.getEntity() instanceof Junk){
             model = ModelLoaderFactory.getModelLoader().loadModel("junk");
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
-            model.scale(0.01f, 0.01f, 0.01f);
-
+            model.scale(0.013f, 0.013f, 0.013f);
+            node.rotate(-FastMath.PI/6, 0, FastMath.PI/15);
             control = new JunkControl((Junk) event.getEntity());
             parent = rootNode.getChild("planet");
         } else if (event.getEntity() instanceof Ship) {

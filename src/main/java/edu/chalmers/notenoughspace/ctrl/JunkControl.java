@@ -32,6 +32,7 @@ public class JunkControl extends AbstractControl {
 //                ((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);
             }
         }else{
+            junk.update(); //Gravitates the junk
             if(junk.isInBeam() == BeamState.IN_BEAM){
                 junk.exitBeam();
 //                ((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);

@@ -3,6 +3,7 @@ package edu.chalmers.notenoughspace.core;
 import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityStoredEvent;
+import edu.chalmers.notenoughspace.event.StorageChangeEvent;
 
 import java.util.LinkedList;
 import java.util.*;
@@ -34,7 +35,7 @@ public class Storage {
     public void entityStored(EntityStoredEvent event) {
         if (!beamableEntityList.contains(event.getBeamableEntity())) {
             beamableEntityList.add(event.getBeamableEntity());
-            System.out.println("Object added to Storage.");
+            Bus.getInstance().post(new StorageChangeEvent(this));
         }
     }
 }

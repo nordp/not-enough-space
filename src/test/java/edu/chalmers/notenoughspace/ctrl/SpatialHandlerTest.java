@@ -49,7 +49,7 @@ public class SpatialHandlerTest {
 
             }
         };
-
+        app.setShowSettings(false);
         app.start();
 
     }

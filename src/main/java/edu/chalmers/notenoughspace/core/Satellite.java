@@ -7,61 +7,25 @@ import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.SatelliteCollisionEvent;
 
 
-public class Satellite implements Entity {
+public class Satellite extends Entity {
 
-    //public static final float SPEED = 1;
-    public static final float satelliteRadius = 1;     //what distance?!
-    private Vector3f worldLocation = new Vector3f();
-    private Ship ship;
-
-    private PlanetaryInhabitant body;
 
     Satellite() {
-//        super(parent);
         Bus.getInstance().post(new EntityCreatedEvent(this));
     }
 
     public void update() {
-        if(ship.getPlanetaryInhabitant().distance(body) < satelliteRadius){
-            Bus.getInstance().post(new SatelliteCollisionEvent(this));
-        }
     }
+
 
     /**
-     * @return the worldLocation
+     * make the satellite throw collision event if it is colliding with the ship
      */
-    public Vector3f getWorldLocation() {
-        return worldLocation;
-    }
 
-    public PlanetaryInhabitant getPlanetaryInhabitant() {
-        return body;
-    }
-
-    public void setPlanetaryInhabitant(PlanetaryInhabitant body) {
-        this.body = body;
+    public void collision() {
+        Bus.getInstance().post(new SatelliteCollisionEvent(this));
     }
 }
 
-    /**
-     * make the satellite explode if the ship is closer than satelliteRadius
-     */
-    /*
-    public void explode() {
-
-        //app.getRootNode().detachChild(satelliteNode);
-
-        //implement some explode animation, growing sun?
-            /*Spatial sun = nodeFactory.createSun().scale(0.2f, 0.2f, 0.2f);
-            satelliteNode.attachChild(sun);
 
 
-
-    }
-
-    public void explodeWhenCollision(float distanceToShip){
-        while(distanceToShip <= SATELLITE_RADIUS){
-
-        }
-    }
- */

@@ -6,14 +6,13 @@ import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 /**
  * Created by Phnor on 2017-05-13.
  */
-public class Farmer implements Entity{
+public class Farmer extends Entity{
 
     private final static float AGGRO_DISTANCE = 10f;
     private final static float SPRINT_SPEED = 0.8f;
     private final static float TURN_RADIUS = 5;
     private final static float THROW_CHANCE = 1;
 
-    private PlanetaryInhabitant body;
 
     public Farmer(){
         Bus.getInstance().post(new EntityCreatedEvent(this));
@@ -47,11 +46,4 @@ public class Farmer implements Entity{
         new Hayfork(this);
     }
 
-    public PlanetaryInhabitant getPlanetaryInhabitant() {
-        return body;
-    }
-
-    public void setPlanetaryInhabitant(PlanetaryInhabitant body) {
-        this.body = body;
-    }
 }

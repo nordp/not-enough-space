@@ -182,34 +182,34 @@ public class ShipControl extends AbstractControl {
             JMEInhabitant body = new JMEInhabitant(spatial);
 
             if (name.equals("moveForwards")) {
-                ship.moveForwards(body, tpf);
+                ship.moveForwards(tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("backwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(-drag * tpf, 0, 0);
                 }
             }
             if (name.equals("moveLeft")) {
-                ship.moveLeft(body, tpf);
+                ship.moveLeft(tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("rightPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(0, 0, drag * tpf);
                 }
             }
             if (name.equals("moveRight")) {
-                ship.moveRight(body, tpf);
+                ship.moveRight(tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("leftPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(0, 0, -drag * tpf);
                 }
             }
             if (name.equals("moveBackwards")) {
-                ship.moveBackwards(body, tpf);
+                ship.moveBackwards(tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("forwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(drag * tpf, 0, 0);
                 }
             }
             if (name.equals("rotateLeft")) {
-                ship.rotateLeft(body, tpf);
+                ship.rotateLeft(tpf);
             }
             if (name.equals("rotateRight")) {
-               ship.rotateRight(body, tpf);
+               ship.rotateRight(tpf);
             }
 
 //            Node rootNode = NodeUtil.getRoot(spatial);

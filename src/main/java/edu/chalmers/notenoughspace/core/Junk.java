@@ -8,37 +8,10 @@ import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 /**
  * Created by Phnor on 2017-05-08.
  */
-public class Junk implements BeamableEntity{
-
-    private PlanetaryInhabitant body;
-
-    private BeamState beamState;
+public class Junk extends BeamableEntity{
 
     public Junk() {
-        beamState = BeamState.NOT_IN_BEAM;
         Bus.getInstance().post(new EntityCreatedEvent(this));
-    }
-
-    public PlanetaryInhabitant getPlanetaryInhabitant() {
-        return body;
-    }
-
-    public void setPlanetaryInhabitant(PlanetaryInhabitant body) {
-        this.body = body;
-    }
-
-    public BeamState isInBeam() {
-        return beamState;
-    }
-
-    public void enterBeam() {
-        this.beamState = BeamState.IN_BEAM;
-        Bus.getInstance().post(new BeamEnteredEvent(this));
-    }
-
-    public void exitBeam() {
-        this.beamState = BeamState.NOT_IN_BEAM;
-        Bus.getInstance().post(new BeamExitedEvent(this));
     }
 
     public float getWeight() {

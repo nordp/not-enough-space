@@ -55,4 +55,9 @@
             <text text="Pause" font="Interface/Fonts/Default.fnt" width="10%" height="75%" backgroundColor="#ffff" />
         </layer>
     </screen>
+    <screen id="highscore" controller="edu.chalmers.notenoughspace.view.HighScore">
+        <layer childLayout="center">
+            <text text="High Score" font="Interface/Fonts/Default.fnt" width="10%" height="75%" backgroundColor="#ffff" />
+        </layer>
+    </screen>
 </nifty>

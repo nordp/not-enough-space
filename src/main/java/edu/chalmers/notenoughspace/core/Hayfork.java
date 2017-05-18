@@ -8,11 +8,10 @@ import javax.vecmath.Vector3f;
 /**
  * Created by Sparven on 2017-05-15.
  */
-public class Hayfork implements Entity {
+public class Hayfork extends Entity {
 
     private final static float THROW_SPEED = 10f;
 
-    private PlanetaryInhabitant body;
     private Entity thrower;
     private Vector3f direction;
 
@@ -35,14 +34,6 @@ public class Hayfork implements Entity {
         }
 
         body.move(direction);
-    }
-
-    public PlanetaryInhabitant getPlanetaryInhabitant() {
-        return body;
-    }
-
-    public void setPlanetaryInhabitant(PlanetaryInhabitant body) {
-        this.body = body;
     }
 
     public Entity getThrower() {

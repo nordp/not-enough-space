@@ -12,11 +12,11 @@ public class StorageChangeEvent {
         this.storage = storage;
     }
 
-    public int getNewScore(){
+    public float getNewScore(){
         return storage.calculateScore();
     }
 
-    public int getNewWeight() {
+    public float getNewWeight() {
         return storage.calculateWeight();
     }
 }

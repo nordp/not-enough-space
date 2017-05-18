@@ -5,7 +5,7 @@ import edu.chalmers.notenoughspace.event.BeamExitedEvent;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
-public class Cow implements BeamableEntity {
+public class Cow extends BeamableEntity {
 
     public static final float REACTION_DISTANCE = 3f;
     public static final float SPRINT_SPEED = 0.3f;
@@ -41,7 +41,6 @@ public class Cow implements BeamableEntity {
     private float speed;
     private int stamina;
     private CowMood mood;
-    private BeamState beamState;
 
     //Size will determine the scale, weight and points modifiers for the cow, unless it's a golden cow.
     private float sizeModifier;
@@ -50,13 +49,10 @@ public class Cow implements BeamableEntity {
 
     private boolean golden;
 
-    private PlanetaryInhabitant body;
-
     public Cow(){
 
 //        super(parent);
         mood = CowMood.CALM;
-        beamState = BeamState.NOT_IN_BEAM;
         stamina = MAX_STAMINA;
 
         if(Math.random()*100 < GOLD_CHANCE){
@@ -164,20 +160,6 @@ public class Cow implements BeamableEntity {
         return this.mood;
     }
 
-    public BeamState isInBeam() {
-        return beamState;
-    }
-
-    public void enterBeam(){
-        this.beamState = BeamState.IN_BEAM;
-        Bus.getInstance().post(new BeamEnteredEvent(this));
-    }
-
-    public void exitBeam(){
-        this.beamState = BeamState.NOT_IN_BEAM;
-        Bus.getInstance().post(new BeamExitedEvent(this));
-    }
-
     public float getWeight() { // TODO the whole weight thing, along with special cows
         return BASE_WEIGHT * sizeModifier;
     }
@@ -192,13 +174,5 @@ public class Cow implements BeamableEntity {
 
     public boolean isGolden(){
         return golden;
-    }
-
-    public PlanetaryInhabitant getPlanetaryInhabitant() {
-        return body;
-    }
-
-    public void setPlanetaryInhabitant(PlanetaryInhabitant body) {
-        this.body = body;
     }
 }

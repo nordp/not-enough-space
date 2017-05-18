@@ -3,9 +3,14 @@ package edu.chalmers.notenoughspace.core;
 /**
  * Created by Vibergf on 08/05/2017.
  */
-public interface Entity {
+public abstract class Entity {
 
-    PlanetaryInhabitant getPlanetaryInhabitant();
-    void setPlanetaryInhabitant(PlanetaryInhabitant body);
+    protected PlanetaryInhabitant body;
+
+    public PlanetaryInhabitant getPlanetaryInhabitant() { return body;}
+
+    public void setPlanetaryInhabitant(PlanetaryInhabitant body){ this.body = body; }
+
+    public String getID(){ return this.toString(); }
 
 }

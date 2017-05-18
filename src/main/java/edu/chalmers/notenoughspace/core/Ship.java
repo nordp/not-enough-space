@@ -6,7 +6,7 @@ import edu.chalmers.notenoughspace.event.Bus;
 /**
  * Created by Vibergf on 25/04/2017.
  */
-public class Ship implements Entity {
+public class Ship extends Entity {
 
     /**
      * The distance from the ship to the planet's surface.
@@ -16,10 +16,9 @@ public class Ship implements Entity {
     public static final float ROTATION_SPEED = 2;
 
     private int energy;
-    public Beam beam;
+    private Beam beam;
     private Storage storage;
 
-    private PlanetaryInhabitant body;
 
     public Ship(){
         Bus.getInstance().post(new EntityCreatedEvent(this));
@@ -33,27 +32,27 @@ public class Ship implements Entity {
         beam.update();
     }
 
-    public void moveForwards(PlanetaryInhabitant body, float tpf) {
+    public void moveForwards(float tpf) {
         body.rotateForward(-1 * tpf);
     }
 
-    public void moveBackwards(PlanetaryInhabitant body, float tpf) {
+    public void moveBackwards(float tpf) {
         body.rotateForward(1 * tpf);
     }
 
-    public void moveLeft(PlanetaryInhabitant body, float tpf) {
+    public void moveLeft(float tpf) {
         body.rotateSideways(1 * tpf);
     }
 
-    public void moveRight(PlanetaryInhabitant body, float tpf) {
+    public void moveRight(float tpf) {
         body.rotateSideways(-1 * tpf);
     }
 
-    public void rotateLeft(PlanetaryInhabitant body, float tpf){
+    public void rotateLeft(float tpf){
         body.rotateModel(2 * tpf);
     }
 
-    public void rotateRight(PlanetaryInhabitant body, float tpf){
+    public void rotateRight(float tpf){
         body.rotateModel(-2 * tpf);
     }
 
@@ -61,11 +60,9 @@ public class Ship implements Entity {
         beam.setActive(beamActive);
     }
 
-    public PlanetaryInhabitant getPlanetaryInhabitant() {
-        return body;
-    }
+    public Beam getBeam(){return beam; }
 
-    public void setPlanetaryInhabitant(PlanetaryInhabitant body) {
-        this.body = body;
-    }
+    public Storage getStorage(){return storage; }
+
+    public String getID() { return "ship"; }
 }

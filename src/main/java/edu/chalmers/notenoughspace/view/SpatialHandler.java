@@ -1,7 +1,6 @@
 package edu.chalmers.notenoughspace.view;
 
 import com.google.common.eventbus.Subscribe;
-import com.jme3.animation.AnimControl;
 import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.light.SpotLight;
@@ -16,7 +15,8 @@ import edu.chalmers.notenoughspace.core.*;
 import edu.chalmers.notenoughspace.ctrl.*;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
-import edu.chalmers.notenoughspace.event.EntityStoredEvent;
+import edu.chalmers.notenoughspace.event.BeamableStoredEvent;
+import edu.chalmers.notenoughspace.event.EntityRemovedEvent;
 
 /**
  * Created by Phnor on 2017-05-08.
@@ -36,14 +36,12 @@ public class SpatialHandler {
     }
 
     @Subscribe
-    public void entityStored(EntityStoredEvent event) {
+    public void entityStored(EntityRemovedEvent event) {
         System.out.println("Event reached");
 
-        BeamableEntity beamedObject = event.getBeamableEntity();
-        Spatial parent = rootNode;
+        Entity entity = event.getEntity();
 
-        String objectName = beamedObject.toString();
-        Spatial storedObject = rootNode.getChild(objectName);
+        Spatial storedObject = rootNode.getChild(entity.getID());
         storedObject.removeControl(AbstractControl.class);
         storedObject.removeFromParent();
     }
@@ -52,7 +50,7 @@ public class SpatialHandler {
     public void entityCreated(EntityCreatedEvent event) {
         System.out.println("Event reached");
 
-        Node node = new Node(event.getEntity().toString());
+        Node node = new Node(event.getEntity().getID());
         Spatial model;
         AbstractControl control;
         Spatial parent = rootNode;
@@ -85,8 +83,6 @@ public class SpatialHandler {
             model.scale(0.02f, 0.02f, 0.02f);
             model.move(0, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0);
 
-            node.setName("ship");
-
             SpotLight spotLight = new SpotLight();
             spotLight.setSpotRange(10);
             spotLight.setSpotOuterAngle(45 * FastMath.DEG_TO_RAD);
@@ -113,7 +109,6 @@ public class SpatialHandler {
              * @param shipAltitude The ship's height above the planet's surface.
              */
             control = new ShipControl(inputManager, (Ship) event.getEntity());
-            node.setName("ship");
         } else if (event.getEntity() instanceof Satellite){
             model = ModelLoaderFactory.getModelLoader().loadModel("satellite");
             model.setLocalTranslation(0,Planet.PLANET_RADIUS+2,0);
@@ -125,13 +120,11 @@ public class SpatialHandler {
             model.setName("beamModel");
             model.setLocalTranslation(0f, 0.24f, 0f);
             model.move(rootNode.getChild("shipModel").getLocalTranslation());
-            node.setName("beam");
             control = new BeamControl();
             parent = rootNode.getChild("ship");
         } else if (event.getEntity() instanceof Planet) {
             model = ModelLoaderFactory.getModelLoader().loadModel("planet");
             model.setName("planetModel");
-            node.setName("planet");
             control = new PlanetControl((Planet) event.getEntity());
         } else if (event.getEntity() instanceof Farmer) {
             model = ModelLoaderFactory.getModelLoader().loadModel("farmer");

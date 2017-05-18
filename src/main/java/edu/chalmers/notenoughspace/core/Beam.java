@@ -9,12 +9,11 @@ import java.util.List;
 /**
  * Created by Phnor on 2017-05-09.
  */
-public class Beam implements Entity {
+public class Beam extends Entity {
     private boolean active = true;
 
     private List<BeamableEntity> objectsInBeam;
 
-    private PlanetaryInhabitant body;
 
     public Beam(Entity parent) {
 //            super(parent);
@@ -51,7 +50,7 @@ public class Beam implements Entity {
         float currentHeight = inhabitant.getLocalTranslation().y;
 
         if (currentHeight > Planet.PLANET_RADIUS + Ship.ALTITUDE) {
-            Bus.getInstance().post(new EntityStoredEvent(b));
+            Bus.getInstance().post(new BeamableStoredEvent(b));
             return;
         }
         inhabitant.setDistanceToPlanetsCenter(currentHeight + 0.01f);
@@ -69,11 +68,5 @@ public class Beam implements Entity {
         return active;
     }
 
-    public PlanetaryInhabitant getPlanetaryInhabitant() {
-        return body;
-    }
-
-    public void setPlanetaryInhabitant(PlanetaryInhabitant body) {
-        this.body = body;
-    }
+    public String getID(){ return "beam"; }
 }

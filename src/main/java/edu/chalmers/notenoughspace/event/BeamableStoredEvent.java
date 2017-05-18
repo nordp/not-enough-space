@@ -5,12 +5,12 @@ import edu.chalmers.notenoughspace.core.BeamableEntity;
 /**
  * Created by Sparven on 2017-05-16.
  */
-public class EntityStoredEvent {
+public class BeamableStoredEvent {
     private BeamableEntity beamedObject;
 
-    public EntityStoredEvent(BeamableEntity beamedObject) {
+    public BeamableStoredEvent(BeamableEntity beamedObject) {
         this.beamedObject = beamedObject;
-        System.out.println("EntityStoredEvent fired");
+        System.out.println("BeamableStoredEvent fired");
 
     }
 

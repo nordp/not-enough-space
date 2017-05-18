@@ -31,7 +31,7 @@ public class SatelliteControl extends AbstractControl {
             (NodeUtil.getRoot(spatial).getChild("shipModel")).collideWith(bv, results);
 
             if (results.size() > 0) {
-                ((Node) spatial).detachAllChildren();
+                satellite.collision();
             }
         }
     }

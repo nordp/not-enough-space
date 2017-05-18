@@ -53,6 +53,7 @@ public class Cow implements BeamableEntity {
     private PlanetaryInhabitant body;
 
     public Cow(){
+
 //        super(parent);
         mood = CowMood.CALM;
         beamState = BeamState.NOT_IN_BEAM;

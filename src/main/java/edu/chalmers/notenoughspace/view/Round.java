@@ -47,7 +47,6 @@ public class Round extends AbstractAppState implements ScreenController {
     private PointLight sunLight;
     private AmbientLight ambientLight;
     private AudioNode happy;
-    //private HUDNode hud;
     private ActionListener actionListener;
     private boolean paused;
 

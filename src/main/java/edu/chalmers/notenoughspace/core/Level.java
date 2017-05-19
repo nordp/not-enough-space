@@ -1,6 +1,8 @@
 package edu.chalmers.notenoughspace.core;
 
+import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.event.Bus;
+import edu.chalmers.notenoughspace.event.EntityRemovedEvent;
 import edu.chalmers.notenoughspace.event.GameOverEvent;
 
 public class Level {
@@ -27,6 +29,7 @@ public class Level {
                 levelOver();
             }
         };
+        Bus.getInstance().register(this);
     }
 
     public void update(float tpf) {
@@ -45,5 +48,16 @@ public class Level {
     }
 
     public void start() {
+    }
+
+    @Subscribe
+    public void spawnNewEntity(EntityRemovedEvent event){
+        try {
+            event.getEntity().getClass().newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 }

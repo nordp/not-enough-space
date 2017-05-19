@@ -28,47 +28,62 @@ public class Beam extends Entity {
         setActive(false);
     }
 
-    public void update(PlanetaryInhabitant shipBody) {
+    public synchronized void update(PlanetaryInhabitant shipBody) {
         if (isActive()) {
+            List<BeamableEntity> objectsToExit = new ArrayList<BeamableEntity>();
             for (BeamableEntity b : objectsInBeam) {
-                liftEntityTowardsShip(b, shipBody);
+                if (beamEntity(b, shipBody)){
+                    objectsToExit.add(b);
+                }
+            }
+
+            for (BeamableEntity b : objectsToExit) {
+                b.exitBeam();
             }
         }
     }
 
     @Subscribe
-    public void addToBeam(BeamEnteredEvent event) {
+    public synchronized void addToBeam(BeamEnteredEvent event) {
         BeamableEntity beamable = event.getBeamable();
         objectsInBeam.add(beamable);
     }
 
     @Subscribe
-    public void removeFromBeam(BeamExitedEvent event) {
+    public synchronized void removeFromBeam(BeamExitedEvent event) {
         BeamableEntity beamable = event.getBeamableEntity();
         objectsInBeam.remove(beamable);
     }
 
     //Helper
-    private void liftEntityTowardsShip(BeamableEntity b, PlanetaryInhabitant shipBody) {
+
+    /**
+     *
+     * @param b entity to beam
+     * @param shipBody the planetaryinhabitant to beam towards.
+     * @return
+     * true if beam complete
+     */
+    private synchronized boolean beamEntity(BeamableEntity b, PlanetaryInhabitant shipBody) {
         PlanetaryInhabitant inhabitant = b.getPlanetaryInhabitant();
         float currentHeight = inhabitant.getLocalTranslation().y;
 
         if (currentHeight > Planet.PLANET_RADIUS + Ship.ALTITUDE - DISTANCE_WHEN_STORED) {
             Bus.getInstance().post(new BeamableStoredEvent(b));
-            return;
+            return true;
         }
         inhabitant.setDistanceToPlanetsCenter(currentHeight + 0.01f);
 
         //Don't centralise more if already centralised:
         if (inhabitant.distance(shipBody) < 0.8f) {
-            return;
+            return false;
         } else {
             float hypotenuse = inhabitant.distance(shipBody);
             float yDistance = shipBody.getLocalTranslation().y - inhabitant.getLocalTranslation().y;
             float xDistance = (float) Math.sqrt(hypotenuse * hypotenuse - yDistance * yDistance);
 
             if (xDistance < 0.1f) {
-                return;
+                return false;
             }
         }
 
@@ -96,6 +111,7 @@ public class Beam extends Entity {
             inhabitant.rotateSideways(-CENTERING_FORCE);
         }
 
+        return false;
     }
 
     public void setActive(boolean active) {

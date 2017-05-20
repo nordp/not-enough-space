@@ -2,6 +2,8 @@ package edu.chalmers.notenoughspace.ctrl;
 
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
+import com.jme3.audio.AudioNode;
+import com.jme3.audio.AudioSource;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
@@ -29,7 +31,6 @@ public class CowControl extends AbstractControl {
             ORIGINAL_SCALE = model.getLocalScale().x;
         }
 
-        //TODO: Same here...
         float yDistanceToShip = Ship.ALTITUDE + Planet.PLANET_RADIUS -
                 cow.getPlanetaryInhabitant().getLocalTranslation().y;
 
@@ -57,6 +58,23 @@ public class CowControl extends AbstractControl {
             if (cow.getMood() == CowMood.SCARED) {
                 Node cowNode = (Node) spatial;
                 cowNode.getChild(0).getControl(AnimControl.class).getChannel(0).setSpeed(10);
+
+
+                if (((AudioNode)((Node) spatial).getChild("audio")).getStatus() != AudioSource.Status.Playing
+                        &&
+                        ((AudioNode)((Node) spatial).getChild("audio2")).getStatus() != AudioSource.Status.Playing
+                        &&
+                        ((AudioNode)((Node) spatial).getChild("audio3")).getStatus() != AudioSource.Status.Playing) {
+                    double random = Math.random()*100;
+                    if (random <= 33) {
+                        ((AudioNode)((Node) spatial).getChild("audio")).play(); //plays only if not currently playing
+                    } else if (random <= 66) {
+                        ((AudioNode)((Node) spatial).getChild("audio2")).play(); //plays only if not currently playing
+                    } else {
+                        ((AudioNode)((Node) spatial).getChild("audio3")).play(); //plays only if not currently playing
+                    }
+                }
+
             } else {
                 Node cowNode = (Node) spatial;
                 cowNode.getChild(0).getControl(AnimControl.class).getChannel(0).setSpeed(2.5f);

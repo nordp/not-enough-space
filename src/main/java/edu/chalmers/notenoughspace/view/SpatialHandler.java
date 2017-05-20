@@ -159,15 +159,20 @@ public class SpatialHandler {
         if(event.getEntity() instanceof Ship) {
             ((ShipControl) control).attachThirdPersonView(app.getCamera(), Planet.PLANET_RADIUS, Ship.ALTITUDE);
         } else if (event.getEntity() instanceof Farmer) {
+            //Attach farmer sound:
             AudioNode farmerAudio = ModelLoaderFactory.getSoundLoader().loadSound("farmer");
-            farmerAudio.setPositional(true);  // Use 3D audio
-            farmerAudio.setRefDistance(5f);  // Distance of 50% volume
-            farmerAudio.setMaxDistance(1000f); // Stops going quieter
-            farmerAudio.setVolume(1);         // Default volume
-            farmerAudio.setLooping(true);     // play continuously
-
-            node.attachChild(farmerAudio);
+            setUpAudioNode(farmerAudio, 0.2f, 10, true, node, "audio");
             farmerAudio.play();
+        } else if (event.getEntity() instanceof Cow) {
+            AudioNode mooAudio = ModelLoaderFactory.getSoundLoader().loadSound("cow");
+            setUpAudioNode(mooAudio, 0.2f, 10, false, node, "audio");
+            mooAudio.play();
+
+            AudioNode mooAudio2 = ModelLoaderFactory.getSoundLoader().loadSound("cow2");
+            setUpAudioNode(mooAudio2, 0.2f, 10, false, node, "audio2");
+
+            AudioNode mooAudio3 = ModelLoaderFactory.getSoundLoader().loadSound("cow3");
+            setUpAudioNode(mooAudio3, 0.2f, 10, false, node, "audio3");
 
         }
 
@@ -184,4 +189,20 @@ public class SpatialHandler {
         rootNode.attachChild(explosion);
     }
 
+    //Helper method TODO: Should probably be moved
+    private void setUpAudioNode(AudioNode audioNode, float refDistance, float volume, boolean looping,
+                                      Node parentNode, String name) {
+        audioNode.setPositional(true);  // Use 3D audio
+        audioNode.setRefDistance(refDistance);  // Distance of 50% volume
+        audioNode.setMaxDistance(1000f); // Stops going quieter
+        audioNode.setVolume(volume);         // Default volume
+        audioNode.setLooping(looping);
+
+        Spatial point = parentNode.getChild(0);
+        audioNode.setLocalTranslation(point.getLocalTranslation());
+        audioNode.setLocalRotation(point.getLocalRotation());
+
+        audioNode.setName(name);
+        parentNode.attachChild(audioNode);
+    }
 }

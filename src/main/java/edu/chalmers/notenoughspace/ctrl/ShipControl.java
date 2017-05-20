@@ -43,9 +43,9 @@ public class ShipControl extends AbstractControl {
 
     protected void controlUpdate(float v) {
         ship.update();
-        audioListener.setLocation(new Vector3f(0f, Planet.PLANET_RADIUS, 0f));
-//        audioListener.setLocation(((Node)spatial).getChild("shipModel").getWorldTranslation());
-//        audioListener.setRotation(((Node)spatial).getChild("shipModel").getWorldRotation());
+        //audioListener.setLocation(new Vector3f(0f, Planet.PLANET_RADIUS, 0f));
+        audioListener.setLocation(((Node)spatial).getChild("shipModel").getWorldTranslation());
+        audioListener.setRotation(((Node)spatial).getChild("shipModel").getWorldRotation());
     }
 
     protected void controlRender(RenderManager renderManager, ViewPort viewPort) {

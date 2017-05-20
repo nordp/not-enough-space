@@ -1,7 +1,10 @@
 package edu.chalmers.notenoughspace.assets;
 
 import com.jme3.asset.AssetManager;
+import com.jme3.audio.AudioData;
 import com.jme3.audio.AudioNode;
+import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 
 /**
  * Created by Sparven on 2017-05-20.
@@ -17,9 +20,20 @@ public class SoundManager implements ISoundLoader {
     public AudioNode loadSound(String soundId) {
         if (soundId.equals("farmer")) {
             return new AudioNode(assetManager,
-                    "Sounds/beep2.WAV");
+                    "Sounds/angryFarmer.WAV", AudioData.DataType.Buffer);
+        } else if (soundId.equals("cow")) {
+            return new AudioNode(assetManager,
+                    "Sounds/moo.WAV", AudioData.DataType.Buffer);
+        } else if (soundId.equals("cow2")) {
+            return new AudioNode(assetManager,
+                    "Sounds/moo2.WAV", AudioData.DataType.Buffer);
+        } else if (soundId.equals("cow3")) {
+            return new AudioNode(assetManager,
+                    "Sounds/moo3.WAV", AudioData.DataType.Buffer);
         }
 
         throw new IllegalArgumentException("no such sound in sound package");
     }
+    
+
 }

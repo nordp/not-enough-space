@@ -2,6 +2,7 @@ package edu.chalmers.notenoughspace.view;
 
 import com.google.common.eventbus.Subscribe;
 import com.jme3.app.SimpleApplication;
+import com.jme3.audio.AudioNode;
 import com.jme3.input.InputManager;
 import com.jme3.light.SpotLight;
 import com.jme3.math.FastMath;
@@ -105,7 +106,7 @@ public class SpatialHandler {
              * @param planetRadius The radius of the planet that the ship is hovering over.
              * @param shipAltitude The ship's height above the planet's surface.
              */
-            control = new ShipControl(inputManager, (Ship) event.getEntity());
+            control = new ShipControl(inputManager, app.getListener(), (Ship) event.getEntity());
         } else if (event.getEntity() instanceof Satellite){
             model = ModelLoaderFactory.getModelLoader().loadModel("satellite");
             model.setLocalTranslation(0,Planet.PLANET_RADIUS+1.3f,0);
@@ -129,6 +130,9 @@ public class SpatialHandler {
             control = new FarmerControl((Farmer) event.getEntity());
             model.setLocalTranslation(0, Planet.PLANET_RADIUS + 0.95f/*remove*/, 0);
             model.scale(0.01f, 0.01f, 0.01f);
+
+
+
         } else if (event.getEntity() instanceof Hayfork) {
             Hayfork hayfork = (Hayfork) event.getEntity();
             model = ModelLoaderFactory.getModelLoader().loadModel("hayfork");
@@ -152,8 +156,20 @@ public class SpatialHandler {
         event.getEntity().setPlanetaryInhabitant(new JMEInhabitant(node));
 
         //Temporary place, maybe move somewhere else and/or bind to key
-        if(event.getEntity() instanceof Ship)
-             ((ShipControl)control).attachThirdPersonView(app.getCamera(), Planet.PLANET_RADIUS, Ship.ALTITUDE);
+        if(event.getEntity() instanceof Ship) {
+            ((ShipControl) control).attachThirdPersonView(app.getCamera(), Planet.PLANET_RADIUS, Ship.ALTITUDE);
+        } else if (event.getEntity() instanceof Farmer) {
+            AudioNode farmerAudio = ModelLoaderFactory.getSoundLoader().loadSound("farmer");
+            farmerAudio.setPositional(true);  // Use 3D audio
+            farmerAudio.setRefDistance(5f);  // Distance of 50% volume
+            farmerAudio.setMaxDistance(1000f); // Stops going quieter
+            farmerAudio.setVolume(1);         // Default volume
+            farmerAudio.setLooping(true);     // play continuously
+
+            node.attachChild(farmerAudio);
+            farmerAudio.play();
+
+        }
 
         //All entities get one geometry and one node each. The parent node of each entity has the name of the entity
         ((Node)parent).attachChild(node);

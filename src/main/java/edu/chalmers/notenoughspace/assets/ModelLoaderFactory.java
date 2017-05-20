@@ -11,6 +11,7 @@ public class ModelLoaderFactory {
     private static AssetManager assetManager;
     private static ModelManager modelManager;
     private static IFontLoader fontManager;
+    private static ISoundLoader soundManager;
 
     private ModelLoaderFactory(){}
 
@@ -33,6 +34,15 @@ public class ModelLoaderFactory {
             return fontManager;
         } else {
             return fontManager;
+        }
+    }
+    
+    public static ISoundLoader getSoundLoader() {
+        if (soundManager == null) {
+            soundManager = new SoundManager(assetManager);
+            return soundManager;
+        } else {
+            return soundManager;
         }
     }
 

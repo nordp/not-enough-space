@@ -36,8 +36,7 @@ class ModelManager implements IModelLoader {
             channel.setAnim("WalkCycle");
             channel.setSpeed(2.5f);
         } else if (modelId.equals("satellite")){
-            model = assetManager.loadModel("Models/ufo.obj");
-            model.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));
+            model = assetManager.loadModel("Models/satellite.j3o");
         } else if (modelId.equals("junk")){
             model = assetManager.loadModel("Models/barn.j3o");
             //model.setMaterial(assetManager.loadMaterial("Materials/house.j3m"));

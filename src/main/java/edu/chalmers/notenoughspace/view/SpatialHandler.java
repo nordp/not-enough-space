@@ -108,8 +108,9 @@ public class SpatialHandler {
             control = new ShipControl(inputManager, (Ship) event.getEntity());
         } else if (event.getEntity() instanceof Satellite){
             model = ModelLoaderFactory.getModelLoader().loadModel("satellite");
-            model.setLocalTranslation(0,Planet.PLANET_RADIUS+2,0);
-            model.scale(0.01f, 0.01f, 0.01f);
+            model.setLocalTranslation(0,Planet.PLANET_RADIUS+1.3f,0);
+            model.rotate(FastMath.DEG_TO_RAD * 25, FastMath.DEG_TO_RAD * 15, FastMath.DEG_TO_RAD * 15);
+            model.scale(0.15f);
             node.rotate(1f, 0f, 0f); // TEMPORARY
             control = new SatelliteControl((Satellite) event.getEntity());
         } else if (event.getEntity() instanceof Beam){

@@ -5,6 +5,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.input.InputManager;
 import com.jme3.light.SpotLight;
 import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
 import com.jme3.scene.LightNode;
 import com.jme3.scene.Node;
@@ -60,7 +61,7 @@ public class SpatialHandler {
                 model = ModelLoaderFactory.getModelLoader().loadModel("cow");
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
             model.scale(cow.getSize());
-
+            node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
             if(cow.isGolden()){
                 //setMaterial? model = new model?
             }
@@ -71,7 +72,7 @@ public class SpatialHandler {
             model = ModelLoaderFactory.getModelLoader().loadModel("junk");
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
             model.scale(0.013f, 0.013f, 0.013f);
-            node.rotate(-FastMath.PI/6, 0, FastMath.PI/15);
+            node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
             control = new JunkControl((Junk) event.getEntity());
             parent = rootNode.getChild("planet");
         } else if (event.getEntity() instanceof Ship) {
@@ -111,7 +112,7 @@ public class SpatialHandler {
             model.setLocalTranslation(0,Planet.PLANET_RADIUS+1.3f,0);
             model.rotate(FastMath.DEG_TO_RAD * 25, FastMath.DEG_TO_RAD * 15, FastMath.DEG_TO_RAD * 15);
             model.scale(0.15f);
-            node.rotate(1f, 0f, 0f); // TEMPORARY
+            node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
             control = new SatelliteControl((Satellite) event.getEntity());
         } else if (event.getEntity() instanceof Beam){
             model = ModelLoaderFactory.getModelLoader().loadModel("beam");

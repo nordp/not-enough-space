@@ -21,7 +21,7 @@ public class Ship extends Entity {
         super(new ZeroGravityStrategy());
         Bus.getInstance().post(new EntityCreatedEvent(this));
 
-        mover = new Accelerator(body);
+        mover = new NoAccelerationStrategy(body);
         energy = 100;
         beam = new Beam(this);
         storage = new Storage();

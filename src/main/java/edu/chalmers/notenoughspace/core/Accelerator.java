@@ -50,97 +50,105 @@ public class Accelerator extends MovementStrategy {
     }
 
     private void accelerateForward(float tpf) {
-        currentSpeedY += tpf * (ACCELERATION_RATE + DECELERATION_RATE) * 1.0/400;
+        setCurrentSpeedY(
+                (float) (getCurrentSpeedY() + tpf * (ACCELERATION_RATE + DECELERATION_RATE) * 1.0/400));
         adjustYSpeedIfNecessary();
     }
 
     private void accelerateBackward(float tpf) {
-        currentSpeedY -= tpf * (ACCELERATION_RATE + DECELERATION_RATE) * 1.0/400;
+        setCurrentSpeedY(
+                (float) (getCurrentSpeedY() - tpf * (ACCELERATION_RATE + DECELERATION_RATE) * 1.0/400));
         adjustYSpeedIfNecessary();
     }
 
     private void accelerateLeft(float tpf) {
-        currentSpeedX += tpf * (ACCELERATION_RATE + DECELERATION_RATE) * 1.0/400;
+        setCurrentSpeedX(
+                (float) (getCurrentSpeedX() + tpf * (ACCELERATION_RATE + DECELERATION_RATE) * 1.0/400));
         adjustXSpeedIfNecessary();
     }
 
     private void accelerateRight(float tpf) {
-        currentSpeedX -= tpf * (ACCELERATION_RATE + DECELERATION_RATE) * 1.0/400;
+        setCurrentSpeedX(
+                (float) (getCurrentSpeedX() - tpf * (ACCELERATION_RATE + DECELERATION_RATE) * 1.0/400));
         adjustXSpeedIfNecessary();
     }
 
     private void accelerateTurnLeft(float tpf) {
-        currentRotationSpeed += tpf * (ROTATION_ACCELERATION_RATE + ROTATION_DECELERATION_RATE) * 1.0/50;
+        setCurrentRotationSpeed((float) (getCurrentRotationSpeed()
+                + tpf * (ROTATION_ACCELERATION_RATE + ROTATION_DECELERATION_RATE) * 1.0/50));
         adjustRotationSpeedIfNecessary();
     }
 
     private void accelerateTurnRight(float tpf) {
-        currentRotationSpeed -= tpf * (ROTATION_ACCELERATION_RATE + ROTATION_DECELERATION_RATE) * 1.0/50;
+        setCurrentRotationSpeed((float) (getCurrentRotationSpeed()
+                - tpf * (ROTATION_ACCELERATION_RATE + ROTATION_DECELERATION_RATE) * 1.0/50));
         adjustRotationSpeedIfNecessary();
     }
 
     private void adjustYSpeedIfNecessary() {
-        if (currentSpeedY > MAX_SPEED/1000) {
-            currentSpeedY = MAX_SPEED/1000;
-        } else if (currentSpeedY < -MAX_SPEED/1000) {
-            currentSpeedY = -MAX_SPEED/1000;
+        if (getCurrentSpeedY() > MAX_SPEED/1000) {
+            setCurrentSpeedY(MAX_SPEED/1000);
+        } else if (getCurrentSpeedY() < -MAX_SPEED/1000) {
+            setCurrentSpeedY(-MAX_SPEED/1000);
         }
     }
 
     private void adjustXSpeedIfNecessary() {
-        if (currentSpeedX > MAX_SPEED/1000) {
-            currentSpeedX = MAX_SPEED/1000;
-        } else if (currentSpeedX < -MAX_SPEED/1000) {
-            currentSpeedX = -MAX_SPEED/1000;
+        if (getCurrentSpeedX() > MAX_SPEED/1000) {
+            setCurrentSpeedX(MAX_SPEED/1000);
+        } else if (getCurrentSpeedX() < -MAX_SPEED/1000) {
+            setCurrentSpeedX(-MAX_SPEED/1000);
         }
     }
 
     private void adjustRotationSpeedIfNecessary() {
-        if (currentRotationSpeed > MAX_ROTATION_SPEED/20) {
-            currentRotationSpeed = MAX_ROTATION_SPEED/20;
-        } else if (currentRotationSpeed < -MAX_ROTATION_SPEED/20) {
-            currentRotationSpeed = -MAX_ROTATION_SPEED/20;
+        if (getCurrentRotationSpeed() > MAX_ROTATION_SPEED/20) {
+            setCurrentRotationSpeed(MAX_ROTATION_SPEED/20);
+        } else if (getCurrentRotationSpeed() < -MAX_ROTATION_SPEED/20) {
+            setCurrentRotationSpeed(-MAX_ROTATION_SPEED/20);
         }
     }
 
     private void haltIfToSlow(float tpf) {
-        if (Math.abs(currentSpeedY) < 0.001) {
-            currentSpeedY = 0;
+        if (Math.abs(getCurrentSpeedY()) < 0.001) {
+            setCurrentSpeedY(0);
         }
-        if (Math.abs(currentSpeedX) < 0.001) {
-            currentSpeedX = 0;
+        if (Math.abs(getCurrentSpeedX()) < 0.001) {
+            setCurrentSpeedX(0);
         }
-        if (Math.abs(currentRotationSpeed) < tpf * ROTATION_DECELERATION_RATE * 1.0/50) {
-            currentRotationSpeed = 0;
+        if (Math.abs(getCurrentRotationSpeed()) < tpf * ROTATION_DECELERATION_RATE * 1.0/50) {
+            setCurrentRotationSpeed(0);
         }
     }
 
     private void moveForwards(float tpf) {
-        body.rotateForward(-1 * currentSpeedY * tpf * 20);
+        getBody().rotateForward(-1 * getCurrentSpeedY() * tpf * 20);
 
-        if (currentSpeedY > 0) {
-            currentSpeedY -= tpf * DECELERATION_RATE * 1.0/400;
-        } else if (currentSpeedY < 0) {
-            currentSpeedY += tpf * DECELERATION_RATE * 1.0/400;
+        if (getCurrentSpeedY() > 0) {
+            setCurrentSpeedY((float)(getCurrentSpeedY() - tpf * DECELERATION_RATE * 1.0/400));
+        } else if (getCurrentSpeedY() < 0) {
+            setCurrentSpeedY((float)(getCurrentSpeedY() + tpf * DECELERATION_RATE * 1.0/400));
         }
     }
 
     private void moveLeft(float tpf) {
-        body.rotateSideways(1 * currentSpeedX * tpf * 20);
+        getBody().rotateSideways(1 * getCurrentSpeedX() * tpf * 20);
 
-        if (currentSpeedX > 0) {
-            currentSpeedX -= tpf * DECELERATION_RATE * 1.0/400;
-        } else if (currentSpeedX < 0) {
-            currentSpeedX += tpf * DECELERATION_RATE * 1.0/400;
+        if (getCurrentSpeedX() > 0) {
+            setCurrentSpeedX((float)(getCurrentSpeedX() - tpf * DECELERATION_RATE * 1.0/400));
+        } else if (getCurrentSpeedX() < 0) {
+            setCurrentSpeedX((float)(getCurrentSpeedX() + tpf * DECELERATION_RATE * 1.0/400));
         }
     }
 
     private void rotateLeft(float tpf){
-        body.rotateModel(currentRotationSpeed * tpf);
-        if (currentRotationSpeed > 0) {
-            currentRotationSpeed -= tpf * ROTATION_DECELERATION_RATE * 1.0/50;
-        } else if (currentRotationSpeed < 0) {
-            currentRotationSpeed += tpf * ROTATION_DECELERATION_RATE * 1.0/50;
+        getBody().rotateModel(getCurrentRotationSpeed() * tpf);
+        if (getCurrentRotationSpeed() > 0) {
+            setCurrentRotationSpeed(
+                    (float) (getCurrentRotationSpeed() - tpf * ROTATION_DECELERATION_RATE * 1.0 / 50));
+        } else if (getCurrentRotationSpeed() < 0) {
+            setCurrentRotationSpeed(
+                    (float) (getCurrentRotationSpeed() + tpf * ROTATION_DECELERATION_RATE * 1.0 / 50));
         }
     }
 

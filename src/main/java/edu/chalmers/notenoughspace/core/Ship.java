@@ -12,6 +12,7 @@ public class Ship extends Entity {
      */
     public static final float ALTITUDE = 1.8f;
 
+    private Health health;
     private int energy;
     private Beam beam;
     private Storage storage;
@@ -22,6 +23,7 @@ public class Ship extends Entity {
         Bus.getInstance().post(new EntityCreatedEvent(this));
 
         mover = new Accelerator(body);
+        health = new Health(100);
         energy = 100;
         beam = new Beam(this);
         storage = new Storage();

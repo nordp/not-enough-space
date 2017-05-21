@@ -42,7 +42,7 @@ public class ShipControl extends AbstractControl {
     }
 
     protected void controlUpdate(float v) {
-        ship.update();
+        ship.update(v);
         //audioListener.setLocation(new Vector3f(0f, Planet.PLANET_RADIUS, 0f));
         audioListener.setLocation(((Node)spatial).getChild("shipModel").getWorldTranslation());
         audioListener.setRotation(((Node)spatial).getChild("shipModel").getWorldRotation());
@@ -190,25 +190,25 @@ public class ShipControl extends AbstractControl {
             JMEInhabitant body = new JMEInhabitant(spatial);
 
             if (name.equals("moveForwards")) {
-                ship.moveForwards(tpf);
+                ship.accelerateForwards(tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("backwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(-drag * tpf, 0, 0);
                 }
             }
             if (name.equals("moveLeft")) {
-                ship.moveLeft(tpf);
+                ship.accelerateLeft(tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("rightPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(0, 0, drag * tpf);
                 }
             }
             if (name.equals("moveRight")) {
-                ship.moveRight(tpf);
+                ship.accelerateRight(tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("leftPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(0, 0, -drag * tpf);
                 }
             }
             if (name.equals("moveBackwards")) {
-                ship.moveBackwards(tpf);
+                ship.accelerateBackwards(tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("forwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(drag * tpf, 0, 0);
                 }

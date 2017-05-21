@@ -9,11 +9,11 @@ import com.jme3.scene.Spatial;
 /**
  * Created by Sparven on 2017-05-20.
  */
-public class SoundManager implements ISoundLoader {
+public class SoundLoader implements ISoundLoader {
 
     private AssetManager assetManager;
 
-    protected SoundManager(AssetManager assetManager) {
+    protected SoundLoader(AssetManager assetManager) {
         this.assetManager = assetManager;
     }
 

@@ -12,6 +12,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
+import edu.chalmers.notenoughspace.assets.SoundPlayer;
 import edu.chalmers.notenoughspace.core.*;
 import edu.chalmers.notenoughspace.ctrl.*;
 import edu.chalmers.notenoughspace.event.*;
@@ -40,13 +41,9 @@ public class SpatialHandler {
         Entity entity = event.getEntity();
 
         if (entity instanceof BeamableEntity) {
-            AudioNode beamedAudio = ModelLoaderFactory.getSoundLoader().loadSound("beamed");
-            beamedAudio.setLooping(false);
-            beamedAudio.play();
+            SoundPlayer.getInstance().play("beamed");
         } else if (entity instanceof Satellite) {
-            AudioNode explosionAudio = ModelLoaderFactory.getSoundLoader().loadSound("explosion");
-            explosionAudio.setLooping(false);
-            explosionAudio.play();
+            SoundPlayer.getInstance().play("explosion");
         }
 
         Spatial storedObject = rootNode.getChild(entity.getID());

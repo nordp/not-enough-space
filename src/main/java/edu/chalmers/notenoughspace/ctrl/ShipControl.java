@@ -186,38 +186,42 @@ public class ShipControl extends AbstractControl {
     private AnalogListener analogListener = new AnalogListener() {
 
         public void onAnalog(String name, float value, float tpf) {
-            float drag = 0.25f;
+            float drag = 5.25f;
             JMEInhabitant body = new JMEInhabitant(spatial);
 
             if (name.equals("moveForwards")) {
                 ship.accelerateForwards(tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("backwardPoint") < MAX_DISTANCE_TO_CAMERA) {
-                    followShipCameraPivotNode.rotate(-drag * tpf, 0, 0);
+                    followShipCameraPivotNode.rotate(
+                            -drag * tpf * Math.abs(ship.getCurrentSpeedY()), 0, 0);
                 }
             }
             if (name.equals("moveLeft")) {
                 ship.accelerateLeft(tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("rightPoint") < MAX_DISTANCE_TO_CAMERA) {
-                    followShipCameraPivotNode.rotate(0, 0, drag * tpf);
+                    followShipCameraPivotNode.rotate(
+                            0, 0, drag * tpf  * Math.abs(ship.getCurrentSpeedX()));
                 }
             }
             if (name.equals("moveRight")) {
                 ship.accelerateRight(tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("leftPoint") < MAX_DISTANCE_TO_CAMERA) {
-                    followShipCameraPivotNode.rotate(0, 0, -drag * tpf);
+                    followShipCameraPivotNode.rotate(
+                            0, 0, -drag * tpf  * Math.abs(ship.getCurrentSpeedX()));
                 }
             }
             if (name.equals("moveBackwards")) {
                 ship.accelerateBackwards(tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("forwardPoint") < MAX_DISTANCE_TO_CAMERA) {
-                    followShipCameraPivotNode.rotate(drag * tpf, 0, 0);
+                    followShipCameraPivotNode.rotate(
+                            drag * tpf * Math.abs(ship.getCurrentSpeedY()), 0, 0);
                 }
             }
             if (name.equals("rotateLeft")) {
-                ship.rotateLeft(tpf);
+                ship.accelerateTurnLeft(tpf);
             }
             if (name.equals("rotateRight")) {
-               ship.rotateRight(tpf);
+               ship.accelerateTurnRight(tpf);
             }
 
 //            Node rootNode = ControlUtil.getRoot(spatial);

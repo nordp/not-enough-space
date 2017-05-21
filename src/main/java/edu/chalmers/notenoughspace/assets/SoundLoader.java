@@ -42,6 +42,9 @@ public class SoundLoader implements ISoundLoader {
         } else if (soundId.equals("explosion")) {
             return new AudioNode(assetManager,
                     "Sounds/explosion.WAV", AudioData.DataType.Buffer);
+        } else if (soundId.equals("hayforkHit")) {
+            return new AudioNode(assetManager,
+                    "Sounds/hayforkHit.WAV", AudioData.DataType.Buffer);
         }
 
         throw new IllegalArgumentException("no such sound in sound package");

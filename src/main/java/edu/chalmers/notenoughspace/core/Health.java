@@ -8,7 +8,7 @@ public class Health {
     private int healthLevel;
 
     public Health(int initialHealth) {
-        this.healthLevel = healthLevel;
+        this.healthLevel = initialHealth;
     }
 
     public void increaseHealth(int dHealth) {
@@ -20,5 +20,10 @@ public class Health {
 
     public int getHealthLevel() {
         return healthLevel;
+    }
+
+    @Override
+    public String toString() {
+        return "Health: " + healthLevel + " HP";
     }
 }

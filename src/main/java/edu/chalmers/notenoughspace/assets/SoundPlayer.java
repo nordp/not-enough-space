@@ -25,6 +25,10 @@ public class SoundPlayer {
             AudioNode explosionAudio = ModelLoaderFactory.getSoundLoader().loadSound("explosion");
             explosionAudio.setLooping(false);
             explosionAudio.play();
+        } else if (soundId.equals("hayforkHit")) {
+            AudioNode explosionAudio = ModelLoaderFactory.getSoundLoader().loadSound("hayforkHit");
+            explosionAudio.setLooping(false);
+            explosionAudio.play();
         }
     }
 }

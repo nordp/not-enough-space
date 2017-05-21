@@ -1,7 +1,9 @@
 package edu.chalmers.notenoughspace.core;
 
+import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
+import edu.chalmers.notenoughspace.event.HayforkHitEvent;
 
 /**
  * Created by Vibergf on 25/04/2017.
@@ -21,6 +23,7 @@ public class Ship extends Entity {
     public Ship(){
         super(new ZeroGravityStrategy());
         Bus.getInstance().post(new EntityCreatedEvent(this));
+        Bus.getInstance().register(this);
 
         mover = new Accelerator(body);
         health = new Health(100);
@@ -54,5 +57,12 @@ public class Ship extends Entity {
 
     public float getCurrentSpeedY() {
         return mover.getCurrentSpeedY();
+    }
+
+    @Subscribe
+    public void gotHit(HayforkHitEvent event) {
+        int damage = ((Hayfork) event.getHayFork()).getDamage();
+        health.increaseHealth(-damage);
+        System.out.println(health.toString());
     }
 }

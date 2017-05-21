@@ -1,7 +1,9 @@
 package edu.chalmers.notenoughspace.core;
 
+import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
+import edu.chalmers.notenoughspace.event.HayforkHitEvent;
 
 import javax.vecmath.Vector3f;
 
@@ -14,12 +16,14 @@ public class Hayfork extends Entity {
 
     private Entity thrower;
     private Vector3f direction;
+    private int damage;
 
     public Hayfork(Entity thrower){
         super(new ZeroGravityStrategy());
         this.thrower = thrower;
         Bus.getInstance().post(new EntityCreatedEvent(this));
 
+        damage = 10;
     }
 
     public void update(PlanetaryInhabitant ship, float tpf) {
@@ -37,8 +41,22 @@ public class Hayfork extends Entity {
         body.move(direction);
     }
 
+    public void hitSomething() {
+        Vector3f pierceIntoVector = new Vector3f(direction.x, direction.y, direction.z);
+        pierceIntoVector.scale(3.2f);
+        body.move(pierceIntoVector);
+        Bus.getInstance().post(new HayforkHitEvent(this));
+    }
+
     public Entity getThrower() {
         return thrower;
     }
 
+    public int getDamage() {
+        return damage;
+    }
+
+    public Vector3f getDirection() {
+        return direction;
+    }
 }

@@ -172,6 +172,28 @@ public class SpatialHandler {
         //rootNode.detachChildNamed(event.entity.toString());
     }
 
+    @Subscribe
+    public void hayforkHitShip(HayforkHitEvent event) {
+        String hayforkID = event.getHayFork().getID();
+        Spatial hayfork = rootNode.getChild(hayforkID);
+        Spatial hayforkModel = ((Node) hayfork).getChild(0);
+
+        hayfork.removeControl(HayforkControl.class);
+
+        Node shipNode = ((Node) rootNode.getChild("ship"));
+        Vector3f hayforkPositionInShipNode = new Vector3f();
+        shipNode.worldToLocal(hayforkModel.getWorldTranslation(), hayforkPositionInShipNode);
+
+        Spatial ship = shipNode.getChild("shipModel");
+
+        shipNode.attachChild(hayforkModel); //It detaches automatically from whatever node it's currently on
+
+        Vector3f direction = ship.getWorldTranslation();
+        hayforkModel.setLocalTranslation(hayforkPositionInShipNode);
+        hayforkModel.lookAt(direction, new com.jme3.math.Vector3f(0, direction.z, -direction.y));
+        //The above is really a bit of a hack. TODO: Find out how to keep the rotation when moving between nodes.
+    }
+
     private void addCorrespondingAudioNode(Entity entity, Node node) {
         if (entity instanceof Farmer) {
             AudioNode farmerAudio = ModelLoaderFactory.getSoundLoader().loadSound("farmer");

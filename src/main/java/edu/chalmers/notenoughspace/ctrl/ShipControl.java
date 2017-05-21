@@ -1,5 +1,6 @@
 package edu.chalmers.notenoughspace.ctrl;
 
+import com.jme3.audio.Listener;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -14,6 +15,8 @@ import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
+import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
+import edu.chalmers.notenoughspace.core.Planet;
 import edu.chalmers.notenoughspace.core.Ship;
 
 /**
@@ -30,14 +33,19 @@ public class ShipControl extends AbstractControl {
      * Node for the camera following the ship.
      */
     private Node followShipCameraPivotNode;
+    private Listener audioListener;
 
-    public ShipControl(InputManager inputManager, Ship ship) {
+    public ShipControl(InputManager inputManager, Listener audioListener, Ship ship) {
         initMovementKeys(inputManager);
         this.ship = ship;
+        this.audioListener = audioListener;
     }
 
     protected void controlUpdate(float v) {
         ship.update();
+        //audioListener.setLocation(new Vector3f(0f, Planet.PLANET_RADIUS, 0f));
+        audioListener.setLocation(((Node)spatial).getChild("shipModel").getWorldTranslation());
+        audioListener.setRotation(((Node)spatial).getChild("shipModel").getWorldRotation());
     }
 
     protected void controlRender(RenderManager renderManager, ViewPort viewPort) {

@@ -2,6 +2,7 @@ package edu.chalmers.notenoughspace.ctrl;
 
 import com.google.common.eventbus.Subscribe;
 import com.jme3.app.SimpleApplication;
+import com.jme3.audio.AudioNode;
 import com.jme3.bounding.BoundingBox;
 import com.jme3.material.Material;
 import com.jme3.renderer.RenderManager;
@@ -25,12 +26,15 @@ public class BeamControl extends AbstractControl {
 
     @Subscribe
     public void beamToggleEvent(BeamToggleEvent event){
-        if(event.getEnabled())
+        if(event.getEnabled()) {
             spatial.setCullHint(Spatial.CullHint.Never);
-        else
+            ((AudioNode) ((Node) spatial).getChild("audio")).play();
+        } else {
             spatial.setCullHint(Spatial.CullHint.Always);
+            ((AudioNode) ((Node) spatial).getChild("audio")).stop();
+        }
     }
-boolean tmp = true;
+
     protected void controlUpdate(float v) {
 
     }

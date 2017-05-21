@@ -2,6 +2,7 @@ package edu.chalmers.notenoughspace.view;
 
 import com.google.common.eventbus.Subscribe;
 import com.jme3.app.SimpleApplication;
+import com.jme3.audio.AudioNode;
 import com.jme3.input.InputManager;
 import com.jme3.light.SpotLight;
 import com.jme3.math.FastMath;
@@ -12,9 +13,11 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
+import edu.chalmers.notenoughspace.assets.SoundPlayer;
 import edu.chalmers.notenoughspace.core.*;
 import edu.chalmers.notenoughspace.ctrl.*;
 import edu.chalmers.notenoughspace.event.*;
+import edu.chalmers.notenoughspace.utils.AudioNodeUtil;
 
 /**
  * Created by Phnor on 2017-05-08.
@@ -38,6 +41,10 @@ public class SpatialHandler {
         System.out.println("Event reached");
 
         Entity entity = event.getEntity();
+
+        if (entity instanceof BeamableEntity) {
+            SoundPlayer.getInstance().play("beamed");
+        }
 
         Spatial storedObject = rootNode.getChild(entity.getID());
         storedObject.removeControl(AbstractControl.class);
@@ -106,7 +113,7 @@ public class SpatialHandler {
              * @param planetRadius The radius of the planet that the ship is hovering over.
              * @param shipAltitude The ship's height above the planet's surface.
              */
-            control = new ShipControl(inputManager, (Ship) event.getEntity());
+            control = new ShipControl(inputManager, app.getListener(), (Ship) event.getEntity());
         } else if (event.getEntity() instanceof Satellite){
             model = ModelLoaderFactory.getModelLoader().loadModel("satellite");
             model.setLocalTranslation(0,Planet.PLANET_RADIUS+1.3f,0);
@@ -152,13 +159,42 @@ public class SpatialHandler {
 
         event.getEntity().setPlanetaryInhabitant(new JMEInhabitant(node));
 
+        //Maybe this should not be done here?
+        addCorrespondingAudioNode(event.getEntity(), node);
+        
         //Temporary place, maybe move somewhere else and/or bind to key
-        if(event.getEntity() instanceof Ship)
-             ((ShipControl)control).attachThirdPersonView(app.getCamera(), Planet.PLANET_RADIUS, Ship.ALTITUDE);
+        if(event.getEntity() instanceof Ship) {
+            ((ShipControl) control).attachThirdPersonView(app.getCamera(), Planet.PLANET_RADIUS, Ship.ALTITUDE);
+        }
 
         //All entities get one geometry and one node each. The parent node of each entity has the name of the entity
         ((Node)parent).attachChild(node);
         //rootNode.detachChildNamed(event.entity.toString());
+    }
+
+    private void addCorrespondingAudioNode(Entity entity, Node node) {
+        if (entity instanceof Farmer) {
+            AudioNode farmerAudio = ModelLoaderFactory.getSoundLoader().loadSound("farmer");
+            AudioNodeUtil.setUpAudioNode(farmerAudio, 0.2f, 10, true, node, "audio");
+            farmerAudio.play();
+        } else if (entity instanceof Cow) {
+            AudioNode mooAudio = ModelLoaderFactory.getSoundLoader().loadSound("cow");
+            AudioNodeUtil.setUpAudioNode(mooAudio, 0.2f, 10, false, node, "audio");
+            mooAudio.play();
+
+            AudioNode mooAudio2 = ModelLoaderFactory.getSoundLoader().loadSound("cow2");
+            AudioNodeUtil.setUpAudioNode(mooAudio2, 0.2f, 10, false, node, "audio2");
+
+            AudioNode mooAudio3 = ModelLoaderFactory.getSoundLoader().loadSound("cow3");
+            AudioNodeUtil.setUpAudioNode(mooAudio3, 0.2f, 10, false, node, "audio3");
+        } else if (entity instanceof Beam) {
+            AudioNode beamAudio = ModelLoaderFactory.getSoundLoader().loadSound("beam");
+            AudioNodeUtil.setUpAudioNode(beamAudio, 0.2f, 0.2f, true, node, "audio");
+        } else if (entity instanceof Hayfork) {
+            AudioNode swishAudio = ModelLoaderFactory.getSoundLoader().loadSound("hayforkThrown");
+            AudioNodeUtil.setUpAudioNode(swishAudio, 0.4f, 15, false, node, "audio");
+            swishAudio.play();
+        }
     }
 
     @Subscribe
@@ -167,6 +203,8 @@ public class SpatialHandler {
         Spatial explosion = EffectFactory.createEffect(app.getAssetManager(), "satelliteExplosion");
         explosion.setLocalTranslation(parent.getChild(0).getWorldTranslation());
         rootNode.attachChild(explosion);
+        
+        SoundPlayer.getInstance().play("explosion");
     }
 
 }

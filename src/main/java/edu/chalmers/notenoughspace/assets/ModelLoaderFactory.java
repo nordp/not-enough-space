@@ -1,7 +1,6 @@
 package edu.chalmers.notenoughspace.assets;
 
 import com.jme3.asset.AssetManager;
-import com.jme3.font.BitmapFont;
 
 /**
  * Created by Phnor on 2017-04-26.
@@ -11,6 +10,7 @@ public class ModelLoaderFactory {
     private static AssetManager assetManager;
     private static ModelManager modelManager;
     private static IFontLoader fontManager;
+    private static ISoundLoader soundManager;
 
     private ModelLoaderFactory(){}
 
@@ -33,6 +33,15 @@ public class ModelLoaderFactory {
             return fontManager;
         } else {
             return fontManager;
+        }
+    }
+    
+    public static ISoundLoader getSoundLoader() {
+        if (soundManager == null) {
+            soundManager = new SoundLoader(assetManager);
+            return soundManager;
+        } else {
+            return soundManager;
         }
     }
 

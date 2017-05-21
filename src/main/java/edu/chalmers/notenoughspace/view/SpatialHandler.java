@@ -39,6 +39,12 @@ public class SpatialHandler {
 
         Entity entity = event.getEntity();
 
+        if (entity instanceof BeamableEntity) {
+            AudioNode beamedAudio = ModelLoaderFactory.getSoundLoader().loadSound("beamed");
+            beamedAudio.setLooping(false);
+            beamedAudio.play();
+        }
+
         Spatial storedObject = rootNode.getChild(entity.getID());
         storedObject.removeControl(AbstractControl.class);
         storedObject.removeFromParent();
@@ -173,7 +179,9 @@ public class SpatialHandler {
 
             AudioNode mooAudio3 = ModelLoaderFactory.getSoundLoader().loadSound("cow3");
             setUpAudioNode(mooAudio3, 0.2f, 10, false, node, "audio3");
-
+        } else if (event.getEntity() instanceof Beam) {
+            AudioNode beamAudio = ModelLoaderFactory.getSoundLoader().loadSound("beam");
+            setUpAudioNode(beamAudio, 0.2f, 0.2f, true, node, "audio");
         }
 
         //All entities get one geometry and one node each. The parent node of each entity has the name of the entity

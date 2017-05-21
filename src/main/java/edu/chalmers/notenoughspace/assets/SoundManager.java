@@ -36,6 +36,12 @@ public class SoundManager implements ISoundLoader {
         } else if (soundId.equals("beamed")) {
             return new AudioNode(assetManager,
                     "Sounds/objectBeamed.WAV", AudioData.DataType.Buffer);
+        } else if (soundId.equals("hayforkThrown")) {
+            return new AudioNode(assetManager,
+                    "Sounds/swish.WAV", AudioData.DataType.Stream);
+        } else if (soundId.equals("explosion")) {
+            return new AudioNode(assetManager,
+                    "Sounds/explosion.WAV", AudioData.DataType.Buffer);
         }
 
         throw new IllegalArgumentException("no such sound in sound package");

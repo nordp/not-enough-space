@@ -43,6 +43,10 @@ public class SpatialHandler {
             AudioNode beamedAudio = ModelLoaderFactory.getSoundLoader().loadSound("beamed");
             beamedAudio.setLooping(false);
             beamedAudio.play();
+        } else if (entity instanceof Satellite) {
+            AudioNode explosionAudio = ModelLoaderFactory.getSoundLoader().loadSound("explosion");
+            explosionAudio.setLooping(false);
+            explosionAudio.play();
         }
 
         Spatial storedObject = rootNode.getChild(entity.getID());
@@ -182,6 +186,10 @@ public class SpatialHandler {
         } else if (event.getEntity() instanceof Beam) {
             AudioNode beamAudio = ModelLoaderFactory.getSoundLoader().loadSound("beam");
             setUpAudioNode(beamAudio, 0.2f, 0.2f, true, node, "audio");
+        } else if (event.getEntity() instanceof Hayfork) {
+            AudioNode swishAudio = ModelLoaderFactory.getSoundLoader().loadSound("hayforkThrown");
+            setUpAudioNode(swishAudio, 0.4f, 15, false, node, "audio");
+            swishAudio.play();
         }
 
         //All entities get one geometry and one node each. The parent node of each entity has the name of the entity

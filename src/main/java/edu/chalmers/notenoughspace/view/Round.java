@@ -24,6 +24,7 @@ import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import edu.chalmers.notenoughspace.core.Level;
 import edu.chalmers.notenoughspace.event.Bus;
+import edu.chalmers.notenoughspace.event.GameOverEvent;
 import edu.chalmers.notenoughspace.event.StorageChangeEvent;
 
 import javax.annotation.Nonnull;
@@ -41,14 +42,14 @@ public class Round extends AbstractAppState implements ScreenController {
     private AudioNode happy;
     private ActionListener actionListener;
     private boolean paused;
+    private  StateManager stateManager;
 
-    public Round(){
-        Bus.getInstance().register(this);
-    }
+    public Round(){ Bus.getInstance().register(this); }
 
     @Override
     public void initialize(AppStateManager stateManager, Application application) {
         super.initialize(stateManager, application);
+        this.stateManager = (StateManager) stateManager;
         //Init level
         level = new Level();
     }
@@ -237,5 +238,11 @@ public class Round extends AbstractAppState implements ScreenController {
             return "0" + number;
         }
         return "" + number;
+    }
+
+    @Subscribe
+    public void levelOver(GameOverEvent event){
+        stateManager.setState(GameState.STOPPED);
+        nifty.gotoScreen("highscore");
     }
 }

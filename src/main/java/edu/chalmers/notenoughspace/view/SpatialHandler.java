@@ -16,7 +16,6 @@ import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.core.*;
 import edu.chalmers.notenoughspace.ctrl.*;
 import edu.chalmers.notenoughspace.event.*;
-import edu.chalmers.notenoughspace.utils.AudioNodeUtil;
 
 /**
  * Created by Phnor on 2017-05-08.
@@ -61,10 +60,12 @@ public class SpatialHandler {
 
         if (event.getEntity() instanceof Cow) {
             Cow cow = (Cow) event.getEntity();
-            if(cow.isGolden())
+            if(cow.isGolden()) {
                 model = ModelLoaderFactory.getModelLoader().loadModel("goldenCow");
-            else
+
+            }else {
                 model = ModelLoaderFactory.getModelLoader().loadModel("cow");
+            }
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
             model.scale(cow.getSize());
             node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
@@ -160,6 +161,7 @@ public class SpatialHandler {
 
         //Maybe this should not be done here?
         addCorrespondingAudioNode(event.getEntity(), node);
+        addCorrespondingEffectNode(event.getEntity(), node);
         
         //Temporary place, maybe move somewhere else and/or bind to key
         if(event.getEntity() instanceof Ship) {
@@ -196,25 +198,33 @@ public class SpatialHandler {
     private void addCorrespondingAudioNode(Entity entity, Node node) {
         if (entity instanceof Farmer) {
             AudioNode farmerAudio = ModelLoaderFactory.getSoundLoader().loadSound("farmer");
-            AudioNodeUtil.setUpAudioNode(farmerAudio, 0.2f, 10, true, node, "audio");
+            NodeUtil.setUpAudioNode(farmerAudio, 0.2f, 10, true, node, "audio");
             farmerAudio.play();
         } else if (entity instanceof Cow) {
             AudioNode mooAudio = ModelLoaderFactory.getSoundLoader().loadSound("cow");
-            AudioNodeUtil.setUpAudioNode(mooAudio, 0.2f, 10, false, node, "audio");
+            NodeUtil.setUpAudioNode(mooAudio, 0.2f, 10, false, node, "audio");
             mooAudio.play();
 
             AudioNode mooAudio2 = ModelLoaderFactory.getSoundLoader().loadSound("cow2");
-            AudioNodeUtil.setUpAudioNode(mooAudio2, 0.2f, 10, false, node, "audio2");
+            NodeUtil.setUpAudioNode(mooAudio2, 0.2f, 10, false, node, "audio2");
 
             AudioNode mooAudio3 = ModelLoaderFactory.getSoundLoader().loadSound("cow3");
-            AudioNodeUtil.setUpAudioNode(mooAudio3, 0.2f, 10, false, node, "audio3");
+            NodeUtil.setUpAudioNode(mooAudio3, 0.2f, 10, false, node, "audio3");
         } else if (entity instanceof Beam) {
             AudioNode beamAudio = ModelLoaderFactory.getSoundLoader().loadSound("beam");
-            AudioNodeUtil.setUpAudioNode(beamAudio, 0.2f, 0.2f, true, node, "audio");
+            NodeUtil.setUpAudioNode(beamAudio, 0.2f, 0.2f, true, node, "audio");
         } else if (entity instanceof Hayfork) {
             AudioNode swishAudio = ModelLoaderFactory.getSoundLoader().loadSound("hayforkThrown");
-            AudioNodeUtil.setUpAudioNode(swishAudio, 0.4f, 15, false, node, "audio");
+            NodeUtil.setUpAudioNode(swishAudio, 0.4f, 15, false, node, "audio");
             swishAudio.play();
+        }
+    }
+
+    private void addCorrespondingEffectNode(Entity entity, Node node){
+        if(entity instanceof Cow) {
+            if(((Cow)entity).isGolden()){
+                NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "goldGlitter"), node);
+            }
         }
     }
 

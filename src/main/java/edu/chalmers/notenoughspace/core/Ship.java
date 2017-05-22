@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.HayforkHitEvent;
+import edu.chalmers.notenoughspace.event.SatelliteCollisionEvent;
 
 /**
  * Created by Vibergf on 25/04/2017.
@@ -62,6 +63,13 @@ public class Ship extends Entity {
     @Subscribe
     public void gotHit(HayforkHitEvent event) {
         int damage = ((Hayfork) event.getHayFork()).getDamage();
+        health.increaseHealth(-damage);
+        System.out.println(health.toString());
+    }
+
+    @Subscribe
+    public void satelliteCollision(SatelliteCollisionEvent event) {
+        int damage = ((Satellite) event.getSatellite()).getDamage();
         health.increaseHealth(-damage);
         System.out.println(health.toString());
     }

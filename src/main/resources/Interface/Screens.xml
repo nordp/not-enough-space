@@ -44,8 +44,10 @@
         </layer>
         <layer childLayout="vertical" valign="top" align="right">
             <panel id="health_and_energy" align="right" width="25%" height="15%" childLayout="horizontal">
-                <text id="health" text="Health" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
-                <text id="energy" text="Energy" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
+                <!--<text id="health" text="Health" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
+                <text id="energy" text="Energy" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>-->
+                <text id="health" text="Health:" font="Interface/Fonts/Default.fnt" width="15%" height="100%" backgroundColor="#1111"/>
+                <control name="healthMeter" align="center" valign="center" width="400px" height="32px" />
             </panel>
         </layer>
         <layer childLayout="horizontal" valign="bottom" align="left">
@@ -126,5 +128,14 @@
                     </panel>
         </layer>
         </screen>
+
+        <controlDefinition name = "healthMeter" controller = "edu.chalmers.notenoughspace.view.Round">
+            <image filename="Interface/border.png" childLayout="absolute"
+                   imageMode="resize:15,2,15,15,15,2,15,2,15,2,15,15">
+                <image id="healthBar" x="0" y="0" filename="Interface/inner.png" width="32px" height="100%"
+                       imageMode="resize:15,2,15,15,15,2,15,2,15,2,15,15" />
+            </image>
+        </controlDefinition>
+
         </nifty>
 

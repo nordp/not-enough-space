@@ -23,6 +23,7 @@ import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import de.lessvoid.nifty.tools.SizeValue;
 import edu.chalmers.notenoughspace.core.Level;
 import edu.chalmers.notenoughspace.core.Movement;
 import edu.chalmers.notenoughspace.event.Bus;
@@ -46,6 +47,8 @@ public class Round extends AbstractAppState implements ScreenController {
     private AudioNode happy;
     private ActionListener actionListener;
     private StateManager stateManager;
+    private Element healthBarElement;
+
 
     public Round(){
         Bus.getInstance().register(this);
@@ -198,8 +201,8 @@ public class Round extends AbstractAppState implements ScreenController {
         timerElement.getRenderer(TextRenderer.class).setText("Time left: " + toTimeFormat(timeLeft));
 
         float energy = level.getShipsEnergy();
-        Element energyElement = nifty.getCurrentScreen().findElementById("energy");
-        energyElement.getRenderer(TextRenderer.class).setText("Energy: " + (int) energy);
+//        Element energyElement = nifty.getCurrentScreen().findElementById("energy");
+//        energyElement.getRenderer(TextRenderer.class).setText("Energy: " + (int) energy);
     }
 
     //** Eventbased HUD updates */
@@ -214,12 +217,19 @@ public class Round extends AbstractAppState implements ScreenController {
 
     @Subscribe
     public void updateHealthBar(HealthChangedEvent event) {
-        Element healthElement = nifty.getCurrentScreen().findElementById("health");
-        healthElement.getRenderer(TextRenderer.class).setText("Health: " + event.getNewHealth());
+//        Element healthElement = nifty.getCurrentScreen().findElementById("health");
+//        healthElement.getRenderer(TextRenderer.class).setText("Health: " + event.getNewHealth());
+
+        float newHealth = event.getNewHealth() / 100f;
+        final int MIN_WIDTH = 32;
+        int pixelWidth = (int) (MIN_WIDTH + (healthBarElement.getParent().getWidth() - MIN_WIDTH) * newHealth);
+        healthBarElement.setConstraintWidth(new SizeValue(pixelWidth + "px"));
+        healthBarElement.getParent().layoutElements();
     }
 
     public void bind(@Nonnull Nifty nifty, @Nonnull Screen screen) {
         this.nifty = nifty;
+        healthBarElement = nifty.getScreen("hud").findElementById("healthBar");
     }
 
     public void onStartScreen() {

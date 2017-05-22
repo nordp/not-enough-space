@@ -1,5 +1,9 @@
 package edu.chalmers.notenoughspace.ctrl;
 
+import com.google.common.eventbus.Subscribe;
+import com.jme3.animation.AnimChannel;
+import com.jme3.animation.AnimControl;
+import com.jme3.animation.LoopMode;
 import com.jme3.audio.Listener;
 import com.jme3.input.InputManager;
 import com.jme3.input.KeyInput;
@@ -19,6 +23,9 @@ import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.core.Movement;
 import edu.chalmers.notenoughspace.core.Planet;
 import edu.chalmers.notenoughspace.core.Ship;
+import edu.chalmers.notenoughspace.event.BeamableStoredEvent;
+import edu.chalmers.notenoughspace.event.Bus;
+import edu.chalmers.notenoughspace.event.HayforkHitEvent;
 
 /**
  * Control for a ship hovering around a planet. Includes functions
@@ -40,6 +47,7 @@ public class ShipControl extends AbstractControl {
         initMovementKeys(inputManager);
         this.ship = ship;
         this.audioListener = audioListener;
+        Bus.getInstance().register(this);
     }
 
     protected void controlUpdate(float v) {
@@ -261,5 +269,19 @@ public class ShipControl extends AbstractControl {
         return ((Node) spatial).getChild("shipModel");
     }
 
+
+    @Subscribe
+    public void playStoreAnimation(BeamableStoredEvent event) {
+        playAnimation("store", 5);
+    }
+
+    private void playAnimation(String animationName, float speed) {
+        Spatial model = getShipModel();
+        AnimControl control = model.getControl(AnimControl.class);
+        AnimChannel channel = control.getChannel(0);
+        channel.setAnim(animationName);
+        channel.setLoopMode(LoopMode.DontLoop);
+        channel.setSpeed(speed);
+    }
 
 }

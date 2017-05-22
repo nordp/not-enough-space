@@ -27,7 +27,7 @@ public class HayforkControl extends AbstractControl {
 
         if (colliding &&
                 hayfork.getPlanetaryInhabitant().getLocalTranslation().y <=
-                Ship.ALTITUDE * 1.25f /*To prevent it from being "hit" by the
+                Ship.ALTITUDE * 1.35f /*To prevent it from being "hit" by the
                     stick of the spear. TODO: More stable solution.*/) {
             SoundPlayer.getInstance().play("hayforkHit");
             hayfork.hitSomething();

@@ -39,13 +39,13 @@ class ModelManager implements IModelLoader {
             model = assetManager.loadModel("Models/satellite.j3o");
         } else if (modelId.equals("junk")){
             model = assetManager.loadModel("Models/barn.j3o");
-            //model.setMaterial(assetManager.loadMaterial("Materials/house.j3m"));
             model.scale(20);
-            //model.rotate(0, FastMath.PI, 0);
         } else if (modelId.equals("ship")){
             model = assetManager.loadModel("Models/redUFO.j3o");
-            //model.setMaterial(assetManager.loadMaterial("Materials/UfoMaterial.j3m"));
             model.scale(18);
+            AnimControl control = model.getControl(AnimControl.class);
+            System.out.println("AAA" + model + "  " + control);
+            control.createChannel();
         } else if (modelId.equals("beam")){
             model = assetManager.loadModel("Models/beam.obj");
             Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");

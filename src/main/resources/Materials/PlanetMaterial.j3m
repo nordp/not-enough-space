@@ -1,6 +1,6 @@
 Material Planet Material : Common/MatDefs/Light/Lighting.j3md {
     MaterialParameters {
-        DiffuseMap : Textures/world1.png
+        DiffuseMap : Textures/planet.png
         UseMaterialColors : true
         Diffuse : 1.0 1.0 1.0 1.0
         Shininess : 64.0

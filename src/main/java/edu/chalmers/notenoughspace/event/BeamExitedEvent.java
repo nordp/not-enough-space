@@ -11,6 +11,7 @@ public class BeamExitedEvent {
 
     public BeamExitedEvent(BeamableEntity beamable){
         this.beamable = beamable;
+        System.out.println("BeamExitedEvent fired.");
     }
 
     public BeamableEntity getBeamableEntity(){

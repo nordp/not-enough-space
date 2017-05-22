@@ -53,6 +53,10 @@ public class TestInhabitant implements PlanetaryInhabitant {
         transform.transform(position);
     }
 
+    public float getDistanceToPlanetsCenter() {
+        return position.y;
+    }
+
     public Vector3f getWorldTranslation() {
         return position;
     }

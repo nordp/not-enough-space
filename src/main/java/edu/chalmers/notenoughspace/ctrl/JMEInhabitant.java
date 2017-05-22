@@ -51,6 +51,10 @@ public class JMEInhabitant implements PlanetaryInhabitant {
     public void setDistanceToPlanetsCenter(float distance) {
         model.setLocalTranslation(0, distance, 0);}
 
+    public float getDistanceToPlanetsCenter() {
+        return model.getLocalTranslation().getY();
+    }
+
     public Vector3f getWorldTranslation() {
         return jmeToVecmath(model.getWorldTranslation());
     }

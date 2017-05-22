@@ -68,6 +68,7 @@ public class SpatialHandler {
             }
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
             model.scale(cow.getSize());
+            model.setName("model");
             node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
             if(cow.isGolden()){
                 //setMaterial? model = new model?

@@ -11,7 +11,8 @@ import java.util.List;
  */
 public class Beam extends Entity {
     private static final float DISTANCE_WHEN_STORED = 0.6f;
-    private static final float CENTERING_FORCE = 0.001f;
+    private static final float CENTERING_FORCE = 0.08f;
+    private static final float BEAMING_FORCE = 1.0f;
 
     private boolean active = true;
 
@@ -28,11 +29,11 @@ public class Beam extends Entity {
         setActive(false);
     }
 
-    public synchronized void update(PlanetaryInhabitant shipBody) {
+    public synchronized void update(PlanetaryInhabitant shipBody, float tpf) {
         if (isActive()) {
             List<BeamableEntity> objectsToExit = new ArrayList<BeamableEntity>();
             for (BeamableEntity b : objectsInBeam) {
-                if (beamEntity(b, shipBody)){
+                if (beamEntity(b, shipBody, tpf)){
                     objectsToExit.add(b);
                 }
             }
@@ -69,20 +70,20 @@ public class Beam extends Entity {
      * @return
      * true if beam complete
      */
-    private synchronized boolean beamEntity(BeamableEntity b, PlanetaryInhabitant shipBody) {
+    private synchronized boolean beamEntity(BeamableEntity b, PlanetaryInhabitant shipBody, float tpf) {
         PlanetaryInhabitant inhabitant = b.getPlanetaryInhabitant();
-        float currentHeight = inhabitant.getLocalTranslation().y;
+        float currentHeight = inhabitant.getDistanceToPlanetsCenter();
 
         if (currentHeight > Planet.PLANET_RADIUS + Ship.ALTITUDE - DISTANCE_WHEN_STORED) {
             Bus.getInstance().post(new BeamableStoredEvent(b));
             return true;
         }
-        inhabitant.setDistanceToPlanetsCenter(currentHeight + 0.01f);
+        inhabitant.setDistanceToPlanetsCenter(currentHeight + BEAMING_FORCE * tpf * (1/b.getWeight()));
 
         //Don't centralise more if already centralised:
-        if (inhabitant.distance(shipBody) < 0.8f) {
-            return false;
-        } else {
+//        if (inhabitant.distance(shipBody) < 0.8f) {
+//            return false;
+//        } else {
             float hypotenuse = inhabitant.distance(shipBody);
             float yDistance = shipBody.getLocalTranslation().y - inhabitant.getLocalTranslation().y;
             float xDistance = (float) Math.sqrt(hypotenuse * hypotenuse - yDistance * yDistance);
@@ -90,7 +91,7 @@ public class Beam extends Entity {
             if (xDistance < 0.1f) {
                 return false;
             }
-        }
+//        }
 
         //Centralise in beam:
         PlanetaryInhabitant left = inhabitant.clone();
@@ -98,22 +99,22 @@ public class Beam extends Entity {
         PlanetaryInhabitant forward = inhabitant.clone();
         PlanetaryInhabitant back = inhabitant.clone();
 
-        left.rotateForward(CENTERING_FORCE);
-        right.rotateForward(-CENTERING_FORCE);
-        forward.rotateSideways(CENTERING_FORCE);
-        back.rotateSideways(-CENTERING_FORCE);
+        left.rotateForward(CENTERING_FORCE * tpf);
+        right.rotateForward(-CENTERING_FORCE * tpf);
+        forward.rotateSideways(CENTERING_FORCE * tpf);
+        back.rotateSideways(-CENTERING_FORCE * tpf);
 
 
         if (left.distance(shipBody) < right.distance(shipBody)){
-            inhabitant.rotateForward(CENTERING_FORCE);
+            inhabitant.rotateForward(CENTERING_FORCE * tpf);
         } else {
-            inhabitant.rotateForward(-CENTERING_FORCE);
+            inhabitant.rotateForward(-CENTERING_FORCE * tpf);
         }
 
         if (forward.distance(shipBody) < back.distance(shipBody)){
-            inhabitant.rotateSideways(CENTERING_FORCE);
+            inhabitant.rotateSideways(CENTERING_FORCE * tpf);
         } else {
-            inhabitant.rotateSideways(-CENTERING_FORCE);
+            inhabitant.rotateSideways(-CENTERING_FORCE * tpf);
         }
 
         return false;

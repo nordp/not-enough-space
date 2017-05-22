@@ -4,6 +4,8 @@ import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.audio.AudioNode;
 import com.jme3.audio.AudioSource;
+import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
@@ -127,7 +129,7 @@ public class CowControl extends AbstractControl {
 
     private void checkCollision() {
         boolean colliding = ControlUtil.checkCollision(
-                ((Node) spatial).getChild(0), (ControlUtil.getRoot(spatial).getChild("beamModel")));
+                ((Node) spatial).getChild("model"), (ControlUtil.getRoot(spatial).getChild("beamModel")));
 
         if (colliding && ControlUtil.getRoot(spatial).getChild("beamModel").getCullHint() == Spatial.CullHint.Never) {
             if (cow.isInBeam() == BeamState.NOT_IN_BEAM) {

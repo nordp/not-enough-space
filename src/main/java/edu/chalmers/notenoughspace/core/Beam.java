@@ -46,13 +46,18 @@ public class Beam extends Entity {
     @Subscribe
     public synchronized void addToBeam(BeamEnteredEvent event) {
         BeamableEntity beamable = event.getBeamable();
-        objectsInBeam.add(beamable);
+        if (!objectsInBeam.contains(beamable)) {
+            objectsInBeam.add(beamable);
+        }
+
     }
 
     @Subscribe
     public synchronized void removeFromBeam(BeamExitedEvent event) {
         BeamableEntity beamable = event.getBeamableEntity();
-        objectsInBeam.remove(beamable);
+        if (objectsInBeam.contains(beamable)) {
+            objectsInBeam.remove(beamable);
+        }
     }
 
     //Helper
@@ -127,4 +132,9 @@ public class Beam extends Entity {
     }
 
     public String getID(){ return "beam"; }
+
+    //For testing
+    public int getNumberOfObjectsInBeam() {
+        return objectsInBeam.size();
+    }
 }

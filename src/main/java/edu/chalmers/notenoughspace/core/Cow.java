@@ -26,7 +26,7 @@ public class Cow extends BeamableEntity {
     /**
      * Control variables for golden cows.
      */
-    public static final int GOLD_CHANCE = 2;
+    public static final int GOLD_CHANCE = 5;
     public static final float GOLD_SIZE = 0.60f;
     public static final float GOLD_POINTS_MODIFIER = 5f;
     public static final float GOLD_SPEED_MODIFIER = 2f;

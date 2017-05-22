@@ -93,9 +93,9 @@ public class Round extends AbstractAppState implements ScreenController {
 
     private void initSound(SimpleApplication app) {
         //Happy :)
-        happy = new AudioNode(app.getAssetManager(), "Sounds/happy_1.WAV", AudioData.DataType.Buffer);
+        happy = new AudioNode(app.getAssetManager(), "Sounds/brodyquest.wav", AudioData.DataType.Buffer);
         happy.setLooping(true);  // activate continuous playing
-        happy.setPositional(true);
+        happy.setPositional(false);
         happy.setVolume(1);
         happy.play(); // play continuously!
         app.getRootNode().attachChild(happy);

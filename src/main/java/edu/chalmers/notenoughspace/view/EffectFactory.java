@@ -19,14 +19,15 @@ import edu.chalmers.notenoughspace.event.Bus;
  */
 public class EffectFactory {
 
+    private static int idCounter = 0;
+
     private EffectFactory(){
     }
 
     public static ParticleEmitter createEffect(AssetManager assetManager, String id){
         ParticleEmitter emitter = null;
         if(id.equals("satelliteExplosion")){
-            emitter =
-                    new ParticleEmitter("Emitter", ParticleMesh.Type.Triangle, 1);
+            emitter = new ParticleEmitter("" + idCounter++, ParticleMesh.Type.Triangle, 1);
             Material mat_red = new Material(assetManager,
                     "Common/MatDefs/Misc/Particle.j3md");
             mat_red.setTexture("Texture", assetManager.loadTexture(
@@ -43,6 +44,25 @@ public class EffectFactory {
             emitter.setHighLife(1f);
             emitter.setParticlesPerSec(0.1f);
             emitter.addControl(new SingleParticleControl());
+        }else if(id.equals("goldGlitter")){
+            emitter = new ParticleEmitter("" + idCounter++, ParticleMesh.Type.Triangle, 10);
+            Material mat_red = new Material(assetManager,
+                    "Common/MatDefs/Misc/Particle.j3md");
+            mat_red.setTexture("Texture", assetManager.loadTexture(
+                    "Effects/spark.png"));
+            emitter.setMaterial(mat_red);
+            emitter.setImagesX(2);
+            emitter.setImagesY(2); // 2x2 texture animation
+            emitter.setStartColor(  new ColorRGBA(1f, 1f, 0f, 1f));   // red
+            emitter.setEndColor(new ColorRGBA(1f, 1f, 0f, 0.5f)); // yellow
+            emitter.setStartSize(0.1f);
+            emitter.setEndSize(0.02f);
+            emitter.setGravity(0, 0, 0);
+            emitter.getParticleInfluencer().setInitialVelocity(new Vector3f(0, 0.6f, 0));
+            emitter.getParticleInfluencer().setVelocityVariation(.60f);
+            emitter.setLowLife(0.6f);
+            emitter.setHighLife(1.2f);
+            emitter.setParticlesPerSec(8f);
         }
         return emitter;
     }

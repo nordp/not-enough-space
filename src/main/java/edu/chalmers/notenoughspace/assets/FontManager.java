@@ -6,7 +6,7 @@ import com.jme3.font.BitmapFont;
 /**
  * Created by Phnor on 2017-05-01.
  */
-public class FontManager implements IFontLoader {
+class FontManager implements IFontLoader {
 
     private AssetManager assetManager;
 

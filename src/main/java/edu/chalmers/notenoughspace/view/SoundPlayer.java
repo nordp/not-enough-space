@@ -1,6 +1,7 @@
-package edu.chalmers.notenoughspace.assets;
+package edu.chalmers.notenoughspace.view;
 
 import com.jme3.audio.AudioNode;
+import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 
 /**
  * Singleton class for playing common (non-positional) sounds without having to reload them each time.

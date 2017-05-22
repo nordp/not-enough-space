@@ -4,7 +4,7 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.assets.SoundPlayer;
+import edu.chalmers.notenoughspace.view.SoundPlayer;
 import edu.chalmers.notenoughspace.core.Hayfork;
 import edu.chalmers.notenoughspace.core.Ship;
 

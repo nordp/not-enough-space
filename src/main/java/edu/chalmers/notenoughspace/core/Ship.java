@@ -16,7 +16,7 @@ public class Ship extends Entity {
     public static final float ALTITUDE = 1.8f;
 
     private Health health;
-    private int energy;
+    private float energy;
     private Beam beam;
     private Storage storage;
     private MovementStrategy mover;
@@ -28,7 +28,7 @@ public class Ship extends Entity {
 
         mover = new Accelerator(body);
         health = new Health(100);
-        energy = 100;
+        energy = 80;
         beam = new Beam(this);
         storage = new Storage();
     }
@@ -36,6 +36,7 @@ public class Ship extends Entity {
     public void update(float tpf) {
         beam.update(body, tpf);
         mover.move(tpf);
+        expendEnergy(tpf);
     }
 
     public void addMoveInput(Movement movement, float tpf) {
@@ -72,5 +73,19 @@ public class Ship extends Entity {
         int damage = ((Satellite) event.getSatellite()).getDamage();
         health.increaseHealth(-damage);
         System.out.println(health.toString());
+    }
+
+    private void expendEnergy(float tpf) {
+        if (beam.isActive()) {
+            energy -= tpf * 10;
+        } else {
+            if (energy < 100) {
+                energy += tpf * 5;
+            }
+        }
+
+        if (energy <= 0) {
+            beam.setActive(false);
+        }
     }
 }

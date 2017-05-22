@@ -26,6 +26,7 @@ import edu.chalmers.notenoughspace.core.Level;
 import edu.chalmers.notenoughspace.core.Movement;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.GameOverEvent;
+import edu.chalmers.notenoughspace.event.HealthChangedEvent;
 import edu.chalmers.notenoughspace.event.StorageChangeEvent;
 
 import javax.annotation.Nonnull;
@@ -192,9 +193,12 @@ public class Round extends AbstractAppState implements ScreenController {
 
     private void hudUpdate() {
         float timeLeft = level.getTimeLeft();
-
         Element timerElement = nifty.getCurrentScreen().findElementById("timer");
         timerElement.getRenderer(TextRenderer.class).setText("Time left: " + toTimeFormat(timeLeft));
+
+        float energy = level.getShipsEnergy();
+        Element energyElement = nifty.getCurrentScreen().findElementById("energy");
+        energyElement.getRenderer(TextRenderer.class).setText("Energy: " + (int) energy);
     }
 
     //** Eventbased HUD updates */
@@ -205,6 +209,12 @@ public class Round extends AbstractAppState implements ScreenController {
 
         Element weightElement = nifty.getCurrentScreen().findElementById("weightCount");
         weightElement.getRenderer(TextRenderer.class).setText(event.getNewWeight() + " KG");
+    }
+
+    @Subscribe
+    public void updateHealthBar(HealthChangedEvent event) {
+        Element healthElement = nifty.getCurrentScreen().findElementById("health");
+        healthElement.getRenderer(TextRenderer.class).setText("Health: " + event.getNewHealth());
     }
 
     public void bind(@Nonnull Nifty nifty, @Nonnull Screen screen) {

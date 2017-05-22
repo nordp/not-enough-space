@@ -49,6 +49,10 @@ public class Level {
         return timer.getTimeLeft();
     }
 
+    public float getShipsEnergy() {
+        return ship.getEnergy();
+    }
+
     public void start() {
     }
 

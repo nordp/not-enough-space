@@ -51,6 +51,14 @@ public class Ship extends Entity {
 
     public Storage getStorage(){return storage; }
 
+    public float getHealth() {
+        return health.getHealthLevel();
+    }
+
+    public float getEnergy() {
+        return energy;
+    }
+
     public String getID() { return "ship"; }
 
     public float getCurrentSpeedX() {

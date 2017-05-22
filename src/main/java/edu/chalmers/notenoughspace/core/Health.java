@@ -1,6 +1,7 @@
 package edu.chalmers.notenoughspace.core;
 
 import edu.chalmers.notenoughspace.event.Bus;
+import edu.chalmers.notenoughspace.event.HealthChangedEvent;
 import edu.chalmers.notenoughspace.event.NoHealthLeftEvent;
 
 /**
@@ -12,10 +13,13 @@ public class Health {
 
     public Health(int initialHealth) {
         this.healthLevel = initialHealth;
+        Bus.getInstance().post(new HealthChangedEvent(healthLevel));
     }
 
     public void increaseHealth(int dHealth) {
         healthLevel += dHealth;
+        Bus.getInstance().post(new HealthChangedEvent(healthLevel));
+
         if (healthLevel <= 0) {
             Bus.getInstance().post(new NoHealthLeftEvent(this));
         }

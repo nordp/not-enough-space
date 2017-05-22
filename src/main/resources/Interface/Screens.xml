@@ -42,6 +42,12 @@
                 <text id="weightCount" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
             </panel>
         </layer>
+        <layer childLayout="vertical" valign="top" align="right">
+            <panel id="health_and_energy" align="right" width="25%" height="15%" childLayout="horizontal">
+                <text id="health" text="Health" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
+                <text id="energy" text="Energy" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
+            </panel>
+        </layer>
         <layer childLayout="horizontal" valign="bottom" align="left">
             <panel id="storage_panel" align="left" valign="bottom" width="10%" height="25%" childLayout="vertical">
                 <text text="Storage" font="Interface/Fonts/Default.fnt"/>

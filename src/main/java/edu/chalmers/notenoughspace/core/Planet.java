@@ -31,21 +31,22 @@ public class Planet extends Entity {
 //        children.clear();
         for (int i = 0; i < nCow; i++){
             Entity c = new Cow();
+            population.add(c);
 
             //TODO Implement random placing
             //c.rotate(i,i,i);
         }
 
         for (int i = 0; i < nJunk; i++){
-            new Junk();
+            population.add(new Junk());
         }
 
         for (int i = 0; i < nSatellite; i++){
-            new Satellite();
+            population.add(new Satellite());
         }
 
         for (int i = 0; i < nFarmer; i++){
-            new Farmer();
+            population.add(new Farmer());
         }
     }
 

@@ -23,6 +23,7 @@ import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import edu.chalmers.notenoughspace.core.Level;
+import edu.chalmers.notenoughspace.core.Movement;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.GameOverEvent;
 import edu.chalmers.notenoughspace.event.StorageChangeEvent;
@@ -41,7 +42,7 @@ public class Round extends AbstractAppState implements ScreenController {
     private AmbientLight ambientLight;
     private AudioNode happy;
     private ActionListener actionListener;
-    private boolean paused;
+    private boolean enabled;
     private  StateManager stateManager;
 
     public Round(){ Bus.getInstance().register(this); }
@@ -62,6 +63,7 @@ public class Round extends AbstractAppState implements ScreenController {
         initSound(app);
         initInput(app);
         new SpatialHandler(app);
+        nifty.gotoScreen("hud");
     }
 
     private void initScene(SimpleApplication app) {
@@ -129,7 +131,8 @@ public class Round extends AbstractAppState implements ScreenController {
     }
 
     private void pausePressed() {
-        paused = !paused;
+        enabled = !enabled;
+        setEnabled(enabled);
     }
 
     @Override
@@ -147,6 +150,17 @@ public class Round extends AbstractAppState implements ScreenController {
         app.getRootNode().detachChild(happy);
         happy.stop();   //Why is this needed? (Without it the music keeps playing!)
 
+        for (Movement i : Movement.values()){
+            if (app.getInputManager().hasMapping(i.name())){
+                app.getInputManager().deleteMapping(i.name());
+            }
+        }
+        app.getInputManager().deleteMapping("toggleBeam");
+        app.getInputManager().deleteMapping("pause");
+
+        app.getInputManager().removeListener(actionListener);
+
+
         app.getInputManager().deleteMapping("pause");
         app.getInputManager().removeListener(actionListener);
 
@@ -159,21 +173,21 @@ public class Round extends AbstractAppState implements ScreenController {
         super.setEnabled(enabled);
         if (enabled) {
             //Restore control
-            app.getInputManager().setCursorVisible(false);
-            nifty.gotoScreen("hud");
-            paused = false;
+            this.enabled = true;
             happy.play();
         } else {
             //Remove control
-            paused = true;
+            this.enabled = false;
             happy.pause();
         }
+        app.getInputManager().setCursorVisible(!enabled);
+        nifty.getCurrentScreen().findElementById("pauseMenu").setVisible(!enabled);
     }
 
     // Note that update is only called while the state is both attached and enabled.
     @Override
     public void update(float tpf) {
-        if (!paused) {
+        if (enabled) {
             level.update(tpf);
             hudUpdate(); //TODO Get values from storage
 
@@ -244,5 +258,10 @@ public class Round extends AbstractAppState implements ScreenController {
     public void levelOver(GameOverEvent event){
         stateManager.setState(GameState.STOPPED);
         nifty.gotoScreen("highscore");
+    }
+
+    public void quitButtonClicked(){
+        stateManager.setState(GameState.STOPPED);
+        nifty.gotoScreen("menu");
     }
 }

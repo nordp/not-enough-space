@@ -16,14 +16,12 @@ public class StateManager extends AppStateManager{
 
     private AbstractAppState stopped;
     private AbstractAppState running;
-    private AbstractAppState paused;
     private AbstractAppState current;
 
-    public StateManager(SimpleApplication app, AbstractAppState stopped, AbstractAppState running, AbstractAppState paused){
+    public StateManager(SimpleApplication app, AbstractAppState stopped, AbstractAppState running){
         super(app);
         this.stopped = stopped;
         this.running = running;
-        this.paused = paused;
         setState(GameState.STOPPED);
         Bus.getInstance().register(this);
     }
@@ -32,16 +30,16 @@ public class StateManager extends AppStateManager{
     protected void setState(GameState state) {
         detach(current);
         current = getState(state);
-        current.initialize(this, getApplication());
+        //current.initialize(this, getApplication());
         attach(current);
         current.setEnabled(true); //TODO: Maybe should not enable by default
     }
 
-    /** State Listeners */
+    /** State Listeners
     @Subscribe
     public void gameOver(GameOverEvent event){
         setState(GameState.STOPPED);     //TODO: Implement result screen
-    }
+    }*/
 
     /** Helper Methods */
     private AbstractAppState getState(GameState state) {
@@ -50,8 +48,6 @@ public class StateManager extends AppStateManager{
                 return stopped;
             case RUNNING:
                 return running;
-            case PAUSED:
-                return paused;
             default:
                 throw new IllegalArgumentException("No such GameState");
         }

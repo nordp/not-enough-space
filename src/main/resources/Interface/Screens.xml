@@ -49,10 +49,31 @@
                 <image filename="Icons/junk.jpg" width="100%" height="50%"/>
             </panel>
         </layer>
-    </screen>
-    <screen id="paused" controller="edu.chalmers.notenoughspace.view.Paused">
-        <layer childLayout="center">
-            <text text="Pause" font="Interface/Fonts/Default.fnt" width="10%" height="75%" backgroundColor="#ffff" />
+        <layer id="pauseMenu" visible="false" childLayout="center">
+            <panel id="panel-top" height="100%" width="100%"  backgroundColor="#000" childLayout="center">
+            <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="horizontal" >
+            <panel id="panel_bottom_left" height="50%" width="50%" valign="center" childLayout="center">
+                <image filename="Textures/restartButton.jpeg" label="Start" id="StartButton" align="center" valign="center"
+                       height="80%" width="80%" visibleToMouse="true" >
+                    <interact onClick="setEnabled(true)"/>
+                    <effect>
+                        <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
+                        <onHover name="border" post="true" color="999f" border="2px"/>
+                    </effect>
+                </image>
+            </panel>
+            <panel id="panel_bottom_right" height="50%" width="50%" valign="center" childLayout="center">
+                <image filename="Textures/quitbutton.png" label="Quit" id="QuitButton" align="center" valign="center"
+                       height="80%" width="80%" visibleToMouse="true" >
+                    <interact onClick="quitButtonClicked()"/>
+                    <effect>
+                        <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
+                        <onHover name="border" post="true" color="999f" border="2px"/>
+                    </effect>
+                </image>
+            </panel>
+            </panel>
+            </panel>
         </layer>
     </screen>
     <style id="nifty-listbox-item" base="nifty-label">
@@ -72,9 +93,8 @@
         </layer>
         <layer id="foreground" childLayout="center">
                     <panel id="panel_top" height="50%" width="75%" align="center" childLayout="vertical">
-                    <text text="High Score" font="Interface/Fonts/Default.fnt" width="40%" height="40%" />
-                        <text text="Player: ${CALL.getPlayerName()}" font="Interface/Fonts/Default.fnt" width="40%" height="40%" />
-                        <text text="Score: ${CALL.getPlayerScore()}" font="Interface/Fonts/Default.fnt" width="40%" height="40%" />
+                        <text text="High Score" font="Interface/Fonts/Default.fnt"/>
+                        <text text="Player: ${CALL.getPlayerName()}       Score: ${CALL.getPlayerScore()}" font="Interface/Fonts/Default.fnt"/>
                     </panel>
                     <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="horizontal" >
                     <panel id="panel_bottom_left" height="50%" width="50%" valign="center" childLayout="center">

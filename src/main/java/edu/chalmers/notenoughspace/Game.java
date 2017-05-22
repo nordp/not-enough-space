@@ -52,7 +52,7 @@ public class Game extends SimpleApplication {
         /** Init states */
         Menu menu = new Menu();
         Round round = new Round();
-        Paused paused = new Paused();
+        //Paused paused = new Paused();
 
         /** Init nifty GUI */
         NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(assetManager, inputManager, audioRenderer, guiViewPort);
@@ -62,12 +62,11 @@ public class Game extends SimpleApplication {
         nifty.fromXml("Interface/Screens.xml", "menu", menu);
         menu.bind(nifty, nifty.getScreen("menu"));
         round.bind(nifty, nifty.getScreen("hud"));
-        paused.bind(nifty, nifty.getScreen("paused"));
         menu.bind(nifty, nifty.getScreen("highscore"));
 
         guiViewPort.addProcessor(niftyDisplay);
 
-        stateManager = new StateManager(this, menu, round, paused);
+        stateManager = new StateManager(this, menu, round);
 
 
     }

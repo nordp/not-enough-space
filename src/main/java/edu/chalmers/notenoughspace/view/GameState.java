@@ -6,5 +6,4 @@ package edu.chalmers.notenoughspace.view;
 public enum GameState {
     STOPPED,
     RUNNING,
-    PAUSED,
 }

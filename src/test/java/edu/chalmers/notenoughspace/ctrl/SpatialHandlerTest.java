@@ -25,7 +25,8 @@ public class SpatialHandlerTest {
 
                 assertNotNull(getRootNode());
 
-                SpatialHandler handler = new SpatialHandler(this);
+                SpatialHandler handler = new SpatialHandler();
+                handler.setApp(this);
 
                 ModelLoaderFactory.setAssetManager(getAssetManager());
 

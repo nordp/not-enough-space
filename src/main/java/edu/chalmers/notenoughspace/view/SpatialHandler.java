@@ -26,12 +26,14 @@ public class SpatialHandler {
     private Node rootNode;
     private InputManager inputManager;
 
-    public SpatialHandler(SimpleApplication app){
+    public SpatialHandler(){
+        Bus.getInstance().register(this);
+    }
+
+    public void setApp(SimpleApplication app){
         this.app = app;
         this.rootNode = app.getRootNode();
         this.inputManager = app.getInputManager();
-        Bus.getInstance().register(this);
-        System.out.println("Registered?");
     }
 
     @Subscribe
@@ -54,6 +56,7 @@ public class SpatialHandler {
         System.out.println("Event reached");
 
         Node node = new Node(event.getEntity().getID());
+        System.out.println("Node created: " + node + "from ID: " + event.getEntity().getID());
         Spatial model;
         AbstractControl control;
         Spatial parent = rootNode;

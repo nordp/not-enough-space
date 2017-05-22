@@ -15,6 +15,7 @@ import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.SkyFactory;
 import de.lessvoid.nifty.Nifty;
@@ -37,6 +38,7 @@ public class Round extends AbstractAppState implements ScreenController {
     Nifty nifty;
 
     private Level level;
+    private SpatialHandler spatialHandler;
 
     private Geometry sun;
     private PointLight sunLight;
@@ -47,6 +49,7 @@ public class Round extends AbstractAppState implements ScreenController {
 
     public Round(){
         Bus.getInstance().register(this);
+        spatialHandler = new SpatialHandler();
     }
 
     @Override
@@ -64,7 +67,7 @@ public class Round extends AbstractAppState implements ScreenController {
         initScene(app);
         initSound(app);
         initInput(app);
-        new SpatialHandler(app);
+        spatialHandler.setApp((SimpleApplication) stateManager.getApplication());
         nifty.gotoScreen("hud");
     }
 

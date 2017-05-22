@@ -17,6 +17,7 @@ public class Menu extends AbstractAppState implements ScreenController{
     private SimpleApplication app;
     private Nifty nifty;
     private StateManager stateManager;
+    private boolean startUp = true;
 
     @Override
     public void initialize(AppStateManager stateManager, Application application) {
@@ -41,19 +42,29 @@ public class Menu extends AbstractAppState implements ScreenController{
     @Override
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
-        if (enabled && isInitialized()) {
-            app.getInputManager().setCursorVisible(true);
+        if (enabled && isInitialized() && startUp) {
             nifty.gotoScreen("menu");
+            startUp = false;
+        } else if (enabled && isInitialized()){
+            nifty.gotoScreen("highscore");
         }
     }
 
     /** Button/Navigation methods */
-    public void startButtonClicked(String nextScreen) {
+    public void startButtonClicked() {
         stateManager.setState(GameState.RUNNING);
     }
 
-    public void quitButtonClicked() {
-        app.stop();
+
+    public void quitButtonClicked() { app.stop();}
+
+    public String getPlayerName(){
+        return System.getProperty("user.name");
     }
+
+    public int getPlayerScore(){
+        return 12;
+    }
+
 }
 

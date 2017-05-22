@@ -7,5 +7,6 @@ import edu.chalmers.notenoughspace.core.Level;
  */
 public class GameOverEvent {
     public GameOverEvent(Level level) {
+        System.out.println("Game Over Event");
     }
 }

@@ -4,6 +4,7 @@ import com.google.common.eventbus.Subscribe;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
+import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.GameOverEvent;
 
 import javax.annotation.Nonnull;
@@ -24,12 +25,14 @@ public class StateManager extends AppStateManager{
         this.running = running;
         this.paused = paused;
         setState(GameState.STOPPED);
+        Bus.getInstance().register(this);
     }
 
     /** State Managing */
     protected void setState(GameState state) {
         detach(current);
         current = getState(state);
+        current.initialize(this, getApplication());
         attach(current);
         current.setEnabled(true); //TODO: Maybe should not enable by default
     }

@@ -63,6 +63,7 @@ public class Game extends SimpleApplication {
         menu.bind(nifty, nifty.getScreen("menu"));
         round.bind(nifty, nifty.getScreen("hud"));
         paused.bind(nifty, nifty.getScreen("paused"));
+        menu.bind(nifty, nifty.getScreen("highscore"));
 
         guiViewPort.addProcessor(niftyDisplay);
 

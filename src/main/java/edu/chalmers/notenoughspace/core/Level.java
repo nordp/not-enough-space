@@ -9,7 +9,7 @@ import edu.chalmers.notenoughspace.event.NoHealthLeftEvent;
 public class Level {
 
 
-    public final int LEVEL_TIME = 120; //seconds
+    public final int LEVEL_TIME = 5; //seconds
 
     private CountDownTimer timer; //The total time the round has been active, in seconds.
 

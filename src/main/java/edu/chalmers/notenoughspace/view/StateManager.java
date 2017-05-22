@@ -30,7 +30,7 @@ public class StateManager extends AppStateManager{
     protected void setState(GameState state) {
         detach(current);
         current = getState(state);
-        //current.initialize(this, getApplication());
+//        current.initialize(this, getApplication());
         attach(current);
         current.setEnabled(true); //TODO: Maybe should not enable by default
     }

@@ -43,9 +43,11 @@ public class Round extends AbstractAppState implements ScreenController {
     private AmbientLight ambientLight;
     private AudioNode happy;
     private ActionListener actionListener;
-    private  StateManager stateManager;
+    private StateManager stateManager;
 
-    public Round(){ Bus.getInstance().register(this); }
+    public Round(){
+        Bus.getInstance().register(this);
+    }
 
     @Override
     public void initialize(AppStateManager stateManager, Application application) {
@@ -156,13 +158,10 @@ public class Round extends AbstractAppState implements ScreenController {
         }
         app.getInputManager().deleteMapping("toggleBeam");
         app.getInputManager().deleteMapping("pause");
-
         app.getInputManager().removeListener(actionListener);
 
-
-        app.getInputManager().deleteMapping("pause");
-        app.getInputManager().removeListener(actionListener);
-
+        app.getRootNode().detachAllChildren();
+        app.getRootNode().updateGeometricState();
         // app.getGuiNode().detachChild(hud);
     }
 
@@ -178,7 +177,7 @@ public class Round extends AbstractAppState implements ScreenController {
             happy.pause();
         }
         app.getInputManager().setCursorVisible(!enabled);
-        nifty.getCurrentScreen().findElementById("pauseMenu").setVisible(!enabled);
+//        nifty.getCurrentScreen().findElementById("pauseMenu").setVisible(!enabled);
     }
 
     // Note that update is only called while the state is both attached and enabled.
@@ -187,7 +186,6 @@ public class Round extends AbstractAppState implements ScreenController {
         if (isEnabled()) {
             level.update(tpf);
             hudUpdate(); //TODO Get values from storage
-
         }
     }
 

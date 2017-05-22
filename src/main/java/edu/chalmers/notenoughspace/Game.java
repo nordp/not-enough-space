@@ -11,6 +11,10 @@ import edu.chalmers.notenoughspace.view.*;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.DisplayMode;
+import java.util.logging.Logger;
+
+import static java.util.logging.Level.FINE;
+import static java.util.logging.Level.SEVERE;
 
 
 /**
@@ -39,6 +43,9 @@ public class Game extends SimpleApplication {
         app.setPauseOnLostFocus(true);
         app.setSettings(appSettings);
 
+        //Logging levels for jME and nifty. Set to FINE for default.
+        Logger.getLogger("com.jme3").setLevel(SEVERE);
+        Logger.getLogger("de.lessvoid.nifty").setLevel(SEVERE);
 
         app.start();
     }
@@ -59,15 +66,13 @@ public class Game extends SimpleApplication {
         Nifty nifty = niftyDisplay.getNifty();
 
         //TODO Make sure no dead ScreenControllers are initialized
-        nifty.fromXml("Interface/Screens.xml", "menu", menu);
+        nifty.fromXml("Interface/Screens.xml", "menu", menu, round);
         menu.bind(nifty, nifty.getScreen("menu"));
         round.bind(nifty, nifty.getScreen("hud"));
         menu.bind(nifty, nifty.getScreen("highscore"));
 
         guiViewPort.addProcessor(niftyDisplay);
-
         stateManager = new StateManager(this, menu, round);
-
 
     }
 

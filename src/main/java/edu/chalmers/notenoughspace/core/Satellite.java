@@ -9,10 +9,13 @@ import edu.chalmers.notenoughspace.event.SatelliteCollisionEvent;
 
 public class Satellite extends Entity {
 
+    int damage;
 
     Satellite() {
         super(new ZeroGravityStrategy());
         Bus.getInstance().post(new EntityCreatedEvent(this));
+
+        damage = 25;
     }
 
     public void update() {
@@ -25,6 +28,10 @@ public class Satellite extends Entity {
 
     public void collision() {
         Bus.getInstance().post(new SatelliteCollisionEvent(this));
+    }
+
+    public int getDamage() {
+        return damage;
     }
 }
 

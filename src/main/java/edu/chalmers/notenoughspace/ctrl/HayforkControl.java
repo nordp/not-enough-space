@@ -25,10 +25,7 @@ public class HayforkControl extends AbstractControl {
         boolean colliding = ControlUtil.checkCollision(((Node) spatial).getChild(0),
                 (ControlUtil.getRoot(spatial).getChild("shipModel")));
 
-        if (colliding &&
-                hayfork.getPlanetaryInhabitant().getLocalTranslation().y <=
-                Ship.ALTITUDE * 1.35f /*To prevent it from being "hit" by the
-                    stick of the spear. TODO: More stable solution.*/) {
+        if (colliding) {
             SoundPlayer.getInstance().play("hayforkHit");
             hayfork.hitSomething();
         }

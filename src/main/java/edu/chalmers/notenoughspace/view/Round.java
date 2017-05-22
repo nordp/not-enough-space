@@ -42,7 +42,6 @@ public class Round extends AbstractAppState implements ScreenController {
     private AmbientLight ambientLight;
     private AudioNode happy;
     private ActionListener actionListener;
-    private boolean enabled;
     private  StateManager stateManager;
 
     public Round(){ Bus.getInstance().register(this); }
@@ -131,8 +130,7 @@ public class Round extends AbstractAppState implements ScreenController {
     }
 
     private void pausePressed() {
-        enabled = !enabled;
-        setEnabled(enabled);
+        setEnabled(!isEnabled());
     }
 
     @Override
@@ -173,11 +171,9 @@ public class Round extends AbstractAppState implements ScreenController {
         super.setEnabled(enabled);
         if (enabled) {
             //Restore control
-            this.enabled = true;
             happy.play();
         } else {
             //Remove control
-            this.enabled = false;
             happy.pause();
         }
         app.getInputManager().setCursorVisible(!enabled);
@@ -187,7 +183,7 @@ public class Round extends AbstractAppState implements ScreenController {
     // Note that update is only called while the state is both attached and enabled.
     @Override
     public void update(float tpf) {
-        if (enabled) {
+        if (isEnabled()) {
             level.update(tpf);
             hudUpdate(); //TODO Get values from storage
 

@@ -3,7 +3,7 @@ package highscore;
 /**
  * Created by juliaortheden on 2017-05-23.
  */
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
+//import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 
 import java.util.*;
 import java.io.*;

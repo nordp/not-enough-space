@@ -8,6 +8,7 @@ import com.jme3.app.state.AppStateManager;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
+import edu.chalmers.notenoughspace.core.Level;
 
 import javax.annotation.Nonnull;
 
@@ -61,12 +62,9 @@ public class Menu extends AbstractAppState implements ScreenController{
         nifty.gotoScreen("menu");
     }
 
-    public String getPlayerName(){
-        return System.getProperty("user.name");
-    }
-
-    public int getPlayerScore(){
-        return 12;
+    public String getHighScoreString() {
+        Level level = new Level();
+        return level.getHighScoreString();
     }
 
 }

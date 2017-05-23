@@ -11,7 +11,7 @@ import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
 /**
  * Created by Phnor on 2017-05-09.
  */
-public class JunkControl extends AbstractControl {
+public class JunkControl extends DetachableControl {
 
     private Junk junk;
 

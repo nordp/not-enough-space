@@ -9,7 +9,7 @@ import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
 /**
  * Created by juliaortheden on 2017-04-26.
  */
-public class SatelliteControl extends AbstractControl {
+public class SatelliteControl extends DetachableControl {
 
     private Satellite satellite;
 

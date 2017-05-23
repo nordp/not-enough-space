@@ -15,7 +15,7 @@ import edu.chalmers.notenoughspace.core.entity.Planet;
 import edu.chalmers.notenoughspace.core.entity.beamable.BeamState;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 
-public class CowControl extends AbstractControl {
+public class CowControl extends DetachableControl {
     private Cow cow;
     private float ORIGINAL_SCALE;
 

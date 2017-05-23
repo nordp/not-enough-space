@@ -32,6 +32,16 @@ public class Planet extends Entity {
 
     }
 
+    public void cleanup() {
+        for(Entity e : population){
+            Bus.getInstance().post(new EntityRemovedEvent(e));
+        }
+        population.clear();
+
+        Bus.getInstance().unregister(this);
+        Bus.getInstance().post(new EntityRemovedEvent(this));
+    }
+
     /*public void populate(int nCow, int nJunk, int nSatellite, int nFarmer){
 //        children.clear();
         for (int i = 0; i < nCow; i++){

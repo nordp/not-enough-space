@@ -8,10 +8,7 @@ import edu.chalmers.notenoughspace.core.move.Accelerator;
 import edu.chalmers.notenoughspace.core.move.Movement;
 import edu.chalmers.notenoughspace.core.move.MovementStrategy;
 import edu.chalmers.notenoughspace.core.move.ZeroGravityStrategy;
-import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
-import edu.chalmers.notenoughspace.event.Bus;
-import edu.chalmers.notenoughspace.event.HayforkHitEvent;
-import edu.chalmers.notenoughspace.event.SatelliteCollisionEvent;
+import edu.chalmers.notenoughspace.event.*;
 
 /**
  * Created by Vibergf on 25/04/2017.
@@ -44,6 +41,13 @@ public class Ship extends Entity {
         beam.update(body, tpf);
         mover.move(tpf);
         expendEnergy(tpf);
+    }
+
+    public void cleanup(){
+        Bus.getInstance().unregister(beam);
+        Bus.getInstance().post(new EntityRemovedEvent(beam));
+        Bus.getInstance().unregister(this);
+        Bus.getInstance().post(new EntityRemovedEvent(this));
     }
 
     public void addMoveInput(Movement movement, float tpf) {

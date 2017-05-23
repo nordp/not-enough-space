@@ -11,10 +11,12 @@ import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
 import com.jme3.light.AmbientLight;
+import com.jme3.light.Light;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.SkyFactory;
 import de.lessvoid.nifty.Nifty;
@@ -62,15 +64,15 @@ public class Round extends AbstractAppState implements ScreenController {
         this.stateManager = (StateManager) stateManager;
         //Init level
         level = new Level();
+        initScene(app);
+        initSound(app);
+        initInput(app);
     }
 
     @Override
     public void stateAttached(AppStateManager stateManager) {
         super.stateAttached(stateManager);
         app = (SimpleApplication) stateManager.getApplication();
-        initScene(app);
-        initSound(app);
-        initInput(app);
         spatialHandler.setApp((SimpleApplication) stateManager.getApplication());
         nifty.gotoScreen("hud");
     }
@@ -147,26 +149,23 @@ public class Round extends AbstractAppState implements ScreenController {
     public void cleanup() {
         super.cleanup();
 
-        //getShipControl().detachThirdPersonView();
-        //app.getRootNode().detachChild(ship);
-        //app.getRootNode().removeLight(ship.getSpotLight());
+        level.cleanup();
 
-        //app.getRootNode().detachChild(planet);
         app.getRootNode().detachChild(sun);
-        app.getRootNode().removeLight(sunLight);
-        app.getRootNode().removeLight(ambientLight);
         app.getRootNode().detachChild(happy);
+
+        for(Light l : app.getRootNode().getLocalLightList()){
+            app.getRootNode().removeLight(l);
+        }
+
         happy.stop();   //Why is this needed? (Without it the music keeps playing!)
 
-        for (Movement i : Movement.values()){
-            if (app.getInputManager().hasMapping(i.name())){
-                app.getInputManager().deleteMapping(i.name());
-            }
-        }
-        app.getInputManager().deleteMapping("toggleBeam");
         app.getInputManager().deleteMapping("pause");
+        app.getInputManager().deleteMapping("cameraMode");
         app.getInputManager().removeListener(actionListener);
 
+
+        System.out.println("Scene cleaned up! Current children: " + app.getRootNode().getChildren());
         app.getRootNode().detachAllChildren();
         app.getRootNode().updateGeometricState();
         // app.getGuiNode().detachChild(hud);

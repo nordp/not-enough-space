@@ -9,7 +9,7 @@ import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 /**
  * Created by Phnor on 2017-05-13.
  */
-public class FarmerControl extends AbstractControl {
+public class FarmerControl extends DetachableControl {
     private Farmer farmer;
     private Ship ship;
 

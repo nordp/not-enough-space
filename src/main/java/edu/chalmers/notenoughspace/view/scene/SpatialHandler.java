@@ -12,6 +12,7 @@ import com.jme3.scene.LightNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
+import com.jme3.scene.control.Control;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.core.entity.*;
 import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
@@ -45,17 +46,26 @@ public class SpatialHandler {
     }
 
     @Subscribe
-    public void entityStored(EntityRemovedEvent event) {
+    public void beamableStored(BeamableStoredEvent event){
+        SoundPlayer.getInstance().play("beamed");
+    }
+
+    @Subscribe
+    public void entityRemoved(EntityRemovedEvent event) {
         System.out.println("Event reached");
 
         Entity entity = event.getEntity();
 
-        if (entity instanceof BeamableEntity) {
-            SoundPlayer.getInstance().play("beamed");
+        Spatial storedObject = rootNode.getChild(entity.getID());
+
+        Control control;
+        while(storedObject.getNumControls() > 0) {
+            control = storedObject.getControl(0);
+            if(control instanceof DetachableControl)
+                ((DetachableControl) control).onDetach();
+            storedObject.removeControl(control);
         }
 
-        Spatial storedObject = rootNode.getChild(entity.getID());
-        storedObject.removeControl(AbstractControl.class);
         storedObject.removeFromParent();
     }
 

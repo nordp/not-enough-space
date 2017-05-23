@@ -56,6 +56,17 @@ public class Level {
         spawner.update(tpf);
     }
 
+    /**
+     * Always call when you want to remove the Level object. Object will not be functional after calling this method.
+     */
+    public void cleanup() {
+        Bus.getInstance().unregister(spawner);
+
+        ship.cleanup();
+        planet.cleanup();
+        Bus.getInstance().unregister(this);
+    }
+
     private void levelOver() {
         Bus.getInstance().post(new GameOverEvent(this));
         highScoreManager.addScore(newName, (int) ship.getStorage().calculateScore());

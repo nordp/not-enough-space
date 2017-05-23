@@ -8,7 +8,7 @@ import edu.chalmers.notenoughspace.core.entity.Planet;
 /**
  * Created by Phnor on 2017-05-08.
  */
-public class PlanetControl extends AbstractControl {
+public class PlanetControl extends DetachableControl {
     private Planet planet;
 
     public PlanetControl(Planet planet) {

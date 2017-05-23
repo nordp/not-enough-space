@@ -28,7 +28,7 @@ import edu.chalmers.notenoughspace.event.Bus;
  * Control for a ship hovering around a planet. Includes functions
  * for adding and removing a third person camera.
  */
-public class ShipControl extends AbstractControl {
+public class ShipControl extends DetachableControl {
     private final String THIRD_PERSON_CAMERA = "followShipCamera";
     private final float MAX_DISTANCE_TO_CAMERA = 3f;
     private boolean usingCameraDrag = true;
@@ -40,8 +40,11 @@ public class ShipControl extends AbstractControl {
     private Node followShipCameraPivotNode;
     private Listener audioListener;
 
+    private InputManager inputManager;
+
     public ShipControl(InputManager inputManager, Listener audioListener, Ship ship) {
-        initMovementKeys(inputManager);
+        this.inputManager = inputManager;
+        initMovementKeys();
         this.ship = ship;
         this.audioListener = audioListener;
         Bus.getInstance().register(this);
@@ -56,6 +59,11 @@ public class ShipControl extends AbstractControl {
 
     protected void controlRender(RenderManager renderManager, ViewPort viewPort) {
 
+    }
+
+    public void onDetach(){
+        cleanupMovementKeys();
+        Bus.getInstance().unregister(this);
     }
 
     /////////// CAMERA STUFF /////////////
@@ -167,22 +175,31 @@ public class ShipControl extends AbstractControl {
     /**
      * Makes it possible for the ship to move in all directions
      * and rotate left and right.
-     * @param inputManager
      */
-    private void initMovementKeys(InputManager inputManager) {
-        inputManager.addMapping("moveForwards",  new KeyTrigger(KeyInput.KEY_UP));
-        inputManager.addMapping("moveLeft",   new KeyTrigger(KeyInput.KEY_LEFT));
-        inputManager.addMapping("moveRight",  new KeyTrigger(KeyInput.KEY_RIGHT));
-        inputManager.addMapping("moveBackwards", new KeyTrigger(KeyInput.KEY_DOWN));
-        inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_Z));
-        inputManager.addMapping("rotateRight", new KeyTrigger(KeyInput.KEY_X));
+    private void initMovementKeys() {
+        inputManager.addMapping(Movement.FORWARD.name(),  new KeyTrigger(KeyInput.KEY_UP));
+        inputManager.addMapping(Movement.LEFT.name(),   new KeyTrigger(KeyInput.KEY_LEFT));
+        inputManager.addMapping(Movement.RIGHT.name(),  new KeyTrigger(KeyInput.KEY_RIGHT));
+        inputManager.addMapping(Movement.BACKWARD.name(), new KeyTrigger(KeyInput.KEY_DOWN));
+        inputManager.addMapping(Movement.ROTATION_LEFT.name(), new KeyTrigger(KeyInput.KEY_Z));
+        inputManager.addMapping(Movement.ROTATION_RIGHT.name(), new KeyTrigger(KeyInput.KEY_X));
         inputManager.addMapping("toggleBeam", new KeyTrigger(KeyInput.KEY_SPACE));
 
         // Add the names to the action listener.
         inputManager.addListener(analogListener,
-                "moveForwards","moveLeft","moveRight","moveBackwards",
-                "rotateLeft", "rotateRight");
+                Movement.FORWARD.name(),Movement.LEFT.name(),Movement.RIGHT.name(),Movement.BACKWARD.name(),
+                Movement.ROTATION_LEFT.name(), Movement.ROTATION_RIGHT.name());
         inputManager.addListener(actionListener, "toggleBeam");
+    }
+
+    private void cleanupMovementKeys() {
+        for (Movement i : Movement.values()){
+            inputManager.deleteMapping(i.name());
+        }
+        inputManager.deleteMapping("toggleBeam");
+
+        inputManager.removeListener(analogListener);
+        inputManager.removeListener(actionListener);
     }
 
 
@@ -195,38 +212,38 @@ public class ShipControl extends AbstractControl {
             float drag = 5.25f;
             JMEInhabitant body = new JMEInhabitant(spatial);
 
-            if (name.equals("moveForwards")) {
+            if (name.equals(Movement.FORWARD.name())) {
                 ship.addMoveInput(Movement.FORWARD, tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("backwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(
                             -drag * tpf * Math.abs(ship.getCurrentSpeedY()), 0, 0);
                 }
             }
-            if (name.equals("moveLeft")) {
+            if (name.equals(Movement.LEFT.name())) {
                 ship.addMoveInput(Movement.LEFT, tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("rightPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(
                             0, 0, drag * tpf  * Math.abs(ship.getCurrentSpeedX()));
                 }
             }
-            if (name.equals("moveRight")) {
+            if (name.equals(Movement.RIGHT.name())) {
                 ship.addMoveInput(Movement.RIGHT, tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("leftPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(
                             0, 0, -drag * tpf  * Math.abs(ship.getCurrentSpeedX()));
                 }
             }
-            if (name.equals("moveBackwards")) {
+            if (name.equals(Movement.BACKWARD.name())) {
                 ship.addMoveInput(Movement.BACKWARD, tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("forwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(
                             drag * tpf * Math.abs(ship.getCurrentSpeedY()), 0, 0);
                 }
             }
-            if (name.equals("rotateLeft")) {
+            if (name.equals(Movement.ROTATION_LEFT.name())) {
                 ship.addMoveInput(Movement.ROTATION_LEFT, tpf);
             }
-            if (name.equals("rotateRight")) {
+            if (name.equals(Movement.ROTATION_RIGHT.name())) {
                 ship.addMoveInput(Movement.ROTATION_RIGHT, tpf);
             }
 

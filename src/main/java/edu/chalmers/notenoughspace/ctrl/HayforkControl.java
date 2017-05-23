@@ -9,7 +9,7 @@ import edu.chalmers.notenoughspace.core.entity.enemy.Hayfork;
 /**
  * Created by Sparven on 2017-05-15.
  */
-public class HayforkControl extends AbstractControl {
+public class HayforkControl extends DetachableControl {
     private Hayfork hayfork;
 
     public HayforkControl(Hayfork hayfork) {

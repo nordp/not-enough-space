@@ -72,7 +72,6 @@ public class Round extends AbstractAppState implements ScreenController {
         initInput(app);
         spatialHandler.setApp((SimpleApplication) stateManager.getApplication());
         nifty.gotoScreen("hud");
-
     }
 
     private void initScene(SimpleApplication app) {
@@ -294,6 +293,13 @@ public class Round extends AbstractAppState implements ScreenController {
 
     public void quitButtonClicked(){
         stateManager.setState(GameState.STOPPED);
-        nifty.gotoScreen("menu");
+    }
+
+    public void restartButtonClicked() {
+        stateManager.setState(GameState.RUNNING);
+    }
+
+    public void resumeButtonClicked() {
+        setEnabled(true);
     }
 }

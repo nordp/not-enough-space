@@ -55,8 +55,11 @@ public class Menu extends AbstractAppState implements ScreenController{
         stateManager.setState(GameState.RUNNING);
     }
 
-
     public void quitButtonClicked() { app.stop();}
+
+    public void mainMenuButtonClicked(){
+        nifty.gotoScreen("menu");
+    }
 
     public String getPlayerName(){
         return System.getProperty("user.name");

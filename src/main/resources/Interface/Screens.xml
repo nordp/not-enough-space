@@ -78,9 +78,9 @@
         <layer id="pauseMenu" visible="false" childLayout="center">
             <panel id="panel-top" height="100%" width="100%"  backgroundColor="#000" childLayout="center">
                 <panel id="panel_middle" height="40%" width="40%" valign="center" childLayout="vertical" marginBottom="70px">
-                    <image filename="Interface/restartButton.jpeg" label="Start" id="StartButton"
+                    <image filename="Interface/restartButton.jpeg" label="restart" id="restartButton"
                            height="40%" width="100%" visibleToMouse="true" >
-                        <interact onClick="startButtonClicked(hud)"/>
+                        <interact onClick="restartButtonClicked()"/>
                         <effect>
                             <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
                             <onHover name="border" post="true" color="999f" border="2px"/>
@@ -89,7 +89,7 @@
                     <panel height="10%" width="10%"/>
                     <image filename="Interface/resumeButton.jpg" label="Resume" id="ResumeButton"
                            height="40%" width="100%" visibleToMouse="true" >
-                        <interact onClick="setEnabled(1)"/>
+                        <interact onClick="resumeButtonClicked()"/>
                         <effect>
                             <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
                             <onHover name="border" post="true" color="999f" border="2px"/>
@@ -131,7 +131,7 @@
                     <panel id="panel_bottom_right" height="50%" width="50%" valign="center" childLayout="center">
                     <image filename="Interface/mainMenu.jpg" label="MainMenu" id="MainMenu" align="center" valign="center"
                            height="80%" width="80%" visibleToMouse="true" >
-                        <interact onClick="quitButtonClicked()"/>
+                        <interact onClick="mainMenuButtonClicked()"/>
                         <effect>
                             <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
                             <onHover name="border" post="true" color="999f" border="2px"/>

@@ -26,7 +26,6 @@ public class HayforkControl extends AbstractControl {
                 (ControlUtil.getRoot(spatial).getChild("shipModel")));
 
         if (colliding) {
-            SoundPlayer.getInstance().play("hayforkHit");
             hayfork.hitSomething();
         }
     }

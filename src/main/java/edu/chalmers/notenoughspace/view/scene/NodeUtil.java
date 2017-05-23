@@ -1,13 +1,13 @@
-package edu.chalmers.notenoughspace.view;
+package edu.chalmers.notenoughspace.view.scene;
 
 import com.jme3.audio.AudioNode;
 import com.jme3.effect.ParticleEmitter;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
-public class NodeUtil {
+class NodeUtil {
 
-    public static void setUpAudioNode(AudioNode audioNode, float refDistance, float volume, boolean looping,
+    static void setUpAudioNode(AudioNode audioNode, float refDistance, float volume, boolean looping,
                                 Node parentNode, String name) {
         audioNode.setPositional(true);  // Use 3D audio
         audioNode.setRefDistance(refDistance);  // Distance of 50% volume
@@ -23,12 +23,12 @@ public class NodeUtil {
         parentNode.attachChild(audioNode);
     }
 
-    public static void setUpAudioNode(AudioNode audioNode, float refDistance, float volume, boolean looping,
+    static void setUpAudioNode(AudioNode audioNode, float refDistance, float volume, boolean looping,
                                       Node parentNode) {
         setUpAudioNode(audioNode, refDistance, volume, looping, parentNode, "audio");
     }
 
-    public static void setUpEffectNode(ParticleEmitter emitter, Node parentNode){
+    static void setUpEffectNode(ParticleEmitter emitter, Node parentNode){
         Spatial point = parentNode.getChild(0);
         emitter.setLocalTranslation(point.getLocalTranslation().add(point.getLocalTranslation().normalize().mult(0.2f)));
         emitter.setLocalRotation(point.getLocalRotation());

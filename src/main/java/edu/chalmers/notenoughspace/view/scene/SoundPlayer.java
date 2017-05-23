@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.view;
+package edu.chalmers.notenoughspace.view.scene;
 
 import com.jme3.audio.AudioNode;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
@@ -6,7 +6,7 @@ import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 /**
  * Singleton class for playing common (non-positional) sounds without having to reload them each time.
  */
-public class SoundPlayer {
+class SoundPlayer {
 
     private static SoundPlayer player;
 
@@ -17,7 +17,7 @@ public class SoundPlayer {
         return player;
     }
 
-    public void play(String soundId) {
+    void play(String soundId) {
         if (soundId.equals("beamed")) {
             AudioNode beamedAudio = ModelLoaderFactory.getSoundLoader().loadSound("beamed");
             beamedAudio.setLooping(false);

@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.view;
+package edu.chalmers.notenoughspace.view.scene;
 
 import com.google.common.eventbus.Subscribe;
 import com.jme3.app.SimpleApplication;
@@ -81,9 +81,10 @@ public class SpatialHandler {
             model.scale(cow.getSize());
             model.setName("model");
             node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
+            /*
             if(cow.isGolden()){
-                //setMaterial? model = new model?
-            }
+                setMaterial? model = new model?
+            }*/
 
             control = new CowControl(cow);
             parent = rootNode.getChild("planet");

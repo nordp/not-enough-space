@@ -32,10 +32,6 @@ public class ControlUtil {
 //        bv.setRadius(30f);
         second.collideWith(bv, results);
 
-        if (results.size() > 0) {
-            return true;
-        }else{
-            return false;
-        }
+        return results.size() > 0;
     }
 }

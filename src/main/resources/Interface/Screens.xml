@@ -2,7 +2,7 @@
 <nifty xmlns="http://nifty-gui.lessvoid.com/nifty-gui">
     <useStyles filename="nifty-default-styles.xml" />
     <useControls filename="nifty-default-controls.xml" />
-    <screen id="menu" controller="edu.chalmers.notenoughspace.view.Menu">
+    <screen id="menu" controller="edu.chalmers.notenoughspace.view.state.Menu">
         <layer id="background" childLayout="center">
             <image filename="Textures/space.jpg" height="100%" width="100%"></image>
         </layer>
@@ -40,7 +40,7 @@
             </panel>
         </layer>
     </screen>
-    <screen id="hud" controller="edu.chalmers.notenoughspace.view.Round">
+    <screen id="hud" controller="edu.chalmers.notenoughspace.view.state.Round">
         <layer childLayout="vertical" valign="top" align="center">
             <panel id="panel_top" align="center" width="25%" height="15%" childLayout="horizontal">
                 <text id="cowCount" text="cowCount" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
@@ -138,7 +138,7 @@
             </panel>
         </layer>
     </screen>
-    <screen id="highscore" controller="edu.chalmers.notenoughspace.view.Menu">
+    <screen id="highscore" controller="edu.chalmers.notenoughspace.view.state.Menu">
         <layer id="background" childLayout="center">
                         <image filename="Textures/space.jpg" height="100%" width="100%"></image>
         </layer>
@@ -169,7 +169,7 @@
         </layer>
         </screen>
 
-        <controlDefinition name = "healthMeter" controller = "edu.chalmers.notenoughspace.view.Round">
+        <controlDefinition name = "healthMeter" controller = "edu.chalmers.notenoughspace.view.state.Round">
             <image filename="Interface/border.png" childLayout="absolute"
                    imageMode="resize:15,2,15,15,15,2,15,2,15,2,15,15">
                 <image id="healthBar" x="0" y="0" filename="Interface/inner.png" width="0%" height="100%"
@@ -177,7 +177,7 @@
             </image>
         </controlDefinition>
 
-        <controlDefinition name = "energyMeter" controller = "edu.chalmers.notenoughspace.view.Round">
+        <controlDefinition name = "energyMeter" controller = "edu.chalmers.notenoughspace.view.state.Round">
             <image filename="Interface/borderYellow.png" childLayout="vertical"
                    imageMode="resize:15,2,15,15,15,2,15,2,15,2,15,15">
                 <image id="energyBar" align="right" filename="Interface/innerYellow.png" width="0%" height="100%"

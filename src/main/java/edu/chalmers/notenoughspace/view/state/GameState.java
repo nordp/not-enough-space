@@ -1,9 +1,9 @@
-package edu.chalmers.notenoughspace.view;
+package edu.chalmers.notenoughspace.view.state;
 
 /**
  * Created by Phnor on 2017-05-16.
  */
-public enum GameState {
+enum GameState {
     STOPPED,
     RUNNING,
 }

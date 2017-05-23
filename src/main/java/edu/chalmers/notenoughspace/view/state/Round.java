@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.view;
+package edu.chalmers.notenoughspace.view.state;
 
 import com.google.common.eventbus.Subscribe;
 import com.jme3.app.Application;
@@ -29,13 +29,14 @@ import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.GameOverEvent;
 import edu.chalmers.notenoughspace.event.HealthChangedEvent;
 import edu.chalmers.notenoughspace.event.StorageChangeEvent;
+import edu.chalmers.notenoughspace.view.scene.SpatialHandler;
 
 import javax.annotation.Nonnull;
 
 public class Round extends AbstractAppState implements ScreenController {
 
-    SimpleApplication app;
-    Nifty nifty;
+    private SimpleApplication app;
+    private Nifty nifty;
 
     private Level level;
     private SpatialHandler spatialHandler;

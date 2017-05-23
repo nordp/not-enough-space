@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.view;
+package edu.chalmers.notenoughspace.view.state;
 
 
 import com.jme3.app.Application;

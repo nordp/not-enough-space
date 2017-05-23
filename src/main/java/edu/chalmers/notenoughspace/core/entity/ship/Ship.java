@@ -85,7 +85,7 @@ public class Ship extends Entity {
 
     @Subscribe
     public void satelliteCollision(SatelliteCollisionEvent event) {
-        int damage = ((Satellite) event.getSatellite()).getDamage();
+        int damage = event.getSatellite().getDamage();
         health.increaseHealth(-damage);
         System.out.println(health.toString());
     }

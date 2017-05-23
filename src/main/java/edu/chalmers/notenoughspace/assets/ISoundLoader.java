@@ -8,6 +8,6 @@ import com.jme3.scene.Node;
  */
 public interface ISoundLoader {
 
-    public AudioNode loadSound(String soundId);
+    AudioNode loadSound(String soundId);
 
 }

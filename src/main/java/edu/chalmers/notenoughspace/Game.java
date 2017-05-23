@@ -1,19 +1,19 @@
 package edu.chalmers.notenoughspace;
 
 import com.jme3.app.SimpleApplication;
-import com.jme3.app.state.AbstractAppState;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
 import de.lessvoid.nifty.Nifty;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
-import edu.chalmers.notenoughspace.view.*;
+import edu.chalmers.notenoughspace.view.state.Menu;
+import edu.chalmers.notenoughspace.view.state.Round;
+import edu.chalmers.notenoughspace.view.state.StateManager;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.DisplayMode;
 import java.util.logging.Logger;
 
-import static java.util.logging.Level.FINE;
 import static java.util.logging.Level.SEVERE;
 
 

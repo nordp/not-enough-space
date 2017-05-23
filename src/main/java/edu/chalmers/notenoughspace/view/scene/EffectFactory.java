@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.view;
+package edu.chalmers.notenoughspace.view.scene;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
@@ -17,14 +17,14 @@ import edu.chalmers.notenoughspace.event.Bus;
 /**
  * Created by Vibergf on 18/05/2017.
  */
-public class EffectFactory {
+class EffectFactory {
 
     private static int idCounter = 0;
 
     private EffectFactory(){
     }
 
-    public static ParticleEmitter createEffect(AssetManager assetManager, String id){
+    static ParticleEmitter createEffect(AssetManager assetManager, String id){
         ParticleEmitter emitter = null;
         if(id.equals("satelliteExplosion")){
             emitter = new ParticleEmitter("" + idCounter++, ParticleMesh.Type.Triangle, 1);

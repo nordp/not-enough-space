@@ -1,13 +1,9 @@
-package edu.chalmers.notenoughspace.view;
+package edu.chalmers.notenoughspace.view.state;
 
-import com.google.common.eventbus.Subscribe;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
 import edu.chalmers.notenoughspace.event.Bus;
-import edu.chalmers.notenoughspace.event.GameOverEvent;
-
-import javax.annotation.Nonnull;
 
 /**
  * Created by Phnor on 2017-05-15.
@@ -27,7 +23,7 @@ public class StateManager extends AppStateManager{
     }
 
     /** State Managing */
-    protected void setState(GameState state) {
+    void setState(GameState state) {
         detach(current);
         current = getState(state);
 //        current.initialize(this, getApplication());

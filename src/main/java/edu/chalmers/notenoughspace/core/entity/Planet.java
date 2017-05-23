@@ -32,7 +32,7 @@ public class Planet extends Entity {
 
     }
 
-    public void populate(int nCow, int nJunk, int nSatellite, int nFarmer){
+    /*public void populate(int nCow, int nJunk, int nSatellite, int nFarmer){
 //        children.clear();
         for (int i = 0; i < nCow; i++){
             Entity c = new Cow();
@@ -53,6 +53,10 @@ public class Planet extends Entity {
         for (int i = 0; i < nFarmer; i++){
             population.add(new Farmer());
         }
+    }*/
+
+    public void populate(Entity entity) {
+        population.add(entity);
     }
 
     @Subscribe

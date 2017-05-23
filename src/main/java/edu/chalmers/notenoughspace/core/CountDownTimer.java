@@ -2,8 +2,8 @@ package edu.chalmers.notenoughspace.core;
 
 public abstract class CountDownTimer {
 
-    private float timeLeft;
-    private boolean running;
+    protected float timeLeft;
+    protected boolean running;
 
     public CountDownTimer(float totalTime) {
         timeLeft = totalTime;

@@ -20,13 +20,6 @@ public class PlanetTest {
     }
 
     @Test
-    public void populate() throws Exception {
-        for (int i = 0; i < 100; i++) {
-            planet.populate(i, i, i, i);
-        }
-    }
-
-    @Test
     public void getPlanetaryInhabitant() throws Exception {
     }
 

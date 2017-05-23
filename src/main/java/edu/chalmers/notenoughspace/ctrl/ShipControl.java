@@ -19,13 +19,10 @@ import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
-import edu.chalmers.notenoughspace.core.Movement;
-import edu.chalmers.notenoughspace.core.Planet;
-import edu.chalmers.notenoughspace.core.Ship;
+import edu.chalmers.notenoughspace.core.move.Movement;
+import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 import edu.chalmers.notenoughspace.event.BeamableStoredEvent;
 import edu.chalmers.notenoughspace.event.Bus;
-import edu.chalmers.notenoughspace.event.HayforkHitEvent;
 
 /**
  * Control for a ship hovering around a planet. Includes functions

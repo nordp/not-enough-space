@@ -1,12 +1,15 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity.enemy;
 
+import edu.chalmers.notenoughspace.core.entity.Entity;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
+import edu.chalmers.notenoughspace.core.move.ZeroGravityStrategy;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 
 /**
  * Created by Phnor on 2017-05-13.
  */
-public class Farmer extends Entity{
+public class Farmer extends Entity {
 
     private final static float AGGRO_DISTANCE = 10f;
     private final static float SPRINT_SPEED = 0.8f;

@@ -12,7 +12,7 @@ import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.TangentBinormalGenerator;
-import edu.chalmers.notenoughspace.core.Planet;
+import edu.chalmers.notenoughspace.core.entity.Planet;
 
 
 class ModelManager implements IModelLoader {

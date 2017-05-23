@@ -1,6 +1,6 @@
 package edu.chalmers.notenoughspace.event;
 
-import edu.chalmers.notenoughspace.core.BeamableEntity;
+import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
 
 /**
  * Created by Vibergf on 15/05/2017.

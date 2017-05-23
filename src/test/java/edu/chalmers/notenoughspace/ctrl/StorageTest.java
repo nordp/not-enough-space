@@ -1,7 +1,7 @@
 package edu.chalmers.notenoughspace.ctrl;
 
-import edu.chalmers.notenoughspace.core.Cow;
-import edu.chalmers.notenoughspace.core.Storage;
+import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
+import edu.chalmers.notenoughspace.core.entity.ship.Storage;
 import edu.chalmers.notenoughspace.event.BeamableStoredEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 import org.junit.Test;

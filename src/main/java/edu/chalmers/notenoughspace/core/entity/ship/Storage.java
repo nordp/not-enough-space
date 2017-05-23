@@ -1,6 +1,7 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity.ship;
 
 import com.google.common.eventbus.Subscribe;
+import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
 import edu.chalmers.notenoughspace.event.BeamableStoredEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.StorageChangeEvent;

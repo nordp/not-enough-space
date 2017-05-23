@@ -4,14 +4,16 @@ import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.audio.AudioNode;
 import com.jme3.audio.AudioSource;
-import com.jme3.math.FastMath;
-import com.jme3.math.Quaternion;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.core.*;
+import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
+import edu.chalmers.notenoughspace.core.entity.beamable.CowMood;
+import edu.chalmers.notenoughspace.core.entity.Planet;
+import edu.chalmers.notenoughspace.core.entity.beamable.BeamState;
+import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 
 public class CowControl extends AbstractControl {
     private Cow cow;

@@ -1,5 +1,6 @@
 package edu.chalmers.notenoughspace.core;
 
+import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
 import edu.chalmers.notenoughspace.ctrl.TestInhabitant;
 import org.junit.Before;
 import org.junit.Test;

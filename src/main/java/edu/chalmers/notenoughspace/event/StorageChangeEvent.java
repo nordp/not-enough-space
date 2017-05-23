@@ -1,6 +1,6 @@
 package edu.chalmers.notenoughspace.event;
 
-import edu.chalmers.notenoughspace.core.Storage;
+import edu.chalmers.notenoughspace.core.entity.ship.Storage;
 
 /**
  * Created by Phnor on 2017-05-17.

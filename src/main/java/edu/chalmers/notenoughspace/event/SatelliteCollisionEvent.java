@@ -1,6 +1,6 @@
 package edu.chalmers.notenoughspace.event;
 
-import edu.chalmers.notenoughspace.core.Satellite;
+import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
 
 /**
  * Created by juliaortheden on 2017-05-17.

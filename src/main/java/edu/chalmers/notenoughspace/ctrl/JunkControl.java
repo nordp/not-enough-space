@@ -1,15 +1,12 @@
 package edu.chalmers.notenoughspace.ctrl;
 
-import com.jme3.bounding.BoundingVolume;
-import com.jme3.collision.CollisionResults;
-import com.jme3.math.FastMath;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.core.BeamState;
-import edu.chalmers.notenoughspace.core.Junk;
+import edu.chalmers.notenoughspace.core.entity.beamable.BeamState;
+import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
 
 /**
  * Created by Phnor on 2017-05-09.

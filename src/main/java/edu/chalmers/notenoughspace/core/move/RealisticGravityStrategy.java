@@ -1,4 +1,6 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.move;
+
+import edu.chalmers.notenoughspace.core.entity.Planet;
 
 /**
  * Created by Sparven on 2017-05-18.

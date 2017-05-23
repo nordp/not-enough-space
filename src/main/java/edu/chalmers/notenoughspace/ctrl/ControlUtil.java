@@ -1,12 +1,9 @@
 package edu.chalmers.notenoughspace.ctrl;
 
-import com.jme3.bounding.BoundingSphere;
 import com.jme3.bounding.BoundingVolume;
 import com.jme3.collision.CollisionResults;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import edu.chalmers.notenoughspace.core.BeamState;
 
 /**
  * Utility class for jme-nodes

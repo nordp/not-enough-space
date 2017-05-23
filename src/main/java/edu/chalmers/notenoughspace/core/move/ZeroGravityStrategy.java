@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.move;
 
 /**
  * Created by Sparven on 2017-05-18.

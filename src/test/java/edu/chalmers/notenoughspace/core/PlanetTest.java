@@ -1,9 +1,8 @@
 package edu.chalmers.notenoughspace.core;
 
+import edu.chalmers.notenoughspace.core.entity.Planet;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 /**
  * Created by Phnor on 2017-05-13.

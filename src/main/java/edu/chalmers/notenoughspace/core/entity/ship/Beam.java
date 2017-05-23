@@ -1,6 +1,11 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity.ship;
 
 import com.google.common.eventbus.Subscribe;
+import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
+import edu.chalmers.notenoughspace.core.entity.Entity;
+import edu.chalmers.notenoughspace.core.entity.Planet;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
+import edu.chalmers.notenoughspace.core.move.ZeroGravityStrategy;
 import edu.chalmers.notenoughspace.event.*;
 
 import java.util.ArrayList;

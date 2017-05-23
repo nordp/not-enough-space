@@ -1,5 +1,7 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity.beamable;
 
+import edu.chalmers.notenoughspace.core.entity.Entity;
+import edu.chalmers.notenoughspace.core.move.RealisticGravityStrategy;
 import edu.chalmers.notenoughspace.event.BeamEnteredEvent;
 import edu.chalmers.notenoughspace.event.BeamExitedEvent;
 import edu.chalmers.notenoughspace.event.Bus;

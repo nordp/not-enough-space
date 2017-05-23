@@ -3,8 +3,8 @@ package edu.chalmers.notenoughspace.ctrl;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.core.Farmer;
-import edu.chalmers.notenoughspace.core.Ship;
+import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
+import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 
 /**
  * Created by Phnor on 2017-05-13.

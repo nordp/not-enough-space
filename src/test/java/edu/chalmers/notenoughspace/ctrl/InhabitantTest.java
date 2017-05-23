@@ -3,10 +3,8 @@ package edu.chalmers.notenoughspace.ctrl;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import edu.chalmers.notenoughspace.core.PlanetaryInhabitant;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 import org.junit.Test;
-
-import javax.vecmath.Vector3f;
 
 import static org.junit.Assert.*;
 

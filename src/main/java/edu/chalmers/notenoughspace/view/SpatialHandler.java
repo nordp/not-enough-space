@@ -13,7 +13,15 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
-import edu.chalmers.notenoughspace.core.*;
+import edu.chalmers.notenoughspace.core.entity.*;
+import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
+import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
+import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
+import edu.chalmers.notenoughspace.core.entity.enemy.Hayfork;
+import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
+import edu.chalmers.notenoughspace.core.entity.ship.Beam;
+import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
+import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 import edu.chalmers.notenoughspace.ctrl.*;
 import edu.chalmers.notenoughspace.event.*;
 
@@ -172,7 +180,7 @@ public class SpatialHandler {
             ((ShipControl) control).attachThirdPersonView(app.getCamera(), Planet.PLANET_RADIUS, Ship.ALTITUDE);
         }
 
-        //All entities get one geometry and one node each. The parent node of each entity has the name of the entity
+        //All entity get one geometry and one node each. The parent node of each entity has the name of the entity
         ((Node)parent).attachChild(node);
         //rootNode.detachChildNamed(event.entity.toString());
     }

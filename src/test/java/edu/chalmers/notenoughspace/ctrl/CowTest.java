@@ -1,9 +1,9 @@
 package edu.chalmers.notenoughspace.ctrl;
 
-import edu.chalmers.notenoughspace.core.BeamState;
-import edu.chalmers.notenoughspace.core.Cow;
-import edu.chalmers.notenoughspace.core.CowMood;
-import edu.chalmers.notenoughspace.core.PlanetaryInhabitant;
+import edu.chalmers.notenoughspace.core.entity.beamable.BeamState;
+import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
+import edu.chalmers.notenoughspace.core.entity.beamable.CowMood;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

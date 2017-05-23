@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity.ship;
 
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.HealthChangedEvent;

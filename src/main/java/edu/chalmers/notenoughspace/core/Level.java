@@ -1,8 +1,11 @@
 package edu.chalmers.notenoughspace.core;
 
 import com.google.common.eventbus.Subscribe;
+import edu.chalmers.notenoughspace.core.entity.Planet;
+import edu.chalmers.notenoughspace.core.entity.ship.Ship;
+import edu.chalmers.notenoughspace.core.spawn.EntitySpawner;
+import edu.chalmers.notenoughspace.core.spawn.Spawn;
 import edu.chalmers.notenoughspace.event.Bus;
-import edu.chalmers.notenoughspace.event.EntityRemovedEvent;
 import edu.chalmers.notenoughspace.event.GameOverEvent;
 import edu.chalmers.notenoughspace.event.NoHealthLeftEvent;
 
@@ -54,17 +57,6 @@ public class Level {
     }
 
     public void start() {
-    }
-
-    @Subscribe
-    public void spawnNewEntity(EntityRemovedEvent event){
-        try {
-            event.getEntity().getClass().newInstance();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
     }
 
     @Subscribe

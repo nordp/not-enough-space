@@ -1,4 +1,7 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity;
+
+import edu.chalmers.notenoughspace.core.move.GravityStrategy;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 
 /**
  * Created by Vibergf on 08/05/2017.

@@ -1,14 +1,8 @@
 package edu.chalmers.notenoughspace.ctrl;
 
-import com.jme3.app.SimpleApplication;
-import de.lessvoid.nifty.Nifty;
-import edu.chalmers.notenoughspace.core.*;
-import edu.chalmers.notenoughspace.event.Bus;
-import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
+import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 import org.junit.Test;
 
-
-import javax.vecmath.Vector3f;
 
 import static org.junit.Assert.*;
 

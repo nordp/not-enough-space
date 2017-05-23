@@ -1,14 +1,12 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity.beamable;
 
-import edu.chalmers.notenoughspace.event.BeamEnteredEvent;
-import edu.chalmers.notenoughspace.event.BeamExitedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 
 /**
  * Created by Phnor on 2017-05-08.
  */
-public class Junk extends BeamableEntity{
+public class Junk extends BeamableEntity {
 
     public Junk() {
         Bus.getInstance().post(new EntityCreatedEvent(this));

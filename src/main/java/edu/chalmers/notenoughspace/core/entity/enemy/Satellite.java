@@ -1,7 +1,8 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity.enemy;
 
 
-import com.jme3.math.Vector3f;
+import edu.chalmers.notenoughspace.core.entity.Entity;
+import edu.chalmers.notenoughspace.core.move.ZeroGravityStrategy;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.SatelliteCollisionEvent;
@@ -11,7 +12,7 @@ public class Satellite extends Entity {
 
     int damage;
 
-    Satellite() {
+    public Satellite() {
         super(new ZeroGravityStrategy());
         Bus.getInstance().post(new EntityCreatedEvent(this));
 

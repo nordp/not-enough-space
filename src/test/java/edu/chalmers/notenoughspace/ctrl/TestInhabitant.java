@@ -1,6 +1,6 @@
 package edu.chalmers.notenoughspace.ctrl;
 
-import edu.chalmers.notenoughspace.core.PlanetaryInhabitant;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 
 import javax.media.j3d.Transform3D;
 import javax.vecmath.Vector3f;

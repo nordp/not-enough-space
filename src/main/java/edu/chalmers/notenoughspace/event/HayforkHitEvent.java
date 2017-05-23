@@ -1,8 +1,6 @@
 package edu.chalmers.notenoughspace.event;
 
-import edu.chalmers.notenoughspace.core.BeamableEntity;
-import edu.chalmers.notenoughspace.core.Entity;
-import edu.chalmers.notenoughspace.core.Hayfork;
+import edu.chalmers.notenoughspace.core.entity.Entity;
 
 /**
  * Created by Sparven on 2017-05-21.

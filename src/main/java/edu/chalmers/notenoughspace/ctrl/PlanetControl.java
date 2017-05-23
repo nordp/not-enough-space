@@ -3,7 +3,7 @@ package edu.chalmers.notenoughspace.ctrl;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.core.Planet;
+import edu.chalmers.notenoughspace.core.entity.Planet;
 
 /**
  * Created by Phnor on 2017-05-08.

@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity.beamable;
 
 /**
  * Created by Vibergf on 09/05/2017.

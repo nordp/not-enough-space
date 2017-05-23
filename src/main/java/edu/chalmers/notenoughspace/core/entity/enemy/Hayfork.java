@@ -1,6 +1,8 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity.enemy;
 
-import com.google.common.eventbus.Subscribe;
+import edu.chalmers.notenoughspace.core.entity.Entity;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
+import edu.chalmers.notenoughspace.core.move.ZeroGravityStrategy;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.HayforkHitEvent;

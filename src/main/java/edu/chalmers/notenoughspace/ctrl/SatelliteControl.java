@@ -1,12 +1,10 @@
 package edu.chalmers.notenoughspace.ctrl;
 
-import com.jme3.bounding.BoundingVolume;
-import com.jme3.collision.CollisionResults;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.core.Satellite;
+import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
 
 /**
  * Created by juliaortheden on 2017-04-26.

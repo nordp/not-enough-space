@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.move;
 
 public abstract class GravityStrategy {
 

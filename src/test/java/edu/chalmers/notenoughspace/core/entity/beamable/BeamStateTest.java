@@ -1,8 +1,6 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity.beamable;
 
 import edu.chalmers.notenoughspace.core.entity.ship.Beam;
-import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
-import edu.chalmers.notenoughspace.core.entity.beamable.BeamState;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 import edu.chalmers.notenoughspace.ctrl.TestInhabitant;
 import org.junit.Before;

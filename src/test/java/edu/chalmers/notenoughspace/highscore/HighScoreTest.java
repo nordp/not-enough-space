@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.ctrl;
+package edu.chalmers.notenoughspace.highscore;
 
 import highscore.HighScoreManager;
 

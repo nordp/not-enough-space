@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.ctrl;
+package edu.chalmers.notenoughspace.core.entity.ship;
 
 import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
 import edu.chalmers.notenoughspace.core.entity.ship.Storage;

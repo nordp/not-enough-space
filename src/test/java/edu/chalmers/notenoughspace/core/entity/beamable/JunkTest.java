@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity.beamable;
 
 import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
 import edu.chalmers.notenoughspace.ctrl.TestInhabitant;

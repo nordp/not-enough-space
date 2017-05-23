@@ -1,8 +1,7 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity.ship;
 
-import edu.chalmers.notenoughspace.core.entity.ship.Beam;
+import edu.chalmers.notenoughspace.core.entity.beamable.TestBeamable;
 import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
-import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 import edu.chalmers.notenoughspace.ctrl.TestInhabitant;
 import edu.chalmers.notenoughspace.event.BeamEnteredEvent;
 import edu.chalmers.notenoughspace.event.BeamExitedEvent;

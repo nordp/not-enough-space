@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity.enemy;
 
 import org.junit.Before;
 import org.junit.Test;

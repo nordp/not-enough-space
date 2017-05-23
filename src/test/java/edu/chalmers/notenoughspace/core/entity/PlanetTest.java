@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.core;
+package edu.chalmers.notenoughspace.core.entity;
 
 import edu.chalmers.notenoughspace.core.entity.Planet;
 import org.junit.Before;

@@ -72,6 +72,7 @@ public class Round extends AbstractAppState implements ScreenController {
         initInput(app);
         spatialHandler.setApp((SimpleApplication) stateManager.getApplication());
         nifty.gotoScreen("hud");
+
     }
 
     private void initScene(SimpleApplication app) {
@@ -183,7 +184,8 @@ public class Round extends AbstractAppState implements ScreenController {
             happy.pause();
         }
         app.getInputManager().setCursorVisible(!enabled);
-//        nifty.getCurrentScreen().findElementById("pauseMenu").setVisible(!enabled);
+        nifty.gotoScreen("hud");
+        nifty.getCurrentScreen().findElementById("pauseMenu").setVisible(!enabled);
     }
 
     // Note that update is only called while the state is both attached and enabled.

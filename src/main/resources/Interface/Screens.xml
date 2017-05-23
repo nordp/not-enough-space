@@ -8,29 +8,35 @@
         </layer>
         <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
             <panel id="panel_top" height="50%" width="75%" align="center" childLayout="center">
-                <image filename="Textures/title.png" align="center" valign="center" height="20%" width="70%"></image>
+                <image filename="Interface/title.png" align="center" valign="center" height="20%" width="70%"></image>
             </panel>
-            <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="horizontal" >
-            <panel id="panel_bottom_left" height="50%" width="50%" valign="center" childLayout="center">
-                <image filename="Textures/button.png" label="Start" id="StartButton" align="center" valign="center"
-                       height="80%" width="80%" visibleToMouse="true" >
+            <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="vertical" marginBottom="90px" >
+                <image filename="Interface/button.png" label="Start" id="StartButton" align="center" valign="center"
+                       height="50%" width="50%" visibleToMouse="true" >
                     <interact onClick="startButtonClicked()"/>
                     <effect>
                         <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
                         <onHover name="border" post="true" color="999f" border="2px"/>
                     </effect>
                 </image>
-            </panel>
-            <panel id="panel_bottom_right" height="50%" width="50%" valign="center" childLayout="center">
-                <image filename="Textures/quitbutton.png" label="Quit" id="QuitButton" align="center" valign="center"
-                       height="80%" width="80%" visibleToMouse="true" >
+                <panel height="10%" width="10%"/>
+                <image filename="Interface/quitbutton.png" label="Quit" id="QuitButton" align="center" valign="center"
+                       height="50%" width="50%" visibleToMouse="true" >
                     <interact onClick="quitButtonClicked()"/>
                     <effect>
                         <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
                         <onHover name="border" post="true" color="999f" border="2px"/>
                     </effect>
                 </image>
-            </panel>
+                <panel height="10%" width="10%"/>
+                <image filename="Interface/highScoreButton.jpg" label="HighScore" id="HighScoreButton" align="center" valign="center"
+                       height="50%" width="50%" visibleToMouse="true" >
+                    <interact onClick="getHighScore()"/>
+                    <effect>
+                        <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
+                        <onHover name="border" post="true" color="999f" border="2px"/>
+                    </effect>
+                </image>
             </panel>
         </layer>
     </screen>
@@ -63,54 +69,49 @@
         </layer>
         <layer id="pauseMenu" visible="false" childLayout="center">
             <panel id="panel-top" height="100%" width="100%"  backgroundColor="#000" childLayout="center">
-            <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="horizontal" >
-            <panel id="panel_bottom_left" height="50%" width="50%" valign="center" childLayout="center">
-                <image filename="Textures/restartButton.jpeg" label="Start" id="StartButton" align="center" valign="center"
-                       height="80%" width="80%" visibleToMouse="true" >
-                    <interact onClick="setEnabled(true)"/>
-                    <effect>
-                        <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
-                        <onHover name="border" post="true" color="999f" border="2px"/>
-                    </effect>
-                </image>
-            </panel>
-            <panel id="panel_bottom_right" height="50%" width="50%" valign="center" childLayout="center">
-                <image filename="Textures/quitbutton.png" label="Quit" id="QuitButton" align="center" valign="center"
-                       height="80%" width="80%" visibleToMouse="true" >
+                <panel id="panel_middle" height="40%" width="40%" valign="center" childLayout="vertical" marginBottom="70px">
+                    <image filename="Interface/restartButton.jpeg" label="Start" id="StartButton"
+                           height="40%" width="100%" visibleToMouse="true" >
+                        <interact onClick="startButtonClicked(hud)"/>
+                        <effect>
+                            <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
+                            <onHover name="border" post="true" color="999f" border="2px"/>
+                        </effect>
+                    </image>
+                    <panel height="10%" width="10%"/>
+                    <image filename="Interface/resumeButton.jpg" label="Resume" id="ResumeButton"
+                           height="40%" width="100%" visibleToMouse="true" >
+                        <interact onClick="setEnabled(1)"/>
+                        <effect>
+                            <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
+                            <onHover name="border" post="true" color="999f" border="2px"/>
+                        </effect>
+                    </image>
+                    <panel height="10%" width="10%"/>
+                    <image filename="Interface/mainMenu.jpg" label="MainMenu" id="MainMenuButton"
+                           height="40%" width="100%" visibleToMouse="true" >
                     <interact onClick="quitButtonClicked()"/>
                     <effect>
                         <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
                         <onHover name="border" post="true" color="999f" border="2px"/>
                     </effect>
-                </image>
-            </panel>
-            </panel>
+                    </image>
+                </panel>
             </panel>
         </layer>
     </screen>
-    <style id="nifty-listbox-item" base="nifty-label">
-    <attributes color="#000f" width="100%" align="left" textVAlign="center" textHAlign="left" />
-    <interact onClick="listBoxItemClicked()" />
-    <effect>
-        <onCustom customKey="focus" name="colorBar" post="false" color="#444f" neverStopRendering="true" timeType="infinite" />
-        <onCustom customKey="select" name="colorBar" post="false" color="#444f" neverStopRendering="true" timeType="infinite" />
-        <onCustom customKey="select" name="textColor" post="false" color="#fc0f" neverStopRendering="true" timeType="infinite" />
-        <onHover name="colorBar" color="#444f" post="false" neverStopRendering="true" timeType="infinite" inset="1px"/>
-        <onClick name="focus" targetElement="#parent#parent"/>
-    </effect>
-    </style>
     <screen id="highscore" controller="edu.chalmers.notenoughspace.view.Menu">
         <layer id="background" childLayout="center">
                         <image filename="Textures/space.jpg" height="100%" width="100%"></image>
         </layer>
         <layer id="foreground" childLayout="center">
                     <panel id="panel_top" height="50%" width="75%" align="center" childLayout="vertical">
-                        <text text="High Score" font="Interface/Fonts/Default.fnt"/>
+                        <text text="High Score" textMinHeight="40%" font="Interface/Fonts/Default.fnt"/>
                         <text text="Player: ${CALL.getPlayerName()}       Score: ${CALL.getPlayerScore()}" font="Interface/Fonts/Default.fnt"/>
                     </panel>
                     <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="horizontal" >
                     <panel id="panel_bottom_left" height="50%" width="50%" valign="center" childLayout="center">
-                        <image filename="Textures/playAgainButton.jpg" label="PlayAgain" id="PlayAgainButton" align="center" valign="center"
+                        <image filename="Interface/playAgainButton.jpg" label="PlayAgain" id="PlayAgainButton" align="center" valign="center"
                                height="80%" width="80%" visibleToMouse="true" >
                             <interact onClick="startButtonClicked()"/>
                             <effect>
@@ -120,7 +121,7 @@
                         </image>
                     </panel>
                     <panel id="panel_bottom_right" height="50%" width="50%" valign="center" childLayout="center">
-                    <image filename="Textures/quitbutton.png" label="Quit" id="QuitButton" align="center" valign="center"
+                    <image filename="Interface/mainMenu.jpg" label="MainMenu" id="MainMenu" align="center" valign="center"
                            height="80%" width="80%" visibleToMouse="true" >
                         <interact onClick="quitButtonClicked()"/>
                         <effect>

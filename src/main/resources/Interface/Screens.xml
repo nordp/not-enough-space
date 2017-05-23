@@ -31,7 +31,7 @@
                 <panel height="10%" width="10%"/>
                 <image filename="Interface/highScoreButton.jpg" label="HighScore" id="HighScoreButton" align="center" valign="center"
                        height="50%" width="50%" visibleToMouse="true" >
-                    <interact onClick="getHighScore()"/>
+                    <interact onClick="highScoreButtonClicked()"/>
                     <effect>
                         <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
                         <onHover name="border" post="true" color="999f" border="2px"/>
@@ -120,7 +120,7 @@
                     </panel>
                     <panel id="panel_bottom" height="30%" width="70%" valign="bottom" childLayout="horizontal">
                         <image filename="Interface/playAgainButton.jpg" label="PlayAgain" id="PlayAgainButton"
-                               height="40%" width="40%" visibleToMouse="true" >
+                               height="40%" width="50%" visibleToMouse="true" >
                             <interact onClick="startButtonClicked()"/>
                             <effect>
                                 <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
@@ -128,7 +128,7 @@
                             </effect>
                         </image>
                         <image filename="Interface/mainMenu.jpg" label="MainMenu" id="MainMenu"
-                           height="40%" width="40%" visibleToMouse="true" >
+                           height="40%" width="50%" visibleToMouse="true" >
                         <interact onClick="mainMenuButtonClicked()"/>
                         <effect>
                             <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>

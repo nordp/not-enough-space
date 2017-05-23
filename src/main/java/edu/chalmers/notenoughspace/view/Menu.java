@@ -67,5 +67,7 @@ public class Menu extends AbstractAppState implements ScreenController{
         return level.getHighScoreString();
     }
 
+    public void highScoreButtonClicked(){nifty.gotoScreen("highscore");}
+
 }
 

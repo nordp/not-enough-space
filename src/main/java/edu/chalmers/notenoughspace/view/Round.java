@@ -48,6 +48,7 @@ public class Round extends AbstractAppState implements ScreenController {
     private ActionListener actionListener;
     private StateManager stateManager;
     private Element healthBarElement;
+    private Element energyBarElement;
 
 
     public Round(){
@@ -203,6 +204,15 @@ public class Round extends AbstractAppState implements ScreenController {
         float energy = level.getShipsEnergy();
 //        Element energyElement = nifty.getCurrentScreen().findElementById("energy");
 //        energyElement.getRenderer(TextRenderer.class).setText("Energy: " + (int) energy);
+
+//        final int MIN_WIDTH = 32;
+//        int pixelWidth = (int) (MIN_WIDTH + (healthBarElement.getParent().getWidth() - MIN_WIDTH) * newHealth);
+        if (energy > 8) {
+            energyBarElement.setConstraintWidth(new SizeValue(energy + "%"));
+        } else {
+            energyBarElement.setConstraintWidth(new SizeValue("8%"));
+        }
+        energyBarElement.getParent().layoutElements();
     }
 
     //** Eventbased HUD updates */
@@ -220,16 +230,20 @@ public class Round extends AbstractAppState implements ScreenController {
 //        Element healthElement = nifty.getCurrentScreen().findElementById("health");
 //        healthElement.getRenderer(TextRenderer.class).setText("Health: " + event.getNewHealth());
 
-        float newHealth = event.getNewHealth() / 100f;
-        final int MIN_WIDTH = 32;
-        int pixelWidth = (int) (MIN_WIDTH + (healthBarElement.getParent().getWidth() - MIN_WIDTH) * newHealth);
-        healthBarElement.setConstraintWidth(new SizeValue(pixelWidth + "px"));
+//        final int MIN_WIDTH = 32;
+//        int pixelWidth = (int) (MIN_WIDTH + (healthBarElement.getParent().getWidth() - MIN_WIDTH) * newHealth);
+        if (event.getNewHealth() > 8) {
+            healthBarElement.setConstraintWidth(new SizeValue(event.getNewHealth() + "%"));
+        } else {
+            healthBarElement.setConstraintWidth(new SizeValue("8%"));
+        }
         healthBarElement.getParent().layoutElements();
     }
 
     public void bind(@Nonnull Nifty nifty, @Nonnull Screen screen) {
         this.nifty = nifty;
         healthBarElement = nifty.getScreen("hud").findElementById("healthBar");
+        energyBarElement = nifty.getScreen("hud").findElementById("energyBar");
     }
 
     public void onStartScreen() {

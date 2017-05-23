@@ -207,11 +207,9 @@ public class Round extends AbstractAppState implements ScreenController {
 
 //        final int MIN_WIDTH = 32;
 //        int pixelWidth = (int) (MIN_WIDTH + (healthBarElement.getParent().getWidth() - MIN_WIDTH) * newHealth);
-        if (energy > 8) {
-            energyBarElement.setConstraintWidth(new SizeValue(energy + "%"));
-        } else {
-            energyBarElement.setConstraintWidth(new SizeValue("8%"));
-        }
+
+        energyBarElement.setConstraintWidth(new SizeValue(energy + "%"));
+        
         energyBarElement.getParent().layoutElements();
     }
 

@@ -35,7 +35,7 @@ public class Ship extends Entity {
 
         mover = new Accelerator(body);
         health = new Health(100);
-        energy = 80;
+        energy = 100;
         beam = new Beam(this);
         storage = new Storage();
     }
@@ -99,7 +99,7 @@ public class Ship extends Entity {
             }
         }
 
-        if (energy <= 0) {
+        if (energy <= 5) {
             beam.setActive(false);
         }
     }

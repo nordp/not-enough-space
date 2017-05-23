@@ -50,24 +50,53 @@
         </layer>
         <layer childLayout="vertical" paddingTop="4.7%" valign="top" align="right">
             <panel id="health_and_energy" align="right" width="25%" height="15%" childLayout="horizontal">
-                <!--<text id="health" text="Health" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
-                <text id="energy" text="Energy" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>-->
                 <text id="health" text="" font="Interface/Fonts/Default.fnt" width="20%" height="100%" backgroundColor="#1111"/>
-                <control name="healthMeter" align="center" valign="center" width="70%" height="45%" />
             </panel>
             <panel id="health_and_energy" align="right" width="25%" height="15%" childLayout="horizontal">
-                <text id="energy" text="Energy:" font="Interface/Fonts/Default.fnt" width="15%" height="100%" backgroundColor="#1111"/>
-                <control name="energyMeter" align="center" valign="center" width="70%" height="20%" />
+
             </panel>
         </layer>
 
+        <!--
         <layer childLayout="vertical" valign="top" align="right">
             <panel id="health_and_energy"  paddingTop="10%" paddingRight="5%" align="right" width="25%" height="25%" childLayout="horizontal">
-                <!--<text id="health" text="Health" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
-                <text id="energy" text="Energy" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>-->
                 <image filename="Interface/healthBar.png" width="100%" height="70%"/>
             </panel>
         </layer>
+-->
+
+        <!-- Black background of meters -->
+        <layer childLayout="absolute">
+            <panel id="blackground1" backgroundColor="#000f" x="26.5%" y="87%" width="15%" height="7%" childLayout="absolute">
+                    </panel>
+            <panel id="blackground2" backgroundColor="#000f" x="58.5%" y="87%" width="15%" height="7%" childLayout="absolute">
+            </panel>
+        </layer>
+
+        <!-- The health meter (behind the image) -->
+        <layer childLayout="horizontal">
+            <panel id="health_bar_meter" valign="bottom" width="100%" height="12.5%" childLayout="absolute">
+                <control name="healthMeter" x="60%" y="0%" width="13.7%" height="50%" />
+            </panel>
+        </layer>
+
+        <!-- The energy meter (behind the image) -->
+        <layer childLayout="horizontal">
+            <panel id="health_bar_meter" valign="bottom"  width="40%" height="12.5%" childLayout="vertical">
+                <control name="energyMeter" align="right" width="33.75%" height="50%" />
+            </panel>
+        </layer>
+
+        <!-- The health and energy bar at the base of the screen -->
+        <layer childLayout="horizontal" paddingBottom="2.5%" valign="bottom" align="center">
+            <panel id="base_panel" valign="bottom" align="center" width="100%" height="25%" childLayout="center">
+                <image filename="Interface/baseBar.png" width="50%" height="90%"/>
+            </panel>
+        </layer>
+
+
+
+<!--
         <layer childLayout="horizontal" valign="bottom" align="left">
             <panel id="storage_panel" align="left" valign="bottom" width="10%" height="25%" childLayout="vertical">
                 <text text="Storage" font="Interface/Fonts/Default.fnt"/>
@@ -75,6 +104,7 @@
                 <image filename="Icons/junk.jpg" width="100%" height="50%"/>
             </panel>
         </layer>
+-->
         <layer id="pauseMenu" visible="false" childLayout="center">
             <panel id="panel-top" height="100%" width="100%"  backgroundColor="#000" childLayout="center">
                 <panel id="panel_middle" height="40%" width="40%" valign="center" childLayout="vertical" marginBottom="70px">
@@ -148,9 +178,9 @@
         </controlDefinition>
 
         <controlDefinition name = "energyMeter" controller = "edu.chalmers.notenoughspace.view.Round">
-            <image filename="Interface/borderYellow.png" childLayout="absolute"
+            <image filename="Interface/borderYellow.png" childLayout="vertical"
                    imageMode="resize:15,2,15,15,15,2,15,2,15,2,15,15">
-                <image id="energyBar" x="0" y="0" filename="Interface/innerYellow.png" width="0%" height="100%"
+                <image id="energyBar" align="right" filename="Interface/innerYellow.png" width="0%" height="100%"
                        imageMode="resize:15,2,15,15,15,2,15,2,15,2,15,15" />
             </image>
         </controlDefinition>

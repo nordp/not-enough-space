@@ -179,6 +179,8 @@ public class SpatialHandler {
 
     @Subscribe
     public void hayforkHitShip(HayforkHitEvent event) {
+        SoundPlayer.getInstance().play("hayforkHit");
+
         String hayforkID = event.getHayFork().getID();
         Spatial hayfork = rootNode.getChild(hayforkID);
         Spatial hayforkModel = ((Node) hayfork).getChild(0);

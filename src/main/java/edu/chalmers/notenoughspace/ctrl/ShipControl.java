@@ -170,12 +170,12 @@ public class ShipControl extends AbstractControl {
      * @param inputManager
      */
     private void initMovementKeys(InputManager inputManager) {
-        inputManager.addMapping("moveForwards",  new KeyTrigger(KeyInput.KEY_I));
-        inputManager.addMapping("moveLeft",   new KeyTrigger(KeyInput.KEY_J));
-        inputManager.addMapping("moveRight",  new KeyTrigger(KeyInput.KEY_L));
-        inputManager.addMapping("moveBackwards", new KeyTrigger(KeyInput.KEY_K));
-        inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_V));
-        inputManager.addMapping("rotateRight", new KeyTrigger(KeyInput.KEY_B));
+        inputManager.addMapping("moveForwards",  new KeyTrigger(KeyInput.KEY_UP));
+        inputManager.addMapping("moveLeft",   new KeyTrigger(KeyInput.KEY_LEFT));
+        inputManager.addMapping("moveRight",  new KeyTrigger(KeyInput.KEY_RIGHT));
+        inputManager.addMapping("moveBackwards", new KeyTrigger(KeyInput.KEY_DOWN));
+        inputManager.addMapping("rotateLeft", new KeyTrigger(KeyInput.KEY_Z));
+        inputManager.addMapping("rotateRight", new KeyTrigger(KeyInput.KEY_X));
         inputManager.addMapping("toggleBeam", new KeyTrigger(KeyInput.KEY_SPACE));
 
         // Add the names to the action listener.

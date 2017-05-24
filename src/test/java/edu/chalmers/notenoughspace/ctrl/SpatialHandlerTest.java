@@ -6,7 +6,7 @@ import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
 import edu.chalmers.notenoughspace.core.entity.Planet;
 import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
 import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
-import edu.chalmers.notenoughspace.core.spawn.EntitySpawner;
+import edu.chalmers.notenoughspace.core.EntitySpawner;
 import edu.chalmers.notenoughspace.view.scene.SpatialHandler;
 import org.junit.Test;
 

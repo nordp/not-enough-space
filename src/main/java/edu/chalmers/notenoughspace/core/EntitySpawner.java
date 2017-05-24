@@ -1,4 +1,4 @@
-package edu.chalmers.notenoughspace.core.spawn;
+package edu.chalmers.notenoughspace.core;
 
 import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.core.CountDownTimer;

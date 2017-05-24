@@ -7,7 +7,6 @@ import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
 import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
 import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
-import edu.chalmers.notenoughspace.core.spawn.EntitySpawner;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.GameOverEvent;
 import edu.chalmers.notenoughspace.event.NoHealthLeftEvent;

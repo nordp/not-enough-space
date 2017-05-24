@@ -49,7 +49,7 @@ class ModelManager implements IModelLoader {
         } else if (modelId.equals("beam")){
             model = assetManager.loadModel("Models/beam.obj");
             Material mat = new Material(assetManager, "Common/MatDefs/Misc/Unshaded.j3md");
-            mat.setColor("Color", new ColorRGBA(0.9f, 0.9f, 0.3f, 0.6f));
+            mat.setColor("Color", new ColorRGBA(0.9f, 0.9f, 0.3f, 0.4f));
             mat.getAdditionalRenderState().setBlendMode(RenderState.BlendMode.Alpha);
             model.setMaterial(mat);
             model.setQueueBucket(RenderQueue.Bucket.Transparent);

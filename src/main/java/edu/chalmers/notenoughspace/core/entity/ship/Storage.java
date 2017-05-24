@@ -18,14 +18,15 @@ public class Storage {
 
     public Storage() {
         Bus.getInstance().register(this);
+        Bus.getInstance().post(new StorageChangeEvent(this));
     }
 
-    public float calculateScore(){
-            float point = 0;
-            for (int i = 0; i < beamableEntityList.size(); i++) {
-                point += beamableEntityList.get(i).getPoints();
-            }
-            return point;
+    public int calculateScore(){
+//            float point = 0;
+//            for (int i = 0; i < beamableEntityList.size(); i++) {
+//                point += beamableEntityList.get(i).getPoints();
+//            }
+            return beamableEntityList.size();
         }
 
 

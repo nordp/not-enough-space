@@ -22,6 +22,7 @@ import com.jme3.util.SkyFactory;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
+import de.lessvoid.nifty.render.batch.spi.BatchRenderBackend;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.SizeValue;
@@ -217,7 +218,9 @@ public class Round extends AbstractAppState implements ScreenController {
     @Subscribe
     public void updateStorageHUD(StorageChangeEvent event){
         Element counterElement = nifty.getCurrentScreen().findElementById("cowCount");
-        counterElement.getRenderer(TextRenderer.class).setText(event.getNewScore() + " POINTS");
+        int nCows = event.getNewScore();
+        String count = (nCows > 9) ? "" + nCows : "0" + nCows;
+        counterElement.getRenderer(TextRenderer.class).setText(count);
 
         Element weightElement = nifty.getCurrentScreen().findElementById("weightCount");
         weightElement.getRenderer(TextRenderer.class).setText(event.getNewWeight() + " KG");

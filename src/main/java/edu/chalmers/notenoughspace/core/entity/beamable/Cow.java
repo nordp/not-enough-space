@@ -1,5 +1,6 @@
 package edu.chalmers.notenoughspace.core.entity.beamable;
 
+import edu.chalmers.notenoughspace.core.entity.Entity;
 import edu.chalmers.notenoughspace.core.entity.Planet;
 import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
@@ -69,6 +70,10 @@ public class Cow extends BeamableEntity {
         }
 
         Bus.getInstance().post(new EntityCreatedEvent(this));
+    }
+
+    protected void onPlanetaryInhabitantAttached(){
+        Entity.randomizeDirection(body);
     }
 
     public void update(PlanetaryInhabitant ship, float tpf) {

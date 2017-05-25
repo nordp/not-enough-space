@@ -1,5 +1,6 @@
 package edu.chalmers.notenoughspace.core.entity.beamable;
 
+import edu.chalmers.notenoughspace.core.entity.Entity;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 
@@ -10,6 +11,10 @@ public class Junk extends BeamableEntity {
 
     public Junk() {
         Bus.getInstance().post(new EntityCreatedEvent(this));
+    }
+
+    protected void onPlanetaryInhabitantAttached(){
+        Entity.randomizeDirection(body);
     }
 
     public float getWeight() {

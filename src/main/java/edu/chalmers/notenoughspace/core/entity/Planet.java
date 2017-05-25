@@ -69,6 +69,12 @@ public class Planet extends Entity {
         population.add(entity);
     }
 
+    public void randomizePositions() {
+        for(Entity e : population){
+            Entity.randomizePosition(e.getPlanetaryInhabitant());
+        }
+    }
+
     @Subscribe
     public void satelliteCollision(SatelliteCollisionEvent event){
         population.remove(event.getSatellite());

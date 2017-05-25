@@ -19,6 +19,10 @@ public class Satellite extends Entity {
         damage = 25;
     }
 
+    protected void onPlanetaryInhabitantAttached(){
+        Entity.randomizeDirection(body);
+    }
+
     public void update() {
     }
 

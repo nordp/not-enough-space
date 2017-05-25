@@ -17,7 +17,7 @@ public class PowerupControl extends DetachableControl {
     }
 
     protected void controlUpdate(float v) {
-        spatial.rotate(0.015f, 0, 0);
+        spatial.rotate(0.005f, 0, 0);
 
         //Collision
         boolean colliding = ControlUtil.checkCollision(((Node) spatial).getChild(0), (ControlUtil.getRoot(spatial).getChild("shipModel")));

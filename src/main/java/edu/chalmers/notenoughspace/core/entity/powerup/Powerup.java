@@ -17,6 +17,10 @@ public abstract class Powerup extends Entity {
         Bus.getInstance().post(new EntityCreatedEvent(this));
     }
 
+    protected void onPlanetaryInhabitantAttached(){
+        Entity.randomizeDirection(body);
+    }
+
     public void collision() {
         Bus.getInstance().post(new PowerupCollisionEvent(this));
     }

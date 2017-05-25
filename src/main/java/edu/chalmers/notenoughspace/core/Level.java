@@ -30,12 +30,15 @@ public class Level {
         planet = new Planet();
         //Test population
         spawner = new EntitySpawner(planet);
-        spawner.spawn(Cow.class, 10, true, true);
+        spawner.spawn(Junk.class, 10);
+        spawner.spawn(Cow.class, 10);
         spawner.spawn(Satellite.class, 1);
         spawner.spawn(Farmer.class, 1);
-        spawner.spawn(HealthPowerup.class, 5, false, true);
+        spawner.spawn(HealthPowerup.class, 5);
+
+        planet.randomizePositions();
+
 //        spawner.addSpawnTimer(Satellite.class, 1);
-        spawner.spawn(Junk.class, 10, true, true);
         //Init timer.
         timer = new CountDownTimer(LEVEL_TIME) {
             @Override

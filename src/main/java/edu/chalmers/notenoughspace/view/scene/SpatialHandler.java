@@ -302,9 +302,9 @@ public class SpatialHandler {
             }
             NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "sweat"), node);
         }else if(entity instanceof HealthPowerup) {
-                NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "goldGlitter"), node);
+            NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "healthPowerup"), node);
         }else if(entity instanceof EnergyPowerup) {
-            NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "goldGlitter"), node);
+            NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "energyPowerup"), node);
         }
     }
 

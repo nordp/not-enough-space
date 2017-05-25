@@ -57,30 +57,15 @@ public class EntitySpawner {
 
     public void spawn(Class<? extends Entity> entityClass) { spawn(entityClass, 1); }
 
-    public void spawn(Class<? extends Entity> entityClass, int n) {
-        spawn(entityClass, n, false, false);
-    }
-
     /**
      * Calls newInstance() on the entityClass and puts the entity in the planet population.
      * @param entityClass
      * The implementation class of entity to spawn on the planet
      * @param n
      * The amount of entities to spawn
-     * @param randomPlacing
-     * Uses default placing (other side of planet) if false;
      */
-    public void spawn(Class<? extends Entity> entityClass, int n, boolean randomPlacing, boolean randomDirection){
+    public void spawn(Class<? extends Entity> entityClass, int n){
         for (int i = 0; i < n; i++) {
-            Entity e = getNewInstanceUtil(entityClass);
-
-            if (randomPlacing){
-                e.getPlanetaryInhabitant().rotateForward((float)Math.PI*2* new Random().nextFloat());
-                e.getPlanetaryInhabitant().rotateSideways((float)Math.PI*2* new Random().nextFloat());
-            }
-            if(randomDirection){
-                e.getPlanetaryInhabitant().rotateModel((float)Math.PI*2 * new Random().nextFloat());
-            }
             planet.populate(getNewInstanceUtil(entityClass));
         }
     }

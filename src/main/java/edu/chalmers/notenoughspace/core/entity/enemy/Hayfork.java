@@ -5,7 +5,7 @@ import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 import edu.chalmers.notenoughspace.core.move.ZeroGravityStrategy;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
-import edu.chalmers.notenoughspace.event.HayforkHitEvent;
+import edu.chalmers.notenoughspace.event.HayforkCollisionEvent;
 
 import javax.vecmath.Vector3f;
 
@@ -47,7 +47,7 @@ public class Hayfork extends Entity {
         Vector3f pierceIntoVector = new Vector3f(direction.x, direction.y, direction.z);
         pierceIntoVector.scale(3.2f);
         body.move(pierceIntoVector);
-        Bus.getInstance().post(new HayforkHitEvent(this));
+        Bus.getInstance().post(new HayforkCollisionEvent(this));
     }
 
     public Entity getThrower() {

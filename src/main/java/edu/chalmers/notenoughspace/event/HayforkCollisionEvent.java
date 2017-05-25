@@ -5,12 +5,12 @@ import edu.chalmers.notenoughspace.core.entity.Entity;
 /**
  * Created by Sparven on 2017-05-21.
  */
-public class HayforkHitEvent {
+public class HayforkCollisionEvent {
     private Entity hayFork;
 
-    public HayforkHitEvent(Entity hayFork) {
+    public HayforkCollisionEvent(Entity hayFork) {
         this.hayFork = hayFork;
-        System.out.println("HayforkHitEvent fired");
+        System.out.println("HayforkCollisionEvent fired");
     }
 
     public Entity getHayFork() {

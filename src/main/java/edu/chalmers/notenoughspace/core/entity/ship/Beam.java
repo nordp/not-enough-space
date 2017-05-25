@@ -19,6 +19,8 @@ public class Beam extends Entity {
     private static final float CENTERING_FORCE = 0.08f;
     private static final float BEAMING_FORCE = 1.0f;
 
+    public static final float ENERGY_COST = 10f;
+
     private boolean active = true;
 
     private List<BeamableEntity> objectsInBeam;

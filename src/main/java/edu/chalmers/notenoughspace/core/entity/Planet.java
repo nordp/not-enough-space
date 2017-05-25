@@ -76,6 +76,12 @@ public class Planet extends Entity {
     }
 
     @Subscribe
+    public void powerupCollision(PowerupCollisionEvent event){
+        population.remove(event.getPowerup());
+        Bus.getInstance().post(new EntityRemovedEvent(event.getPowerup()));
+    }
+
+    @Subscribe
     public void beamableStored(BeamableStoredEvent event){
         population.remove(event.getBeamableEntity());
         Bus.getInstance().post(new EntityRemovedEvent(event.getBeamableEntity()));

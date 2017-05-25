@@ -5,13 +5,13 @@ package edu.chalmers.notenoughspace.event;
  */
 public class HealthChangedEvent {
 
-    private int newHealth;
+    private int healthLevel;
 
-    public HealthChangedEvent(int newHealth) {
-        this.newHealth = newHealth;
+    public HealthChangedEvent(int healthLevel) {
+        this.healthLevel = healthLevel;
     }
 
-    public int getNewHealth() {
-        return newHealth;
+    public int getHealthLevel() {
+        return healthLevel;
     }
 }

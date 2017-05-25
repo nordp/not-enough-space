@@ -20,8 +20,10 @@ import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
 import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
 import edu.chalmers.notenoughspace.core.entity.enemy.Hayfork;
 import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
+import edu.chalmers.notenoughspace.core.entity.powerup.EnergyPowerup;
+import edu.chalmers.notenoughspace.core.entity.powerup.HealthPowerup;
+import edu.chalmers.notenoughspace.core.entity.powerup.Powerup;
 import edu.chalmers.notenoughspace.core.entity.ship.Beam;
-import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 import edu.chalmers.notenoughspace.ctrl.*;
 import edu.chalmers.notenoughspace.event.*;
@@ -197,6 +199,16 @@ public class SpatialHandler {
                     throwerWorldTranslation.z));
 
             control = new HayforkControl(hayfork);
+        } else if (event.getEntity() instanceof Powerup){
+            if(event.getEntity() instanceof HealthPowerup)
+                model = ModelLoaderFactory.getModelLoader().loadModel("cow");
+            else
+                model = ModelLoaderFactory.getModelLoader().loadModel("cow");
+            model.setLocalTranslation(0,Planet.PLANET_RADIUS + Ship.ALTITUDE,0);
+            model.rotate(FastMath.DEG_TO_RAD * 25, FastMath.DEG_TO_RAD * 15, FastMath.DEG_TO_RAD * 15);
+            model.scale(1f);
+            node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
+            control = new PowerupControl((Powerup) event.getEntity());
         } else {
             throw new IllegalArgumentException("entity must be Entity from model package");
         }
@@ -221,7 +233,7 @@ public class SpatialHandler {
     }
 
     @Subscribe
-    public void hayforkHitShip(HayforkHitEvent event) {
+    public void hayforkHitShip(HayforkCollisionEvent event) {
         SoundPlayer.getInstance().play("hayforkHit");
 
         String hayforkID = event.getHayFork().getID();
@@ -288,6 +300,10 @@ public class SpatialHandler {
             if(((Cow)entity).isGolden()){
                 NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "goldGlitter"), node);
             }
+        }else if(entity instanceof HealthPowerup) {
+                NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "goldGlitter"), node);
+        }else if(entity instanceof EnergyPowerup) {
+            NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "goldGlitter"), node);
         }
     }
 

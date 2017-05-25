@@ -9,6 +9,9 @@ import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
 import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
 import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
 import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
+import edu.chalmers.notenoughspace.core.entity.powerup.EnergyPowerup;
+import edu.chalmers.notenoughspace.core.entity.powerup.HealthPowerup;
+import edu.chalmers.notenoughspace.core.entity.powerup.PowerupFactory;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityRemovedEvent;
 
@@ -55,7 +58,7 @@ public class EntitySpawner {
     public void spawn(Class<? extends Entity> entityClass) { spawn(entityClass, 1); }
 
     public void spawn(Class<? extends Entity> entityClass, int n) {
-        spawn(entityClass,n,false);
+        spawn(entityClass, n, false, false);
     }
 
     /**
@@ -67,12 +70,16 @@ public class EntitySpawner {
      * @param randomPlacing
      * Uses default placing (other side of planet) if false;
      */
-    public void spawn(Class<? extends Entity> entityClass, int n, boolean randomPlacing){
+    public void spawn(Class<? extends Entity> entityClass, int n, boolean randomPlacing, boolean randomDirection){
         for (int i = 0; i < n; i++) {
             Entity e = getNewInstanceUtil(entityClass);
+
             if (randomPlacing){
                 e.getPlanetaryInhabitant().rotateForward((float)Math.PI*2* new Random().nextFloat());
                 e.getPlanetaryInhabitant().rotateSideways((float)Math.PI*2* new Random().nextFloat());
+            }
+            if(randomDirection){
+                e.getPlanetaryInhabitant().rotateModel((float)Math.PI*2 * new Random().nextFloat());
             }
             planet.populate(getNewInstanceUtil(entityClass));
         }
@@ -88,6 +95,8 @@ public class EntitySpawner {
             return new Satellite();
         } else if (entityClass.equals(Farmer.class)){
             return new Farmer();
+        } else if (entityClass.equals(HealthPowerup.class) || entityClass.equals(EnergyPowerup.class)){
+            return PowerupFactory.createRandomPowerup();
         } else {
             throw new IllegalArgumentException("Not a legal spawnable entity");
         }

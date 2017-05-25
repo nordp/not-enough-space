@@ -5,7 +5,6 @@ import com.jme3.app.Application;
 import com.jme3.app.SimpleApplication;
 import com.jme3.app.state.AbstractAppState;
 import com.jme3.app.state.AppStateManager;
-import com.jme3.audio.AudioData;
 import com.jme3.audio.AudioNode;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
@@ -17,11 +16,8 @@ import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.renderer.RenderManager;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.shape.Sphere;
-import com.jme3.util.SkyFactory;
 import de.lessvoid.nifty.Nifty;
 import de.lessvoid.nifty.elements.Element;
 import de.lessvoid.nifty.elements.render.TextRenderer;
@@ -30,10 +26,7 @@ import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.SizeValue;
 import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.core.Level;
-import edu.chalmers.notenoughspace.event.Bus;
-import edu.chalmers.notenoughspace.event.GameOverEvent;
-import edu.chalmers.notenoughspace.event.HealthChangedEvent;
-import edu.chalmers.notenoughspace.event.StorageChangeEvent;
+import edu.chalmers.notenoughspace.event.*;
 import edu.chalmers.notenoughspace.view.scene.SpatialHandler;
 
 import javax.annotation.Nonnull;
@@ -233,21 +226,21 @@ public class Round extends AbstractAppState implements ScreenController {
         Element timerElement = nifty.getCurrentScreen().findElementById("timer");
         timerElement.getRenderer(TextRenderer.class).setText("Time left: " + toTimeFormat(timeLeft));
 
-        float energy = level.getShipsEnergy();
+//        float energy = level.getShipsEnergy();
 //        Element energyElement = nifty.getCurrentScreen().findElementById("energy");
 //        energyElement.getRenderer(TextRenderer.class).setText("Energy: " + (int) energy);
 
 //        final int MIN_WIDTH = 32;
 //        int pixelWidth = (int) (MIN_WIDTH + (healthBarElement.getParent().getWidth() - MIN_WIDTH) * newHealth);
 
-        energyBarElement.setConstraintWidth(new SizeValue(energy + "%"));
+//        energyBarElement.setConstraintWidth(new SizeValue(energy + "%"));
         
-        energyBarElement.getParent().layoutElements();
+//        energyBarElement.getParent().layoutElements();
     }
 
     //** Eventbased HUD updates */
     @Subscribe
-    public void updateStorageHUD(StorageChangeEvent event){
+    public void storageChange(StorageChangeEvent event){
         Element counterElement = nifty.getCurrentScreen().findElementById("cowCount");
         int nCows = event.getNewScore();
         String count = (nCows > 9) ? "" + nCows : "0" + nCows;
@@ -258,18 +251,24 @@ public class Round extends AbstractAppState implements ScreenController {
     }
 
     @Subscribe
-    public void updateHealthBar(HealthChangedEvent event) {
+    public void healthChanged(HealthChangedEvent event) {
 //        Element healthElement = nifty.getCurrentScreen().findElementById("health");
-//        healthElement.getRenderer(TextRenderer.class).setText("Health: " + event.getNewHealth());
+//        healthElement.getRenderer(TextRenderer.class).setText("Health: " + event.getHealthLevel());
 
 //        final int MIN_WIDTH = 32;
 //        int pixelWidth = (int) (MIN_WIDTH + (healthBarElement.getParent().getWidth() - MIN_WIDTH) * newHealth);
-        if (event.getNewHealth() > 8) {
-            healthBarElement.setConstraintWidth(new SizeValue(event.getNewHealth() + "%"));
+        if (event.getHealthLevel() > 8) {
+            healthBarElement.setConstraintWidth(new SizeValue(event.getHealthLevel() + "%"));
         } else {
             healthBarElement.setConstraintWidth(new SizeValue("8%"));
         }
         healthBarElement.getParent().layoutElements();
+    }
+
+    @Subscribe
+    public void energyChanged(EnergyChangedEvent event) {
+        energyBarElement.setConstraintWidth(new SizeValue(event.getEnergyLevel() + "%"));
+        energyBarElement.getParent().layoutElements();
     }
 
     public void bind(@Nonnull Nifty nifty, @Nonnull Screen screen) {

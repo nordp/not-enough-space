@@ -3,7 +3,6 @@ package edu.chalmers.notenoughspace.core.entity.ship;
 import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.core.entity.Entity;
 import edu.chalmers.notenoughspace.core.entity.enemy.Hayfork;
-import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
 import edu.chalmers.notenoughspace.core.move.Accelerator;
 import edu.chalmers.notenoughspace.core.move.Movement;
 import edu.chalmers.notenoughspace.core.move.MovementStrategy;
@@ -20,7 +19,7 @@ public class Ship extends Entity {
     public static final float ALTITUDE = 1.8f;
 
     private Health health;
-    private float energy;
+    private Energy energy;
     private Beam beam;
     private Storage storage;
     private MovementStrategy mover;
@@ -31,8 +30,8 @@ public class Ship extends Entity {
         Bus.getInstance().register(this);
 
         mover = new Accelerator(body);
-        health = new Health(100);
-        energy = 100;
+        health = new Health(100, 100);
+        energy = new Energy(100, 100,  5);
         beam = new Beam(this);
         storage = new Storage();
     }
@@ -40,7 +39,7 @@ public class Ship extends Entity {
     public void update(float tpf) {
         beam.update(body, tpf);
         mover.move(tpf);
-        expendEnergy(tpf);
+        updateEnergy(tpf);
     }
 
     public void cleanup(){
@@ -66,8 +65,16 @@ public class Ship extends Entity {
         return health.getHealthLevel();
     }
 
+    public void modifyHealth(int dHealth) {
+        health.modifyHealth(dHealth);
+    }
+
     public float getEnergy() {
-        return energy;
+        return energy.getEnergyLevel();
+    }
+
+    public void modifyEnergy(float dEnergy) {
+        energy.modifyEnergy(dEnergy);
     }
 
     public String getID() { return "ship"; }
@@ -81,30 +88,38 @@ public class Ship extends Entity {
     }
 
     @Subscribe
-    public void gotHit(HayforkHitEvent event) {
+    public void hayforkCollision(HayforkCollisionEvent event) {
         int damage = ((Hayfork) event.getHayFork()).getDamage();
-        health.increaseHealth(-damage);
+        health.modifyHealth(-damage);
         System.out.println(health.toString());
     }
 
     @Subscribe
     public void satelliteCollision(SatelliteCollisionEvent event) {
         int damage = event.getSatellite().getDamage();
-        health.increaseHealth(-damage);
+        health.modifyHealth(-damage);
         System.out.println(health.toString());
     }
 
-    private void expendEnergy(float tpf) {
+    @Subscribe
+    public void powerupCollision(PowerupCollisionEvent event) {
+        event.getPowerup().affect(this);
+    }
+
+    @Subscribe
+    public void energyEmpty(EnergyEmptyEvent event) {
+        toggleBeam(false);
+    }
+
+    private void updateEnergy(float tpf) {
         if (beam.isActive()) {
-            energy -= tpf * 10;
+            energy.modifyEnergy(-Beam.ENERGY_COST * tpf);
         } else {
-            if (energy < 100) {
-                energy += tpf * 5;
-            }
+            energy.regenerate(tpf);
         }
 
-        if (energy <= 5) {
-            beam.setActive(false);
-        }
+//        if (energy <= 5) {
+//            beam.setActive(false);
+//        }
     }
 }

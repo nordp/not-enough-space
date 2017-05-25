@@ -102,9 +102,29 @@ public class SpatialHandler {
             control = new CowControl(cow);
             parent = rootNode.getChild("planet");
         } else if (event.getEntity() instanceof Junk){
-            model = ModelLoaderFactory.getModelLoader().loadModel("junk");
+            String modelID = "";
+            float scale = 1;
+            Quaternion rot = new Quaternion();
+            switch ((int) (FastMath.nextRandomFloat()*100) % 3){
+                case 0:
+                    modelID = "barn";
+                    scale = 0.26f;
+                    break;
+                case 1:
+                    modelID = "barrel";
+                    scale = 0.004f;
+                    rot.set(-0.707f,0,0,0.707f);
+                    break;
+                case 2:
+                    modelID = "tree";
+                    scale = 0.01f;
+                    rot.set(-0.707f,0,0,0.707f);
+                    break;
+            }
+            model = ModelLoaderFactory.getModelLoader().loadModel(modelID);
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
-            model.scale(0.013f, 0.013f, 0.013f);
+            model.scale(scale);
+            model.rotate(rot);
             node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
             control = new JunkControl((Junk) event.getEntity());
             parent = rootNode.getChild("planet");

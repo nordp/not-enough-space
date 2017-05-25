@@ -14,7 +14,7 @@ import edu.chalmers.notenoughspace.event.NoHealthLeftEvent;
 public class Level {
 
 
-    public final int LEVEL_TIME = 10; //seconds
+    public final int LEVEL_TIME = 120; //seconds
 
     private final EntitySpawner spawner;
 
@@ -29,11 +29,10 @@ public class Level {
         planet = new Planet();
         //Test population
         spawner = new EntitySpawner(planet);
-        spawner.spawn(Cow.class, 10);
+        spawner.spawn(Cow.class, 10, true);
         spawner.spawn(Satellite.class, 1);
-        spawner.spawn(Junk.class, 10);
         spawner.spawn(Farmer.class, 1);
-//        spawner.addSpawnTimer(Satellite.class, 1);
+        spawner.spawn(Junk.class, 10, true);
         //Init timer.
         timer = new CountDownTimer(LEVEL_TIME) {
             @Override

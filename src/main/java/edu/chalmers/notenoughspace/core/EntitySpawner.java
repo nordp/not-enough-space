@@ -14,6 +14,7 @@ import edu.chalmers.notenoughspace.event.EntityRemovedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by Phnor on 2017-05-23.
@@ -22,13 +23,8 @@ public class EntitySpawner {
 
     private Planet planet;
     private List<SpawnTimer> timerList;
-    private int frequency;
 
-    public EntitySpawner(Planet planet){
-        this(1, planet);
-    }
-    public EntitySpawner(int frequency, Planet planet) {
-        this.frequency = frequency;
+    public EntitySpawner(Planet planet) {
         this.planet = planet;
         timerList = new ArrayList<SpawnTimer>();
         Bus.getInstance().register(this);
@@ -56,13 +52,11 @@ public class EntitySpawner {
         spawn(event.getEntity().getClass());
     }
 
-    /**
-     * Calls newInstance() on the entityClass and puts the entity in the planet population.
-     * Number of spawned entities correspond to set frequency
-     * @param entityClass
-     * The implementation class of entity to spawn on the planet
-     */
-    public void spawn(Class<? extends Entity> entityClass) { spawn(entityClass, frequency); }
+    public void spawn(Class<? extends Entity> entityClass) { spawn(entityClass, 1); }
+
+    public void spawn(Class<? extends Entity> entityClass, int n) {
+        spawn(entityClass,n,false);
+    }
 
     /**
      * Calls newInstance() on the entityClass and puts the entity in the planet population.
@@ -70,9 +64,16 @@ public class EntitySpawner {
      * The implementation class of entity to spawn on the planet
      * @param n
      * The amount of entities to spawn
+     * @param randomPlacing
+     * Uses default placing (other side of planet) if false;
      */
-    public void spawn(Class<? extends Entity> entityClass, int n){
+    public void spawn(Class<? extends Entity> entityClass, int n, boolean randomPlacing){
         for (int i = 0; i < n; i++) {
+            Entity e = getNewInstanceUtil(entityClass);
+            if (randomPlacing){
+                e.getPlanetaryInhabitant().rotateForward((float)Math.PI*2* new Random().nextFloat());
+                e.getPlanetaryInhabitant().rotateSideways((float)Math.PI*2* new Random().nextFloat());
+            }
             planet.populate(getNewInstanceUtil(entityClass));
         }
     }
@@ -103,8 +104,6 @@ public class EntitySpawner {
     public void addSpawnTimer(Class<? extends Entity> entityClass, int spawnInterval) {
         timerList.add(new SpawnTimer(entityClass, spawnInterval));
     }
-
-
 
     //Private timer class
     private class SpawnTimer extends CountDownTimer {

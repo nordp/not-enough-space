@@ -7,6 +7,7 @@ import com.jme3.material.Material;
 import com.jme3.material.RenderState;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
+import com.jme3.math.Quaternion;
 import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
@@ -38,9 +39,14 @@ class ModelManager implements IModelLoader {
             channel.setSpeed(2.5f);
         } else if (modelId.equals("satellite")){
             model = assetManager.loadModel("Models/satellite.j3o");
-        } else if (modelId.equals("junk")){
+        } else if (modelId.equals("barn")){
             model = assetManager.loadModel("Models/barn.j3o");
-            model.scale(20);
+        } else if (modelId.equals("tree")){
+            model = assetManager.loadModel("Models/spookytree.obj");
+            model.setMaterial(assetManager.loadMaterial("Materials/tree.j3m"));
+        } else if (modelId.equals("barrel")){
+            model = assetManager.loadModel("Models/cupbarrel.obj");
+            model.setMaterial(assetManager.loadMaterial("Materials/barrel.j3m"));
         } else if (modelId.equals("ship")){
             model = assetManager.loadModel("Models/redUFO.j3o");
             model.scale(18);

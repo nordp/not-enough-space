@@ -2,6 +2,7 @@ package edu.chalmers.notenoughspace.core.entity.ship;
 
 import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
+import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
 import edu.chalmers.notenoughspace.event.BeamableStoredEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.StorageChangeEvent;
@@ -21,13 +22,25 @@ public class Storage {
         Bus.getInstance().post(new StorageChangeEvent(this));
     }
 
-    public int calculateScore(){
-//            float point = 0;
-//            for (int i = 0; i < beamableEntityList.size(); i++) {
-//                point += beamableEntityList.get(i).getPoints();
-//            }
-            return beamableEntityList.size();
+    public int getScore(){
+        float score = 0;
+        for (BeamableEntity b : beamableEntityList) {
+            if (b instanceof Cow) {
+                score += ((Cow) b).getWeight();
+            }
         }
+        return (int) (score * 100000);
+    }
+
+    public int getNumberOfCows() {
+        int count = 0;
+        for (BeamableEntity b : beamableEntityList) {
+            if (b instanceof Cow) {
+                count++;
+            }
+        }
+        return count;
+    }
 
 
     public float calculateWeight() {

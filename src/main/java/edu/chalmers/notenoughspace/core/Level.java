@@ -63,7 +63,7 @@ public class Level {
     }
 
     private void levelOver() {
-        Bus.getInstance().post(new GameOverEvent(ship.getStorage().calculateScore()));
+        Bus.getInstance().post(new GameOverEvent(ship.getStorage().getScore()));
     }
 
     /**

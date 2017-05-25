@@ -13,7 +13,11 @@ public class StorageChangeEvent {
     }
 
     public int getNewScore(){
-        return storage.calculateScore();
+        return storage.getScore();
+    }
+
+    public int getNumberOfCows() {
+        return storage.getNumberOfCows();
     }
 
     public float getNewWeight() {

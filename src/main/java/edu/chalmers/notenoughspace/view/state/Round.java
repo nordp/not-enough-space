@@ -249,12 +249,33 @@ public class Round extends AbstractAppState implements ScreenController {
     @Subscribe
     public void storageChange(StorageChangeEvent event){
         Element counterElement = nifty.getCurrentScreen().findElementById("cowCount");
-        int nCows = event.getNewScore();
+        int nCows = event.getNumberOfCows();
         String count = (nCows > 9) ? "" + nCows : "0" + nCows;
         counterElement.getRenderer(TextRenderer.class).setText(count);
 
         Element pointsElement = nifty.getCurrentScreen().findElementById("score");
-        pointsElement.getRenderer(TextRenderer.class).setText(event.getNewWeight() + "");
+        pointsElement.getRenderer(TextRenderer.class).setText(event.getNewScore() + "");
+    }
+
+    //TODO: Remove
+    private String toScoreFormat(int newScore) {
+        if (newScore == 0) {
+            return "00000000";
+        }
+
+        if (newScore >= Math.pow(10, 7)) {
+            return "00" + newScore;
+        } else if (newScore >= Math.pow(10, 6)) {
+            return "0" + newScore;
+        } else {
+            String zeroes = "";
+            int checkValue = newScore;
+            while (checkValue < Math.pow(10, 6)) {
+                zeroes += "0";
+                checkValue *= 10;
+            }
+            return zeroes + checkValue;
+        }
     }
 
     @Subscribe

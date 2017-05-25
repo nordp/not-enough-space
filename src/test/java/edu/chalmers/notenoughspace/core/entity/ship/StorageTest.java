@@ -20,7 +20,7 @@ public class StorageTest {
     public void StorageTest() throws Exception{
         Storage storage = new Storage();
 
-        assertEquals(0, storage.calculateScore(), 0);
+        assertEquals(0, storage.getScore(), 0);
         assertEquals(0, storage.calculateWeight(), 0);
 
 
@@ -38,8 +38,9 @@ public class StorageTest {
             weight+=cowList.get(i).getWeight();
             point+=cowList.get(i).getPoints();
         }
+        //TODO: Rewrite with new score method
 
-        assertEquals(storage.calculateScore(), point, 0);
+        assertEquals(storage.getScore(), point, 0);
         assertEquals(storage.calculateWeight(), weight, 0);
     }
 }

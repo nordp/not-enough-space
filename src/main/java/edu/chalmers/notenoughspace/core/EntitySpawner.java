@@ -1,9 +1,14 @@
 package edu.chalmers.notenoughspace.core;
 
 import com.google.common.eventbus.Subscribe;
+import com.sun.javaws.exceptions.InvalidArgumentException;
 import edu.chalmers.notenoughspace.core.CountDownTimer;
 import edu.chalmers.notenoughspace.core.entity.Entity;
 import edu.chalmers.notenoughspace.core.entity.Planet;
+import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
+import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
+import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
+import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityRemovedEvent;
 
@@ -73,15 +78,18 @@ public class EntitySpawner {
     }
 
     private Entity getNewInstanceUtil(Class<? extends Entity> entityClass) {
-        Entity e = null; //TODO Handle exceptions more sofisticated
-        try {
-            e = entityClass.newInstance();
-        } catch (InstantiationException exeption) {
-            exeption.printStackTrace();
-        } catch (IllegalAccessException exeption) {
-            exeption.printStackTrace();
+        Entity e;
+        if (entityClass.equals(Cow.class)){
+            return new Cow();
+        } else if (entityClass.equals(Junk.class)) {
+            return new Junk();
+        } else if (entityClass.equals(Satellite.class)){
+            return new Satellite();
+        } else if (entityClass.equals(Farmer.class)){
+            return new Farmer();
+        } else {
+            throw new IllegalArgumentException("Not a legal spawnable entity");
         }
-        return e;
     }
 
     /**

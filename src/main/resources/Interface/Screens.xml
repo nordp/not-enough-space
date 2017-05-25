@@ -41,21 +41,21 @@
         </layer>
     </screen>
     <screen id="hud" controller="edu.chalmers.notenoughspace.view.state.Round">
-        <layer childLayout="vertical" valign="top" align="center">
-            <panel id="panel_top" align="center" width="25%" height="15%" childLayout="horizontal">
+        <!--<layer childLayout="vertical" valign="top" align="center">-->
+            <!--<panel id="panel_top" align="center" width="25%" height="15%" childLayout="horizontal">-->
 
-                <text id="timer" font="Interface/Fonts/Default.fnt" width="33%" height="100%" backgroundColor="#1111"/>
-                <text id="weightCount" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>
-            </panel>
-        </layer>
-        <layer childLayout="vertical" paddingTop="4.7%" valign="top" align="right">
-            <panel id="health_and_energy" align="right" width="25%" height="15%" childLayout="horizontal">
-                <text id="health" text="" font="Interface/Fonts/Default.fnt" width="20%" height="100%" backgroundColor="#1111"/>
-            </panel>
-            <panel id="health_and_energy" align="right" width="25%" height="15%" childLayout="horizontal">
+                <!--<text id="timer" font="Interface/Fonts/Default.fnt" width="33%" height="100%" backgroundColor="#1111"/>-->
+                <!--<text id="weightCount" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>-->
+            <!--</panel>-->
+        <!--</layer>-->
+        <!--<layer childLayout="vertical" paddingTop="4.7%" valign="top" align="right">-->
+            <!--<panel id="health_and_energy" align="right" width="25%" height="15%" childLayout="horizontal">-->
+                <!--<text id="health" text="" font="Interface/Fonts/Default.fnt" width="20%" height="100%" backgroundColor="#1111"/>-->
+            <!--</panel>-->
+            <!--<panel id="health_and_energy" align="right" width="25%" height="15%" childLayout="horizontal">-->
 
-            </panel>
-        </layer>
+            <!--</panel>-->
+        <!--</layer>-->
 
         <!--
         <layer childLayout="vertical" valign="top" align="right">
@@ -86,11 +86,11 @@
         <layer childLayout="absolute">
             <!-- Top panel (front layer) with all controls at the top of the screen-->
             <panel id="topPanelFrontLayer" x="0%" y="2%" width="98.3%" height="17%" childLayout="absolute">
-                <text id="cowCount" x="90%" y="50%" text="cowCount$$" font="Interface/Fonts/Default.fnt" width="10%" height="5%"/>
-                <text id="mm" x="1.8%" y="46.5%" text="00" font="Interface/Fonts/Default.fnt" width="10%" height="5%"/>
-                <text id="ss" x="5.7%" y="46.5%" text="00" font="Interface/Fonts/Default.fnt" width="10%" height="5%"/>
-                <text id="hh" x="9.5%" y="46.5%" text="00" font="Interface/Fonts/Default.fnt" width="10%" height="5%"/>
-                <text id="score" x="5%" y="116%" text="000000" font="Interface/Fonts/Default.fnt" width="10%" height="5%"/>
+                <text id="cowCount" x="89.6%" y="52%" text="cowCount$$" font="Interface/dFont.fnt" width="10%" height="5%"/>
+                <text id="mm" x="1.4%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
+                <text id="ss" x="5.5%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
+                <text id="hh" x="9.4%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
+                <text id="score" x="5%" y="116%" text="00"  font="Interface/dFont.fnt" width="10%" height="5%"/>
             </panel>
         </layer>
 
@@ -165,8 +165,8 @@
         </layer>
         <layer id="foreground" childLayout="center">
                     <panel id="panel_top" height="40%" width="10%" valign="center" align="center" childLayout="vertical">
-                        <text text="High Score" font="Interface/Fonts/Default.fnt"/>
-                        <text text="${CALL.getHighScoreString()}" font="Interface/Fonts/Default.fnt"/>
+                        <text text="High Score" font="Interface/dFont.fnt"/>
+                        <text text="${CALL.getHighScoreString()}" font="Interface/dFont.fnt"/>
                     </panel>
                     <panel id="panel_bottom" height="30%" width="70%" valign="bottom" childLayout="horizontal">
                         <image filename="Interface/playAgainButton.png" label="PlayAgain" id="PlayAgainButton"

@@ -16,7 +16,9 @@ import com.jme3.light.LightList;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
+import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Geometry;
+import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
 import com.jme3.util.SkyFactory;
@@ -27,6 +29,7 @@ import de.lessvoid.nifty.render.batch.spi.BatchRenderBackend;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.SizeValue;
+import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
 import edu.chalmers.notenoughspace.core.Level;
 import edu.chalmers.notenoughspace.core.move.Movement;
 import edu.chalmers.notenoughspace.event.Bus;
@@ -45,7 +48,7 @@ public class Round extends AbstractAppState implements ScreenController {
     private Level level;
     private SpatialHandler spatialHandler;
 
-    private Geometry sun;
+    private Spatial sun;
     private PointLight sunLight;
     private AmbientLight ambientLight;
     private AudioNode happy;
@@ -54,10 +57,17 @@ public class Round extends AbstractAppState implements ScreenController {
     private Element healthBarElement;
     private Element energyBarElement;
 
+    private Node rootNode;
+
+    private boolean gameOver;
 
     public Round(){
         Bus.getInstance().register(this);
         spatialHandler = new SpatialHandler();
+        rootNode = new Node();
+        initScene();
+        initSound();
+        initInput();
     }
 
     @Override
@@ -66,9 +76,12 @@ public class Round extends AbstractAppState implements ScreenController {
         this.stateManager = (StateManager) stateManager;
         //Init level
         level = new Level();
-        initScene(app);
-        initSound(app);
-        initInput(app);
+        gameOver = false;
+
+        enableScene(rootNode);
+        enableSound(rootNode);
+        enableInput(app);
+        app.getViewPort().attachScene(rootNode);
     }
 
     @Override
@@ -76,16 +89,14 @@ public class Round extends AbstractAppState implements ScreenController {
         super.stateAttached(stateManager);
         app = (SimpleApplication) stateManager.getApplication();
         spatialHandler.setApp((SimpleApplication) stateManager.getApplication());
+        spatialHandler.setRootNode(rootNode);
         nifty.gotoScreen("hud");
     }
 
-    private void initScene(SimpleApplication app) {
+    private void initScene() {
 
         //Sun:
-        Sphere sunMesh = new Sphere(100, 100, 10f);
-        sunMesh.setTextureMode(Sphere.TextureMode.Projected);
-        sun = new Geometry("sun", sunMesh);
-        sun.setMaterial(app.getAssetManager().loadMaterial("Materials/SunMaterial.j3m"));
+        sun = ModelLoaderFactory.getModelLoader().loadModel("sun");
         sun.move(-20, 0, 10);
         sun.setLocalTranslation(-100, 0, 0);
         sun.rotate(0, 0, FastMath.HALF_PI); //It has an ugly line at the equator,
@@ -99,24 +110,29 @@ public class Round extends AbstractAppState implements ScreenController {
         //AmbientLight:
         ambientLight = new AmbientLight(ColorRGBA.White.mult(0.3f));
         ambientLight.setEnabled(true);
-        app.getRootNode().attachChild(SkyFactory.createSky(
-                app.getAssetManager(), "Textures/skybox.dds", SkyFactory.EnvMapType.CubeMap));
-        app.getRootNode().attachChild(sun);
-        app.getRootNode().addLight(sunLight);
-        app.getRootNode().addLight(ambientLight);
     }
 
-    private void initSound(SimpleApplication app) {
+    private void enableScene(Node rootNode){
+        rootNode.attachChild(ModelLoaderFactory.getModelLoader().loadModel("sky"));
+        rootNode.attachChild(sun);
+        rootNode.addLight(sunLight);
+        rootNode.addLight(ambientLight);
+    }
+
+    private void initSound() {
         //Happy :)
-        happy = new AudioNode(app.getAssetManager(), "Sounds/brodyquest.wav", AudioData.DataType.Buffer);
+        happy = ModelLoaderFactory.getSoundLoader().loadSound("brodyquest");
         happy.setLooping(true);  // activate continuous playing
         happy.setPositional(false);
         happy.setVolume(1);
-        happy.play(); // play continuously!
-        app.getRootNode().attachChild(happy);
     }
 
-    private void initInput(SimpleApplication app) {
+    private void enableSound(Node rootNode){
+        rootNode.attachChild(happy);
+        happy.play(); // play continuously!
+    }
+
+    private void initInput() {
         actionListener = new ActionListener() {
 
             public void onAction(String name, boolean value, float tpf) {
@@ -134,13 +150,14 @@ public class Round extends AbstractAppState implements ScreenController {
                 }*/
             }
         };
+    }
 
+    private void enableInput(SimpleApplication app){
         app.getInputManager().addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
-        app.getInputManager().addListener(actionListener, "pause");
-
         //Adds option to change camera view:
         app.getInputManager().addMapping("cameraMode", new KeyTrigger(KeyInput.KEY_T));
-        app.getInputManager().addListener(actionListener, "cameraMode");
+
+        app.getInputManager().addListener(actionListener, "pause", "cameraMode");
     }
 
     private void pausePressed() {
@@ -149,16 +166,15 @@ public class Round extends AbstractAppState implements ScreenController {
 
     @Override
     public void cleanup() {
-        super.cleanup();
 
         level.cleanup();
 
-        app.getRootNode().detachChild(sun);
-        app.getRootNode().detachChild(happy);
+        rootNode.detachChild(sun);
+        rootNode.detachChild(happy);
 
-        LightList ll = app.getRootNode().getLocalLightList().clone();
+        LightList ll = rootNode.getLocalLightList().clone();
         for(Light l : ll){
-            app.getRootNode().removeLight(l);
+            rootNode.removeLight(l);
         }
 
         happy.stop();   //Why is this needed? (Without it the music keeps playing!)
@@ -167,17 +183,19 @@ public class Round extends AbstractAppState implements ScreenController {
         app.getInputManager().deleteMapping("cameraMode");
         app.getInputManager().removeListener(actionListener);
 
+        rootNode.detachAllChildren();
+        rootNode.updateGeometricState();
 
-        app.getRootNode().detachAllChildren();
-        app.getRootNode().updateGeometricState();
-        // app.getGuiNode().detachChild(hud);
+        app.getViewPort().detachScene(rootNode);
 
-        System.out.println("Scene cleaned up! Current children: " + app.getRootNode().getChildren().size() +
-                " Current lights: " + app.getRootNode().getLocalLightList().size());
+        System.out.println("Scene cleaned up! Current children: " + rootNode.getChildren().size() +
+                " Current lights: " + rootNode.getLocalLightList().size());
     }
 
     @Override
     public void setEnabled(boolean enabled) {
+        if(enabled == this.isEnabled())
+            return;
         // Pause and unpause
         super.setEnabled(enabled);
         if (enabled) {
@@ -195,9 +213,21 @@ public class Round extends AbstractAppState implements ScreenController {
     // Note that update is only called while the state is both attached and enabled.
     @Override
     public void update(float tpf) {
-        if (isEnabled()) {
-            level.update(tpf);
-            hudUpdate(); //TODO Get values from storage
+        level.update(tpf);
+        rootNode.updateLogicalState(tpf);
+        hudUpdate(); //TODO Get values from storage
+    }
+
+    @Override
+    public void render(RenderManager rm) {
+        rootNode.updateGeometricState();
+    }
+
+    @Override
+    public void postRender() {
+        if(gameOver){
+            stateManager.setState(GameState.STOPPED);
+            nifty.gotoScreen("highscore");
         }
     }
 
@@ -292,8 +322,7 @@ public class Round extends AbstractAppState implements ScreenController {
 
     @Subscribe
     public void levelOver(GameOverEvent event){
-        stateManager.setState(GameState.STOPPED);
-        nifty.gotoScreen("highscore");
+        gameOver = true;
     }
 
     public void quitButtonClicked(){

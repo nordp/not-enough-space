@@ -20,6 +20,7 @@ public class StateManager extends AppStateManager{
         this.running = running;
         setState(GameState.STOPPED);
         Bus.getInstance().register(this);
+
     }
 
     /** State Managing */

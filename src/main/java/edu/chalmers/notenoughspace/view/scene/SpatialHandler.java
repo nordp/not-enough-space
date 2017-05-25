@@ -41,8 +41,11 @@ public class SpatialHandler {
 
     public void setApp(SimpleApplication app){
         this.app = app;
-        this.rootNode = app.getRootNode();
         this.inputManager = app.getInputManager();
+    }
+
+    public void setRootNode(Node rootNode){
+        this.rootNode = rootNode;
     }
 
     @Subscribe
@@ -56,17 +59,17 @@ public class SpatialHandler {
 
         Entity entity = event.getEntity();
 
-        Spatial storedObject = rootNode.getChild(entity.getID());
+        Node removedNode = (Node) rootNode.getChild(entity.getID());
 
         Control control;
-        while(storedObject.getNumControls() > 0) {
-            control = storedObject.getControl(0);
+        while(removedNode.getNumControls() > 0) {
+            control = removedNode.getControl(0);
             if(control instanceof DetachableControl)
                 ((DetachableControl) control).onDetach();
-            storedObject.removeControl(control);
+            removedNode.removeControl(control);
         }
-
-        storedObject.removeFromParent();
+        stopCorrespondingAudioNode(entity, removedNode);
+        removedNode.removeFromParent();
     }
 
     @Subscribe
@@ -242,6 +245,20 @@ public class SpatialHandler {
             AudioNode swishAudio = ModelLoaderFactory.getSoundLoader().loadSound("hayforkThrown");
             NodeUtil.setUpAudioNode(swishAudio, 0.4f, 15, false, node, "audio");
             swishAudio.play();
+        }
+    }
+
+    private void stopCorrespondingAudioNode(Entity entity, Node node){
+        if(entity instanceof Farmer){
+            ((AudioNode)node.getChild("audio")).stop();
+        } else if (entity instanceof Cow) {
+            ((AudioNode)node.getChild("audio")).stop();
+            ((AudioNode)node.getChild("audio2")).stop();
+            ((AudioNode)node.getChild("audio3")).stop();
+        } else if (entity instanceof Beam) {
+            ((AudioNode)node.getChild("audio")).stop();
+        } else if (entity instanceof Hayfork) {
+            ((AudioNode)node.getChild("audio")).stop();
         }
     }
 

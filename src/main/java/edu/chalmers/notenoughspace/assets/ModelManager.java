@@ -11,6 +11,7 @@ import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
+import com.jme3.util.SkyFactory;
 import com.jme3.util.TangentBinormalGenerator;
 import edu.chalmers.notenoughspace.core.entity.Planet;
 
@@ -79,6 +80,9 @@ class ModelManager implements IModelLoader {
         } else if (modelId.equals("hayfork")) {
             model = assetManager.loadModel("Models/spear.j3o");
             model.scale(0.3f);
+        } else if (modelId.equals("sky")) {
+            model = SkyFactory.createSky(
+                    assetManager, "Textures/skybox.dds", SkyFactory.EnvMapType.CubeMap);
         } else {
             throw new IllegalArgumentException("No such model");
         }

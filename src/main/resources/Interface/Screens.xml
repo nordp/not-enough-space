@@ -41,21 +41,21 @@
         </layer>
     </screen>
     <screen id="hud" controller="edu.chalmers.notenoughspace.view.state.Round">
-        <!--<layer childLayout="vertical" valign="top" align="center">-->
-            <!--<panel id="panel_top" align="center" width="25%" height="15%" childLayout="horizontal">-->
+        <layer childLayout="vertical" valign="top" align="center">
+            <panel id="panel_top" align="center" width="25%" height="15%" childLayout="horizontal">
 
-                <!--<text id="timer" font="Interface/Fonts/Default.fnt" width="33%" height="100%" backgroundColor="#1111"/>-->
-                <!--<text id="weightCount" font="Interface/Fonts/Default.fnt" width="33%" height="75%" backgroundColor="#1111"/>-->
-            <!--</panel>-->
-        <!--</layer>-->
-        <!--<layer childLayout="vertical" paddingTop="4.7%" valign="top" align="right">-->
-            <!--<panel id="health_and_energy" align="right" width="25%" height="15%" childLayout="horizontal">-->
-                <!--<text id="health" text="" font="Interface/Fonts/Default.fnt" width="20%" height="100%" backgroundColor="#1111"/>-->
-            <!--</panel>-->
-            <!--<panel id="health_and_energy" align="right" width="25%" height="15%" childLayout="horizontal">-->
+                <text id="timer" font="Interface/Fonts/Default.fnt" width="33%" height="100%"/>
+                <text id="weightCount" font="Interface/Fonts/Default.fnt" width="33%" height="75%"/>
+            </panel>
+        </layer>
+        <layer childLayout="vertical" paddingTop="4.7%" valign="top" align="right">
+            <panel id="health_and_energy" align="right" width="25%" height="15%" childLayout="horizontal">
+                <text id="health" text="" font="Interface/Fonts/Default.fnt" width="20%" height="100%" />
+            </panel>
+            <panel id="health_and_energy" align="right" width="25%" height="15%" childLayout="horizontal">
 
-            <!--</panel>-->
-        <!--</layer>-->
+            </panel>
+        </layer>
 
         <!--
         <layer childLayout="vertical" valign="top" align="right">

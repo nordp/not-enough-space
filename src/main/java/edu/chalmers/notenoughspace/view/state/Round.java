@@ -94,7 +94,7 @@ public class Round extends AbstractAppState implements ScreenController {
         // that's why the rotation is currently needed...
 
         //Sunlight:
-        sunLight = new PointLight(sun.getWorldTranslation(), ColorRGBA.White, 1000);
+        sunLight = new PointLight(sun.getWorldTranslation(), ColorRGBA.White.mult(0.5f), 1000);
 //        sunLight.setDirection(new Vector3f(2, 0, -1).normalizeLocal());
 //        sunLight.setColor(ColorRGBA.White);
 

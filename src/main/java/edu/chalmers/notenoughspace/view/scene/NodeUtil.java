@@ -30,7 +30,8 @@ class NodeUtil {
 
     static void setUpEffectNode(ParticleEmitter emitter, Node parentNode){
         Spatial point = parentNode.getChild(0);
-        emitter.setLocalTranslation(point.getLocalTranslation().add(point.getLocalTranslation().normalize().mult(0.2f)));
+        emitter.setLocalTranslation(point.getLocalTranslation());
+        emitter.move(0f, 0.2f, 0.1f);
         emitter.setLocalRotation(point.getLocalRotation());
 
         parentNode.attachChild(emitter);

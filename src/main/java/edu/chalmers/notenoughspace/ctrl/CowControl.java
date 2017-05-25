@@ -4,6 +4,7 @@ import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.audio.AudioNode;
 import com.jme3.audio.AudioSource;
+import com.jme3.effect.ParticleEmitter;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
@@ -18,6 +19,7 @@ import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 public class CowControl extends DetachableControl {
     private Cow cow;
     private float ORIGINAL_SCALE;
+    private boolean sweatEnabled;
 
     public CowControl(Cow cow) {
         this.cow = cow;
@@ -33,6 +35,7 @@ public class CowControl extends DetachableControl {
         //but there is no such method, right?
         setORIGINAL_SCALE();
 
+        setSweatEffect(cow.getMood() == CowMood.TIRED);
         adjustSizeRelativeToAltitude();
         setAnimation();
         checkCollision();
@@ -40,6 +43,18 @@ public class CowControl extends DetachableControl {
 
     @Override
     protected void controlRender(RenderManager rm, ViewPort vp) {
+    }
+
+    private void setSweatEffect(boolean enabled){
+        if(sweatEnabled == enabled)
+            return;
+        sweatEnabled = enabled;
+        if(sweatEnabled){
+            ((ParticleEmitter) ((Node)spatial).getChild("sweat")).setEnabled(true);
+        }else{
+            ((ParticleEmitter) ((Node)spatial).getChild("sweat")).setEnabled(false);
+            ((ParticleEmitter) ((Node)spatial).getChild("sweat")).killAllParticles();
+        }
     }
 
     private void setORIGINAL_SCALE() {

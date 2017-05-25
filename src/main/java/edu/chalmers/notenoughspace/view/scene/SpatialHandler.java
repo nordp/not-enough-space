@@ -137,7 +137,7 @@ public class SpatialHandler {
             model.move(0, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0);
 
             SpotLight spotLight = new SpotLight();
-            spotLight.setSpotRange(10);
+            spotLight.setSpotRange(Ship.ALTITUDE + 2f);
             spotLight.setSpotOuterAngle(45 * FastMath.DEG_TO_RAD);
             spotLight.setSpotInnerAngle(5 * FastMath.DEG_TO_RAD);
 //            spotLight.setPosition(model.getWorldTranslation());
@@ -300,6 +300,7 @@ public class SpatialHandler {
             if(((Cow)entity).isGolden()){
                 NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "goldGlitter"), node);
             }
+            NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "sweat"), node);
         }else if(entity instanceof HealthPowerup) {
                 NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "goldGlitter"), node);
         }else if(entity instanceof EnergyPowerup) {

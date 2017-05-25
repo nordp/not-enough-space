@@ -163,6 +163,7 @@ public class SpatialHandler {
             control = new FarmerControl((Farmer) event.getEntity());
             model.setLocalTranslation(0, Planet.PLANET_RADIUS + 0.95f/*remove*/, 0);
             model.scale(0.01f, 0.01f, 0.01f);
+            node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
         } else if (event.getEntity() instanceof Hayfork) {
             Hayfork hayfork = (Hayfork) event.getEntity();
             model = ModelLoaderFactory.getModelLoader().loadModel("hayfork");

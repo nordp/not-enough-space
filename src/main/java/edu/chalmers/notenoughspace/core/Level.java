@@ -32,7 +32,7 @@ public class Level {
         spawner.spawn(Cow.class, 10);
         spawner.spawn(Satellite.class, 1);
         spawner.spawn(Junk.class, 10);
-        spawner.spawn(Farmer.class, 2);
+        spawner.spawn(Farmer.class, 1);
 //        spawner.addSpawnTimer(Satellite.class, 1);
         //Init timer.
         timer = new CountDownTimer(LEVEL_TIME) {

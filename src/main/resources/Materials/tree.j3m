@@ -1,0 +1,9 @@
+Material Tree Material : Common/MatDefs/Light/Lighting.j3md {
+    MaterialParameters {
+        DiffuseMap : Textures/tree.jpg
+        UseMaterialColors : true
+        Diffuse : 1.0 1.0 1.0 1.0
+        Shininess : 64.0
+        Ambient : 1.0 1.0 1.0 1.0
+    }
+}

@@ -10,12 +10,11 @@ import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.GameOverEvent;
 import edu.chalmers.notenoughspace.event.NoHealthLeftEvent;
-import highscore.HighScoreManager;
 
 public class Level {
 
 
-    public final int LEVEL_TIME = 120; //seconds
+    public final int LEVEL_TIME = 10; //seconds
 
     private final EntitySpawner spawner;
 
@@ -25,14 +24,9 @@ public class Level {
 
     private Planet planet;
 
-    private HighScoreManager highScoreManager;
-
-    private String newName = "Jonas";
-
     public Level() {
         ship = new Ship();
         planet = new Planet();
-        highScoreManager = new HighScoreManager();
         //Test population
         spawner = new EntitySpawner(planet);
         spawner.spawn(Cow.class, 10);
@@ -67,9 +61,7 @@ public class Level {
     }
 
     private void levelOver() {
-        Bus.getInstance().post(new GameOverEvent(this));
-        highScoreManager.addScore(newName, (int) ship.getStorage().calculateScore());
-
+        Bus.getInstance().post(new GameOverEvent(ship.getStorage().calculateScore()));
     }
 
     /**
@@ -90,10 +82,5 @@ public class Level {
     public void shipOutOfHealth(NoHealthLeftEvent event) {
         levelOver();
     }
-
-    public String getHighScoreString(){
-        return highScoreManager.getHighscoreString();
-    }
-
 
 }

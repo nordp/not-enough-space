@@ -119,7 +119,7 @@
         </layer>
 -->
         <layer id="pauseMenu" visible="false" childLayout="center">
-            <panel id="panel-top" height="100%" width="100%"  backgroundColor="#000" childLayout="center">
+            <panel id="panel-top" height="100%" width="100%"  backgroundColor="#0008" opacity="80%" childLayout="center">
                 <panel id="panel_middle" height="40%" width="40%" valign="center" childLayout="vertical" marginBottom="70px">
                     <image filename="Interface/restartButton.png" label="restart" id="restartButton"
                            height="40%" width="100%" visibleToMouse="true" >
@@ -158,7 +158,6 @@
         <layer id="foreground" childLayout="center">
                     <panel id="panel_top" height="40%" width="10%" valign="center" align="center" childLayout="vertical">
                         <text text="High Score" font="Interface/Fonts/Default.fnt"/>
-
                         <text text="${CALL.getHighScoreString()}" font="Interface/Fonts/Default.fnt"/>
                     </panel>
                     <panel id="panel_bottom" height="30%" width="70%" valign="bottom" childLayout="horizontal">

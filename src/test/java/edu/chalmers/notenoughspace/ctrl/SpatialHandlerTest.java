@@ -23,6 +23,9 @@ public class SpatialHandlerTest {
             public void simpleInitApp() {
                 assertNotNull(getInputManager());
                 assertNotNull(getAssetManager());
+
+
+
                 assertNotNull(getRootNode());
 
                 SpatialHandler handler = new SpatialHandler();

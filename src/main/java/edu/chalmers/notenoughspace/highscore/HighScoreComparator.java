@@ -1,4 +1,4 @@
-package highscore;
+package edu.chalmers.notenoughspace.highscore;
 
 /**
  * Created by juliaortheden on 2017-05-23.

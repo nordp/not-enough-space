@@ -1,9 +1,12 @@
-package highscore;
+package edu.chalmers.notenoughspace.highscore;
 
 /**
  * Created by juliaortheden on 2017-05-23.
  */
-//import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
+
+import com.google.common.eventbus.Subscribe;
+import edu.chalmers.notenoughspace.event.Bus;
+import edu.chalmers.notenoughspace.event.GameOverEvent;
 
 import java.util.*;
 import java.io.*;
@@ -11,6 +14,9 @@ import java.io.*;
 public class HighScoreManager {
     // An arraylist of the type "score" we will use to work with the scores inside the class
     private ArrayList<Score> scores;
+    private String newName = "hej";
+
+    private static HighScoreManager highScoreManager;
 
     // The name of the file where the highscores will be saved
     private static final String HIGHSCORE_FILE = "scores.dat";
@@ -19,9 +25,10 @@ public class HighScoreManager {
     ObjectOutputStream outputStream = null;
     ObjectInputStream inputStream = null;
 
-    public HighScoreManager() {
+    private HighScoreManager() {
         //initialising the scores-arraylist
         scores = new ArrayList<Score>();
+        Bus.getInstance().register(this);
     }
 
     public ArrayList<Score> getScores() {
@@ -35,11 +42,14 @@ public class HighScoreManager {
         Collections.sort(scores, comparator);
     }
 
-    public void addScore(String name, int score) {
+    public void addScoreToList(String name, int score) {
         loadScoreFile();
         scores.add(new Score(name, score));
         updateScoreFile();
     }
+
+    @Subscribe
+    public void levelOver(GameOverEvent event){addScoreToList(newName, (int) event.getPoints());}
 
     public void loadScoreFile() {
         try {
@@ -53,9 +63,9 @@ public class HighScoreManager {
             System.out.println("[Laad] CNF Error: " + e.getMessage());
         } finally {
             try {
-                if (outputStream != null) {
-                    outputStream.flush();
-                    outputStream.close();
+                if (inputStream != null) {
+                   // inputStream.flush();
+                    inputStream.close();
                 }
             } catch (IOException e) {
                 System.out.println("[Laad] IO Error: " + e.getMessage());
@@ -82,9 +92,9 @@ public class HighScoreManager {
             }
         }
     }
-    public String getHighscoreString() {
-        String highscoreString = "";
-         int max = 10;
+    public String getHighScoreString() {
+        String highScoreString = "";
+        final int max = 10;
 
         ArrayList<Score> scores;
         scores = getScores();
@@ -95,9 +105,16 @@ public class HighScoreManager {
             x = max;
         }
         while (i < x) {
-            highscoreString += (i + 1) + ".\t" + scores.get(i).getName() + "\t\t" + scores.get(i).getScore() + "\n";
+            highScoreString += (i + 1) + ".  " + scores.get(i).getName() + "  " + scores.get(i).getScore() + "\n";
             i++;
         }
-        return highscoreString;
+        return highScoreString;
+    }
+
+    public static HighScoreManager getHighScoreManager(){
+        if(highScoreManager == null){
+            highScoreManager= new HighScoreManager();
+        }
+        return highScoreManager;
     }
 }

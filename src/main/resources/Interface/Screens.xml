@@ -29,7 +29,7 @@
                     </effect>
                 </image>
                 <panel height="10%" width="10%"/>
-                <image filename="Interface/highScoreButton.jpg" label="HighScore" id="HighScoreButton" align="center" valign="center"
+                <image filename="Interface/highScoreButton.png" label="HighScore" id="HighScoreButton" align="center" valign="center"
                        height="50%" width="50%" visibleToMouse="true" >
                     <interact onClick="highScoreButtonClicked()"/>
                     <effect>
@@ -121,7 +121,7 @@
         <layer id="pauseMenu" visible="false" childLayout="center">
             <panel id="panel-top" height="100%" width="100%"  backgroundColor="#000" childLayout="center">
                 <panel id="panel_middle" height="40%" width="40%" valign="center" childLayout="vertical" marginBottom="70px">
-                    <image filename="Interface/restartButton.jpeg" label="restart" id="restartButton"
+                    <image filename="Interface/restartButton.png" label="restart" id="restartButton"
                            height="40%" width="100%" visibleToMouse="true" >
                         <interact onClick="restartButtonClicked()"/>
                         <effect>
@@ -130,7 +130,7 @@
                         </effect>
                     </image>
                     <panel height="10%" width="10%"/>
-                    <image filename="Interface/resumeButton.jpg" label="Resume" id="ResumeButton"
+                    <image filename="Interface/resumeButton.png" label="Resume" id="ResumeButton"
                            height="40%" width="100%" visibleToMouse="true" >
                         <interact onClick="resumeButtonClicked()"/>
                         <effect>
@@ -139,7 +139,7 @@
                         </effect>
                     </image>
                     <panel height="10%" width="10%"/>
-                    <image filename="Interface/mainMenu.jpg" label="MainMenu" id="MainMenuButton"
+                    <image filename="Interface/mainMenu.png" label="MainMenu" id="MainMenuButton"
                            height="40%" width="100%" visibleToMouse="true" >
                     <interact onClick="quitButtonClicked()"/>
                     <effect>
@@ -162,7 +162,7 @@
                         <text text="${CALL.getHighScoreString()}" font="Interface/Fonts/Default.fnt"/>
                     </panel>
                     <panel id="panel_bottom" height="30%" width="70%" valign="bottom" childLayout="horizontal">
-                        <image filename="Interface/playAgainButton.jpg" label="PlayAgain" id="PlayAgainButton"
+                        <image filename="Interface/playAgainButton.png" label="PlayAgain" id="PlayAgainButton"
                                height="40%" width="50%" visibleToMouse="true" >
                             <interact onClick="startButtonClicked()"/>
                             <effect>
@@ -170,7 +170,7 @@
                                 <onHover name="border" post="true" color="999f" border="2px"/>
                             </effect>
                         </image>
-                        <image filename="Interface/mainMenu.jpg" label="MainMenu" id="MainMenu"
+                        <image filename="Interface/mainMenu.png" label="MainMenu" id="MainMenu"
                            height="40%" width="50%" visibleToMouse="true" >
                         <interact onClick="mainMenuButtonClicked()"/>
                         <effect>

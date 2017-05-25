@@ -14,7 +14,7 @@ public class Farmer extends Entity {
     private final static float AGGRO_DISTANCE = 10f;
     private final static float SPRINT_SPEED = 0.8f;
     private final static float TURN_RADIUS = 5;
-    private final static float THROW_CHANCE = 1;
+    private final static float THROW_CHANCE = 0.2f;
 
 
     public Farmer(){

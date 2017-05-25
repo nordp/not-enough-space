@@ -19,6 +19,7 @@ import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
+import edu.chalmers.notenoughspace.core.entity.Planet;
 import edu.chalmers.notenoughspace.core.move.Movement;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 import edu.chalmers.notenoughspace.event.BeamableStoredEvent;
@@ -33,6 +34,8 @@ public class ShipControl extends DetachableControl {
     private final float MAX_DISTANCE_TO_CAMERA = 3f;
     private boolean usingCameraDrag = true;
     private Ship ship;
+
+    private Camera camera;
 
     /**
      * Node for the camera following the ship.
@@ -76,6 +79,7 @@ public class ShipControl extends DetachableControl {
      * @param shipAltitude The ship's height above the planet's surface.
      */
     public void attachThirdPersonView(Camera cam, float planetRadius, float shipAltitude) {
+        camera = cam;
         CameraNode followShipCamera = new CameraNode(THIRD_PERSON_CAMERA, cam);
         followShipCamera.setLocalTranslation( 0
                 ,6f, -(planetRadius + shipAltitude + 8));
@@ -165,6 +169,13 @@ public class ShipControl extends DetachableControl {
         }
     }
 
+    private void toggleThirdPersonCamera(){
+        if(hasThirdPersonViewAttached()){
+            detachThirdPersonView();
+        }else
+            attachThirdPersonView(camera, Planet.PLANET_RADIUS, Ship.ALTITUDE);
+    }
+
     public boolean hasThirdPersonViewAttached() {
         Node shipPivotNode = (Node) spatial;
         return shipPivotNode.getChild(THIRD_PERSON_CAMERA) != null;
@@ -184,12 +195,13 @@ public class ShipControl extends DetachableControl {
         inputManager.addMapping(Movement.ROTATION_LEFT.name(), new KeyTrigger(KeyInput.KEY_Z));
         inputManager.addMapping(Movement.ROTATION_RIGHT.name(), new KeyTrigger(KeyInput.KEY_X));
         inputManager.addMapping("toggleBeam", new KeyTrigger(KeyInput.KEY_SPACE));
+        inputManager.addMapping("cameraMode", new KeyTrigger(KeyInput.KEY_T));
 
         // Add the names to the action listener.
         inputManager.addListener(analogListener,
                 Movement.FORWARD.name(),Movement.LEFT.name(),Movement.RIGHT.name(),Movement.BACKWARD.name(),
                 Movement.ROTATION_LEFT.name(), Movement.ROTATION_RIGHT.name());
-        inputManager.addListener(actionListener, "toggleBeam");
+        inputManager.addListener(actionListener, "toggleBeam", "cameraMode");
     }
 
     private void cleanupMovementKeys() {
@@ -197,6 +209,7 @@ public class ShipControl extends DetachableControl {
             inputManager.deleteMapping(i.name());
         }
         inputManager.deleteMapping("toggleBeam");
+        inputManager.deleteMapping("cameraMode");
 
         inputManager.removeListener(analogListener);
         inputManager.removeListener(actionListener);
@@ -274,6 +287,8 @@ public class ShipControl extends DetachableControl {
         public void onAction(String name, boolean value, float tpf) {
             if(name.equals("toggleBeam")) {
                 ship.toggleBeam(value);
+            }else if(name.equals("cameraMode") && value == false) {
+                toggleThirdPersonCamera();
             }
         }
     };

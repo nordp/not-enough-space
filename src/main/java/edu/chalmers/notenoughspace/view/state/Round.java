@@ -152,10 +152,10 @@ public class Round extends AbstractAppState implements ScreenController {
 
     private void enableInput(SimpleApplication app){
         app.getInputManager().addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
-        //Adds option to change camera view:
-        app.getInputManager().addMapping("cameraMode", new KeyTrigger(KeyInput.KEY_T));
+//        //Adds option to change camera view:
+//        app.getInputManager().addMapping("cameraMode", new KeyTrigger(KeyInput.KEY_T)); Moved to shipcontrol
 
-        app.getInputManager().addListener(actionListener, "pause", "cameraMode");
+        app.getInputManager().addListener(actionListener, "pause");
     }
 
     private void pausePressed() {
@@ -178,7 +178,6 @@ public class Round extends AbstractAppState implements ScreenController {
         happy.stop();   //Why is this needed? (Without it the music keeps playing!)
 
         app.getInputManager().deleteMapping("pause");
-        app.getInputManager().deleteMapping("cameraMode");
         app.getInputManager().removeListener(actionListener);
 
         rootNode.detachAllChildren();

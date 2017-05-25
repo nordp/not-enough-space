@@ -223,8 +223,15 @@ public class Round extends AbstractAppState implements ScreenController {
 
     private void hudUpdate() {
         float timeLeft = level.getTimeLeft();
-        Element timerElement = nifty.getCurrentScreen().findElementById("timer");
-        timerElement.getRenderer(TextRenderer.class).setText("Time left: " + toTimeFormat(timeLeft));
+        String[] time = toTimeFormat(timeLeft).split(":");
+        Element mmElement = nifty.getCurrentScreen().findElementById("mm");
+        mmElement.getRenderer(TextRenderer.class).setText(time[0]);
+
+        Element ssElement = nifty.getCurrentScreen().findElementById("ss");
+        ssElement.getRenderer(TextRenderer.class).setText(time[1]);
+
+        Element hhElement = nifty.getCurrentScreen().findElementById("hh");
+        hhElement.getRenderer(TextRenderer.class).setText(time[2]);
 
 //        float energy = level.getShipsEnergy();
 //        Element energyElement = nifty.getCurrentScreen().findElementById("energy");
@@ -246,8 +253,8 @@ public class Round extends AbstractAppState implements ScreenController {
         String count = (nCows > 9) ? "" + nCows : "0" + nCows;
         counterElement.getRenderer(TextRenderer.class).setText(count);
 
-        Element weightElement = nifty.getCurrentScreen().findElementById("weightCount");
-        weightElement.getRenderer(TextRenderer.class).setText(event.getNewWeight() + " KG");
+        Element pointsElement = nifty.getCurrentScreen().findElementById("score");
+        pointsElement.getRenderer(TextRenderer.class).setText(event.getNewWeight() + "");
     }
 
     @Subscribe

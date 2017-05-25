@@ -77,12 +77,20 @@
             <panel id="topPanel" x="0%" y="2%" width="98.3%" height="17%" childLayout="vertical">
                 <image id="cowBarImage" filename="Interface/cowBar.png" width="20%" height="100%" align="right"/>
             </panel>
+            <!-- Top panel with all controls at the top of the screen-->
+            <panel id="topPanelLeft" x="1.7%" y="2%" width="98.3%" height="25%" childLayout="vertical">
+                <image id="timerImage" filename="Interface/timeBar2.png" width="20%" height="100%" align="left"/>
+            </panel>
         </layer>
 
         <layer childLayout="absolute">
             <!-- Top panel (front layer) with all controls at the top of the screen-->
             <panel id="topPanelFrontLayer" x="0%" y="2%" width="98.3%" height="17%" childLayout="absolute">
                 <text id="cowCount" x="90%" y="50%" text="cowCount$$" font="Interface/Fonts/Default.fnt" width="10%" height="5%"/>
+                <text id="mm" x="1.8%" y="46.5%" text="00" font="Interface/Fonts/Default.fnt" width="10%" height="5%"/>
+                <text id="ss" x="5.7%" y="46.5%" text="00" font="Interface/Fonts/Default.fnt" width="10%" height="5%"/>
+                <text id="hh" x="9.5%" y="46.5%" text="00" font="Interface/Fonts/Default.fnt" width="10%" height="5%"/>
+                <text id="score" x="5%" y="116%" text="000000" font="Interface/Fonts/Default.fnt" width="10%" height="5%"/>
             </panel>
         </layer>
 

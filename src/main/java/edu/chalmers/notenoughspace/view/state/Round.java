@@ -24,7 +24,7 @@ import de.lessvoid.nifty.elements.render.TextRenderer;
 import de.lessvoid.nifty.screen.Screen;
 import de.lessvoid.nifty.screen.ScreenController;
 import de.lessvoid.nifty.tools.SizeValue;
-import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
+import edu.chalmers.notenoughspace.assets.AssetLoaderFactory;
 import edu.chalmers.notenoughspace.core.Level;
 import edu.chalmers.notenoughspace.event.*;
 import edu.chalmers.notenoughspace.view.scene.SpatialHandler;
@@ -87,7 +87,7 @@ public class Round extends AbstractAppState implements ScreenController {
     private void initScene() {
 
         //Sun:
-        sun = ModelLoaderFactory.getModelLoader().loadModel("sun");
+        sun = AssetLoaderFactory.getModelLoader().loadModel("sun");
         sun.move(-20, 0, 10);
         sun.setLocalTranslation(-100, 0, 0);
         sun.rotate(0, 0, FastMath.HALF_PI); //It has an ugly line at the equator,
@@ -104,7 +104,7 @@ public class Round extends AbstractAppState implements ScreenController {
     }
 
     private void enableScene(Node rootNode){
-        rootNode.attachChild(ModelLoaderFactory.getModelLoader().loadModel("sky"));
+        rootNode.attachChild(AssetLoaderFactory.getModelLoader().loadModel("sky"));
         rootNode.attachChild(sun);
         rootNode.addLight(sunLight);
         rootNode.addLight(ambientLight);
@@ -112,7 +112,7 @@ public class Round extends AbstractAppState implements ScreenController {
 
     private void initSound() {
         //Happy :)
-        happy = ModelLoaderFactory.getSoundLoader().loadSound("brodyquest");
+        happy = AssetLoaderFactory.getSoundLoader().loadSound("brodyquest");
         happy.setLooping(true);  // activate continuous playing
         happy.setPositional(false);
         happy.setVolume(1);

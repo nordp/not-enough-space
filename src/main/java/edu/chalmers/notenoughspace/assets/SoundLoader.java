@@ -7,50 +7,50 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 /**
- * Created by Sparven on 2017-05-20.
+ * Loads sound files for the game.
  */
 class SoundLoader implements ISoundLoader {
 
     private AssetManager assetManager;
 
-    protected SoundLoader(AssetManager assetManager) {
+    public SoundLoader(AssetManager assetManager) {
         this.assetManager = assetManager;
     }
 
-    public AudioNode loadSound(String soundId) {
-        if (soundId.equals("farmer")) {
+    public AudioNode loadSound(String soundID) {
+
+        if (soundID.equals("farmer")) {
             return new AudioNode(assetManager,
                     "Sounds/angryFarmer.WAV", AudioData.DataType.Buffer);
-        } else if (soundId.equals("cow")) {
+        } else if (soundID.equals("cow")) {
             return new AudioNode(assetManager,
                     "Sounds/moo.WAV", AudioData.DataType.Buffer);
-        } else if (soundId.equals("cow2")) {
+        } else if (soundID.equals("cow2")) {
             return new AudioNode(assetManager,
                     "Sounds/moo2.WAV", AudioData.DataType.Buffer);
-        } else if (soundId.equals("cow3")) {
+        } else if (soundID.equals("cow3")) {
             return new AudioNode(assetManager,
                     "Sounds/moo3.WAV", AudioData.DataType.Buffer);
-        } else if (soundId.equals("beam")) {
+        } else if (soundID.equals("beam")) {
             return new AudioNode(assetManager,
                     "Sounds/beamBuzz.WAV", AudioData.DataType.Buffer);
-        } else if (soundId.equals("beamed")) {
+        } else if (soundID.equals("beamed")) {
             return new AudioNode(assetManager,
                     "Sounds/objectBeamed.WAV", AudioData.DataType.Buffer);
-        } else if (soundId.equals("hayforkThrown")) {
+        } else if (soundID.equals("hayforkThrown")) {
             return new AudioNode(assetManager,
                     "Sounds/swish.WAV", AudioData.DataType.Stream);
-        } else if (soundId.equals("explosion")) {
+        } else if (soundID.equals("explosion")) {
             return new AudioNode(assetManager,
                     "Sounds/explosion.WAV", AudioData.DataType.Buffer);
-        } else if (soundId.equals("hayforkHit")) {
+        } else if (soundID.equals("hayforkHit")) {
             return new AudioNode(assetManager,
                     "Sounds/hayforkHit.WAV", AudioData.DataType.Buffer);
-        } else if (soundId.equals("brodyquest")) {
+        } else if (soundID.equals("brodyquest")) {
             return new AudioNode(assetManager, "Sounds/brodyquest.wav", AudioData.DataType.Buffer);
+        } else {
+            throw new IllegalArgumentException("No such sound listed in loader.");
         }
-
-        throw new IllegalArgumentException("no such sound in sound package");
     }
-    
 
 }

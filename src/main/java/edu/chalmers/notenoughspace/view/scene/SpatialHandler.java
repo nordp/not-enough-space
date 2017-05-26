@@ -13,7 +13,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
 import com.jme3.scene.control.Control;
-import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
+import edu.chalmers.notenoughspace.assets.AssetLoaderFactory;
 import edu.chalmers.notenoughspace.core.entity.*;
 import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
 import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
@@ -87,10 +87,10 @@ public class SpatialHandler {
         if (event.getEntity() instanceof Cow) {
             Cow cow = (Cow) event.getEntity();
             if(cow.isGolden()) {
-                model = ModelLoaderFactory.getModelLoader().loadModel("goldenCow");
+                model = AssetLoaderFactory.getModelLoader().loadModel("goldenCow");
 
             }else {
-                model = ModelLoaderFactory.getModelLoader().loadModel("cow");
+                model = AssetLoaderFactory.getModelLoader().loadModel("cow");
             }
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
             model.scale(cow.getSize());
@@ -110,30 +110,22 @@ public class SpatialHandler {
             switch ((int) (FastMath.nextRandomFloat()*100) % 3){
                 case 0:
                     modelID = "barn";
-                    scale = 0.26f;
                     break;
                 case 1:
                     modelID = "barrel";
-                    scale = 0.004f;
-                    rot.set(-0.707f,0,0,0.707f);
                     break;
                 case 2:
                     modelID = "tree";
-                    scale = 0.01f;
-                    rot.set(-0.707f,0,0,0.707f);
                     break;
             }
-            model = ModelLoaderFactory.getModelLoader().loadModel(modelID);
+            model = AssetLoaderFactory.getModelLoader().loadModel(modelID);
             model.setLocalTranslation(0, Planet.PLANET_RADIUS, 0);
-            model.scale(scale);
-            model.rotate(rot);
             node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
             control = new JunkControl((Junk) event.getEntity());
             parent = rootNode.getChild("planet");
         } else if (event.getEntity() instanceof Ship) {
-            model = ModelLoaderFactory.getModelLoader().loadModel("ship");
+            model = AssetLoaderFactory.getModelLoader().loadModel("ship");
             model.setName("shipModel");
-            model.scale(0.02f, 0.02f, 0.02f);
             model.move(0, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0);
 
             SpotLight spotLight = new SpotLight();
@@ -163,32 +155,29 @@ public class SpatialHandler {
              */
             control = new ShipControl(inputManager, app.getListener(), (Ship) event.getEntity());
         } else if (event.getEntity() instanceof Satellite){
-            model = ModelLoaderFactory.getModelLoader().loadModel("satellite");
+            model = AssetLoaderFactory.getModelLoader().loadModel("satellite");
             model.setLocalTranslation(0,Planet.PLANET_RADIUS+1.3f,0);
-            model.rotate(FastMath.DEG_TO_RAD * 25, FastMath.DEG_TO_RAD * 15, FastMath.DEG_TO_RAD * 15);
-            model.scale(0.15f);
             node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
             control = new SatelliteControl((Satellite) event.getEntity());
         } else if (event.getEntity() instanceof Beam){
-            model = ModelLoaderFactory.getModelLoader().loadModel("beam");
+            model = AssetLoaderFactory.getModelLoader().loadModel("beam");
             model.setName("beamModel");
             model.setLocalTranslation(0f, 0.24f, 0f);
             model.move(rootNode.getChild("shipModel").getLocalTranslation());
             control = new BeamControl();
             parent = rootNode.getChild("ship");
         } else if (event.getEntity() instanceof Planet) {
-            model = ModelLoaderFactory.getModelLoader().loadModel("planet");
+            model = AssetLoaderFactory.getModelLoader().loadModel("planet");
             model.setName("planetModel");
             control = new PlanetControl((Planet) event.getEntity());
         } else if (event.getEntity() instanceof Farmer) {
-            model = ModelLoaderFactory.getModelLoader().loadModel("farmer");
+            model = AssetLoaderFactory.getModelLoader().loadModel("farmer");
             control = new FarmerControl((Farmer) event.getEntity());
             model.setLocalTranslation(0, Planet.PLANET_RADIUS + 0.95f/*remove*/, 0);
-            model.scale(0.01f, 0.01f, 0.01f);
             node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
         } else if (event.getEntity() instanceof Hayfork) {
             Hayfork hayfork = (Hayfork) event.getEntity();
-            model = ModelLoaderFactory.getModelLoader().loadModel("hayfork");
+            model = AssetLoaderFactory.getModelLoader().loadModel("hayfork");
 
             Entity thrower = hayfork.getThrower();
             javax.vecmath.Vector3f throwerWorldTranslation =
@@ -201,12 +190,12 @@ public class SpatialHandler {
             control = new HayforkControl(hayfork);
         } else if (event.getEntity() instanceof Powerup){
             if(event.getEntity() instanceof HealthPowerup)
-                model = ModelLoaderFactory.getModelLoader().loadModel("cow");
+                model = AssetLoaderFactory.getModelLoader().loadModel("cow");
             else
-                model = ModelLoaderFactory.getModelLoader().loadModel("cow");
+                model = AssetLoaderFactory.getModelLoader().loadModel("cow");
             model.setLocalTranslation(0,Planet.PLANET_RADIUS + Ship.ALTITUDE,0);
             model.rotate(FastMath.DEG_TO_RAD * 25, FastMath.DEG_TO_RAD * 15, FastMath.DEG_TO_RAD * 15);
-            model.scale(1f);
+            //TODO: Move model rotation to ModelLoader when powerUp model is implemented.
             node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
             control = new PowerupControl((Powerup) event.getEntity());
         } else {
@@ -258,24 +247,24 @@ public class SpatialHandler {
 
     private void addCorrespondingAudioNode(Entity entity, Node node) {
         if (entity instanceof Farmer) {
-            AudioNode farmerAudio = ModelLoaderFactory.getSoundLoader().loadSound("farmer");
+            AudioNode farmerAudio = AssetLoaderFactory.getSoundLoader().loadSound("farmer");
             NodeUtil.setUpAudioNode(farmerAudio, 0.2f, 10, true, node, "audio");
             farmerAudio.play();
         } else if (entity instanceof Cow) {
-            AudioNode mooAudio = ModelLoaderFactory.getSoundLoader().loadSound("cow");
+            AudioNode mooAudio = AssetLoaderFactory.getSoundLoader().loadSound("cow");
             NodeUtil.setUpAudioNode(mooAudio, 0.2f, 10, false, node, "audio");
             mooAudio.play();
 
-            AudioNode mooAudio2 = ModelLoaderFactory.getSoundLoader().loadSound("cow2");
+            AudioNode mooAudio2 = AssetLoaderFactory.getSoundLoader().loadSound("cow2");
             NodeUtil.setUpAudioNode(mooAudio2, 0.2f, 10, false, node, "audio2");
 
-            AudioNode mooAudio3 = ModelLoaderFactory.getSoundLoader().loadSound("cow3");
+            AudioNode mooAudio3 = AssetLoaderFactory.getSoundLoader().loadSound("cow3");
             NodeUtil.setUpAudioNode(mooAudio3, 0.2f, 10, false, node, "audio3");
         } else if (entity instanceof Beam) {
-            AudioNode beamAudio = ModelLoaderFactory.getSoundLoader().loadSound("beam");
+            AudioNode beamAudio = AssetLoaderFactory.getSoundLoader().loadSound("beam");
             NodeUtil.setUpAudioNode(beamAudio, 0.2f, 0.2f, true, node, "audio");
         } else if (entity instanceof Hayfork) {
-            AudioNode swishAudio = ModelLoaderFactory.getSoundLoader().loadSound("hayforkThrown");
+            AudioNode swishAudio = AssetLoaderFactory.getSoundLoader().loadSound("hayforkThrown");
             NodeUtil.setUpAudioNode(swishAudio, 0.4f, 15, false, node, "audio");
             swishAudio.play();
         }

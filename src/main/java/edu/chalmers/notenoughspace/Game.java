@@ -5,7 +5,7 @@ import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
 import de.lessvoid.nifty.Nifty;
-import edu.chalmers.notenoughspace.assets.ModelLoaderFactory;
+import edu.chalmers.notenoughspace.assets.AssetLoaderFactory;
 import edu.chalmers.notenoughspace.view.state.Menu;
 import edu.chalmers.notenoughspace.view.state.Round;
 import edu.chalmers.notenoughspace.view.state.StateManager;
@@ -54,7 +54,7 @@ public class Game extends SimpleApplication {
     @Override
     public void simpleInitApp() {
         setGoodSpeed();
-        ModelLoaderFactory.setAssetManager(assetManager);
+        AssetLoaderFactory.setAssetManager(assetManager);
 
         /** Init states */
         Menu menu = new Menu();

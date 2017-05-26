@@ -119,7 +119,7 @@ public class CowControl extends DetachableControl {
         Spatial model = ((Node) spatial).getChild(0);
         AnimControl control = model.getControl(AnimControl.class);
         AnimChannel channel = control.getChannel(0);
-        if (!channel.getAnimationName().equals("jigger")) {
+        if (channel.getAnimationName() == null || !channel.getAnimationName().equals("jigger")) {
             channel.setAnim("jigger");
         }
         channel.setSpeed(10);
@@ -129,7 +129,7 @@ public class CowControl extends DetachableControl {
         Spatial model = ((Node) spatial).getChild(0);
         AnimControl control = model.getControl(AnimControl.class);
         AnimChannel channel = control.getChannel(0);
-        if (!channel.getAnimationName().equals("WalkCycle")) {
+        if (channel.getAnimationName() == null || !channel.getAnimationName().equals("WalkCycle")) {
             channel.setAnim("WalkCycle");
         }
     }

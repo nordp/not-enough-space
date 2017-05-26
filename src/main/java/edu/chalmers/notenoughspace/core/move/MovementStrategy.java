@@ -5,26 +5,19 @@ package edu.chalmers.notenoughspace.core.move;
  */
 public abstract class MovementStrategy {
 
-    private PlanetaryInhabitant body;
-
     private float currentRotationSpeed;
     private float currentSpeedX;
     private float currentSpeedY;
 
-    public MovementStrategy(PlanetaryInhabitant body) {
-        this.body = body;
+    public MovementStrategy() {
         currentRotationSpeed = 0;
         currentSpeedX = 0;
         currentSpeedY = 0;
     }
 
-    public abstract void move(float tpf);
+    public abstract void move(PlanetaryInhabitant body, float tpf);
 
     public abstract void addMoveInput(Movement movement, float tpf);
-
-    protected PlanetaryInhabitant getBody() {
-        return body;
-    }
 
     public float getCurrentRotationSpeed() {
         return currentRotationSpeed;

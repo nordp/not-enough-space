@@ -13,14 +13,10 @@ public class Accelerator extends MovementStrategy {
     private final float DECELERATION_RATE = 45; //The higher the quicker the ship slows down
     private final float ACCELERATION_RATE = 35;
 
-    public Accelerator(PlanetaryInhabitant body) {
-        super(body);
-    }
-
-    public void move(float tpf) {
-        moveForwards(tpf);
-        moveLeft(tpf);
-        rotateLeft(tpf);
+    public void move(PlanetaryInhabitant body, float tpf) {
+        moveForwards(body, tpf);
+        moveLeft(body, tpf);
+        rotateLeft(body, tpf);
         haltIfToSlow(tpf);
     }
 
@@ -121,8 +117,8 @@ public class Accelerator extends MovementStrategy {
         }
     }
 
-    private void moveForwards(float tpf) {
-        getBody().rotateForward(-1 * getCurrentSpeedY() * tpf * 20);
+    private void moveForwards(PlanetaryInhabitant body, float tpf) {
+        body.rotateForward(-1 * getCurrentSpeedY() * tpf * 20);
 
         if (getCurrentSpeedY() > 0) {
             setCurrentSpeedY((float)(getCurrentSpeedY() - tpf * DECELERATION_RATE * 1.0/400));
@@ -131,8 +127,8 @@ public class Accelerator extends MovementStrategy {
         }
     }
 
-    private void moveLeft(float tpf) {
-        getBody().rotateSideways(1 * getCurrentSpeedX() * tpf * 20);
+    private void moveLeft(PlanetaryInhabitant body, float tpf) {
+        body.rotateSideways(1 * getCurrentSpeedX() * tpf * 20);
 
         if (getCurrentSpeedX() > 0) {
             setCurrentSpeedX((float)(getCurrentSpeedX() - tpf * DECELERATION_RATE * 1.0/400));
@@ -141,8 +137,8 @@ public class Accelerator extends MovementStrategy {
         }
     }
 
-    private void rotateLeft(float tpf){
-        getBody().rotateModel(getCurrentRotationSpeed() * tpf);
+    private void rotateLeft(PlanetaryInhabitant body, float tpf){
+        body.rotateModel(getCurrentRotationSpeed() * tpf);
         if (getCurrentRotationSpeed() > 0) {
             setCurrentRotationSpeed(
                     (float) (getCurrentRotationSpeed() - tpf * ROTATION_DECELERATION_RATE * 1.0 / 50));

@@ -39,7 +39,7 @@ public class Ship extends Entity {
 
     public void update(float tpf) {
         beam.update(body, tpf);
-        mover.move(tpf);
+        mover.move(body, tpf);
         updateEnergy(tpf);
     }
 
@@ -122,5 +122,9 @@ public class Ship extends Entity {
 //        if (energy <= 5) {
 //            beam.setActive(false);
 //        }
+    }
+
+    public int getScore() {
+        return storage.getScore();
     }
 }

@@ -42,7 +42,7 @@ public class Planet extends Entity {
         Bus.getInstance().post(new EntityRemovedEvent(this));
     }
 
-    /*public void populate(int nCow, int nJunk, int nSatellite, int nFarmer){
+    /*public void addInhabitant(int nCow, int nJunk, int nSatellite, int nFarmer){
 //        children.clear();
         for (int i = 0; i < nCow; i++){
             Entity c = new Cow();
@@ -65,11 +65,11 @@ public class Planet extends Entity {
         }
     }*/
 
-    public void populate(Entity entity) {
+    public void addInhabitant(Entity entity) {
         population.add(entity);
     }
 
-    public void randomizePositions() {
+    public void randomizeInhabitantPositions() {
         for(Entity e : population){
             Entity.randomizePosition(e.getPlanetaryInhabitant());
         }

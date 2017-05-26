@@ -1,8 +1,6 @@
 package edu.chalmers.notenoughspace.core;
 
 import com.google.common.eventbus.Subscribe;
-import com.sun.javaws.exceptions.InvalidArgumentException;
-import edu.chalmers.notenoughspace.core.CountDownTimer;
 import edu.chalmers.notenoughspace.core.entity.Entity;
 import edu.chalmers.notenoughspace.core.entity.Planet;
 import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
@@ -17,15 +15,14 @@ import edu.chalmers.notenoughspace.event.EntityRemovedEvent;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 /**
- * Created by Phnor on 2017-05-23.
+ * TODO: Possibly remove timerList. Add description.
  */
 public class EntitySpawner {
 
-    private Planet planet;
     private List<SpawnTimer> timerList;
+    private Planet planet;
 
     public EntitySpawner(Planet planet) {
         this.planet = planet;
@@ -33,45 +30,31 @@ public class EntitySpawner {
         Bus.getInstance().register(this);
     }
 
-    /**
-     * Updates the state by ticking all stored timers.
-     * @param tpf
-     * Time elapsed
-     */
+
     public void update(float tpf){
         for (CountDownTimer timer : timerList) {
             timer.tick(tpf);
         }
     }
 
-    /**
-     * Called to replace entities removed.
-     * Will cause an increase in population if frequency > 1;
-     * @param event
-     * The EntityRemovedEvent containing the entity removed.
-     */
-    @Subscribe
-    public void entityRemoved(EntityRemovedEvent event){
-        spawn(event.getEntity().getClass());
+    public void spawn(Class<? extends Entity> entityClass, int n){
+        for (int i = 0; i < n; i++) {
+            Entity newEntity = createNewEntity(entityClass);
+            planet.addInhabitant(newEntity);
+        }
     }
 
     public void spawn(Class<? extends Entity> entityClass) { spawn(entityClass, 1); }
 
-    /**
-     * Calls newInstance() on the entityClass and puts the entity in the planet population.
-     * @param entityClass
-     * The implementation class of entity to spawn on the planet
-     * @param n
-     * The amount of entities to spawn
-     */
-    public void spawn(Class<? extends Entity> entityClass, int n){
-        for (int i = 0; i < n; i++) {
-            planet.populate(getNewInstanceUtil(entityClass));
-        }
+    @Subscribe
+    public void entityRemoved(EntityRemovedEvent event){
+        Class<? extends Entity> classOfObjectToSpawn = event.getEntity().getClass();
+        spawn(classOfObjectToSpawn);    //Spawns new instance of the removed entity,
+                                        //to keep the total number of entities constant.
     }
 
-    private Entity getNewInstanceUtil(Class<? extends Entity> entityClass) {
-        Entity e;
+
+    private Entity createNewEntity(Class<? extends Entity> entityClass) {
         if (entityClass.equals(Cow.class)){
             return new Cow();
         } else if (entityClass.equals(Junk.class)) {
@@ -83,39 +66,33 @@ public class EntitySpawner {
         } else if (entityClass.equals(HealthPowerup.class) || entityClass.equals(EnergyPowerup.class)){
             return PowerupFactory.createRandomPowerup();
         } else {
-            throw new IllegalArgumentException("Not a legal spawnable entity");
+            throw new IllegalArgumentException("Not a legal spawnable entity.");
         }
     }
 
-    /**
-     * Adds a new spawn timer which will continously spawn entity of entityClass each spawnInterval seconds.
-     * Amount of entities follow the frequency field
-     * @param entityClass
-     * The implementation class of entity to spawn on the planet
-     * @param spawnInterval
-     * The interval between spawned entities
-     */
-    public void addSpawnTimer(Class<? extends Entity> entityClass, int spawnInterval) {
-        timerList.add(new SpawnTimer(entityClass, spawnInterval));
+    public void addSpawnTimer(Class<? extends Entity> classOfObjectToSpawn, int spawnInterval) {
+        SpawnTimer spawnTimer = new SpawnTimer(classOfObjectToSpawn, spawnInterval);
+        timerList.add(spawnTimer);
     }
 
-    //Private timer class
-    private class SpawnTimer extends CountDownTimer {
-        private Class<? extends Entity> entityClass;
-        private final float spawnInterval;
 
-        public SpawnTimer(final Class<? extends Entity> entityClass, final float spawnInterval) {
+    private class SpawnTimer extends CountDownTimer {
+        private Class<? extends Entity> classOfObjectToSpawn;
+        private float spawnInterval;
+
+        private SpawnTimer(final Class<? extends Entity> classOfObjectToSpawn, final float spawnInterval) {
             super(spawnInterval);
-            this.entityClass = entityClass;
+            this.classOfObjectToSpawn = classOfObjectToSpawn;
             this.spawnInterval = spawnInterval;
         }
 
         public void onTimeOut() {
-            spawn(entityClass);
+            spawn(classOfObjectToSpawn);
             timeLeft = spawnInterval;
             running = true;
         }
     }
+
 }
 
 

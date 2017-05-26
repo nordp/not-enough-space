@@ -32,7 +32,7 @@ public class LevelTest {
             tick = FastMath.nextRandomFloat();
             elapsed += tick;
             level.update(tick);
-            assertTrue(0.0001f > level.getTimeLeft() - (level.LEVEL_TIME - elapsed));
+            assertTrue(0.0001f > level.getTimeLeft() - (level.LEVEL_TIME_IN_SECONDS - elapsed));
         }
     }
 

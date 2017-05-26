@@ -1,7 +1,10 @@
 package edu.chalmers.notenoughspace.core.move;
 
-public abstract class GravityStrategy {
+/**
+ *
+ */
+public interface GravityStrategy {
 
-    public abstract void gravitate(PlanetaryInhabitant body);
+    public void gravitate(PlanetaryInhabitant body);
 
 }

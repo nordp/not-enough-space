@@ -12,42 +12,37 @@ import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.GameOverEvent;
 import edu.chalmers.notenoughspace.event.HealthEmptyEvent;
 
+/**
+ * Creates and updates the different parts of a level in the game.
+ */
 public class Level {
 
+    public final int LEVEL_TIME_IN_SECONDS = 10;
 
-    public final int LEVEL_TIME = 120; //seconds
-
-    private final EntitySpawner spawner;
-
-    private CountDownTimer timer; //The total time the round has been active, in seconds.
-
+    private EntitySpawner spawner;
+    private CountDownTimer timer;
     private Ship ship;
-
     private Planet planet;
 
     public Level() {
         ship = new Ship();
         planet = new Planet();
-        //Test population
+
         spawner = new EntitySpawner(planet);
-        spawner.spawn(Junk.class, 10);
-        spawner.spawn(Cow.class, 10);
-        spawner.spawn(Satellite.class, 1);
-        spawner.spawn(Farmer.class, 1);
-        spawner.spawn(HealthPowerup.class, 5);
+        spawnObjects();
+        spawnEnemies();
+        planet.randomizeInhabitantPositions();
 
-        planet.randomizePositions();
-
-//        spawner.addSpawnTimer(Satellite.class, 1);
-        //Init timer.
-        timer = new CountDownTimer(LEVEL_TIME) {
+        timer = new CountDownTimer(LEVEL_TIME_IN_SECONDS) {
             @Override
             public void onTimeOut() {
                 levelOver();
             }
         };
+
         Bus.getInstance().register(this);
     }
+
 
     public void update(float tpf) {
         timer.tick(tpf);
@@ -59,33 +54,36 @@ public class Level {
      */
     public void cleanup() {
         Bus.getInstance().unregister(spawner);
-
         ship.cleanup();
         planet.cleanup();
         Bus.getInstance().unregister(this);
     }
 
-    private void levelOver() {
-        Bus.getInstance().post(new GameOverEvent(ship.getStorage().getScore()));
-    }
-
-    /**
-     * @return time left on level in seconds
-     */
     public float getTimeLeft() {
         return timer.getTimeLeft();
-    }
-
-    public float getShipsEnergy() {
-        return ship.getEnergy();
-    }
-
-    public void start() {
     }
 
     @Subscribe
     public void shipOutOfHealth(HealthEmptyEvent event) {
         levelOver();
+    }
+
+
+    private void levelOver() {
+        int finalScore = ship.getScore();
+        GameOverEvent gameOverEvent = new GameOverEvent(finalScore);
+        Bus.getInstance().post(gameOverEvent);
+    }
+
+    private void spawnObjects() {
+        spawner.spawn(Junk.class, 10);
+        spawner.spawn(HealthPowerup.class, 5);
+        spawner.spawn(Cow.class, 10);
+    }
+
+    private void spawnEnemies() {
+        spawner.spawn(Satellite.class, 1);
+        spawner.spawn(Farmer.class, 1);
     }
 
 }

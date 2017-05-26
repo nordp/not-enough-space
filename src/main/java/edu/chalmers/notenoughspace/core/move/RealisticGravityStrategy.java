@@ -5,7 +5,7 @@ import edu.chalmers.notenoughspace.core.entity.Planet;
 /**
  * Created by Sparven on 2017-05-18.
  */
-public class RealisticGravityStrategy extends GravityStrategy {
+public class RealisticGravityStrategy implements GravityStrategy {
     private static final float GRAVITY_CONSTANT = 0.0003f;
     private float speed;
     private float objectsHeight;

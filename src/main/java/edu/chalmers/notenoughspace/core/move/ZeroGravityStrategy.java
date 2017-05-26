@@ -1,10 +1,12 @@
 package edu.chalmers.notenoughspace.core.move;
 
 /**
- * Created by Sparven on 2017-05-18.
+ * Empty gravity strategy for objects not affected by gravity.
  */
-public class ZeroGravityStrategy extends GravityStrategy {
+public class ZeroGravityStrategy implements GravityStrategy {
+
     public void gravitate(PlanetaryInhabitant body) {
-        //No gravity
+        //Not affected by gravity.
     }
+
 }

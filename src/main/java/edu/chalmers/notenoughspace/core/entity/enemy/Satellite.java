@@ -7,37 +7,32 @@ import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.SatelliteCollisionEvent;
 
-
+/**
+ * Entity orbiting the planet. Can collide with the
+ * ship, thereby causing a reduction of the ship's health.
+ */
 public class Satellite extends Entity {
 
-    int damage;
+    private final static int DAMAGE = 25;
 
     public Satellite() {
         super(new ZeroGravityStrategy());
         Bus.getInstance().post(new EntityCreatedEvent(this));
-
-        damage = 25;
     }
+
 
     protected void onPlanetaryInhabitantAttached(){
         Entity.randomizeDirection(body);
     }
-
-    public void update() {
-    }
-
-
-    /**
-     * make the satellite throw collision event if it is colliding with the ship
-     */
 
     public void collision() {
         Bus.getInstance().post(new SatelliteCollisionEvent(this));
     }
 
     public int getDamage() {
-        return damage;
+        return DAMAGE;
     }
+
 }
 
 

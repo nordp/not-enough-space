@@ -1,14 +1,9 @@
 package edu.chalmers.notenoughspace.assets;
 
-import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.asset.AssetManager;
-import com.jme3.material.Material;
-import com.jme3.material.RenderState;
-import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
-import com.jme3.renderer.queue.RenderQueue;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
@@ -57,8 +52,6 @@ class ModelLoader implements IModelLoader {
         } else if (modelID.equals("ship")){
             model = assetManager.loadModel("Models/redUFO.j3o");
             model.scale(0.36f);
-            AnimControl control = model.getControl(AnimControl.class);
-            control.createChannel();
         } else if (modelID.equals("beam")){
             model = assetManager.loadModel("Models/beam_v2.j3o");
             model.setLocalTranslation(0f, 0.24f, 0f);
@@ -79,10 +72,6 @@ class ModelLoader implements IModelLoader {
         } else if(modelID.equals("farmer")) {
             model = assetManager.loadModel("Models/Herman.j3o");
             model.scale(0.14f);
-            AnimControl control = model.getControl(AnimControl.class);
-            AnimChannel channel = control.createChannel();
-            channel.setAnim("run.001");
-            channel.setSpeed(8f);
             model.rotate(0, -FastMath.HALF_PI, 0);
         } else if (modelID.equals("hayfork")) {
             model = assetManager.loadModel("Models/spear.j3o");
@@ -94,14 +83,15 @@ class ModelLoader implements IModelLoader {
             throw new IllegalArgumentException("No such model listed in loader.");
         }
 
-        if (modelID.equals("cow") || modelID.equals("goldenCow")) {
-            prepareForBeingAnimated(model);
+        if (modelID.equals("cow") || modelID.equals("goldenCow") ||
+                modelID.equals("ship") || modelID.equals("farmer")) {
+            setUpAnimationChannel(model);
         }
 
         return model;
     }
 
-    private void prepareForBeingAnimated(Spatial model) {
+    private void setUpAnimationChannel(Spatial model) {
         AnimControl control = model.getControl(AnimControl.class);
         control.createChannel();
     }

@@ -7,10 +7,10 @@ import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
  */
 public class TestBeamable extends BeamableEntity {
     public float getWeight() {
-        return 0;
+        return 1;
     }
 
     public float getPoints() {
-        return 0;
+        return 1;
     }
 }

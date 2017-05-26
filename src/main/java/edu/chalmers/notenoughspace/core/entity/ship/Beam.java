@@ -86,7 +86,6 @@ public class Beam extends Entity {
             return true;
         }
         inhabitant.setDistanceToPlanetsCenter(currentHeight + BEAMING_FORCE * tpf * (1/b.getWeight()));
-
         //Don't centralise more if already centralised:
 //        if (inhabitant.distance(shipBody) < 0.8f) {
 //            return false;

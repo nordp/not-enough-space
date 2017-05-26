@@ -16,25 +16,8 @@ public class BeamTest {
 
     @Before
     public void setUp() throws Exception {
-        beam = new Beam(new Ship());
+        beam = new Ship().getBeam();
         body = new TestInhabitant(0,0,0);
-    }
-
-    @Test
-    public void getPlanetaryInhabitant() throws Exception {
-        assertNull(beam.getPlanetaryInhabitant());
-        beam.setPlanetaryInhabitant(body);
-        assertEquals(body,beam.getPlanetaryInhabitant());
-        assertNotEquals(body.clone(), beam.getPlanetaryInhabitant());
-    }
-
-    @Test
-    public void setPlanetaryInhabitant() throws Exception {
-        beam.setPlanetaryInhabitant(null);
-        assertNull(beam.getPlanetaryInhabitant());
-        beam.setPlanetaryInhabitant(body);
-        assertEquals(body, beam.getPlanetaryInhabitant());
-        assertNotEquals(body.clone(), beam.getPlanetaryInhabitant());
     }
 
     @Test

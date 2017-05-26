@@ -20,21 +20,4 @@ public class JunkTest {
         body = new TestInhabitant(0,0,0);
     }
 
-    @Test
-    public void getPlanetaryInhabitant() throws Exception {
-        assertNull(junk.getPlanetaryInhabitant());
-        junk.setPlanetaryInhabitant(body);
-        assertEquals(body,junk.getPlanetaryInhabitant());
-        assertNotEquals(body.clone(),junk.getPlanetaryInhabitant());
-    }
-
-    @Test
-    public void setPlanetaryInhabitant() throws Exception {
-        junk.setPlanetaryInhabitant(null);
-        assertNull(junk.getPlanetaryInhabitant());
-        junk.setPlanetaryInhabitant(body);
-        assertEquals(body,junk.getPlanetaryInhabitant());
-        assertNotEquals(body.clone(),junk.getPlanetaryInhabitant());
-    }
-
 }

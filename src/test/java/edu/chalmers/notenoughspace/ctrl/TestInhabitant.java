@@ -23,19 +23,19 @@ public class TestInhabitant implements PlanetaryInhabitant {
     public void rotateForward(float angle) {
         Transform3D transform = new Transform3D();
         transform.rotX(angle);
-        transform.transform(position);
+        transform.get(position);
     }
 
     public void rotateSideways(float angle) {
         Transform3D transform = new Transform3D();
         transform.rotZ(angle);
-        transform.transform(position);
+        transform.get(position);
     }
 
     public void rotateModel(float angle) {
         Transform3D transform = new Transform3D();
         transform.rotY(angle);
-        transform.transform(position);
+        transform.get(position);
     }
 
     public void setDirection(Vector3f goal) {
@@ -50,7 +50,7 @@ public class TestInhabitant implements PlanetaryInhabitant {
     public void setDistanceToPlanetsCenter(float distance) {
         Transform3D transform = new Transform3D();
         transform.setTranslation(new Vector3f(0, distance, 0));
-        transform.transform(position);
+        transform.get(position);
     }
 
     public float getDistanceToPlanetsCenter() {

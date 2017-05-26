@@ -18,7 +18,6 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.core.entity.Planet;
 import edu.chalmers.notenoughspace.core.move.Movement;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
@@ -229,28 +228,28 @@ public class ShipControl extends DetachableControl {
                 ship.addMoveInput(Movement.FORWARD, tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("backwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(
-                            -drag * tpf * Math.abs(ship.getCurrentSpeedY()), 0, 0);
+                            -drag * tpf * Math.abs(ship.getCurrentYSpeed()), 0, 0);
                 }
             }
             if (name.equals(Movement.LEFT.name())) {
                 ship.addMoveInput(Movement.LEFT, tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("rightPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(
-                            0, 0, drag * tpf  * Math.abs(ship.getCurrentSpeedX()));
+                            0, 0, drag * tpf  * Math.abs(ship.getCurrentXSpeed()));
                 }
             }
             if (name.equals(Movement.RIGHT.name())) {
                 ship.addMoveInput(Movement.RIGHT, tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("leftPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(
-                            0, 0, -drag * tpf  * Math.abs(ship.getCurrentSpeedX()));
+                            0, 0, -drag * tpf  * Math.abs(ship.getCurrentXSpeed()));
                 }
             }
             if (name.equals(Movement.BACKWARD.name())) {
                 ship.addMoveInput(Movement.BACKWARD, tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("forwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(
-                            drag * tpf * Math.abs(ship.getCurrentSpeedY()), 0, 0);
+                            drag * tpf * Math.abs(ship.getCurrentYSpeed()), 0, 0);
                 }
             }
             if (name.equals(Movement.ROTATION_LEFT.name())) {

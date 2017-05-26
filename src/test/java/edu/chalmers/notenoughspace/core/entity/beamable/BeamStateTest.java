@@ -47,7 +47,7 @@ public class BeamStateTest {
         }
         assertEquals(BeamState.NOT_IN_BEAM, beamable.isInBeam());
         assertEquals(0, beam.getNumberOfObjectsInBeam());
-        assertNotEquals(0, ship.getStorage().calculateWeight());
+        assertNotEquals(0, ship.getStorage().getTotalWeight());
     }
 
 }

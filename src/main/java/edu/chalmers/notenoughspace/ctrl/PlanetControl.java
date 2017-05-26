@@ -16,7 +16,7 @@ public class PlanetControl extends DetachableControl {
     }
 
     protected void controlUpdate(float v) {
-        planet.update();
+
         //spatial.setLocalTransform(planet.getTranslation()); TODO
     }
 

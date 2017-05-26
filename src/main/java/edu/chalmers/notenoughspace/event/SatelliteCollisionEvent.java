@@ -16,4 +16,8 @@ public class SatelliteCollisionEvent {
     public Satellite getSatellite(){
         return satellite;
     }
+
+    public int getDamage() {
+        return satellite.getDamage();
+    }
 }

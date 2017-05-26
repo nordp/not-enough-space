@@ -2,18 +2,18 @@ package edu.chalmers.notenoughspace.core.entity.ship;
 
 import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.core.entity.Entity;
-import edu.chalmers.notenoughspace.core.entity.enemy.Hayfork;
+import edu.chalmers.notenoughspace.core.entity.powerup.Powerup;
 import edu.chalmers.notenoughspace.core.move.*;
 import edu.chalmers.notenoughspace.event.*;
 
 /**
- * Created by Vibergf on 25/04/2017.
+ * The UFO that the player controls. Responsible for being moved by the player
+ * and activating/deactivating the beam. Keeps track of its own health and
+ * energy levels, as well as a storage.
  */
 public class Ship extends Entity {
-    /**
-     * The distanceTo from the ship to the planet's surface.
-     */
-    public static final float ALTITUDE = 1.8f;
+
+    public static final float ALTITUDE = 1.8f;  //Distance to the planet's surface.
 
     private Health health;
     private Energy energy;
@@ -32,9 +32,10 @@ public class Ship extends Entity {
         storage = new Storage();
     }
 
+
     @Override
     protected void onPlanetaryInhabitantAttached(){
-        mover = new Accelerator();
+        mover = new Accelerator();  //TODO: Explain why this is added here.
     }
 
     public void update(float tpf) {
@@ -54,57 +55,60 @@ public class Ship extends Entity {
         mover.addMoveInput(movement, tpf);
     }
 
-    public void toggleBeam(boolean beamActive) {
-        beam.setActive(beamActive);
+    public void toggleBeam(boolean active) {
+        beam.setActive(active);
     }
 
-    public Beam getBeam(){return beam; }
+    public Beam getBeam(){ return beam; }
 
-    public Storage getStorage(){return storage; }
+    public Storage getStorage(){ return storage; }
 
     public float getHealth() {
-        return health.getHealthLevel();
+        return health.getCurrentHealthLevel();
     }
 
-    public void modifyHealth(int dHealth) {
-        health.modifyHealth(dHealth);
+    public void modifyHealth(int changeInHealth) {
+        health.modifyHealth(changeInHealth);
     }
 
     public float getEnergy() {
-        return energy.getEnergyLevel();
+        return energy.getCurrentEnergyLevel();
     }
 
-    public void modifyEnergy(float dEnergy) {
-        energy.modifyEnergy(dEnergy);
+    public void modifyEnergy(float changeInEnergy) {
+        energy.modifyEnergy(changeInEnergy);
     }
 
     public String getID() { return "ship"; }
 
-    public float getCurrentSpeedX() {
+    public float getCurrentXSpeed() {
         return mover.getCurrentXSpeed();
     }
 
-    public float getCurrentSpeedY() {
+    public float getCurrentYSpeed() {
         return mover.getCurrentYSpeed();
+    }
+
+    public int getScore() {
+        return storage.getScore();
     }
 
     @Subscribe
     public void hayforkCollision(HayforkCollisionEvent event) {
-        int damage = ((Hayfork) event.getHayFork()).getDamage();
+        int damage = event.getDamage();
         health.modifyHealth(-damage);
-        System.out.println(health.toString());
     }
 
     @Subscribe
     public void satelliteCollision(SatelliteCollisionEvent event) {
-        int damage = event.getSatellite().getDamage();
+        int damage = event.getDamage();
         health.modifyHealth(-damage);
-        System.out.println(health.toString());
     }
 
     @Subscribe
     public void powerupCollision(PowerupCollisionEvent event) {
-        event.getPowerup().affect(this);
+        Powerup powerup = event.getPowerup();
+        powerup.affect(this);
     }
 
     @Subscribe
@@ -112,19 +116,14 @@ public class Ship extends Entity {
         toggleBeam(false);
     }
 
+
     private void updateEnergy(float tpf) {
         if (beam.isActive()) {
-            energy.modifyEnergy(-Beam.ENERGY_COST * tpf);
+            float expendedEnergy = Beam.getEnergyCost() * tpf;
+            energy.modifyEnergy(-expendedEnergy);
         } else {
             energy.regenerate(tpf);
         }
-
-//        if (energy <= 5) {
-//            beam.setActive(false);
-//        }
     }
 
-    public int getScore() {
-        return storage.getScore();
-    }
 }

@@ -8,7 +8,7 @@
         </layer>
         <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
             <panel id="panel_top" height="50%" width="75%" align="center" childLayout="center">
-                <image filename="Interface/title.png" align="center" valign="center" height="20%" width="70%"></image>
+                <image filename="Interface/logo.png" align="center" valign="center" height="100%" width="75%" ></image>
             </panel>
             <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="vertical" marginBottom="90px" >
                 <image filename="Interface/button.png" label="Start" id="StartButton" align="center" valign="center"
@@ -204,6 +204,14 @@
                        imageMode="resize:15,2,15,15,15,2,15,2,15,2,15,15" />
             </image>
         </controlDefinition>
+
+        <useControls filename="nifty-default-controls.xml"/>
+            <popup id="niftyPopupMenu" childLayout="absolute-inside"
+                   controller="edu.chalmers.notenoughspace.view.state.Menu" width="10%">
+                <interact onClick="inputName()" onSecondaryClick="closePopup()" />
+                <control id="popupmenu" name="niftyMenu" />
+            </popup>
+
 
         </nifty>
 

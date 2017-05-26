@@ -1,16 +1,19 @@
 package edu.chalmers.notenoughspace.core.entity.powerup;
 
 /**
- * Created by Vibergf on 25/05/2017.
+ * Factory for generating power-ups.
  */
 public class PowerupFactory {
+
+    private static float BONUS_CHANCE = 0.3f;
 
     public static Powerup createRandomPowerup(){
         float random = (float) Math.random();
 
-        if(random < 0.3f){
+        if (random <= BONUS_CHANCE) {
             return new HealthPowerup();
-        }else
+        } else {
             return new EnergyPowerup();
+        }
     }
 }

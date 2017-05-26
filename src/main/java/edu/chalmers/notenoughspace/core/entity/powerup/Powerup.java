@@ -8,7 +8,7 @@ import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 import edu.chalmers.notenoughspace.event.PowerupCollisionEvent;
 
 /**
- * Created by Vibergf on 25/05/2017.
+ * Entity refilling the ship's resources in different ways when collected.
  */
 public abstract class Powerup extends Entity {
 
@@ -16,6 +16,7 @@ public abstract class Powerup extends Entity {
         super(new ZeroGravityStrategy());
         Bus.getInstance().post(new EntityCreatedEvent(this));
     }
+
 
     protected void onPlanetaryInhabitantAttached(){
         Entity.randomizeDirection(body);
@@ -26,4 +27,5 @@ public abstract class Powerup extends Entity {
     }
 
     public abstract void affect(Ship ship);
+
 }

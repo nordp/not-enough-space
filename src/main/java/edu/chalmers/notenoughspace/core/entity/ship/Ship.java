@@ -34,7 +34,7 @@ public class Ship extends Entity {
 
     @Override
     protected void onPlanetaryInhabitantAttached(){
-        mover = new Accelerator(body);
+        mover = new Accelerator();
     }
 
     public void update(float tpf) {

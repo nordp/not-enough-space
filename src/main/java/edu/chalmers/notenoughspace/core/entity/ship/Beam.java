@@ -85,7 +85,7 @@ public class Beam extends Entity {
             Bus.getInstance().post(new BeamableStoredEvent(b));
             return true;
         }
-        inhabitant.setDistanceToPlanetsCenter(currentHeight + BEAMING_FORCE * tpf * (1/b.getWeight()));
+        inhabitant.setDistanceFromPlanetsCenter(currentHeight + BEAMING_FORCE * tpf * (1/b.getWeight()));
         //Don't centralise more if already centralised:
 //        if (inhabitant.distanceTo(shipBody) < 0.8f) {
 //            return false;

@@ -47,13 +47,13 @@ public class TestInhabitant implements PlanetaryInhabitant {
         return position;
     }
 
-    public void setDistanceToPlanetsCenter(float distance) {
+    public void setDistanceFromPlanetsCenter(float distance) {
         Transform3D transform = new Transform3D();
         transform.setTranslation(new Vector3f(0, distance, 0));
         transform.get(position);
     }
 
-    public float getDistanceToPlanetsCenter() {
+    public float getDistanceFromPlanetsCenter() {
         return position.y;
     }
 
@@ -61,7 +61,7 @@ public class TestInhabitant implements PlanetaryInhabitant {
         return position;
     }
 
-    public float distance(PlanetaryInhabitant other) {
+    public float distanceTo(PlanetaryInhabitant other) {
         Vector3f dist = other.clone().getWorldTranslation();
         dist.sub(this.getWorldTranslation());
         return dist.length();

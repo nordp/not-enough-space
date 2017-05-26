@@ -1,7 +1,7 @@
 package edu.chalmers.notenoughspace.core.move;
 
 /**
- * Created by Sparven on 2017-05-21.
+ * The different movements possible along or above the surface of a planet.
  */
 public enum Movement {
     FORWARD,

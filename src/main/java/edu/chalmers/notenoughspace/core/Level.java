@@ -17,7 +17,7 @@ import edu.chalmers.notenoughspace.event.HealthEmptyEvent;
  */
 public class Level {
 
-    public final int LEVEL_TIME_IN_SECONDS = 10;
+    public final int LEVEL_TIME_IN_SECONDS = 120;
 
     private EntitySpawner spawner;
     private CountDownTimer timer;

@@ -11,7 +11,7 @@ import edu.chalmers.notenoughspace.event.*;
  */
 public class Ship extends Entity {
     /**
-     * The distance from the ship to the planet's surface.
+     * The distanceTo from the ship to the planet's surface.
      */
     public static final float ALTITUDE = 1.8f;
 
@@ -81,11 +81,11 @@ public class Ship extends Entity {
     public String getID() { return "ship"; }
 
     public float getCurrentSpeedX() {
-        return mover.getCurrentSpeedX();
+        return mover.getCurrentXSpeed();
     }
 
     public float getCurrentSpeedY() {
-        return mover.getCurrentSpeedY();
+        return mover.getCurrentYSpeed();
     }
 
     @Subscribe

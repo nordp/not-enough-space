@@ -3,33 +3,35 @@ package edu.chalmers.notenoughspace.core.move;
 import edu.chalmers.notenoughspace.core.entity.Planet;
 
 /**
- * Created by Sparven on 2017-05-18.
+ * Gravity strategy for objects affected by the planet's gravitation in a realistic way.
  */
 public class RealisticGravityStrategy implements GravityStrategy {
-    private static final float GRAVITY_CONSTANT = 0.0003f;
-    private float speed;
-    private float objectsHeight;
+
+    private static final float GRAVITY_CONSTANT = 9f;
+    private float fallingSpeed;
+    private float altitude;
 
     public RealisticGravityStrategy() {
-        speed = 0;
+        fallingSpeed = 0;
     }
+
 
     public void gravitate(PlanetaryInhabitant body) {
-        if (body.getLocalTranslation().y > objectsHeight) {
-            //Resets falling speed if this is the beginning of a fall
-            speed = 0;
+        float newAltitude = body.getLocalTranslation().y;
+        if (newAltitude > altitude) {
+            fallingSpeed = 0;  //Resets falling fallingSpeed if this is the beginning of a fall.
         }
 
-        objectsHeight = body.getLocalTranslation().y;
+        altitude = newAltitude;
 
-        if (objectsHeight > Planet.PLANET_RADIUS) {
-            speed += GRAVITY_CONSTANT;
-            body.setDistanceToPlanetsCenter(objectsHeight - speed);
-        }
-        if (objectsHeight < Planet.PLANET_RADIUS) {
-            //Resets falling speed and position if body hit the ground
-            speed = 0;
-            body.setDistanceToPlanetsCenter(Planet.PLANET_RADIUS);
+        if (altitude > Planet.PLANET_RADIUS) {
+            fallingSpeed += GRAVITY_CONSTANT / 30000;
+            body.setDistanceFromPlanetsCenter(altitude - fallingSpeed);
+        } else if (altitude < Planet.PLANET_RADIUS) {
+            fallingSpeed = 0;
+            body.setDistanceFromPlanetsCenter(Planet.PLANET_RADIUS);
+            //Object hit the ground.
         }
     }
+
 }

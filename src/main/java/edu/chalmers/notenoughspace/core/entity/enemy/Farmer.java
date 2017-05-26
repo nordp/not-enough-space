@@ -23,7 +23,7 @@ public class Farmer extends Entity {
     }
 
     public void update(PlanetaryInhabitant ship, float tpf) {
-        if (body.distance(ship) < AGGRO_DISTANCE){
+        if (body.distanceTo(ship) < AGGRO_DISTANCE){
             PlanetaryInhabitant left = body.clone();
             PlanetaryInhabitant right = body.clone();
 
@@ -34,9 +34,9 @@ public class Farmer extends Entity {
             right.rotateForward(SPRINT_SPEED * tpf);
 
             float turnDir;
-            turnDir = (left.distance(ship) < right.distance(ship)) ? TURN_RADIUS : -TURN_RADIUS;
+            turnDir = (left.distanceTo(ship) < right.distanceTo(ship)) ? TURN_RADIUS : -TURN_RADIUS;
             body.rotateModel((float) Math.toRadians(turnDir));
-            if (left.distance(ship) - right.distance(ship) < 0.01f) {
+            if (left.distanceTo(ship) - right.distanceTo(ship) < 0.01f) {
                 body.rotateForward(SPRINT_SPEED * tpf);
             }
 

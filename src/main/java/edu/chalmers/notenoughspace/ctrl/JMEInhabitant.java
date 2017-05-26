@@ -47,10 +47,10 @@ public class JMEInhabitant implements PlanetaryInhabitant {
         return jmeToVecmath(model.getLocalTranslation());
     }
 
-    public void setDistanceToPlanetsCenter(float distance) {
+    public void setDistanceFromPlanetsCenter(float distance) {
         model.setLocalTranslation(0, distance, 0);}
 
-    public float getDistanceToPlanetsCenter() {
+    public float getDistanceFromPlanetsCenter() {
         return model.getLocalTranslation().getY();
     }
 
@@ -58,7 +58,7 @@ public class JMEInhabitant implements PlanetaryInhabitant {
         return jmeToVecmath(model.getWorldTranslation());
     }
 
-    public float distance(PlanetaryInhabitant other) {
+    public float distanceTo(PlanetaryInhabitant other) {
         return model.getWorldTranslation().distance(vecmathToJme(other.getWorldTranslation()));
     }
 

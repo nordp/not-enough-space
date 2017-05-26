@@ -1,19 +1,20 @@
 package edu.chalmers.notenoughspace.core.move;
 
 /**
- * Created by Sparven on 2017-05-21.
+ * Decides how an object reacts to movement input.
  */
 public abstract class MovementStrategy {
 
     private float currentRotationSpeed;
-    private float currentSpeedX;
-    private float currentSpeedY;
+    private float currentXSpeed;    //Regulating westward/eastward movement along the planet's surface.
+    private float currentYSpeed;    //Regulating northward/southward movement along the planet's surface.
 
     public MovementStrategy() {
         currentRotationSpeed = 0;
-        currentSpeedX = 0;
-        currentSpeedY = 0;
+        currentXSpeed = 0;
+        currentYSpeed = 0;
     }
+
 
     public abstract void move(PlanetaryInhabitant body, float tpf);
 
@@ -23,23 +24,23 @@ public abstract class MovementStrategy {
         return currentRotationSpeed;
     }
 
-    public float getCurrentSpeedX() {
-        return currentSpeedX;
+    public float getCurrentXSpeed() {
+        return currentXSpeed;
     }
 
-    public float getCurrentSpeedY() {
-        return currentSpeedY;
+    public float getCurrentYSpeed() {
+        return currentYSpeed;
     }
 
     public void setCurrentRotationSpeed(float currentRotationSpeed) {
         this.currentRotationSpeed = currentRotationSpeed;
     }
 
-    public void setCurrentSpeedX(float currentSpeedX) {
-        this.currentSpeedX = currentSpeedX;
+    public void setCurrentXSpeed(float currentXSpeed) {
+        this.currentXSpeed = currentXSpeed;
     }
 
-    public void setCurrentSpeedY(float currentSpeedY) {
-        this.currentSpeedY = currentSpeedY;
+    public void setCurrentYSpeed(float currentYSpeed) {
+        this.currentYSpeed = currentYSpeed;
     }
 }

@@ -77,7 +77,7 @@ public class Cow extends BeamableEntity {
     }
 
     public void update(PlanetaryInhabitant ship, float tpf) {
-        updateMood(body.distance(ship));
+        updateMood(body.distanceTo(ship));
         updateSpeed();
         updateDirection(ship, tpf);
     }
@@ -146,7 +146,7 @@ public class Cow extends BeamableEntity {
                 right.rotateForward(speed * tpf);
 
                 float sprintDir;
-                if (left.distance(ship) < right.distance(ship)){
+                if (left.distanceTo(ship) < right.distanceTo(ship)){
                     sprintDir = -MAX_DIR;
                 } else {
                     sprintDir = MAX_DIR;

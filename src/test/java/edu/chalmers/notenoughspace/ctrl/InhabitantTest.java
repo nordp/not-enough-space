@@ -33,6 +33,6 @@ public class InhabitantTest {
         assertNotEquals(pi.getWorldTranslation(), clone.getWorldTranslation());
 
         PlanetaryInhabitant pi2 = new TestInhabitant(0f, 2f, 0f);
-        assertEquals(1f, pi.distance(pi2), 0f);
+        assertEquals(1f, pi.distanceTo(pi2), 0f);
     }
 }

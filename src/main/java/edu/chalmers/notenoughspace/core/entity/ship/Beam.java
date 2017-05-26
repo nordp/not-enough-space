@@ -79,7 +79,7 @@ public class Beam extends Entity {
      */
     private synchronized boolean beamEntity(BeamableEntity b, PlanetaryInhabitant shipBody, float tpf) {
         PlanetaryInhabitant inhabitant = b.getPlanetaryInhabitant();
-        float currentHeight = inhabitant.getDistanceToPlanetsCenter();
+        float currentHeight = inhabitant.getDistanceFromPlanetsCenter();
 
         if (currentHeight > Planet.PLANET_RADIUS + Ship.ALTITUDE - DISTANCE_WHEN_STORED) {
             Bus.getInstance().post(new BeamableStoredEvent(b));
@@ -87,10 +87,10 @@ public class Beam extends Entity {
         }
         inhabitant.setDistanceToPlanetsCenter(currentHeight + BEAMING_FORCE * tpf * (1/b.getWeight()));
         //Don't centralise more if already centralised:
-//        if (inhabitant.distance(shipBody) < 0.8f) {
+//        if (inhabitant.distanceTo(shipBody) < 0.8f) {
 //            return false;
 //        } else {
-            float hypotenuse = inhabitant.distance(shipBody);
+            float hypotenuse = inhabitant.distanceTo(shipBody);
             float yDistance = shipBody.getLocalTranslation().y - inhabitant.getLocalTranslation().y;
             float xDistance = (float) Math.sqrt(hypotenuse * hypotenuse - yDistance * yDistance);
 
@@ -111,13 +111,13 @@ public class Beam extends Entity {
         back.rotateSideways(-CENTERING_FORCE * tpf);
 
 
-        if (left.distance(shipBody) < right.distance(shipBody)){
+        if (left.distanceTo(shipBody) < right.distanceTo(shipBody)){
             inhabitant.rotateForward(CENTERING_FORCE * tpf);
         } else {
             inhabitant.rotateForward(-CENTERING_FORCE * tpf);
         }
 
-        if (forward.distance(shipBody) < back.distance(shipBody)){
+        if (forward.distanceTo(shipBody) < back.distanceTo(shipBody)){
             inhabitant.rotateSideways(CENTERING_FORCE * tpf);
         } else {
             inhabitant.rotateSideways(-CENTERING_FORCE * tpf);

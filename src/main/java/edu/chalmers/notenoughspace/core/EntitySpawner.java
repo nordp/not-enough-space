@@ -17,16 +17,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO: Possibly remove timerList. Add description.
+ * Generates and places (spawns) new entities belonging to the planet.
  */
 public class EntitySpawner {
 
-    private List<SpawnTimer> timerList;
+    private List<SpawnTimer> timerList; //For entities to be spawned at regular intervals.
     private Planet planet;
 
     public EntitySpawner(Planet planet) {
         this.planet = planet;
         timerList = new ArrayList<SpawnTimer>();
+
         Bus.getInstance().register(this);
     }
 
@@ -45,6 +46,11 @@ public class EntitySpawner {
     }
 
     public void spawn(Class<? extends Entity> entityClass) { spawn(entityClass, 1); }
+
+    public void addSpawnTimer(Class<? extends Entity> classOfObjectToSpawn, int spawnInterval) {
+        SpawnTimer spawnTimer = new SpawnTimer(classOfObjectToSpawn, spawnInterval);
+        timerList.add(spawnTimer);
+    }
 
     @Subscribe
     public void entityRemoved(EntityRemovedEvent event){
@@ -70,12 +76,9 @@ public class EntitySpawner {
         }
     }
 
-    public void addSpawnTimer(Class<? extends Entity> classOfObjectToSpawn, int spawnInterval) {
-        SpawnTimer spawnTimer = new SpawnTimer(classOfObjectToSpawn, spawnInterval);
-        timerList.add(spawnTimer);
-    }
-
-
+    /**
+     * Timer for spawning entities at regular intervals.
+     */
     private class SpawnTimer extends CountDownTimer {
         private Class<? extends Entity> classOfObjectToSpawn;
         private float spawnInterval;

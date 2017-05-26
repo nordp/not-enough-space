@@ -3,7 +3,7 @@ package edu.chalmers.notenoughspace.core.move;
 import javax.vecmath.Vector3f;
 
 /**
- * Created by Vibergf on 10/05/2017.
+ * Interface for object moving along or above the surface of a planet.
  */
 public interface PlanetaryInhabitant {
 
@@ -12,10 +12,11 @@ public interface PlanetaryInhabitant {
     void rotateModel(float angle);
     void setDirection(Vector3f goal);
     void move(Vector3f relativeMovement);
-    float distance(PlanetaryInhabitant other);
-    void setDistanceToPlanetsCenter(float distance);
-    float getDistanceToPlanetsCenter();
+    float distanceTo(PlanetaryInhabitant other);
+    void setDistanceFromPlanetsCenter(float distance);
+    float getDistanceFromPlanetsCenter();
     Vector3f getLocalTranslation();
     Vector3f getWorldTranslation();
     PlanetaryInhabitant clone();
+
 }

@@ -22,6 +22,7 @@ public abstract class CountDownTimer {
         timeLeft -= seconds;
 
         if (timeLeft <= 0) {
+            timeLeft = 0;
             running = false;
             onTimeOut();
         }

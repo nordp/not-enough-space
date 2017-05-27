@@ -2,6 +2,7 @@ package edu.chalmers.notenoughspace.core.entity.powerup;
 
 import edu.chalmers.notenoughspace.core.entity.Entity;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 import edu.chalmers.notenoughspace.core.move.ZeroGravityStrategy;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
@@ -18,6 +19,11 @@ public abstract class Powerup extends Entity {
     }
 
 
+    public void update(float tpf) {
+        moveInOrbit(tpf);   //TODO: Implement movement strategy for this and for satellite's movement.
+        rotateOnSpot(tpf);
+    }
+
     protected void onPlanetaryInhabitantAttached(){
         randomizeDirection();
     }
@@ -27,5 +33,14 @@ public abstract class Powerup extends Entity {
     }
 
     public abstract void affect(Ship ship);
+
+
+    private void moveInOrbit(float tpf) {
+        body.rotateForward(0.25f * tpf);
+    }
+
+    private void rotateOnSpot(float tpf) {
+        body.rotateAroundOwnCenter(1 * tpf, 1.2f * tpf, 0.8f * tpf);
+    }
 
 }

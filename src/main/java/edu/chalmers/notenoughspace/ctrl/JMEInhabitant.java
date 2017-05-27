@@ -41,6 +41,10 @@ public class JMEInhabitant implements PlanetaryInhabitant {
         node.rotate(0f, angle, 0f);
     }
 
+    public void rotateAroundOwnCenter(float rotX, float rotY, float rotZ) {
+        model.rotate(rotX, rotY, rotZ);
+    }
+
     public void setDirection(Vector3f goal) {
         model.lookAt(vecmathToJme(goal),
                 new com.jme3.math.Vector3f(0, goal.z, -goal.y));

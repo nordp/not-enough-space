@@ -8,6 +8,8 @@ import com.jme3.light.SpotLight;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.math.Vector3f;
+import com.jme3.renderer.RenderManager;
+import com.jme3.renderer.ViewPort;
 import com.jme3.scene.LightNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -81,7 +83,17 @@ public class SpatialHandler {
         Node node = new Node(event.getEntity().getID());
         System.out.println("Node created: " + node + "from ID: " + event.getEntity().getID());
         Spatial model;
-        AbstractControl control;
+        AbstractControl control = new AbstractControl() {
+            @Override
+            protected void controlUpdate(float v) {
+
+            }
+
+            @Override
+            protected void controlRender(RenderManager renderManager, ViewPort viewPort) {
+
+            }
+        };
         Spatial parent = rootNode;
 
         if (event.getEntity() instanceof Cow) {
@@ -164,7 +176,6 @@ public class SpatialHandler {
         } else if (event.getEntity() instanceof Planet) {
             model = AssetLoaderFactory.getModelLoader().loadModel("planet");
             model.setName("planetModel");
-            control = new PlanetControl((Planet) event.getEntity());
         } else if (event.getEntity() instanceof Farmer) {
             model = AssetLoaderFactory.getModelLoader().loadModel("farmer");
             control = new FarmerControl((Farmer) event.getEntity());
@@ -200,6 +211,7 @@ public class SpatialHandler {
         node.attachChild(model);
         node.addControl(control);
 
+
         event.getEntity().setPlanetaryInhabitant(new JMEInhabitant(node));
 
         //Maybe this should not be done here?
@@ -208,7 +220,7 @@ public class SpatialHandler {
         
         //Temporary place, maybe move somewhere else and/or bind to key
         if(event.getEntity() instanceof Ship) {
-            ((ShipControl) control).attachThirdPersonView(app.getCamera(), Planet.PLANET_RADIUS, Ship.ALTITUDE);
+            ((ShipControl) control).attachThirdPersonView(app.getCamera());
         }
 
         //All entity get one geometry and one node each. The parent node of each entity has the name of the entity

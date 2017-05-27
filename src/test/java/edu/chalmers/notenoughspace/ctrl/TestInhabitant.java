@@ -38,6 +38,10 @@ public class TestInhabitant implements PlanetaryInhabitant {
         transform.transform(position);
     }
 
+    public void rotateAroundOwnCenter(float rotX, float rotY, float rotZ) {
+        //TODO
+    }
+
     public void setDirection(Vector3f goal) {
         //Not possible in TestInhabitant.
     }

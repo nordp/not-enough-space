@@ -9,7 +9,7 @@ import edu.chalmers.notenoughspace.core.entity.enemy.Hayfork;
 
 /**
  * Control responsible for telling the hayfork when to update and
- * for notifying it when it collides with another object.
+ * for notifying it when it collides with the ship.
  */
 public class HayforkControl extends DetachableControl {
 
@@ -22,16 +22,20 @@ public class HayforkControl extends DetachableControl {
 
     protected void controlUpdate(float tpf) {
         JMEInhabitant ship = ControlUtil.getShip(spatial);
-        Spatial shipModel = ControlUtil.getRoot(spatial).getChild("shipModel");
-        boolean colliding = ControlUtil.checkCollision(getModel(), shipModel);
 
         hayfork.update(ship, tpf);
+        checkCollisionWithShip();
+    }
+
+
+    private void checkCollisionWithShip() {
+        Spatial shipModel = ControlUtil.getRoot(spatial).getChild("shipModel");
+        boolean colliding = ControlUtil.checkCollision(getModel(), shipModel);
 
         if (colliding) {
             hayfork.hitSomething();
         }
     }
-
 
     private Spatial getModel() {
         return ((Node) spatial).getChild(0);

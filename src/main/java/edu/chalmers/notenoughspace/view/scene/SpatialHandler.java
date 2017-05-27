@@ -244,7 +244,6 @@ public class SpatialHandler {
         if (entity instanceof Farmer) {
             AudioNode farmerAudio = AssetLoaderFactory.getSoundLoader().loadSound("farmer");
             NodeUtil.setUpAudioNode(farmerAudio, 0.2f, 10, true, node, "audio");
-            farmerAudio.play();
         } else if (entity instanceof Cow) {
             AudioNode mooAudio = AssetLoaderFactory.getSoundLoader().loadSound("cow");
             NodeUtil.setUpAudioNode(mooAudio, 0.2f, 10, false, node, "audio");

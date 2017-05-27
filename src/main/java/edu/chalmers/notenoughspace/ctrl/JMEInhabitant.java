@@ -7,7 +7,7 @@ import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 import javax.vecmath.Vector3f;
 
 /**
- * Created by Vibergf on 10/05/2017.
+ * Framework specific instance of PlanetaryInhabitant.
  */
 public class JMEInhabitant implements PlanetaryInhabitant {
 
@@ -15,16 +15,19 @@ public class JMEInhabitant implements PlanetaryInhabitant {
     private Spatial model;
 
     public JMEInhabitant(Spatial spatial){
-        if(spatial instanceof Node)
+        if (spatial instanceof Node) {
             this.node = (Node) spatial;
-        else
-            System.out.println("JMEInhabitant spatial must be a node!"); //Temporary error message?
+        } else {
+            throw new IllegalArgumentException("JMEInhabitant spatial must be a node.");
+        }
 
-        if(!node.getChildren().isEmpty())
+        if (!node.getChildren().isEmpty()) {
             this.model = node.getChild(0);
-        else
-            System.out.println("JMEInhabitant node has no child!"); //^
+        } else {
+            throw new IllegalArgumentException("JMEInhabitant node has no child.");
+        }
     }
+
 
     public void rotateForward(float angle) {
         node.rotate(angle, 0f, 0f);
@@ -67,7 +70,6 @@ public class JMEInhabitant implements PlanetaryInhabitant {
     }
 
 
-    //Util Methods
     private static javax.vecmath.Vector3f jmeToVecmath(com.jme3.math.Vector3f vector) {
         return new javax.vecmath.Vector3f(vector.x, vector.y, vector.z);
     }
@@ -75,4 +77,5 @@ public class JMEInhabitant implements PlanetaryInhabitant {
     private static com.jme3.math.Vector3f vecmathToJme(javax.vecmath.Vector3f vector){
         return new com.jme3.math.Vector3f(vector.x, vector.y, vector.z);
     }
+
 }

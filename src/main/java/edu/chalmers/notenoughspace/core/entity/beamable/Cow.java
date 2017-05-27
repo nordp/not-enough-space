@@ -102,8 +102,6 @@ public class Cow extends BeamableEntity {
             pointsModifier = size;
             speedModifier = MAX_SIZE + MIN_SIZE - size; //The bigger the slower.
         }
-
-        Bus.getInstance().post(new EntityCreatedEvent(this));
     }
 
     private void updateMood(float distanceFromShip){

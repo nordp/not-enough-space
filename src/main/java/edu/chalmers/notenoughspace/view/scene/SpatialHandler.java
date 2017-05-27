@@ -96,10 +96,6 @@ public class SpatialHandler {
             model.scale(cow.getSize());
             model.setName("model");
             node.setLocalRotation(rootNode.getChild("ship").getLocalRotation().clone().mult(new Quaternion(0,0,1,0))); // TEMPORARY
-            /*
-            if(cow.isGolden()){
-                setMaterial? model = new model?
-            }*/
 
             control = new CowControl(cow);
             parent = rootNode.getChild("planet");
@@ -132,7 +128,6 @@ public class SpatialHandler {
             spotLight.setSpotRange(Ship.ALTITUDE + 2f);
             spotLight.setSpotOuterAngle(45 * FastMath.DEG_TO_RAD);
             spotLight.setSpotInnerAngle(5 * FastMath.DEG_TO_RAD);
-//            spotLight.setPosition(model.getPosition());
             spotLight.setDirection(model.getWorldTranslation().mult(-1));
             spotLight.setName("shipSpotLight");
             LightNode spotLightNode = new LightNode("shipSpotLightNode", spotLight);

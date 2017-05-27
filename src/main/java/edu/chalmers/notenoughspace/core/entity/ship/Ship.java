@@ -2,7 +2,6 @@ package edu.chalmers.notenoughspace.core.entity.ship;
 
 import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.core.entity.Entity;
-import edu.chalmers.notenoughspace.core.entity.powerup.Powerup;
 import edu.chalmers.notenoughspace.core.move.*;
 import edu.chalmers.notenoughspace.event.*;
 
@@ -102,8 +101,7 @@ public class Ship extends Entity {
 
     @Subscribe
     public void powerupCollision(PowerupCollisionEvent event) {
-        Powerup powerup = event.getPowerup();
-        powerup.affect(this);
+        event.affect(this);
     }
 
     @Subscribe

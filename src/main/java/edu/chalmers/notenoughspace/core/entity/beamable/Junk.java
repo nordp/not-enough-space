@@ -10,6 +10,7 @@ import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
  */
 public class Junk extends BeamableEntity {
 
+
     public Junk() {
         Bus.getInstance().post(new EntityCreatedEvent(this));
     }

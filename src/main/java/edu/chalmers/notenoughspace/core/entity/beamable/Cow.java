@@ -131,7 +131,7 @@ public class Cow extends BeamableEntity {
     }
 
     private void updateDirection(PlanetaryInhabitant ship, float tpf){
-        if (isInBeam() == BeamState.IN_BEAM) {
+        if (isInBeam()) {
             return;
         }
 

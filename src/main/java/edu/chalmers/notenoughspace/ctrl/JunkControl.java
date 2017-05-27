@@ -5,7 +5,6 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.core.entity.beamable.BeamState;
 import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
 
 /**
@@ -24,13 +23,13 @@ public class JunkControl extends DetachableControl {
         boolean colliding = ControlUtil.checkCollision(((Node) spatial).getChild(0), (ControlUtil.getRoot(spatial).getChild("beamModel")));
 
         if (colliding && ControlUtil.getRoot(spatial).getChild("beamModel").getCullHint() == Spatial.CullHint.Never) {
-            if(junk.isInBeam() == BeamState.NOT_IN_BEAM){
+            if(!junk.isInBeam()){
                 junk.enterBeam();
 //                ((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);
             }
         }else{
             junk.update(); //Gravitates the junk
-            if(junk.isInBeam() == BeamState.IN_BEAM){
+            if(junk.isInBeam()){
                 junk.exitBeam();
 //                ((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);
             }

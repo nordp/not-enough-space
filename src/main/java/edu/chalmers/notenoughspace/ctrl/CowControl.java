@@ -5,20 +5,22 @@ import com.jme3.animation.AnimControl;
 import com.jme3.audio.AudioNode;
 import com.jme3.audio.AudioSource;
 import com.jme3.effect.ParticleEmitter;
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
 import edu.chalmers.notenoughspace.core.entity.beamable.CowMood;
 import edu.chalmers.notenoughspace.core.entity.Planet;
-import edu.chalmers.notenoughspace.core.entity.beamable.BeamState;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 
+/**
+ * Control responsible for telling the cow when to update and when and how cow related
+ * animations and sounds should be played.
+ */
 public class CowControl extends DetachableControl {
-    private Cow cow;
+
     private float ORIGINAL_SCALE;
+
+    private Cow cow;
     private boolean sweatEnabled;
 
     public CowControl(Cow cow) {
@@ -26,58 +28,58 @@ public class CowControl extends DetachableControl {
         ORIGINAL_SCALE = 0;
     }
 
+
     @Override
     protected void controlUpdate(float tpf) {
-        JMEInhabitant ship = new JMEInhabitant(ControlUtil.getRoot(spatial).getChild("ship"));
+        setOriginalScale(); //TODO: What do we do about this? Create an onAttached method?
+
+        JMEInhabitant ship = ControlUtil.getShip(spatial);
+        boolean isTired = cow.getMood() == CowMood.TIRED;
+
         cow.update(ship, tpf);
-
-        //Sets original scale if not already set. Should really be in some initialize method
-        //but there is no such method, right?
-        setORIGINAL_SCALE();
-
-        setSweatEffect(cow.getMood() == CowMood.TIRED);
-        adjustSizeRelativeToAltitude();
+        setSweatEffect(isTired);
+        adjustSizeRelativeToAltitude(); //The higher the smaller.
         setAnimation();
-        checkCollision();
+        checkCollisionWithBeam();
     }
 
-    @Override
-    protected void controlRender(RenderManager rm, ViewPort vp) {
+
+    private void setOriginalScale() {
+        Spatial model = ((Node) spatial).getChild(0);
+        if (ORIGINAL_SCALE == 0) {
+            ORIGINAL_SCALE = model.getLocalScale().x;   //Or y or z, should always be scaled by same value
+                                                        //in all directions.
+        }
     }
 
-    private void setSweatEffect(boolean enabled){
-        if(sweatEnabled == enabled)
+    private void setSweatEffect(boolean isEnabled){
+        if (sweatEnabled == isEnabled) {
             return;
-        sweatEnabled = enabled;
-        if(sweatEnabled){
+        }
+
+        sweatEnabled = isEnabled;
+        if (sweatEnabled) {
             ((ParticleEmitter) ((Node)spatial).getChild("sweat")).setEnabled(true);
-        }else{
+        } else {
             ((ParticleEmitter) ((Node)spatial).getChild("sweat")).setEnabled(false);
             ((ParticleEmitter) ((Node)spatial).getChild("sweat")).killAllParticles();
         }
     }
 
-    private void setORIGINAL_SCALE() {
-        Spatial model = ((Node) spatial).getChild(0);
-        if (ORIGINAL_SCALE == 0) {
-            ORIGINAL_SCALE = model.getLocalScale().x;
-        }
-    }
-
     private void adjustSizeRelativeToAltitude() {
-        Spatial model = ((Node) spatial).getChild(0);
-        float yDistanceToShip = Ship.ALTITUDE + Planet.PLANET_RADIUS -
-                cow.getPlanetaryInhabitant().getLocalTranslation().y;
+        float cowAltitude = cow.getPlanetaryInhabitant().getLocalTranslation().y;
+        float yDistanceToShip = (Ship.ALTITUDE + Planet.PLANET_RADIUS) - cowAltitude;
 
-        //Adjust model size depending on height above ground (the higher the smaller):
         if (yDistanceToShip > 1f) {
-            model.setLocalScale(ORIGINAL_SCALE * yDistanceToShip/Ship.ALTITUDE);
+            float newScale = ORIGINAL_SCALE * yDistanceToShip/Ship.ALTITUDE;
+            getModel().setLocalScale(newScale);
         }
     }
 
     private void moo() {
         if (!isMooing()) {
             double random = Math.random()*100;
+
             if (random <= 33) {
                 playMoo1();
             } else if (random <= 66) {
@@ -89,9 +91,13 @@ public class CowControl extends DetachableControl {
     }
 
     private boolean isMooing() {
-        return !(((AudioNode)((Node) spatial).getChild("audio")).getStatus() != AudioSource.Status.Playing &&
-                ((AudioNode)((Node) spatial).getChild("audio2")).getStatus() != AudioSource.Status.Playing &&
-                ((AudioNode)((Node) spatial).getChild("audio3")).getStatus() != AudioSource.Status.Playing);
+        AudioNode mooSound1 = (AudioNode)((Node) spatial).getChild("audio");
+        AudioNode mooSound2 = (AudioNode)((Node) spatial).getChild("audio2");
+        AudioNode mooSound3 = (AudioNode)((Node) spatial).getChild("audio3");
+
+        return mooSound1.getStatus() == AudioSource.Status.Playing ||
+                mooSound2.getStatus() == AudioSource.Status.Playing ||
+                mooSound3.getStatus() == AudioSource.Status.Playing;
     }
 
     private void playMoo1() {
@@ -107,18 +113,18 @@ public class CowControl extends DetachableControl {
     }
 
     private void setAnimation() {
-        if (cow.isInBeam() == BeamState.IN_BEAM) {
+        if (cow.isInBeam()) {
             setJiggerAnimation();
         } else {
             setWalkAnimation();
-            setAnimationSpeed();
+            setAnimationSpeed();    //Depending on mood.
         }
     }
 
     private void setJiggerAnimation() {
-        Spatial model = ((Node) spatial).getChild(0);
-        AnimControl control = model.getControl(AnimControl.class);
+        AnimControl control = getModel().getControl(AnimControl.class);
         AnimChannel channel = control.getChannel(0);
+
         if (channel.getAnimationName() == null || !channel.getAnimationName().equals("jigger")) {
             channel.setAnim("jigger");
         }
@@ -126,38 +132,44 @@ public class CowControl extends DetachableControl {
     }
 
     private void setWalkAnimation() {
-        Spatial model = ((Node) spatial).getChild(0);
-        AnimControl control = model.getControl(AnimControl.class);
+        AnimControl control = getModel().getControl(AnimControl.class);
         AnimChannel channel = control.getChannel(0);
+
         if (channel.getAnimationName() == null || !channel.getAnimationName().equals("WalkCycle")) {
             channel.setAnim("WalkCycle");
         }
     }
 
     private void setAnimationSpeed() {
-        Node cowNode = (Node) spatial;
+        AnimChannel animationChannel = getModel().getControl(AnimControl.class).getChannel(0);
+
         if (cow.getMood() == CowMood.SCARED) {
-            cowNode.getChild(0).getControl(AnimControl.class).getChannel(0).setSpeed(10);
+            animationChannel.setSpeed(10);
             moo();
         } else {
-            cowNode.getChild(0).getControl(AnimControl.class).getChannel(0).setSpeed(2.5f);
+            animationChannel.setSpeed(2.5f);
         }
     }
 
-    private void checkCollision() {
-        boolean colliding = ControlUtil.checkCollision(
-                ((Node) spatial).getChild("model"), (ControlUtil.getRoot(spatial).getChild("beamModel")));
+    private void checkCollisionWithBeam() {
+        Spatial beamModel = ControlUtil.getRoot(spatial).getChild("beamModel");
 
-        if (colliding && ControlUtil.getRoot(spatial).getChild("beamModel").getCullHint() == Spatial.CullHint.Never) {
-            if (cow.isInBeam() == BeamState.NOT_IN_BEAM) {
+        boolean colliding = ControlUtil.checkCollision(getModel(), beamModel);
+        boolean beamVisible = beamModel.getCullHint() == Spatial.CullHint.Never; //TODO: Should we really check the view for game logic?
+
+        if (colliding && beamVisible) {
+            if (!cow.isInBeam()) {
                 cow.enterBeam();
             }
         } else {
-            if (cow.isInBeam() == BeamState.IN_BEAM) {
+            if (cow.isInBeam()) {
                 cow.exitBeam();
             }
         }
+    }
 
+    private Spatial getModel() {
+        return ((Node) spatial).getChild("model");
     }
 
 }

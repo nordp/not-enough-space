@@ -11,23 +11,23 @@ import edu.chalmers.notenoughspace.event.Bus;
  */
 public abstract class BeamableEntity extends Entity {
 
-    private BeamState beamState;
+    private boolean inBeam;
 
     public BeamableEntity() {
         super(new RealisticGravityStrategy());
-        beamState = BeamState.NOT_IN_BEAM;
+        inBeam = false;
     }
 
 
-    public BeamState isInBeam(){ return beamState; }
+    public boolean isInBeam(){ return inBeam; }
 
     public void enterBeam(){
-        this.beamState = BeamState.IN_BEAM;
+        inBeam = true;
         Bus.getInstance().post(new BeamEnteredEvent(this));
     }
 
     public void exitBeam(){
-        this.beamState = BeamState.NOT_IN_BEAM;
+        inBeam = false;
         Bus.getInstance().post(new BeamExitedEvent(this));
     }
 

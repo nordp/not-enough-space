@@ -6,32 +6,43 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
 /**
- * Utility class for jme-nodes
- *
- * Created by Phnor on 2017-04-26.
+ * Utility class for control related tasks.
  */
 public class ControlUtil {
+
+    private static JMEInhabitant ship;
+
     private ControlUtil(){}
+
 
     public static Node getRoot(Spatial spatial){
         if (spatial == null)
-            throw new IllegalArgumentException("Spatial == Null");
+            throw new IllegalArgumentException("Spatial equals null.");
+
         while (spatial.getParent() != null){
             spatial = spatial.getParent();
         }
         return (Node) spatial;
     }
 
+    public static JMEInhabitant getShip(Spatial spatial) {
+        if (ship == null) {
+            Node rootNode = getRoot(spatial);
+            Spatial shipSpatial = rootNode.getChild("ship");
+            ship = new JMEInhabitant(shipSpatial);
+        }
+
+        return ship;
+    }
+
     public static boolean checkCollision(Spatial first, Spatial second){
         CollisionResults results = new CollisionResults();
-        BoundingVolume bv = first.getWorldBound();
-//        BoundingVolume bv = ((Geometry)first).getMesh().getBound();
-//        BoundingSphere bv = new BoundingSphere();
-//        bv.averagePoints(((Geometry)first).getMesh().);
-//        bv.transform(first.getWorldTransform());
-//        bv.setRadius(30f);
-        second.collideWith(bv, results);
+        BoundingVolume boundingVolume = first.getWorldBound();
 
-        return results.size() > 0;
+        second.collideWith(boundingVolume, results);
+        boolean colliding = results.size() > 0;
+
+        return colliding;
     }
+
 }

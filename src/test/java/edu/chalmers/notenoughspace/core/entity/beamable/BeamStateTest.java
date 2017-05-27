@@ -26,13 +26,13 @@ public class BeamStateTest {
 
     @Test
     public void beamStateTest() throws Exception {
-        assertEquals(BeamState.NOT_IN_BEAM, beamable.isInBeam());
+        assertEquals(false, beamable.isInBeam());
 
         beamable.enterBeam();
-        assertEquals(BeamState.IN_BEAM, beamable.isInBeam());
+        assertEquals(true, beamable.isInBeam());
 
         beamable.exitBeam();
-        assertEquals(BeamState.NOT_IN_BEAM, beamable.isInBeam());
+        assertEquals(false, beamable.isInBeam());
 
         beamable.enterBeam();
 
@@ -45,7 +45,7 @@ public class BeamStateTest {
         for(int i = 0 ; i < 100 ; i++){
             ship.update(0.02f);
         }
-        assertEquals(BeamState.NOT_IN_BEAM, beamable.isInBeam());
+        assertEquals(false, beamable.isInBeam());
         assertEquals(0, beam.getNumberOfObjectsInBeam());
         assertNotEquals(0, ship.getStorage().getTotalWeight());
     }

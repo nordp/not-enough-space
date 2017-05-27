@@ -21,6 +21,8 @@ public class Ship extends Entity {
     private Storage storage;
     private MovementStrategy mover;
 
+    private boolean godModeEnabled;
+
     public Ship(){
         super(new ZeroGravityStrategy());
         Bus.getInstance().post(new EntityCreatedEvent(this));
@@ -90,12 +92,16 @@ public class Ship extends Entity {
 
     @Subscribe
     public void hayforkCollision(HayforkCollisionEvent event) {
+        if(godModeEnabled)
+            return;
         int damage = event.getDamage();
         health.modifyHealth(-damage);
     }
 
     @Subscribe
     public void satelliteCollision(SatelliteCollisionEvent event) {
+        if(godModeEnabled)
+            return;
         int damage = event.getDamage();
         health.modifyHealth(-damage);
     }
@@ -119,6 +125,12 @@ public class Ship extends Entity {
         } else {
             energy.regenerate(tpf);
         }
+    }
+
+    public void toggleGodMode(){
+        godModeEnabled = !godModeEnabled;
+        if(godModeEnabled)
+            modifyHealth(100);
     }
 
 }

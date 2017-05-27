@@ -195,12 +195,13 @@ public class ShipControl extends DetachableControl {
         inputManager.addMapping(Movement.ROTATION_RIGHT.name(), new KeyTrigger(KeyInput.KEY_X));
         inputManager.addMapping("toggleBeam", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("cameraMode", new KeyTrigger(KeyInput.KEY_T));
+        inputManager.addMapping("toggleGodMode", new KeyTrigger(KeyInput.KEY_G));
 
         // Add the names to the action listener.
         inputManager.addListener(analogListener,
                 Movement.FORWARD.name(),Movement.LEFT.name(),Movement.RIGHT.name(),Movement.BACKWARD.name(),
                 Movement.ROTATION_LEFT.name(), Movement.ROTATION_RIGHT.name());
-        inputManager.addListener(actionListener, "toggleBeam", "cameraMode");
+        inputManager.addListener(actionListener, "toggleBeam", "cameraMode", "toggleGodMode");
     }
 
     private void cleanupMovementKeys() {
@@ -209,6 +210,7 @@ public class ShipControl extends DetachableControl {
         }
         inputManager.deleteMapping("toggleBeam");
         inputManager.deleteMapping("cameraMode");
+        inputManager.deleteMapping("toggleGodMode");
 
         inputManager.removeListener(analogListener);
         inputManager.removeListener(actionListener);
@@ -288,6 +290,8 @@ public class ShipControl extends DetachableControl {
                 ship.toggleBeam(value);
             }else if(name.equals("cameraMode") && value == false) {
                 toggleThirdPersonCamera();
+            }else if(name.equals("toggleGodMode") && value == false) {
+                ship.toggleGodMode();
             }
         }
     };

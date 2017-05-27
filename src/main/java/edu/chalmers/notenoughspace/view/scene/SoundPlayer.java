@@ -2,14 +2,18 @@ package edu.chalmers.notenoughspace.view.scene;
 
 import com.jme3.audio.AudioNode;
 import edu.chalmers.notenoughspace.assets.AssetLoaderFactory;
+import edu.chalmers.notenoughspace.assets.ISoundLoader;
 
 /**
- * Singleton class for playing common (non-positional) sounds without having to reload them each time.
+ * Singleton class for playing common (non-positional) sounds.
  */
-class SoundPlayer {
+public class SoundPlayer {
 
     private static SoundPlayer player;
 
+    private SoundPlayer(){};
+    
+    
     public static SoundPlayer getInstance() {
         if (player == null) {
             player = new SoundPlayer();
@@ -17,19 +21,23 @@ class SoundPlayer {
         return player;
     }
 
-    void play(String soundId) {
-        if (soundId.equals("beamed")) {
-            AudioNode beamedAudio = AssetLoaderFactory.getSoundLoader().loadSound("beamed");
-            beamedAudio.setLooping(false);
-            beamedAudio.play();
-        } else if (soundId.equals("explosion")) {
-            AudioNode explosionAudio = AssetLoaderFactory.getSoundLoader().loadSound("explosion");
-            explosionAudio.setLooping(false);
-            explosionAudio.play();
-        } else if (soundId.equals("hayforkHit")) {
-            AudioNode explosionAudio = AssetLoaderFactory.getSoundLoader().loadSound("hayforkHit");
-            explosionAudio.setLooping(false);
-            explosionAudio.play();
+    
+    public void play(String soundID) {
+        ISoundLoader soundLoader = AssetLoaderFactory.getSoundLoader();
+        AudioNode audio = new AudioNode();
+        
+        if (soundID.equals("beamed")) {
+            audio = soundLoader.loadSound("beamed");
+            audio.setLooping(false);
+        } else if (soundID.equals("explosion")) {
+            audio = soundLoader.loadSound("explosion");
+            audio.setLooping(false);
+        } else if (soundID.equals("hayforkHit")) {
+            audio = soundLoader.loadSound("hayforkHit");
+            audio.setLooping(false);
         }
+
+        audio.play();
     }
+
 }

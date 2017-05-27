@@ -25,9 +25,9 @@ public class HighScoreManagerTest {
         hm.clearScores();
         assertTrue(scores.isEmpty());
 
-        hm.addScoreToList("Aa", 1);
-        hm.addScoreToList("Cc", 3);
-        hm.addScoreToList("Bb", 2);
+        hm.addScore("Aa", 1);
+        hm.addScore("Cc", 3);
+        hm.addScore("Bb", 2);
         assertEquals(3, scores.size());
         assertEquals("Cc", scores.get(0).getName());
 

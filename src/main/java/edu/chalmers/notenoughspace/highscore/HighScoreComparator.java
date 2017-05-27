@@ -1,23 +1,23 @@
 package edu.chalmers.notenoughspace.highscore;
 
-/**
- * Created by juliaortheden on 2017-05-23.
- */
 import java.util.Comparator;
 
+/**
+ * Comparator class for comparing high score scores.
+ */
 public class HighScoreComparator implements Comparator<Score> {
 
     public int compare(Score score1, Score score2) {
-
         int sc1 = score1.getScore();
         int sc2 = score2.getScore();
 
         if (sc1 > sc2){
             return -1;
-        }else if (sc1 < sc2){
+        } else if (sc1 < sc2) {
             return 1;
-        }else{
+        } else {
             return 0;
         }
     }
+
 }

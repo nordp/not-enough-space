@@ -6,16 +6,27 @@ import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 import java.util.Random;
 
 /**
- * Created by Vibergf on 08/05/2017.
+ * Represents a physical entity in the 3D world where the game takes place.
  */
 public abstract class Entity {
 
     protected PlanetaryInhabitant body;
-    protected GravityStrategy gravityStrategy;
+    private GravityStrategy gravityStrategy;
 
     public Entity(GravityStrategy gravityStrategy) {
         this.gravityStrategy = gravityStrategy;
     }
+
+
+    protected void gravitate(float tpf) {
+        gravityStrategy.gravitate(body, tpf);
+    }
+
+    /**
+     * To be overridden if needed. Acts as an additional constructor method for
+     * logic that needs access to the PlanetaryInhabitant.
+     */
+    protected void onPlanetaryInhabitantAttached(){}
 
     public PlanetaryInhabitant getPlanetaryInhabitant() { return body;}
 
@@ -24,20 +35,19 @@ public abstract class Entity {
         onPlanetaryInhabitantAttached();
     }
 
-    protected void onPlanetaryInhabitantAttached(){}
-
     public String getID(){ return this.toString(); }
 
-    protected void gravitate() {
-        gravityStrategy.gravitate(body);
-    }
-
-    protected static void randomizePosition(PlanetaryInhabitant body){
+    public void randomizePosition(){
+        if(body == null)
+            return;
         body.rotateForward((float)Math.PI*2* new Random().nextFloat());
         body.rotateSideways((float)Math.PI*2* new Random().nextFloat());
     }
 
-    protected static void randomizeDirection(PlanetaryInhabitant body){
+    public void randomizeDirection(){
+        if(body == null)
+            return;
         body.rotateModel((float)Math.PI*2 * new Random().nextFloat());
     }
+
 }

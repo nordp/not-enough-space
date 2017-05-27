@@ -35,11 +35,11 @@ public class ShipTest {
         assertEquals(100, ship.getEnergy(), 0f);
 
         ship.toggleBeam(true);
-        ship.update(Beam.ENERGY_COST / 2);
+        ship.update(Beam.getEnergyCost() / 2);
         assertEquals(50, ship.getEnergy(), 0.01f);
         assertTrue(beam.isActive());
 
-        ship.update(Beam.ENERGY_COST / 2);
+        ship.update(Beam.getEnergyCost() / 2);
         assertEquals(0, ship.getEnergy(), 0.01f);
         assertFalse(beam.isActive());
 
@@ -47,7 +47,7 @@ public class ShipTest {
         assertEquals(100, ship.getEnergy(), 0f);
 
         ship.toggleBeam(true);
-        ship.update(Beam.ENERGY_COST * 2);
+        ship.update(Beam.getEnergyCost() * 2);
         assertEquals(0, ship.getEnergy(), 0f);
         assertFalse(beam.isActive());
     }

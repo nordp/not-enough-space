@@ -1,6 +1,7 @@
 package edu.chalmers.notenoughspace.event;
 
 import edu.chalmers.notenoughspace.core.entity.powerup.Powerup;
+import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 
 /**
  * Created by Vibergf on 25/05/2017.
@@ -16,5 +17,9 @@ public class PowerupCollisionEvent {
 
     public Powerup getPowerup(){
         return powerup;
+    }
+
+    public void affect(Ship ship){
+        powerup.affect(ship);
     }
 }

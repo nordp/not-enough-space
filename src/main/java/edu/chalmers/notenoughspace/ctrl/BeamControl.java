@@ -1,49 +1,56 @@
 package edu.chalmers.notenoughspace.ctrl;
 
 import com.google.common.eventbus.Subscribe;
-import com.jme3.app.SimpleApplication;
 import com.jme3.audio.AudioNode;
-import com.jme3.bounding.BoundingBox;
-import com.jme3.material.Material;
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
-import com.jme3.scene.Geometry;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
-import com.jme3.scene.debug.WireBox;
 import edu.chalmers.notenoughspace.event.BeamToggleEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
 /**
- * Created by Vibergf on 03/04/2017.
+ * Control responsible for deciding when the beam should be visible and when beam sounds should be played.
  */
 public class BeamControl extends DetachableControl {
+
 
     public BeamControl(){
         Bus.getInstance().register(this);
     }
 
+
     @Subscribe
     public void beamToggleEvent(BeamToggleEvent event){
-        if(event.getEnabled()) {
-            spatial.setCullHint(Spatial.CullHint.Never);
-            ((AudioNode) ((Node) spatial).getChild("audio")).play();
+        boolean beamSwitchedOn = event.getEnabled();
+
+        if(beamSwitchedOn) {
+            showBeam();
+            resumeBuzzingSound();
         } else {
-            spatial.setCullHint(Spatial.CullHint.Always);
-            ((AudioNode) ((Node) spatial).getChild("audio")).stop();
+            hideBeam();
+            pauseBuzzingSound();
         }
     }
 
-    protected void controlUpdate(float v) {
-
-    }
-
-    protected void controlRender(RenderManager renderManager, ViewPort viewPort) {
-
-    }
-
+    @Override
     public void onDetach() {
         Bus.getInstance().unregister(this);
     }
+
+
+    private void showBeam() {
+        spatial.setCullHint(Spatial.CullHint.Never);
+    }
+
+    private void hideBeam() {
+        spatial.setCullHint(Spatial.CullHint.Always);
+    }
+
+    private void resumeBuzzingSound() {
+        ((AudioNode) ((Node) spatial).getChild("audio")).play();
+    }
+
+    private void pauseBuzzingSound() {
+        ((AudioNode) ((Node) spatial).getChild("audio")).stop();
+    }
+
 }

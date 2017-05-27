@@ -10,13 +10,16 @@ public interface PlanetaryInhabitant {
     void rotateForward(float angle);
     void rotateSideways(float angle);
     void rotateModel(float angle);
+
+    void rotateAroundOwnCenter(float rotX, float rotY, float rotZ);
     void setDirection(Vector3f goal);
     void move(Vector3f relativeMovement);
+
     float distanceTo(PlanetaryInhabitant other);
     void setDistanceFromPlanetsCenter(float distance);
     float getDistanceFromPlanetsCenter();
-    Vector3f getLocalTranslation();
-    Vector3f getWorldTranslation();
+
+    Vector3f getPosition();
     PlanetaryInhabitant clone();
 
 }

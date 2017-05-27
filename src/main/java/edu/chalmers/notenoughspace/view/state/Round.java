@@ -281,7 +281,7 @@ public class Round extends AbstractAppState implements ScreenController {
     @Subscribe
     public void healthChanged(HealthChangedEvent event) {
 //        Element healthElement = nifty.getCurrentScreen().findElementById("health");
-//        healthElement.getRenderer(TextRenderer.class).setText("Health: " + event.getHealthLevel());
+//        healthElement.getRenderer(TextRenderer.class).setText("Health: " + event.getCurrentHealthLevel());
 
 //        final int MIN_WIDTH = 32;
 //        int pixelWidth = (int) (MIN_WIDTH + (healthBarElement.getParent().getWidth() - MIN_WIDTH) * newHealth);

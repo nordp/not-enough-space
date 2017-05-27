@@ -10,43 +10,50 @@ import edu.chalmers.notenoughspace.event.HayforkCollisionEvent;
 import javax.vecmath.Vector3f;
 
 /**
- * Created by Sparven on 2017-05-15.
+ * Entity thrown by the farmer. Can collide with and get stuck at the ship,
+ * thereby causing a reduction of the ship's health.
  */
 public class Hayfork extends Entity {
 
-    private final static float THROW_SPEED = 10f;
+    private final static float THROW_SPEED = 8f;
+    private final static int DAMAGE = 10;
 
     private Entity thrower;
     private Vector3f direction;
-    private int damage;
 
     public Hayfork(Entity thrower){
         super(new ZeroGravityStrategy());
         this.thrower = thrower;
-        Bus.getInstance().post(new EntityCreatedEvent(this));
 
-        damage = 10;
+        Bus.getInstance().post(new EntityCreatedEvent(this));
     }
+
 
     public void update(PlanetaryInhabitant ship, float tpf) {
         if (direction == null) {
-            Vector3f myPosition = body.getWorldTranslation();
-            Vector3f shipPosition = ship.getWorldTranslation();
-            body.setDirection(shipPosition);    //Aims the hayfork towards the ship
-            shipPosition.sub(myPosition);
-            shipPosition.normalize();
-            shipPosition.scale(0.1f);
-            direction = shipPosition;   //The direction the spear will be moving in
-
+            setDirectionTowards(ship);
         }
 
-        body.move(direction);
+        body.move(distanceToMove(tpf));
+    }
+
+    private void setDirectionTowards(PlanetaryInhabitant ship) {
+        Vector3f myPosition = body.getPosition();
+        Vector3f shipPosition = ship.getPosition();
+        body.setDirection(shipPosition);
+
+        shipPosition.sub(myPosition);   //Results in vector directed directly towards the ship.
+        shipPosition.normalize();
+        shipPosition.scale(THROW_SPEED);
+        direction = shipPosition;
     }
 
     public void hitSomething() {
         Vector3f pierceIntoVector = new Vector3f(direction.x, direction.y, direction.z);
-        pierceIntoVector.scale(3.2f);
+        pierceIntoVector.normalize();
+        pierceIntoVector.scale(0.32f);
         body.move(pierceIntoVector);
+
         Bus.getInstance().post(new HayforkCollisionEvent(this));
     }
 
@@ -55,10 +62,19 @@ public class Hayfork extends Entity {
     }
 
     public int getDamage() {
-        return damage;
+        return DAMAGE;
     }
 
     public Vector3f getDirection() {
         return direction;
     }
+
+
+    private Vector3f distanceToMove(float tpf) {
+        Vector3f distanceToMove = new Vector3f();
+        distanceToMove.set(direction);
+        distanceToMove.scale(tpf);
+        return distanceToMove;
+    }
+
 }

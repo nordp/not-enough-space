@@ -5,11 +5,11 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.core.entity.beamable.BeamState;
 import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
 
 /**
- * Created by Phnor on 2017-05-09.
+ * Control responsible for telling the junk when to update and
+ * for notifying it when it is colliding with the beam.
  */
 public class JunkControl extends DetachableControl {
 
@@ -19,25 +19,33 @@ public class JunkControl extends DetachableControl {
         this.junk = junk;
     }
 
-    protected void controlUpdate(float v) {
 
-        boolean colliding = ControlUtil.checkCollision(((Node) spatial).getChild(0), (ControlUtil.getRoot(spatial).getChild("beamModel")));
+    protected void controlUpdate(float tpf) {
+        checkCollisionWithBeam(tpf);
+    }
 
-        if (colliding && ControlUtil.getRoot(spatial).getChild("beamModel").getCullHint() == Spatial.CullHint.Never) {
-            if(junk.isInBeam() == BeamState.NOT_IN_BEAM){
+
+    private void checkCollisionWithBeam(float tpf) {
+        Spatial beamModel = ControlUtil.getRoot(spatial).getChild("beamModel");
+
+        boolean colliding = ControlUtil.checkCollision(getModel(), beamModel);
+        boolean beamVisible = beamModel.getCullHint() == Spatial.CullHint.Never; //TODO: Should we really check the view for game logic?
+
+        if (colliding && beamVisible) {
+            if(!junk.isInBeam()){
                 junk.enterBeam();
-//                ((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);
             }
-        }else{
-            junk.update(); //Gravitates the junk
-            if(junk.isInBeam() == BeamState.IN_BEAM){
+        } else {
+            if (junk.isInBeam()) {
                 junk.exitBeam();
-//                ((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);
             }
+
+            junk.update(tpf); //Gravitates the junk.
         }
     }
 
-    protected void controlRender(RenderManager renderManager, ViewPort viewPort) {
-
+    private Spatial getModel() {
+        return ((Node) spatial).getChild(0);
     }
+
 }

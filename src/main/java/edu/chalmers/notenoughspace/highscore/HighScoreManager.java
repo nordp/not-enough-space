@@ -27,31 +27,41 @@ public class HighScoreManager {
 
     private HighScoreManager() {
         //initialising the scores-arraylist
-        scores = new ArrayList<Score>();
+        scores = loadScoreFile();
         Bus.getInstance().register(this);
     }
 
     public ArrayList<Score> getScores() {
-        loadScoreFile();
-        sort();
         return scores;
     }
 
-    private void sort() {
+    public void setScores(ArrayList<Score> scores){
+        this.scores = scores;
+        sort(this.scores);
+        updateScoreFile();
+    }
+
+    public void clearScores(){
+        scores.clear();
+        updateScoreFile();
+    }
+
+    private void sort(ArrayList<Score> scores) {
         HighScoreComparator comparator = new HighScoreComparator();
         Collections.sort(scores, comparator);
     }
 
     public void addScoreToList(String name, int score) {
-        loadScoreFile();
         scores.add(new Score(name, score));
+        sort(scores);
         updateScoreFile();
     }
 
     @Subscribe
     public void levelOver(GameOverEvent event){addScoreToList(newName, (int) event.getPoints());}
 
-    public void loadScoreFile() {
+    public ArrayList<Score> loadScoreFile() {
+        ArrayList<Score> scores = null;
         try {
             inputStream = new ObjectInputStream(new FileInputStream(HIGHSCORE_FILE));
             scores = (ArrayList<Score>) inputStream.readObject();
@@ -71,6 +81,7 @@ public class HighScoreManager {
                 System.out.println("[Laad] IO Error: " + e.getMessage());
             }
         }
+        return scores;
     }
 
     public void updateScoreFile() {

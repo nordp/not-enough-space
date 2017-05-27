@@ -5,45 +5,50 @@ import edu.chalmers.notenoughspace.event.EnergyChangedEvent;
 import edu.chalmers.notenoughspace.event.EnergyEmptyEvent;
 
 /**
- * Created by Vibergf on 25/05/2017.
+ *  The resource used to power beam. Is consumed constantly when beam
+ *  is activated and gradually recharged when beam is inactive. Energy can also be
+ *  recharged quickly by picking up a powerup of the energy type.
  */
 public class Energy {
 
-    private float energyLevel;
-    private float maxEnergy;
+    private final float MAX_ENERGY;
+    private float currentEnergyLevel;
     private float regenerationRate;
 
-    public Energy(float initialEnergy, float maxEnergy, float regenerationRate) {
-        this.maxEnergy = maxEnergy;
+    public Energy(float initialEnergy, float MAX_ENERGY, float regenerationRate) {
+        this.MAX_ENERGY = MAX_ENERGY;
         modifyEnergy(initialEnergy);
         this.regenerationRate = regenerationRate;
     }
+
 
     public void regenerate(float tpf){
         modifyEnergy(regenerationRate * tpf);
     }
 
-    public void modifyEnergy(float dEnergy) {
-        float oldEnergy = energyLevel;
-        energyLevel += dEnergy;
-        if (energyLevel <= 0) {
-            energyLevel = 0;
+    public void modifyEnergy(float changeInEnergy) {
+        float oldEnergy = currentEnergyLevel;
+        currentEnergyLevel += changeInEnergy;
+
+        if (currentEnergyLevel <= 0) {
+            currentEnergyLevel = 0;
             Bus.getInstance().post(new EnergyEmptyEvent());
-        }else if(energyLevel > maxEnergy){
-            energyLevel = maxEnergy;
+        } else if (currentEnergyLevel > MAX_ENERGY) {
+            currentEnergyLevel = MAX_ENERGY;
         }
 
-        if(energyLevel != oldEnergy)
-            Bus.getInstance().post(new EnergyChangedEvent(energyLevel));
+        if(currentEnergyLevel != oldEnergy) {
+            Bus.getInstance().post(new EnergyChangedEvent(currentEnergyLevel));
+        }
     }
 
-    public float getEnergyLevel() {
-                return energyLevel;
+    public float getCurrentEnergyLevel() {
+                return currentEnergyLevel;
             }
 
     @Override
     public String toString() {
-            return "Energy: " + energyLevel + " units";
+            return "Energy: " + currentEnergyLevel + " units";
         }
 
 }

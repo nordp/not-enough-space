@@ -7,26 +7,30 @@ import edu.chalmers.notenoughspace.event.BeamableStoredEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.StorageChangeEvent;
 
-import java.util.LinkedList;
 import java.util.*;
 
 /**
- * Created by juliaortheden on 2017-04-06.
+ * The storage storing the objects beamed up by the ship.
  */
 public class Storage {
 
-    private List<BeamableEntity> beamableEntityList = new LinkedList();
+    private List<BeamableEntity> storedObjects;
 
     public Storage() {
+        storedObjects = new ArrayList<BeamableEntity>();
+
         Bus.getInstance().register(this);
         Bus.getInstance().post(new StorageChangeEvent(this));
     }
 
+
     public int getScore(){
         float score = 0;
-        for (BeamableEntity b : beamableEntityList) {
+        for (BeamableEntity b : storedObjects) {
             if (b instanceof Cow) {
-                score += ((Cow) b).getWeight();
+                Cow cow = (Cow) b;
+                float weight = cow.getWeight();
+                score += weight;
             }
         }
         return (int) (score * 100000);
@@ -34,7 +38,7 @@ public class Storage {
 
     public int getNumberOfCows() {
         int count = 0;
-        for (BeamableEntity b : beamableEntityList) {
+        for (BeamableEntity b : storedObjects) {
             if (b instanceof Cow) {
                 count++;
             }
@@ -42,20 +46,20 @@ public class Storage {
         return count;
     }
 
-
-    public float calculateWeight() {
-        float weight = 0;
-        for (int i = 0; i < beamableEntityList.size(); i++) {
-            weight += beamableEntityList.get(i).getWeight();
+    public float getTotalWeight() {
+        float totalWeight = 0;
+        for (BeamableEntity b : storedObjects) {
+            totalWeight += b.getWeight();
         }
-     return weight;
+        return totalWeight;
     }
 
     @Subscribe
     public void entityStored(BeamableStoredEvent event) {
-        if (!beamableEntityList.contains(event.getBeamableEntity())) {
-            beamableEntityList.add(event.getBeamableEntity());
+        if (!storedObjects.contains(event.getBeamableEntity())) {
+            storedObjects.add(event.getBeamableEntity());
             Bus.getInstance().post(new StorageChangeEvent(this));
         }
     }
+
 }

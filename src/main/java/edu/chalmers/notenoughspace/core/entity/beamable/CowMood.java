@@ -1,10 +1,12 @@
 package edu.chalmers.notenoughspace.core.entity.beamable;
 
 /**
- * Created by Phnor on 2017-04-05.
+ * The different moods a cow can be in. Mostly affects the speed of the cow.
  */
 public enum CowMood {
+
     CALM,
     SCARED,
     TIRED,
+
 }

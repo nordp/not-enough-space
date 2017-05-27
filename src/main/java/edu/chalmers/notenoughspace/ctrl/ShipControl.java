@@ -18,7 +18,6 @@ import com.jme3.renderer.ViewPort;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.core.entity.Planet;
 import edu.chalmers.notenoughspace.core.move.Movement;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
@@ -26,42 +25,37 @@ import edu.chalmers.notenoughspace.event.BeamableStoredEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
 /**
- * Control for a ship hovering around a planet. Includes functions
- * for adding and removing a third person camera.
+ * TODO
  */
 public class ShipControl extends DetachableControl {
+
     private final String THIRD_PERSON_CAMERA = "followShipCamera";
     private final float MAX_DISTANCE_TO_CAMERA = 3f;
+
     private boolean usingCameraDrag = true;
-    private Ship ship;
-
     private Camera camera;
-
-    /**
-     * Node for the camera following the ship.
-     */
     private Node followShipCameraPivotNode;
-    private Listener audioListener;
 
     private InputManager inputManager;
+    private Listener audioListener;
+
+    private Ship ship;
+
 
     public ShipControl(InputManager inputManager, Listener audioListener, Ship ship) {
         this.inputManager = inputManager;
         initMovementKeys();
+
         this.ship = ship;
         this.audioListener = audioListener;
+
         Bus.getInstance().register(this);
     }
 
-    protected void controlUpdate(float v) {
-        ship.update(v);
-        //audioListener.setLocation(new Vector3f(0f, Planet.PLANET_RADIUS, 0f));
-        audioListener.setLocation(((Node)spatial).getChild("shipModel").getWorldTranslation());
-        audioListener.setRotation(((Node)spatial).getChild("shipModel").getWorldRotation());
-    }
 
-    protected void controlRender(RenderManager renderManager, ViewPort viewPort) {
-
+    protected void controlUpdate(float tpf) {
+        ship.update(tpf);
+        setAudioListenerAtShipPosition();
     }
 
     public void onDetach(){
@@ -69,36 +63,34 @@ public class ShipControl extends DetachableControl {
         Bus.getInstance().unregister(this);
     }
 
-    /////////// CAMERA STUFF /////////////
-
-    /**
-     * Attaches the given camera to a position a bit behind and above
-     * the ship, looking at the ship with UP in the ship's direction.
-     * @param cam The camera to be used as third person camera.
-     * @param planetRadius The radius of the planet that the ship is hovering over.
-     * @param shipAltitude The ship's height above the planet's surface.
-     */
-    public void attachThirdPersonView(Camera cam, float planetRadius, float shipAltitude) {
+    public void attachThirdPersonView(Camera cam) {
         camera = cam;
+
+        float cameraAltitude = -(Planet.PLANET_RADIUS + Ship.ALTITUDE + 8);
+        float cameraRotation = FastMath.HALF_PI + -35*FastMath.DEG_TO_RAD;
+
         CameraNode followShipCamera = new CameraNode(THIRD_PERSON_CAMERA, cam);
-        followShipCamera.setLocalTranslation( 0
-                ,6f, -(planetRadius + shipAltitude + 8));
+        followShipCamera.setLocalTranslation(0, 6f, cameraAltitude);
 
         followShipCameraPivotNode = new Node();    //Helper node to set the default position
-        //of the camera.
+                                                    //of the camera.
         followShipCameraPivotNode.attachChild(followShipCamera);
-        followShipCameraPivotNode.rotate(FastMath.HALF_PI + -35*FastMath.DEG_TO_RAD,
-                FastMath.PI, 0); //originally 43
+        followShipCameraPivotNode.rotate(cameraRotation, FastMath.PI, 0);
 
-        //PRESS C TO GET CAMERA INFO FOR SETTING CHASECAM!
         ((Node) spatial).attachChild(followShipCameraPivotNode);
 
         if (usingCameraDrag) {
             setupDraggingCamera(followShipCamera);
         }
-
     }
 
+
+    private void setAudioListenerAtShipPosition() {
+        audioListener.setLocation(getModel().getWorldTranslation());
+        audioListener.setRotation(getModel().getWorldRotation());
+    }
+
+    
     private void setupDraggingCamera(CameraNode followShipCamera) {
         //Calculates the boundaries for how far from the cameras focal point the
         //ship can move without the camera following it.
@@ -173,7 +165,7 @@ public class ShipControl extends DetachableControl {
         if(hasThirdPersonViewAttached()){
             detachThirdPersonView();
         }else
-            attachThirdPersonView(camera, Planet.PLANET_RADIUS, Ship.ALTITUDE);
+            attachThirdPersonView(camera);
     }
 
     public boolean hasThirdPersonViewAttached() {
@@ -229,28 +221,28 @@ public class ShipControl extends DetachableControl {
                 ship.addMoveInput(Movement.FORWARD, tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("backwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(
-                            -drag * tpf * Math.abs(ship.getCurrentSpeedY()), 0, 0);
+                            -drag * tpf * Math.abs(ship.getCurrentYSpeed()), 0, 0);
                 }
             }
             if (name.equals(Movement.LEFT.name())) {
                 ship.addMoveInput(Movement.LEFT, tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("rightPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(
-                            0, 0, drag * tpf  * Math.abs(ship.getCurrentSpeedX()));
+                            0, 0, drag * tpf  * Math.abs(ship.getCurrentXSpeed()));
                 }
             }
             if (name.equals(Movement.RIGHT.name())) {
                 ship.addMoveInput(Movement.RIGHT, tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("leftPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(
-                            0, 0, -drag * tpf  * Math.abs(ship.getCurrentSpeedX()));
+                            0, 0, -drag * tpf  * Math.abs(ship.getCurrentXSpeed()));
                 }
             }
             if (name.equals(Movement.BACKWARD.name())) {
                 ship.addMoveInput(Movement.BACKWARD, tpf);
                 if (usingCameraDrag && distanceToCameraBoundary("forwardPoint") < MAX_DISTANCE_TO_CAMERA) {
                     followShipCameraPivotNode.rotate(
-                            drag * tpf * Math.abs(ship.getCurrentSpeedY()), 0, 0);
+                            drag * tpf * Math.abs(ship.getCurrentYSpeed()), 0, 0);
                 }
             }
             if (name.equals(Movement.ROTATION_LEFT.name())) {
@@ -311,6 +303,10 @@ public class ShipControl extends DetachableControl {
         channel.setAnim(animationName);
         channel.setLoopMode(LoopMode.DontLoop);
         channel.setSpeed(speed);
+    }
+
+    private Spatial getModel() {
+        return ((Node)spatial).getChild("shipModel");
     }
 
 }

@@ -3,13 +3,14 @@ package edu.chalmers.notenoughspace.core.entity.powerup;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 
 /**
- * Created by Vibergf on 25/05/2017.
+ * Power-up restoring some of the ship's health when collected.
  */
 public class HealthPowerup extends Powerup {
 
-    private static final int AMOUNT = 25;
+    private static final int HEALING_POWER = 25;
 
     public void affect(Ship ship) {
-        ship.modifyHealth(AMOUNT);
+        ship.modifyHealth(HEALING_POWER);
     }
+
 }

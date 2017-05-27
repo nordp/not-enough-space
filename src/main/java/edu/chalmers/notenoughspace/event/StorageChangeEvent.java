@@ -21,6 +21,6 @@ public class StorageChangeEvent {
     }
 
     public float getNewWeight() {
-        return storage.calculateWeight();
+        return storage.getTotalWeight();
     }
 }

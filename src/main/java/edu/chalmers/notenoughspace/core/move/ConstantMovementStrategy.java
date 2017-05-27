@@ -3,17 +3,12 @@ package edu.chalmers.notenoughspace.core.move;
 /**
  * Movement strategy for movement without acceleration/deceleration, directly corresponding to input.
  */
-public class NoAccelerationStrategy extends MovementStrategy {
-
-    private final float ROTATION_SPEED = 40;
-    private final float SPEED = 40;
-    private PlanetaryInhabitant body;
+public class ConstantMovementStrategy extends MovementStrategy {
     
-    public NoAccelerationStrategy(PlanetaryInhabitant body) {
-        this.body = body;
-        setCurrentYSpeed(SPEED/1000);
-        setCurrentXSpeed(SPEED/1000);
-        setCurrentRotationSpeed(ROTATION_SPEED/20);
+    public ConstantMovementStrategy(float speed, float rotationSpeed) {
+        setCurrentYSpeed(speed/1000);
+        setCurrentXSpeed(speed/1000);
+        setCurrentRotationSpeed(rotationSpeed/20);
     }
 
 
@@ -21,7 +16,7 @@ public class NoAccelerationStrategy extends MovementStrategy {
         //Nothing here. All dependent on input.
     }
 
-    public void addMoveInput(Movement movement, float tpf) {
+    public void addMoveInput(PlanetaryInhabitant body, Movement movement, float tpf) {
         switch (movement) {
             case FORWARD:
                 body.rotateForward(-1 * getCurrentYSpeed() * tpf * 20);

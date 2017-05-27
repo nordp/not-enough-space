@@ -5,7 +5,7 @@ package edu.chalmers.notenoughspace.core.move;
  */
 public class ZeroGravityStrategy implements GravityStrategy {
 
-    public void gravitate(PlanetaryInhabitant body) {
+    public void gravitate(PlanetaryInhabitant body, float tpf) {
         //Not affected by gravity.
     }
 

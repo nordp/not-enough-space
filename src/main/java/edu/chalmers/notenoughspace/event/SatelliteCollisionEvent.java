@@ -3,15 +3,17 @@ package edu.chalmers.notenoughspace.event;
 import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
 
 /**
- * Created by juliaortheden on 2017-05-17.
+ * Event fired when the ship collides with a satellite.
  */
 public class SatelliteCollisionEvent {
+
     private Satellite satellite;
 
     public SatelliteCollisionEvent(Satellite satellite){
         this.satellite = satellite;
-        System.out.println("Satellite collision event posted");
+        System.out.println("SatelliteCollisionEvent posted.");
     }
+
 
     public Satellite getSatellite(){
         return satellite;
@@ -20,4 +22,5 @@ public class SatelliteCollisionEvent {
     public int getDamage() {
         return satellite.getDamage();
     }
+
 }

@@ -54,7 +54,7 @@ public class Hayfork extends Entity {
         pierceIntoVector.scale(0.32f);
         body.move(pierceIntoVector);
 
-        Bus.getInstance().post(new HayforkCollisionEvent(this));
+        Bus.getInstance().post(new HayforkCollisionEvent(getID(), getDamage()));
     }
 
     public Entity getThrower() {

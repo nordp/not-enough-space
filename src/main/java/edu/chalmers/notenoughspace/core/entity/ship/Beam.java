@@ -65,7 +65,7 @@ public class Beam extends Entity {
 
     @Subscribe
     public synchronized void removeFromBeam(BeamExitedEvent event) {
-        BeamableEntity beamable = event.getBeamableEntity();
+        BeamableEntity beamable = event.getBeamable();
         if (objectsInBeam.contains(beamable)) {
             objectsInBeam.remove(beamable);
         }

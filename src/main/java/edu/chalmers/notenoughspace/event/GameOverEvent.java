@@ -4,7 +4,7 @@ import edu.chalmers.notenoughspace.core.Level;
 import edu.chalmers.notenoughspace.core.entity.ship.Storage;
 
 /**
- * Created by Phnor on 2017-05-10.
+ * Event fired when a game round is over.
  */
 public class GameOverEvent {
 
@@ -12,9 +12,12 @@ public class GameOverEvent {
 
     public GameOverEvent(int points) {
         this.points = points;
-        System.out.println("Game Over Event");
+        System.out.println("Game Over Event fired.");
     }
 
-    public float getPoints(){
-       return points;}
+
+    public float getPoints() {
+       return points;
+    }
+
 }

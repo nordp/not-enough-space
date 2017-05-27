@@ -2,9 +2,6 @@ package edu.chalmers.notenoughspace.core.entity;
 
 import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
-import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
-import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
-import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
 import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
 import edu.chalmers.notenoughspace.core.entity.powerup.Powerup;
 import edu.chalmers.notenoughspace.core.move.ZeroGravityStrategy;
@@ -68,7 +65,7 @@ public class Planet extends Entity {
 
     @Subscribe
     public void beamableStored(BeamableStoredEvent event){
-        BeamableEntity beamable = event.getBeamableEntity();
+        BeamableEntity beamable = event.getBeamable();
         population.remove(beamable);
         Bus.getInstance().post(new EntityRemovedEvent(beamable));
     }

@@ -232,7 +232,7 @@ public class SpatialHandler {
     public void hayforkHitShip(HayforkCollisionEvent event) {
         SoundPlayer.getInstance().play("hayforkHit");
 
-        String hayforkID = event.getHayFork().getID();
+        String hayforkID = event.getHayForkID();
         Spatial hayfork = rootNode.getChild(hayforkID);
         Spatial hayforkModel = ((Node) hayfork).getChild(0);
 

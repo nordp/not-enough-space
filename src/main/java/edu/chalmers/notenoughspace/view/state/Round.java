@@ -247,7 +247,7 @@ public class Round extends AbstractAppState implements ScreenController {
 
     //** Eventbased HUD updates */
     @Subscribe
-    public void storageChange(StorageChangeEvent event){
+    public void storageChange(StorageChangedEvent event){
         Element counterElement = nifty.getCurrentScreen().findElementById("cowCount");
         int nCows = event.getNumberOfCows();
         String count = (nCows > 9) ? "" + nCows : "0" + nCows;

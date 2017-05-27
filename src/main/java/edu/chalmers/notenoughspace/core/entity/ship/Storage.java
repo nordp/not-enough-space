@@ -5,7 +5,7 @@ import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
 import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
 import edu.chalmers.notenoughspace.event.BeamableStoredEvent;
 import edu.chalmers.notenoughspace.event.Bus;
-import edu.chalmers.notenoughspace.event.StorageChangeEvent;
+import edu.chalmers.notenoughspace.event.StorageChangedEvent;
 
 import java.util.*;
 
@@ -20,7 +20,7 @@ public class Storage {
         storedObjects = new ArrayList<BeamableEntity>();
 
         Bus.getInstance().register(this);
-        Bus.getInstance().post(new StorageChangeEvent(this));
+        Bus.getInstance().post(new StorageChangedEvent(getScore(), getNumberOfCows()));
     }
 
 
@@ -56,9 +56,9 @@ public class Storage {
 
     @Subscribe
     public void entityStored(BeamableStoredEvent event) {
-        if (!storedObjects.contains(event.getBeamableEntity())) {
-            storedObjects.add(event.getBeamableEntity());
-            Bus.getInstance().post(new StorageChangeEvent(this));
+        if (!storedObjects.contains(event.getBeamable())) {
+            storedObjects.add(event.getBeamable());
+            Bus.getInstance().post(new StorageChangedEvent(getScore(), getNumberOfCows()));
         }
     }
 

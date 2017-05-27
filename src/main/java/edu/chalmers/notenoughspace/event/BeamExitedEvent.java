@@ -3,7 +3,7 @@ package edu.chalmers.notenoughspace.event;
 import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
 
 /**
- * Created by Vibergf on 15/05/2017.
+ * Event fired when beamable entity exits the beam.
  */
 public class BeamExitedEvent {
 
@@ -14,7 +14,9 @@ public class BeamExitedEvent {
         System.out.println("BeamExitedEvent fired.");
     }
 
-    public BeamableEntity getBeamableEntity(){
+
+    public BeamableEntity getBeamable(){
         return beamable;
     }
+
 }

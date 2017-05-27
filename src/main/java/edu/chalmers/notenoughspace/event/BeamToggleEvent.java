@@ -1,16 +1,20 @@
 package edu.chalmers.notenoughspace.event;
 
 /**
- * Created by Vibergf on 09/05/2017.
+ * Event fired when beam is turned on or off.
  */
 public class BeamToggleEvent {
+
     private boolean enabled;
 
     public BeamToggleEvent(boolean enabled){
         this.enabled = enabled;
+        System.out.println("BeamToggleEvent fired.");
     }
+
 
     public boolean getEnabled(){
         return enabled;
     }
+
 }

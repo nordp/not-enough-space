@@ -1,7 +1,7 @@
 package edu.chalmers.notenoughspace.event;
 
 /**
- * Created by Vibergf on 25/05/2017.
+ * Event fired when the ship's energy level is changed.
  */
 public class EnergyChangedEvent {
 
@@ -9,9 +9,12 @@ public class EnergyChangedEvent {
 
     public EnergyChangedEvent(float energyLevel){
         this.energyLevel = energyLevel;
+        System.out.println("EnergyLevelChangedEvent fired.");
     }
 
+
     public float getEnergyLevel(){
-        return this.energyLevel;
+        return energyLevel;
     }
+
 }

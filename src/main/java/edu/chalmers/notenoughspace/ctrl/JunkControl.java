@@ -21,11 +21,11 @@ public class JunkControl extends DetachableControl {
 
 
     protected void controlUpdate(float tpf) {
-        checkCollisionWithBeam();
+        checkCollisionWithBeam(tpf);
     }
 
 
-    private void checkCollisionWithBeam() {
+    private void checkCollisionWithBeam(float tpf) {
         Spatial beamModel = ControlUtil.getRoot(spatial).getChild("beamModel");
 
         boolean colliding = ControlUtil.checkCollision(getModel(), beamModel);
@@ -40,7 +40,7 @@ public class JunkControl extends DetachableControl {
                 junk.exitBeam();
             }
 
-            junk.update(); //Gravitates the junk.
+            junk.update(tpf); //Gravitates the junk.
         }
     }
 

@@ -58,9 +58,8 @@ public class Cow extends BeamableEntity {
         Bus.getInstance().post(new EntityCreatedEvent(this));
     }
 
-
     protected void onPlanetaryInhabitantAttached(){
-        Entity.randomizeDirection(body);
+        randomizeDirection();
     }
 
     public void update(PlanetaryInhabitant shipBody, float tpf) {
@@ -103,6 +102,8 @@ public class Cow extends BeamableEntity {
             pointsModifier = size;
             speedModifier = MAX_SIZE + MIN_SIZE - size; //The bigger the slower.
         }
+
+        Bus.getInstance().post(new EntityCreatedEvent(this));
     }
 
     private void updateMood(float distanceFromShip){
@@ -135,9 +136,9 @@ public class Cow extends BeamableEntity {
             return;
         }
 
-        float altitude = body.getLocalTranslation().y;
+        float altitude = body.getPosition().y;
         if (altitude > Planet.PLANET_RADIUS) {
-            gravitate();
+            gravitate(tpf);
             return;
         }
 

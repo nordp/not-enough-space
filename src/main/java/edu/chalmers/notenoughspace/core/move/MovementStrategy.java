@@ -18,7 +18,7 @@ public abstract class MovementStrategy {
 
     public abstract void move(PlanetaryInhabitant body, float tpf);
 
-    public abstract void addMoveInput(Movement movement, float tpf);
+    public abstract void addMoveInput(PlanetaryInhabitant body, Movement movement, float tpf);
 
     public float getCurrentRotationSpeed() {
         return currentRotationSpeed;

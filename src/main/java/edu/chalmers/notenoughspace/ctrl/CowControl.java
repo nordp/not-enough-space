@@ -67,7 +67,7 @@ public class CowControl extends DetachableControl {
     }
 
     private void adjustSizeRelativeToAltitude() {
-        float cowAltitude = cow.getPlanetaryInhabitant().getLocalTranslation().y;
+        float cowAltitude = cow.getPlanetaryInhabitant().getPosition().y;
         float yDistanceToShip = (Ship.ALTITUDE + Planet.PLANET_RADIUS) - cowAltitude;
 
         if (yDistanceToShip > 1f) {

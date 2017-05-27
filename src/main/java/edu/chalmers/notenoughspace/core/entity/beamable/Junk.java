@@ -17,7 +17,7 @@ public class Junk extends BeamableEntity {
 
 
     protected void onPlanetaryInhabitantAttached(){
-        Entity.randomizeDirection(body);
+        randomizeDirection();
     }
 
     public float getWeight() {
@@ -28,8 +28,8 @@ public class Junk extends BeamableEntity {
         return 0f;
     }
 
-    public void update() {
-        gravitate();
+    public void update(float tpf) {
+        gravitate(tpf);
     }
 
 }

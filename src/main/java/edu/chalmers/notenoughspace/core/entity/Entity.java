@@ -18,11 +18,15 @@ public abstract class Entity {
     }
 
 
-    protected void gravitate() {
-        gravityStrategy.gravitate(body);
+    protected void gravitate(float tpf) {
+        gravityStrategy.gravitate(body, tpf);
     }
 
-    protected void onPlanetaryInhabitantAttached(){}    //To be overridden if needed.
+    /**
+     * To be overridden if needed. Acts as an additional constructor method for
+     * logic that needs access to the PlanetaryInhabitant.
+     */
+    protected void onPlanetaryInhabitantAttached(){}
 
     public PlanetaryInhabitant getPlanetaryInhabitant() { return body;}
 
@@ -33,12 +37,16 @@ public abstract class Entity {
 
     public String getID(){ return this.toString(); }
 
-    public static void randomizePosition(PlanetaryInhabitant body){
+    public void randomizePosition(){
+        if(body == null)
+            return;
         body.rotateForward((float)Math.PI*2* new Random().nextFloat());
         body.rotateSideways((float)Math.PI*2* new Random().nextFloat());
     }
 
-    public static void randomizeDirection(PlanetaryInhabitant body){
+    public void randomizeDirection(){
+        if(body == null)
+            return;
         body.rotateModel((float)Math.PI*2 * new Random().nextFloat());
     }
 

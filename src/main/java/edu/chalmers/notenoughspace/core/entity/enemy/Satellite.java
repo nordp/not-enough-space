@@ -22,7 +22,7 @@ public class Satellite extends Entity {
 
 
     protected void onPlanetaryInhabitantAttached(){
-        Entity.randomizeDirection(body);
+        randomizeDirection();
     }
 
     public void collision() {

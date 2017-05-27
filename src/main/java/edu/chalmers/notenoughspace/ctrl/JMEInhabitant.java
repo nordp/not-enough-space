@@ -43,10 +43,6 @@ public class JMEInhabitant implements PlanetaryInhabitant {
                 new com.jme3.math.Vector3f(0, goal.z, -goal.y));
     }
 
-    public Vector3f getLocalTranslation() {
-        return jmeToVecmath(model.getLocalTranslation());
-    }
-
     public void setDistanceFromPlanetsCenter(float distance) {
         model.setLocalTranslation(0, distance, 0);}
 
@@ -54,12 +50,12 @@ public class JMEInhabitant implements PlanetaryInhabitant {
         return model.getLocalTranslation().getY();
     }
 
-    public Vector3f getWorldTranslation() {
+    public Vector3f getPosition() {
         return jmeToVecmath(model.getWorldTranslation());
     }
 
     public float distanceTo(PlanetaryInhabitant other) {
-        return model.getWorldTranslation().distance(vecmathToJme(other.getWorldTranslation()));
+        return model.getWorldTranslation().distance(vecmathToJme(other.getPosition()));
     }
 
     public PlanetaryInhabitant clone() {

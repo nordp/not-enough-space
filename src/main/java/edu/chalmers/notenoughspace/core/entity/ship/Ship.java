@@ -26,16 +26,11 @@ public class Ship extends Entity {
         Bus.getInstance().post(new EntityCreatedEvent(this));
         Bus.getInstance().register(this);
 
+        mover = new AccelerationMovementStrategy(40, 45, 40, 200);
         health = new Health(100, 100);
         energy = new Energy(100, 100,  5);
         beam = new Beam(this);
         storage = new Storage();
-    }
-
-
-    @Override
-    protected void onPlanetaryInhabitantAttached(){
-        mover = new Accelerator();  //TODO: Explain why this is added here.
     }
 
     public void update(float tpf) {
@@ -52,7 +47,7 @@ public class Ship extends Entity {
     }
 
     public void addMoveInput(Movement movement, float tpf) {
-        mover.addMoveInput(movement, tpf);
+        mover.addMoveInput(body, movement, tpf);
     }
 
     public void toggleBeam(boolean active) {

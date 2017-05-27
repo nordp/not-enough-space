@@ -27,10 +27,10 @@ public class InhabitantTest {
 
         PlanetaryInhabitant clone = pi.clone();
         assertNotEquals(pi, clone);
-        assertEquals(pi.getWorldTranslation(), clone.getWorldTranslation());
+        assertEquals(pi.getPosition(), clone.getPosition());
 
         clone.rotateForward(1f);
-        assertNotEquals(pi.getWorldTranslation(), clone.getWorldTranslation());
+        assertNotEquals(pi.getPosition(), clone.getPosition());
 
         PlanetaryInhabitant pi2 = new TestInhabitant(0f, 2f, 0f);
         assertEquals(1f, pi.distanceTo(pi2), 0f);

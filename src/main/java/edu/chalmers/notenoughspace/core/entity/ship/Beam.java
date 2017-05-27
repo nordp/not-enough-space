@@ -158,7 +158,7 @@ public class Beam extends Entity {
 
     private boolean atCenter(PlanetaryInhabitant inhabitant, PlanetaryInhabitant shipBody) {
         float hypotenuse = inhabitant.distanceTo(shipBody);
-        float yDistance = shipBody.getLocalTranslation().y - inhabitant.getLocalTranslation().y;
+        float yDistance = shipBody.getPosition().y - inhabitant.getPosition().y;
         float hSquared = hypotenuse * hypotenuse;
         float ySquared = yDistance * yDistance;
         float xDistance = (float) Math.sqrt(hSquared - ySquared);

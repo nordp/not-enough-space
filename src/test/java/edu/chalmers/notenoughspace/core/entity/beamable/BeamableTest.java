@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class BeamStateTest {
+public class BeamableTest {
     BeamableEntity beamable;
     Beam beam;
     Ship ship;

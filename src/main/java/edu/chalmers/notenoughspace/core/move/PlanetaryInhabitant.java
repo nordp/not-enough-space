@@ -15,8 +15,7 @@ public interface PlanetaryInhabitant {
     float distanceTo(PlanetaryInhabitant other);
     void setDistanceFromPlanetsCenter(float distance);
     float getDistanceFromPlanetsCenter();
-    Vector3f getLocalTranslation();
-    Vector3f getWorldTranslation();
+    Vector3f getPosition();
     PlanetaryInhabitant clone();
 
 }

@@ -5,6 +5,6 @@ package edu.chalmers.notenoughspace.core.move;
  */
 public interface GravityStrategy {
 
-    void gravitate(PlanetaryInhabitant body);
+    void gravitate(PlanetaryInhabitant body, float tpf);
 
 }

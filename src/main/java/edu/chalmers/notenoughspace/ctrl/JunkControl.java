@@ -18,7 +18,7 @@ public class JunkControl extends DetachableControl {
         this.junk = junk;
     }
 
-    protected void controlUpdate(float v) {
+    protected void controlUpdate(float tpf) {
 
         boolean colliding = ControlUtil.checkCollision(((Node) spatial).getChild(0), (ControlUtil.getRoot(spatial).getChild("beamModel")));
 
@@ -28,7 +28,7 @@ public class JunkControl extends DetachableControl {
 //                ((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);
             }
         }else{
-            junk.update(); //Gravitates the junk
+            junk.update(tpf); //Gravitates the junk
             if(junk.isInBeam()){
                 junk.exitBeam();
 //                ((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);

@@ -132,7 +132,7 @@ public class SpatialHandler {
             spotLight.setSpotRange(Ship.ALTITUDE + 2f);
             spotLight.setSpotOuterAngle(45 * FastMath.DEG_TO_RAD);
             spotLight.setSpotInnerAngle(5 * FastMath.DEG_TO_RAD);
-//            spotLight.setPosition(model.getWorldTranslation());
+//            spotLight.setPosition(model.getPosition());
             spotLight.setDirection(model.getWorldTranslation().mult(-1));
             spotLight.setName("shipSpotLight");
             LightNode spotLightNode = new LightNode("shipSpotLightNode", spotLight);
@@ -181,7 +181,7 @@ public class SpatialHandler {
 
             Entity thrower = hayfork.getThrower();
             javax.vecmath.Vector3f throwerWorldTranslation =
-                    thrower.getPlanetaryInhabitant().getWorldTranslation();
+                    thrower.getPlanetaryInhabitant().getPosition();
 
             model.setLocalTranslation(new Vector3f(throwerWorldTranslation.x,
                     throwerWorldTranslation.y,

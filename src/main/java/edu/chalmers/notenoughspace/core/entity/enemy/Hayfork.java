@@ -38,8 +38,8 @@ public class Hayfork extends Entity {
     }
 
     private void setDirectionTowards(PlanetaryInhabitant ship) {
-        Vector3f myPosition = body.getWorldTranslation();
-        Vector3f shipPosition = ship.getWorldTranslation();
+        Vector3f myPosition = body.getPosition();
+        Vector3f shipPosition = ship.getPosition();
         body.setDirection(shipPosition);
 
         shipPosition.sub(myPosition);   //Results in vector directed directly towards the ship.

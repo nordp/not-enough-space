@@ -16,8 +16,8 @@ public class RealisticGravityStrategy implements GravityStrategy {
     }
 
 
-    public void gravitate(PlanetaryInhabitant body) {
-        float newAltitude = body.getLocalTranslation().y;
+    public void gravitate(PlanetaryInhabitant body, float tpf) {
+        float newAltitude = body.getPosition().y;
         if (newAltitude > altitude) {
             fallingSpeed = 0;  //Resets falling fallingSpeed if this is the beginning of a fall.
         }
@@ -25,8 +25,8 @@ public class RealisticGravityStrategy implements GravityStrategy {
         altitude = newAltitude;
 
         if (altitude > Planet.PLANET_RADIUS) {
-            fallingSpeed += GRAVITY_CONSTANT / 30000;
-            body.setDistanceFromPlanetsCenter(altitude - fallingSpeed);
+            fallingSpeed += GRAVITY_CONSTANT * tpf / 8;
+            body.setDistanceFromPlanetsCenter(altitude - fallingSpeed * tpf);
         } else if (altitude < Planet.PLANET_RADIUS) {
             fallingSpeed = 0;
             body.setDistanceFromPlanetsCenter(Planet.PLANET_RADIUS);

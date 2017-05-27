@@ -48,7 +48,7 @@ public class Planet extends Entity {
 
     public void randomizeInhabitantPositions() {
         for(Entity e : population){
-            Entity.randomizePosition(e.getPlanetaryInhabitant());
+            e.randomizePosition();
         }
     }
 

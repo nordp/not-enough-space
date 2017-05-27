@@ -11,14 +11,10 @@ import static org.junit.Assert.*;
  */
 public class LevelTest {
     Level level;
+
     @Before
     public void setUp() throws Exception {
         level = new Level();
-    }
-
-    @Test
-    public void update() throws Exception {
-
     }
 
     @Test

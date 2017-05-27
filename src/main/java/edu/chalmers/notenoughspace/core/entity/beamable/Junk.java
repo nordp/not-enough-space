@@ -5,13 +5,15 @@ import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 
 /**
- * Created by Phnor on 2017-05-08.
+ * Non-moving object residing on the surface of the planet. Possible for the ship to beam and store
+ * but does not give any points or affect anything else.
  */
 public class Junk extends BeamableEntity {
 
     public Junk() {
         Bus.getInstance().post(new EntityCreatedEvent(this));
     }
+
 
     protected void onPlanetaryInhabitantAttached(){
         Entity.randomizeDirection(body);
@@ -28,4 +30,5 @@ public class Junk extends BeamableEntity {
     public void update() {
         gravitate();
     }
+
 }

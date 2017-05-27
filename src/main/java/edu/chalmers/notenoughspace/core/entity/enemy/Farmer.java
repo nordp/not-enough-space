@@ -45,6 +45,7 @@ public class Farmer extends Entity {
     private void chaseShip(PlanetaryInhabitant ship, float tpf) {
         float turnDir = 0f;
 
+        //"Should I turn left or right?"
         PlanetaryInhabitant left = body.clone();
         PlanetaryInhabitant right = body.clone();
 

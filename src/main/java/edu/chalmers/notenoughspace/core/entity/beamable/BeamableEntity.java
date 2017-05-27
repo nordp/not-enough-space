@@ -6,14 +6,21 @@ import edu.chalmers.notenoughspace.event.BeamEnteredEvent;
 import edu.chalmers.notenoughspace.event.BeamExitedEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
+/**
+ * Entity possible for the ship to beam up and store in storage.
+ */
 public abstract class BeamableEntity extends Entity {
-    private BeamState beamState = BeamState.NOT_IN_BEAM;
+
+    private BeamState beamState;
 
     public BeamableEntity() {
         super(new RealisticGravityStrategy());
+        beamState = BeamState.NOT_IN_BEAM;
     }
 
+
     public BeamState isInBeam(){ return beamState; }
+
     public void enterBeam(){
         this.beamState = BeamState.IN_BEAM;
         Bus.getInstance().post(new BeamEnteredEvent(this));
@@ -25,5 +32,7 @@ public abstract class BeamableEntity extends Entity {
     }
 
     public abstract float getWeight();
+
     public abstract float getPoints();
+
 }

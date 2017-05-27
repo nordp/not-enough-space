@@ -13,10 +13,13 @@ import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 public class Farmer extends Entity {
 
     private final static float AGGRO_DISTANCE = 10f;
+    private final static float CIRCLE_DISTANCE = 4f;
     private final static float SPRINT_SPEED = 0.8f;
-    private final static float TURN_RADIUS = 4;
+    private final static float TURN_RADIUS = 250;
     private final static float THROW_CHANCE = 0.7f;
+    private final static float CHANGE_DIRECTION_CHANCE = 5f;
 
+    private boolean runClockwise = false;
 
     public Farmer(){
         super(new ZeroGravityStrategy());
@@ -31,14 +34,16 @@ public class Farmer extends Entity {
             if (Math.random() * 100 <= THROW_CHANCE) {
                 throwHayfork();
             }
+            if (Math.random() * 100 <= CHANGE_DIRECTION_CHANCE) {
+                runClockwise = !runClockwise;
+            }
         } else {
             randomlyStrollAround(tpf);
         }
     }
 
-
     private void chaseShip(PlanetaryInhabitant ship, float tpf) {
-        float turnDir;
+        float turnDir = 0f;
 
         PlanetaryInhabitant left = body.clone();
         PlanetaryInhabitant right = body.clone();
@@ -49,17 +54,25 @@ public class Farmer extends Entity {
         right.rotateModel((float) Math.toRadians(-TURN_RADIUS * tpf));
         right.rotateForward(SPRINT_SPEED * tpf);
 
-        if (left.distanceTo(ship) < right.distanceTo(ship)) {
-            turnDir = TURN_RADIUS;
-        } else {
-            turnDir = -TURN_RADIUS;
+        if(!runClockwise) {
+            if (left.distanceTo(ship) < right.distanceTo(ship) && left.distanceTo(ship) > CIRCLE_DISTANCE) {
+                turnDir = TURN_RADIUS * tpf;
+            } else {
+                turnDir = -TURN_RADIUS * tpf;
+            }
+        }else{
+            if (right.distanceTo(ship) < left.distanceTo(ship) && right.distanceTo(ship) > CIRCLE_DISTANCE) {
+                turnDir = -TURN_RADIUS * tpf;
+            } else {
+                turnDir = TURN_RADIUS * tpf;
+            }
         }
 
         float angleToTurn = (float) Math.toRadians(turnDir);
         body.rotateModel(angleToTurn);
-        if (left.distanceTo(ship) - right.distanceTo(ship) < 0.01f) { //TODO: Explain what this does.
+//        if (Math.abs(left.distanceTo(ship) - right.distanceTo(ship)) < 0.01f) { //TODO: Explain what this does.
             body.rotateForward(SPRINT_SPEED * tpf);
-        }
+//        }
     }
 
     private void randomlyStrollAround(float tpf) {

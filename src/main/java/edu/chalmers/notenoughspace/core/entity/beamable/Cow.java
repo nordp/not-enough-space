@@ -136,7 +136,7 @@ public class Cow extends BeamableEntity {
             return;
         }
 
-        float altitude = body.getPosition().y;
+        float altitude = body.getDistanceFromPlanetsCenter();
         if (altitude > Planet.PLANET_RADIUS) {
             gravitate(tpf);
             return;

@@ -11,6 +11,7 @@ import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.GameOverEvent;
 import edu.chalmers.notenoughspace.event.HealthEmptyEvent;
+import edu.chalmers.notenoughspace.highscore.HighScoreManager;
 
 /**
  * Creates and updates the different parts of a level in the game.
@@ -39,6 +40,8 @@ public class Level {
                 levelOver();
             }
         };
+
+        HighScoreManager.getHighScoreManager(); //Make sure the HighScoreManager singleton is initialized.
 
         Bus.getInstance().register(this);
     }

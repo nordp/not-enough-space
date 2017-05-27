@@ -39,7 +39,7 @@ public class TestInhabitant implements PlanetaryInhabitant {
     }
 
     public void setDirection(Vector3f goal) {
-        //TODO
+        //Not possible in TestInhabitant.
     }
 
     public void setDistanceFromPlanetsCenter(float distance) {
@@ -67,6 +67,6 @@ public class TestInhabitant implements PlanetaryInhabitant {
     }
 
     public void move(Vector3f relativeMovement) {
-        //TODO
+        position.add(relativeMovement);
     }
 }

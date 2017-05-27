@@ -13,8 +13,6 @@ import com.jme3.input.controls.KeyTrigger;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.Camera;
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.CameraNode;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -25,12 +23,14 @@ import edu.chalmers.notenoughspace.event.BeamableStoredEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
 /**
- * TODO
+ * Control responsible for telling the ship when to update and for making it react
+ * on user input.
  */
 public class ShipControl extends DetachableControl {
 
     private final String THIRD_PERSON_CAMERA = "followShipCamera";
     private final float MAX_DISTANCE_TO_CAMERA = 3f;
+    private final float CAMERA_DRAG = 5.25f;
 
     private boolean usingCameraDrag = true;
     private Camera camera;
@@ -63,6 +63,12 @@ public class ShipControl extends DetachableControl {
         Bus.getInstance().unregister(this);
     }
 
+    @Subscribe
+    public void playStoreAnimation(BeamableStoredEvent event) {
+        float animationSpeed = 5;
+        playAnimation("store", animationSpeed);
+    }
+
     public void attachThirdPersonView(Camera cam) {
         camera = cam;
 
@@ -80,105 +86,103 @@ public class ShipControl extends DetachableControl {
         ((Node) spatial).attachChild(followShipCameraPivotNode);
 
         if (usingCameraDrag) {
-            setupDraggingCamera(followShipCamera);
+            setupDraggingCameraBoundaries(followShipCamera);
         }
     }
 
+
+    private void detachThirdPersonView() {
+        CameraNode followShipCamera = (CameraNode) ((Node) spatial).getChild(THIRD_PERSON_CAMERA);
+        if (followShipCamera != null) {
+            Node cameraNode = followShipCamera.getParent();
+            ((Node) spatial).detachChild(cameraNode);
+
+            Camera gameCamera = followShipCamera.getCamera();
+            restoreDefaultCameraSettings(gameCamera);
+        }
+    }
+
+    private void restoreDefaultCameraSettings(Camera gameCamera) {
+        gameCamera.setFrame(
+                new Vector3f(0, 0f, 10f), // Location
+                new Vector3f(-1f, 0, 0), // Left
+                new Vector3f(0, 1f, 0), // Up
+                new Vector3f(0, 0, -1f)); // Direction
+    }
+
+    private void toggleThirdPersonCamera(){
+        if (hasThirdPersonViewAttached()) {
+            detachThirdPersonView();
+        } else {
+            attachThirdPersonView(camera);
+        }
+    }
+
+    private boolean hasThirdPersonViewAttached() {
+        Node shipPivotNode = (Node) spatial;
+        return shipPivotNode.getChild(THIRD_PERSON_CAMERA) != null;
+    }
 
     private void setAudioListenerAtShipPosition() {
         audioListener.setLocation(getModel().getWorldTranslation());
         audioListener.setRotation(getModel().getWorldRotation());
     }
 
-    
-    private void setupDraggingCamera(CameraNode followShipCamera) {
-        //Calculates the boundaries for how far from the cameras focal point the
-        //ship can move without the camera following it.
+    private void setupDraggingCameraBoundaries(CameraNode followShipCamera) {
+        Vector3f shipPos = getModel().getWorldTranslation();
+        Vector3f rightVector = getVectorPointingRight(followShipCamera);
+        Vector3f forwardVector = getVectorPointingForward(followShipCamera);
+
+        Vector3f localRightBoundary = worldToLocal(shipPos.add(rightVector));
+        Vector3f localLeftBoundary = worldToLocal(shipPos.subtract(rightVector));
+        Vector3f localForwardBoundary = worldToLocal(shipPos.add(forwardVector));
+        Vector3f localBackwardBoundary = worldToLocal(shipPos.subtract(forwardVector));
+
+        Node rightBoundaryPoint = createNode("rightPoint", localRightBoundary);
+        Node leftBoundaryPoint = createNode("leftPoint", localLeftBoundary);
+        Node forwardBoundaryPoint = createNode("forwardPoint", localForwardBoundary);
+        Node backwardBoundaryPoint = createNode("backwardPoint", localBackwardBoundary);
+
+
+        followShipCameraPivotNode.attachChild(rightBoundaryPoint);
+        followShipCameraPivotNode.attachChild(leftBoundaryPoint);
+        followShipCameraPivotNode.attachChild(forwardBoundaryPoint);
+        followShipCameraPivotNode.attachChild(backwardBoundaryPoint);
+    }
+
+    private Vector3f getVectorPointingRight(CameraNode followShipCamera) {
         Vector3f camPos = followShipCamera.getWorldTranslation();
-        Vector3f shipPos = getShipModel().getWorldTranslation();
-        Vector3f camToShip = shipPos.subtract(camPos);
+        Vector3f shipPos = getModel().getWorldTranslation();
+        Vector3f camToShipVector = shipPos.subtract(camPos);
 
-        Vector3f realRightVector = camToShip.cross(shipPos).normalize().normalizeLocal();
-        Vector3f realRightBoundary = shipPos.add(realRightVector);
-        Vector3f localRightBoundary = new Vector3f();
-        followShipCameraPivotNode.worldToLocal(realRightBoundary, localRightBoundary);
-
-        Vector3f realLeftBoundary = shipPos.subtract(realRightVector);
-        Vector3f localLeftBoundary = new Vector3f();
-        followShipCameraPivotNode.worldToLocal(realLeftBoundary, localLeftBoundary);
-
-        Vector3f realForwardVector = realLeftBoundary.cross(shipPos).normalize().normalizeLocal();
-        Vector3f realForwardBoundary = shipPos.add(realForwardVector);
-        Vector3f localForwardBoundary = new Vector3f();
-        followShipCameraPivotNode.worldToLocal(realForwardBoundary, localForwardBoundary);
-
-        Vector3f realBackwardBoundary = shipPos.subtract(realForwardVector);
-        Vector3f localBackwardBoundary = new Vector3f();
-        followShipCameraPivotNode.worldToLocal(realBackwardBoundary, localBackwardBoundary);
-
-        //Actually implements the boundaries mentioned above, as nodes:
-        Node rightPoint = new Node();
-        rightPoint.setName("rightPoint");
-        rightPoint.setLocalTranslation(localRightBoundary);
-        followShipCameraPivotNode.attachChild(rightPoint);
-
-        Node leftPoint = new Node();
-        leftPoint.setName("leftPoint");
-        leftPoint.setLocalTranslation(localLeftBoundary);
-        followShipCameraPivotNode.attachChild(leftPoint);
-
-        Node forwardPoint = new Node();
-        forwardPoint.setName("forwardPoint");
-        forwardPoint.setLocalTranslation(localForwardBoundary);
-        followShipCameraPivotNode.attachChild(forwardPoint);
-
-        Node backwardPoint = new Node();
-        backwardPoint.setName("backwardPoint");
-        backwardPoint.setLocalTranslation(localBackwardBoundary);
-        followShipCameraPivotNode.attachChild(backwardPoint);
+        Vector3f rightVector = camToShipVector.cross(shipPos);
+        rightVector.normalizeLocal();
+        return rightVector;
     }
 
-    /**
-     * Removes the ship's third person camera (if attached) which restores
-     * the camera to the original one.
-     */
-    public void detachThirdPersonView() {
-        if (((Node) spatial).getChild(THIRD_PERSON_CAMERA) != null) {
-            CameraNode followShipCamera = (CameraNode) ((Node) spatial).getChild(THIRD_PERSON_CAMERA);
+    private Vector3f getVectorPointingForward(CameraNode followShipCamera) {
+        Vector3f shipPos = getModel().getWorldTranslation();
+        Vector3f rightVector = getVectorPointingRight(followShipCamera);
 
-            ((Node) spatial).detachChild(followShipCamera.getParent());    // Removes the camera
-            // getParent() part needed since the CameraNode
-            // actually is nested inside a "camera pivot node"
-            // which in turn is a child of the shipPivotNode.
-
-            //Restores the original settings of the camera:
-            Camera gameCamera = followShipCamera.getCamera();
-            gameCamera.setFrame(
-                    new Vector3f(0, 0f, 10f), // Location
-                    new Vector3f(-1f, 0, 0), // Left
-                    new Vector3f(0, 1f, 0), // Up
-                    new Vector3f(0, 0, -1f)); // Direction
-        }
+        Vector3f forwardVector = rightVector.cross(shipPos).mult(-1);
+        forwardVector.normalizeLocal();
+        return forwardVector;
     }
 
-    private void toggleThirdPersonCamera(){
-        if(hasThirdPersonViewAttached()){
-            detachThirdPersonView();
-        }else
-            attachThirdPersonView(camera);
+    private Vector3f worldToLocal(Vector3f worldVector) {
+        Vector3f localVector = new Vector3f();
+        followShipCameraPivotNode.worldToLocal(worldVector, localVector);
+        return localVector;
     }
 
-    public boolean hasThirdPersonViewAttached() {
-        Node shipPivotNode = (Node) spatial;
-        return shipPivotNode.getChild(THIRD_PERSON_CAMERA) != null;
+    private Node createNode(String name, Vector3f position) {
+        Node node = new Node();
+        node.setName(name);
+        node.setLocalTranslation(position);
+        return node;
     }
 
-    /////////// MOVEMENTS BELOW //////////////
 
-    /**
-     * Makes it possible for the ship to move in all directions
-     * and rotate left and right.
-     */
     private void initMovementKeys() {
         inputManager.addMapping(Movement.FORWARD.name(),  new KeyTrigger(KeyInput.KEY_UP));
         inputManager.addMapping(Movement.LEFT.name(),   new KeyTrigger(KeyInput.KEY_LEFT));
@@ -189,15 +193,15 @@ public class ShipControl extends DetachableControl {
         inputManager.addMapping("toggleBeam", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("cameraMode", new KeyTrigger(KeyInput.KEY_T));
 
-        // Add the names to the action listener.
         inputManager.addListener(analogListener,
                 Movement.FORWARD.name(),Movement.LEFT.name(),Movement.RIGHT.name(),Movement.BACKWARD.name(),
                 Movement.ROTATION_LEFT.name(), Movement.ROTATION_RIGHT.name());
-        inputManager.addListener(actionListener, "toggleBeam", "cameraMode");
+        inputManager.addListener(actionListener,
+                "toggleBeam", "cameraMode");
     }
 
     private void cleanupMovementKeys() {
-        for (Movement i : Movement.values()){
+        for (Movement i : Movement.values()) {
             inputManager.deleteMapping(i.name());
         }
         inputManager.deleteMapping("toggleBeam");
@@ -207,97 +211,69 @@ public class ShipControl extends DetachableControl {
         inputManager.removeListener(actionListener);
     }
 
-
-    /**
-     * The listener controlling user input for moving the ship.
-     */
     private AnalogListener analogListener = new AnalogListener() {
 
         public void onAnalog(String name, float value, float tpf) {
-            float drag = 5.25f;
-            JMEInhabitant body = new JMEInhabitant(spatial);
-
             if (name.equals(Movement.FORWARD.name())) {
                 ship.addMoveInput(Movement.FORWARD, tpf);
+
                 if (usingCameraDrag && distanceToCameraBoundary("backwardPoint") < MAX_DISTANCE_TO_CAMERA) {
-                    followShipCameraPivotNode.rotate(
-                            -drag * tpf * Math.abs(ship.getCurrentYSpeed()), 0, 0);
+                    float angleToMove = -CAMERA_DRAG * tpf * Math.abs(ship.getCurrentYSpeed());
+                    followShipCameraPivotNode.rotate(angleToMove, 0, 0);
                 }
-            }
-            if (name.equals(Movement.LEFT.name())) {
+            } else if (name.equals(Movement.LEFT.name())) {
                 ship.addMoveInput(Movement.LEFT, tpf);
+
                 if (usingCameraDrag && distanceToCameraBoundary("rightPoint") < MAX_DISTANCE_TO_CAMERA) {
-                    followShipCameraPivotNode.rotate(
-                            0, 0, drag * tpf  * Math.abs(ship.getCurrentXSpeed()));
+                    float angleToMove = CAMERA_DRAG * tpf  * Math.abs(ship.getCurrentXSpeed());
+                    followShipCameraPivotNode.rotate(0, 0, angleToMove);
                 }
-            }
-            if (name.equals(Movement.RIGHT.name())) {
+            } else if (name.equals(Movement.RIGHT.name())) {
                 ship.addMoveInput(Movement.RIGHT, tpf);
+
                 if (usingCameraDrag && distanceToCameraBoundary("leftPoint") < MAX_DISTANCE_TO_CAMERA) {
+                    float angleToMove = -CAMERA_DRAG * tpf  * Math.abs(ship.getCurrentXSpeed());
                     followShipCameraPivotNode.rotate(
-                            0, 0, -drag * tpf  * Math.abs(ship.getCurrentXSpeed()));
+                            0, 0, angleToMove);
                 }
-            }
-            if (name.equals(Movement.BACKWARD.name())) {
+            } else if (name.equals(Movement.BACKWARD.name())) {
                 ship.addMoveInput(Movement.BACKWARD, tpf);
+
                 if (usingCameraDrag && distanceToCameraBoundary("forwardPoint") < MAX_DISTANCE_TO_CAMERA) {
+                    float angleToMove = CAMERA_DRAG * tpf * Math.abs(ship.getCurrentYSpeed());
                     followShipCameraPivotNode.rotate(
-                            drag * tpf * Math.abs(ship.getCurrentYSpeed()), 0, 0);
+                            angleToMove, 0, 0);
                 }
-            }
-            if (name.equals(Movement.ROTATION_LEFT.name())) {
+            } else if (name.equals(Movement.ROTATION_LEFT.name())) {
                 ship.addMoveInput(Movement.ROTATION_LEFT, tpf);
-            }
-            if (name.equals(Movement.ROTATION_RIGHT.name())) {
+            } else if (name.equals(Movement.ROTATION_RIGHT.name())) {
                 ship.addMoveInput(Movement.ROTATION_RIGHT, tpf);
             }
-
-//            Node rootNode = ControlUtil.getRoot(spatial);
-//            SpotLight light = rootNode.getWorldLightList().
-            //Adjust the spotLight so that it always follows the ship.
-//            if (ship.getSpotLight() != null) {
-//                ship.getSpotLight().setPosition(ship.getChild("ship").getTranslation());
-//                ship.getSpotLight().setDirection(ship.getChild("ship").getTranslation().mult(-1));
-//            }
-
-
         }
+
     };
 
     private float distanceToCameraBoundary(String boundaryName) {
-        Vector3f shipPos = getShipModel().getWorldTranslation();
+        Vector3f shipPos = getModel().getWorldTranslation();
         Vector3f boundaryPos = followShipCameraPivotNode.getChild(boundaryName).getWorldTranslation();
 
         return shipPos.distance(boundaryPos);
     }
 
-    /**
-     * The listener controlling user input for activating the beam.
-     */
     private ActionListener actionListener = new ActionListener() {
 
         public void onAction(String name, boolean value, float tpf) {
-            if(name.equals("toggleBeam")) {
+            if (name.equals("toggleBeam")) {
                 ship.toggleBeam(value);
-            }else if(name.equals("cameraMode") && value == false) {
+            } else if (name.equals("cameraMode") && !value) {
                 toggleThirdPersonCamera();
             }
         }
+
     };
 
-    /**Helper method for easy access to the ship core.*/
-    private Spatial getShipModel() {
-        return ((Node) spatial).getChild("shipModel");
-    }
-
-
-    @Subscribe
-    public void playStoreAnimation(BeamableStoredEvent event) {
-        playAnimation("store", 5);
-    }
-
     private void playAnimation(String animationName, float speed) {
-        Spatial model = getShipModel();
+        Spatial model = getModel();
         AnimControl control = model.getControl(AnimControl.class);
         AnimChannel channel = control.getChannel(0);
         channel.setAnim(animationName);
@@ -306,7 +282,7 @@ public class ShipControl extends DetachableControl {
     }
 
     private Spatial getModel() {
-        return ((Node)spatial).getChild("shipModel");
+        return ((Node) spatial).getChild("shipModel");
     }
 
 }

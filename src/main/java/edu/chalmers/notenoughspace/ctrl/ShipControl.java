@@ -40,7 +40,7 @@ public class ShipControl extends DetachableControl {
     private InputManager inputManager;
     private Listener audioListener;
 
-    private static Ship ship;
+    private Ship ship;
 
 
     public ShipControl(InputManager inputManager, Listener audioListener, Ship ship) {
@@ -64,8 +64,10 @@ public class ShipControl extends DetachableControl {
         Bus.getInstance().unregister(this);
     }
 
-    public static PlanetaryInhabitant getShip() {
-        return ship.getPlanetaryInhabitant();
+    public static PlanetaryInhabitant getShip(Spatial spatialInScene) {
+        Spatial shipNode = ControlUtil.getRoot(spatialInScene).getChild("ship");
+        ShipControl control = shipNode.getControl(ShipControl.class);
+        return control.ship.getPlanetaryInhabitant();
     }
 
     @Subscribe

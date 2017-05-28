@@ -19,7 +19,7 @@ public class HayforkControl extends DetachableControl {
 
 
     protected void controlUpdate(float tpf) {
-        PlanetaryInhabitant ship = ShipControl.getShip();
+        PlanetaryInhabitant ship = ShipControl.getShip(spatial);
 
         hayfork.update(ship, tpf);
         checkCollisionWithShip();

@@ -6,6 +6,8 @@ import edu.chalmers.notenoughspace.core.move.ZeroGravityStrategy;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 
+import java.util.Random;
+
 /**
  *  Angry farmer who runs around the planet looking for the ship. If the ship is
  *  within a certain range, the farmer throws hayforks at it.
@@ -19,10 +21,13 @@ public class Farmer extends Entity {
     private final static float THROW_CHANCE = 1f;
     private final static float CHANGE_DIRECTION_CHANCE = 5f;
 
+    private final Random pseudoThrowChance;
+
     private boolean runClockwise = false;
 
     public Farmer(){
         super(new ZeroGravityStrategy());
+        pseudoThrowChance = new Random();
 
         Bus.getInstance().post(new EntityCreatedEvent(this));
     }
@@ -31,7 +36,7 @@ public class Farmer extends Entity {
     public void update(PlanetaryInhabitant ship, float tpf) {
         if (body.distanceTo(ship) <= AGGRO_DISTANCE) {
             chaseShip(ship, tpf);
-            if (Math.random() * 100 <= THROW_CHANCE) {
+            if (pseudoThrowChance.nextFloat() * 100 <= THROW_CHANCE) {
                 throwHayfork();
             }
             if (Math.random() * 100 <= CHANGE_DIRECTION_CHANCE) {

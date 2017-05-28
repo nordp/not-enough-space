@@ -132,7 +132,8 @@ public class HighScoreManager {
     @Subscribe
     public void levelOver(GameOverEvent event){
         int score = event.getScore();
-        addScore("ANONYMOUS", score);
+        String userName = System.getProperty("user.name");
+        addScore(userName, score);
     }
 
 

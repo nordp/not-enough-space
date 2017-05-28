@@ -156,7 +156,6 @@ public class Round extends AbstractAppState implements ScreenController {
     public void postRender() {
         if (gameOver) {
             stateManager.setState(GameState.STOPPED);
-            nifty.gotoScreen("highscore");
         }
     }
 

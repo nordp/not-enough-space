@@ -39,7 +39,7 @@ public class TestInhabitant implements PlanetaryInhabitant {
     }
 
     public void rotateAroundOwnCenter(float rotX, float rotY, float rotZ) {
-        //TODO
+        //Not possible in TestInhabitant.
     }
 
     public void setDirection(Vector3f goal) {

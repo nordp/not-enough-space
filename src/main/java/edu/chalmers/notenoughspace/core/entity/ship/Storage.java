@@ -25,15 +25,15 @@ public class Storage {
 
 
     public int getScore(){
-        float score = 0;
+        int score = 0;
         for (BeamableEntity b : storedObjects) {
             if (b instanceof Cow) {
                 Cow cow = (Cow) b;
-                float weight = cow.getWeight();
-                score += weight;
+                int points = cow.getPoints();
+                score += points;
             }
         }
-        return (int) (score * 100000);
+        return score;
     }
 
     private int getNumberOfCows() {

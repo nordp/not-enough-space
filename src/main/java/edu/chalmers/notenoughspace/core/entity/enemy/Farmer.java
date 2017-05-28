@@ -71,9 +71,7 @@ public class Farmer extends Entity {
 
         float angleToTurn = (float) Math.toRadians(turnDir);
         body.rotateModel(angleToTurn);
-//        if (Math.abs(left.distanceTo(ship) - right.distanceTo(ship)) < 0.01f) { //TODO: Explain what this does.
-            body.rotateForward(SPRINT_SPEED * tpf);
-//        }
+        body.rotateForward(SPRINT_SPEED * tpf);
     }
 
     private void randomlyStrollAround(float tpf) {

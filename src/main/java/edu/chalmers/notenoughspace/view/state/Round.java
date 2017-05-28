@@ -33,7 +33,8 @@ import edu.chalmers.notenoughspace.view.scene.SpatialHandler;
 import javax.annotation.Nonnull;
 
 /**
- * A round of the game. //TODO: Briefly express what round does.
+ * A round of the game. This class is responsible for passing on update calls to Level, the scene and the HUD.
+ * There is also some scene initialization here, since the core model doesn't handle lighting or the sun.
  */
 public class Round extends AbstractAppState implements ScreenController {
 

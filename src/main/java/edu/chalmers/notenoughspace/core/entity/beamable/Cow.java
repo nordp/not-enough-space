@@ -71,12 +71,12 @@ public class Cow extends BeamableEntity {
         return this.mood;
     }
 
-    public float getWeight() { // TODO the whole weight thing, along with special cows
+    public float getWeight() {
         return BASE_WEIGHT * sizeModifier;
     }
 
-    public float getPoints() {
-        return BASE_POINTS * pointsModifier;
+    public int getPoints() {
+        return (int) (BASE_POINTS * pointsModifier * 100);
     }
 
     public float getSize(){

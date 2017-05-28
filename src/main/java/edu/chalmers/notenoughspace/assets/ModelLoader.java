@@ -78,7 +78,12 @@ class ModelLoader implements IModelLoader {
             model.scale(0.3f);
         } else if (modelID.equals("healthPowerup")) {
             model = assetManager.loadModel("Models/healthPowerup.j3o");
-            model.scale(0.2f);
+            model.scale(0.12f);
+            model.rotate(FastMath.DEG_TO_RAD * 25, FastMath.DEG_TO_RAD * 15, FastMath.DEG_TO_RAD * 15);
+        } else if (modelID.equals("energyPowerup")) {
+            model = assetManager.loadModel("Models/energyPowerup.j3o");
+            model.scale(0.12f);
+            model.rotate(FastMath.DEG_TO_RAD * 25, FastMath.DEG_TO_RAD * 15, FastMath.DEG_TO_RAD * 15);
         } else if (modelID.equals("sky")) {
             model = SkyFactory.createSky(
                     assetManager, "Textures/skybox.dds", SkyFactory.EnvMapType.CubeMap);

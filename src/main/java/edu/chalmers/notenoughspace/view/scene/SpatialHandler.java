@@ -195,12 +195,10 @@ public class SpatialHandler {
             if (entity instanceof HealthPowerup) {
                 model = modelLoader.loadModel("healthPowerup");
             } else {
-                model = modelLoader.loadModel("energy");
+                model = modelLoader.loadModel("energyPowerup");
             }
-            
+
             model.setLocalTranslation(0, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0);
-            model.rotate(FastMath.DEG_TO_RAD * 25, FastMath.DEG_TO_RAD * 15, FastMath.DEG_TO_RAD * 15);
-            //TODO: Move model rotation to ModelLoader when powerUp model is implemented.
 
             node.setLocalRotation(otherSideOfPlanet());
             control = new PowerupControl((Powerup) entity);
@@ -255,6 +253,17 @@ public class SpatialHandler {
         explosion.setLocalTranslation(parent.getChild(0).getWorldTranslation());
         rootNode.attachChild(explosion);
         SoundPlayer.getInstance().play("explosion");
+    }
+
+    @Subscribe
+    public void pickedUpPowerup(PowerupCollisionEvent event) {
+        Powerup powerup = event.getPowerup();
+
+        if (powerup instanceof HealthPowerup) {
+            SoundPlayer.getInstance().play("healthRestored");
+        } else if (powerup instanceof EnergyPowerup) {
+            SoundPlayer.getInstance().play("energyRestored");
+        }
     }
 
 

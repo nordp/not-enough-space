@@ -44,6 +44,12 @@ class SoundLoader implements ISoundLoader {
         } else if (soundID.equals("hayforkHit")) {
             return new AudioNode(assetManager,
                     "Sounds/hayforkHit.WAV", AudioData.DataType.Buffer);
+        } else if (soundID.equals("healthRestored")) {
+            return new AudioNode(assetManager,
+                    "Sounds/healthRestored.WAV", AudioData.DataType.Buffer);
+        } else if (soundID.equals("energyRestored")) {
+            return new AudioNode(assetManager,
+                    "Sounds/electricityRestored.WAV", AudioData.DataType.Buffer);
         } else if (soundID.equals("brodyquest")) {
             return new AudioNode(assetManager, "Sounds/brodyquest.wav", AudioData.DataType.Buffer);
         } else {

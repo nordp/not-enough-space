@@ -35,11 +35,11 @@ public class HighScoreManager {
         return highScoreManager;
     }
 
-    private ArrayList<Score> getScores() {
-        return scores;
+    public ArrayList<Score> getScores() {
+        return (ArrayList<Score>) scores.clone();
     }
 
-    private void setScores(ArrayList<Score> scores){
+    public void setScores(ArrayList<Score> scores){
         sort(scores);
         this.scores = scores;
 

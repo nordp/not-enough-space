@@ -16,9 +16,9 @@ public class Ship extends Entity {
 
     private final Health health;
     private final Energy energy;
-    private final Beam beam;
     private final Storage storage;
     private final MovementStrategy mover;
+    private Beam beam;
 
     public Ship(){
         super(new ZeroGravityStrategy());
@@ -28,8 +28,12 @@ public class Ship extends Entity {
         mover = new AccelerationMovementStrategy(40, 45, 40, 200);
         health = new Health(100, 100);
         energy = new Energy(100, 100,  5);
-        beam = new Beam(body);
         storage = new Storage();
+    }
+
+    @Override
+    public void onPlanetaryInhabitantAttached(){
+        beam = new Beam(body);
     }
 
     public void update(float tpf) {

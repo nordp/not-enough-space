@@ -82,7 +82,9 @@ public class HighScoreManager {
                 System.out.println("[Laad] IO Error: " + e.getMessage());
             }
         }
-
+        if (scores == null){
+            scores = new ArrayList<Score>();
+        }
         return scores;
     }
 

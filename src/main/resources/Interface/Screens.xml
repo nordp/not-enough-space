@@ -209,12 +209,5 @@
             </image>
         </controlDefinition>
 
-        <useControls filename="nifty-default-controls.xml"/>
-            <popup id="niftyPopupMenu" childLayout="absolute-inside"
-                   controller="edu.chalmers.notenoughspace.view.state.Menu" width="10%">
-                <interact onClick="inputName()" onSecondaryClick="closePopup()" />
-                <control id="popupmenu" name="niftyMenu" />
-            </popup>
-
-        </nifty>
+</nifty>
 

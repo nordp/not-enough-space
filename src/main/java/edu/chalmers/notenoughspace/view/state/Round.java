@@ -222,7 +222,7 @@ public class Round extends AbstractAppState implements ScreenController {
         int sunLightRadius = 1000;
         sunLight = new PointLight(sunPosition, sunLightColor, sunLightRadius);
 
-        ColorRGBA ambientLightColor = ColorRGBA.White.mult(0.3f);
+        ColorRGBA ambientLightColor = ColorRGBA.White.mult(0.4f);
         ambientLight = new AmbientLight(ambientLightColor);
         ambientLight.setEnabled(true);
     }

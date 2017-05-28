@@ -122,10 +122,8 @@ class EffectFactory {
             emitter.setImagesX(1);
             emitter.setImagesY(1);
 
-            emitter.setFacingVelocity(true);
-
-            emitter.setStartColor(new ColorRGBA(0.25f, 0.75f, 0.87f, 1f));
-            emitter.setEndColor(new ColorRGBA(0.54f, 0.87f, 0.98f, 0.8f));
+            emitter.setStartColor(new ColorRGBA(1f, 0.98f, 0.28f, 1f));
+            emitter.setEndColor(new ColorRGBA(1f, 0.98f, 0.28f, 0.8f));
 
             emitter.setStartSize(0.1f);
             emitter.setEndSize(0.1f);
@@ -136,9 +134,9 @@ class EffectFactory {
             emitter.getParticleInfluencer().setVelocityVariation(1f);
 
             emitter.setLowLife(0.8f);
-            emitter.setHighLife(1.2f);
+            emitter.setHighLife(1f);
 
-            emitter.setParticlesPerSec(4f);
+            emitter.setParticlesPerSec(5f);
 
             emitter.setInWorldSpace(false);
 
@@ -148,14 +146,14 @@ class EffectFactory {
                     "Common/MatDefs/Misc/Particle.j3md");
 
             mat_red.setTexture("Texture", assetManager.loadTexture(
-                    "Effects/heart.png"));
+                    "Effects/plus.png"));
             emitter.setMaterial(mat_red);
 
             emitter.setImagesX(1);
             emitter.setImagesY(1);
 
             emitter.setStartColor(new ColorRGBA(1f, 0.16f, 0.0f, 1f));
-            emitter.setEndColor(new ColorRGBA(0.98f, 0.25f, 0.1f, 0.8f));
+            emitter.setEndColor(new ColorRGBA(1f, 0.16f, 0.0f, 0.8f));
 
             emitter.setStartSize(0.1f);
             emitter.setEndSize(0.1f);
@@ -166,9 +164,9 @@ class EffectFactory {
             emitter.getParticleInfluencer().setVelocityVariation(1f);
 
             emitter.setLowLife(0.8f);
-            emitter.setHighLife(1.2f);
+            emitter.setHighLife(1f);
 
-            emitter.setParticlesPerSec(4f);
+            emitter.setParticlesPerSec(5f);
 
             emitter.setInWorldSpace(false);
 

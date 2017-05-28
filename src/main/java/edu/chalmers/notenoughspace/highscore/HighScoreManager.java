@@ -35,11 +35,11 @@ public class HighScoreManager {
         return highScoreManager;
     }
 
-    private ArrayList<Score> getScores() {
-        return scores;
+    public ArrayList<Score> getScores() {
+        return (ArrayList<Score>) scores.clone();
     }
 
-    private void setScores(ArrayList<Score> scores){
+    public void setScores(ArrayList<Score> scores){
         sort(scores);
         this.scores = scores;
 
@@ -132,7 +132,8 @@ public class HighScoreManager {
     @Subscribe
     public void levelOver(GameOverEvent event){
         int score = event.getScore();
-        addScore("ANONYMOUS", score);
+        String userName = System.getProperty("user.name");
+        addScore(userName, score);
     }
 
 

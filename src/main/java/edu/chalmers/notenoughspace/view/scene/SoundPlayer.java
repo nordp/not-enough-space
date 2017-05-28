@@ -35,6 +35,13 @@ public class SoundPlayer {
         } else if (soundID.equals("hayforkHit")) {
             audio = soundLoader.loadSound("hayforkHit");
             audio.setLooping(false);
+        } else if (soundID.equals("healthRestored")) {
+            audio = soundLoader.loadSound("healthRestored");
+            audio.setVolume(2f);
+            audio.setLooping(false);
+        } else if (soundID.equals("energyRestored")) {
+            audio = soundLoader.loadSound("energyRestored");
+            audio.setLooping(false);
         }
 
         audio.play();

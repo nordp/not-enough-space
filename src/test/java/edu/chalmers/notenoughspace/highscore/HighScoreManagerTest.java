@@ -18,23 +18,19 @@ public class HighScoreManagerTest {
         HighScoreManager hm = HighScoreManager.getHighScoreManager();
         assertNotNull(hm);
 
-
-        /*
-        TODO: Rewrite test
-        ArrayList<Score> scores = new ArrayList<Score>();
-        ArrayList<Score> originalScores = (ArrayList<Score>) scores.clone();
-        assertNotNull(scores);
+        ArrayList<Score> originalScores = hm.getScores(); //The getScores() method clones the list, so it's not needed here.
+        assertNotNull(originalScores);
 
         hm.clearScores();
-        assertTrue(scores.isEmpty());
+        assertTrue(hm.getScores().isEmpty());
 
         hm.addScore("Aa", 1);
         hm.addScore("Cc", 3);
         hm.addScore("Bb", 2);
-        assertEquals(3, scores.size());
-        assertEquals("Cc", scores.get(0).getName());
+        assertEquals(3, hm.getScores().size());
+        assertEquals("Cc", hm.getScores().get(0).getName());
 
-        hm.setScores(originalScores);*/
+        hm.setScores(originalScores);
     }
 }
 

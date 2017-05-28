@@ -151,7 +151,7 @@
                         </effect>
                     </image>
                     <panel height="10%" width="10%"/>
-                    <image filename="Interface/mainMenu.png" label="MainMenu" id="MainMenuButton"
+                    <image filename="Interface/quitbutton.png" label="quit" id="quitButton"
                            height="40%" width="100%" visibleToMouse="true" >
                     <interact onClick="quitButtonClicked()"/>
                     <effect>

@@ -51,7 +51,9 @@ public class JunkControl extends DetachableControl {
         Spatial beamModel = ControlUtil.getRoot(spatial).getChild("beamModel");
 
         boolean colliding = ControlUtil.checkCollision(getModel(), beamModel);
-        boolean beamVisible = beamModel.getCullHint() == Spatial.CullHint.Never; //TODO: Should we really check the view for game logic?
+
+        //This is bad, we shouldn't check the view for logic. It's much easier than trying to look up the Beam Entity though.
+        boolean beamVisible = beamModel.getCullHint() == Spatial.CullHint.Never;
 
         if (colliding && beamVisible) {
             if(!junk.isInBeam()){

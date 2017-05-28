@@ -176,7 +176,7 @@ class EffectFactory {
     }
 
     /**
-     * Control for particle emitters who should only emit once. //TODO: Is this a correct description?
+     * Custom control for particle emitters that should only emit once. You'd think the framework had that functionality..
      */
     private static class SingleParticleControl extends AbstractControl {
 

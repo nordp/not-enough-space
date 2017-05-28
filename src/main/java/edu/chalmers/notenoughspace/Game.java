@@ -35,7 +35,6 @@ public class Game extends SimpleApplication {
 
     @Override
     public void simpleInitApp() {
-        setGoodDefaultCameraSpeed();
 
         AssetLoaderFactory.setAssetManager(assetManager);
         Menu menu = new Menu();
@@ -45,7 +44,6 @@ public class Game extends SimpleApplication {
                 assetManager, inputManager, audioRenderer, guiViewPort);
         Nifty nifty = niftyDisplay.getNifty();
 
-        //TODO: Make sure no dead ScreenControllers are initialized.
         nifty.fromXml("Interface/Screens.xml", "menu", menu, round);
         menu.bind(nifty, nifty.getScreen("menu"));
         round.bind(nifty, nifty.getScreen("hud"));
@@ -71,14 +69,6 @@ public class Game extends SimpleApplication {
 
         app.setPauseOnLostFocus(true);
         app.setSettings(appSettings);
-    }
-
-    private void setGoodDefaultCameraSpeed() {
-        this.flyCam.setMoveSpeed(50);
-        this.setDisplayFps(false);
-        this.setDisplayStatView(false);
-        //TODO: Place somewhere else.
-        flyCam.setDragToRotate(true);
     }
 
 }

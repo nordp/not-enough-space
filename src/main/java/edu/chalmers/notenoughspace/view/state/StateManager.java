@@ -31,14 +31,8 @@ public class StateManager extends AppStateManager {
         current = getState(state);
         attach(current);
 
-        current.setEnabled(true); //TODO: Maybe should not enable by default
+        current.setEnabled(true); //Make sure it's enabled.
     }
-
-    /*
-    @Subscribe
-    public void gameOver(GameOverEvent event){
-        setState(GameState.STOPPED);     //TODO: Implement result screen
-    }*/
 
     private AbstractAppState getState(GameState state) {
         switch (state){

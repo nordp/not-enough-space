@@ -33,6 +33,6 @@ public abstract class BeamableEntity extends Entity {
 
     public abstract float getWeight();
 
-    public abstract float getPoints();
+    public abstract int getPoints();
 
 }

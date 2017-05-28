@@ -2,6 +2,7 @@ package edu.chalmers.notenoughspace.assets;
 
 import com.jme3.animation.AnimControl;
 import com.jme3.asset.AssetManager;
+import com.jme3.material.Material;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.scene.Geometry;
@@ -75,6 +76,15 @@ class ModelLoader implements IModelLoader {
         } else if (modelID.equals("hayfork")) {
             model = assetManager.loadModel("Models/spear.j3o");
             model.scale(0.3f);
+        } else if (modelID.equals("energy")) {
+            model = assetManager.loadModel("Models/energy.obj");
+            model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
+            model.scale(0.005f);
+        } else if (modelID.equals("health")) {
+            model = assetManager.loadModel("Models/health.obj");
+            Material mat = assetManager.loadMaterial("Materials/SunMaterial.j3m");
+            model.setMaterial(mat);
+            model.scale(0.005f);
         } else if (modelID.equals("sky")) {
             model = SkyFactory.createSky(
                     assetManager, "Textures/skybox.dds", SkyFactory.EnvMapType.CubeMap);

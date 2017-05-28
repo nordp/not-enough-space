@@ -5,6 +5,7 @@ import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import edu.chalmers.notenoughspace.TestUtil;
 import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
+import edu.chalmers.notenoughspace.view.scene.JMEInhabitant;
 import org.junit.Test;
 
 import javax.vecmath.Vector3f;

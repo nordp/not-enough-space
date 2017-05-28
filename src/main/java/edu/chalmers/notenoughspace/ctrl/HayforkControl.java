@@ -3,6 +3,7 @@ package edu.chalmers.notenoughspace.ctrl;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import edu.chalmers.notenoughspace.core.entity.enemy.Hayfork;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 
 /**
  * Control responsible for telling the hayfork when to update and
@@ -18,7 +19,7 @@ public class HayforkControl extends DetachableControl {
 
 
     protected void controlUpdate(float tpf) {
-        JMEInhabitant ship = ControlUtil.getShip(spatial);
+        PlanetaryInhabitant ship = ShipControl.getShip(spatial);
 
         hayfork.update(ship, tpf);
         checkCollisionWithShip();

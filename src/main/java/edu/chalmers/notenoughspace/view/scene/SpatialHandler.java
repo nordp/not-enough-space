@@ -193,9 +193,9 @@ public class SpatialHandler {
         
         } else if (entity instanceof Powerup){
             if (entity instanceof HealthPowerup) {
-                model = modelLoader.loadModel("cow");
+                model = modelLoader.loadModel("health");
             } else {
-                model = modelLoader.loadModel("cow");
+                model = modelLoader.loadModel("energy");
             }
             
             model.setLocalTranslation(0, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0);

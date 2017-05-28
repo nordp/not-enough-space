@@ -5,10 +5,10 @@ import java.io.Serializable;
 /**
  * A game round score from the high score table.
  */
-class Score implements Serializable {
+public class Score implements Serializable {
 
-    private final String name;
-    private final int score;
+    private String name;
+    private int score;
 
     public Score(String name, int score) {
         this.score = score;

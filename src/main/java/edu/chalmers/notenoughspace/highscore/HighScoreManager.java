@@ -23,6 +23,13 @@ public class HighScoreManager {
 
     private HighScoreManager() {
         scores = loadScoreFile();
+        scores.clear();
+        scores.add(new Score("Philip", 865));
+        scores.add(new Score("Julia", 1758));
+        scores.add(new Score("Jonas", 6327));
+        scores.add(new Score("Fredrik", 5637));
+        scores.add(new Score("Joachim", 6547));
+        sort(scores);
         Bus.getInstance().register(this);
     }
 

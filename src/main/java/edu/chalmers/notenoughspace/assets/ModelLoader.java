@@ -41,7 +41,7 @@ class ModelLoader implements IModelLoader {
             model = assetManager.loadModel("Models/barn.j3o");
             model.scale(0.26f);
         } else if (modelID.equals("tree")){
-            model = assetManager.loadModel("Models/landscape.obj");
+            model = assetManager.loadModel("Models/sprouse.obj");
             model.setMaterial(assetManager.loadMaterial("Materials/tree.j3m"));
             model.scale(0.3f);
         } else if (modelID.equals("barrel")){

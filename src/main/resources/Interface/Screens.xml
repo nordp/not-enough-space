@@ -168,9 +168,9 @@
                         <image filename="Textures/space.jpg" height="100%" width="100%"></image>
         </layer>
         <layer id="foreground" childLayout="center">
-                    <panel id="panel_top" height="30%" width="25%" valign="top" align="center" childLayout="vertical">
-                        <text text="High Score" font="Interface/dFont.fnt"/>
-                        <text text="${CALL.getHighScoreString()}" font="Interface/dFontSmall.fnt"/>
+                    <panel id="panel_top" height="30%" width="100%" valign="top" align="center" childLayout="vertical"  paddingTop="30%">
+                        <text text="High Score" font="Interface/dFont.fnt" align="center"/>
+                        <text text="${CALL.getHighScoreString()}" font="Interface/dFontSmall.fnt" align="center"/>
                     </panel>
                     <panel id="panel_bottom" height="35%" width="70%" valign="bottom" childLayout="horizontal">
                         <image filename="Interface/playAgainButton.png" label="PlayAgain" id="PlayAgainButton"

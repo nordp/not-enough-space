@@ -34,6 +34,10 @@ public class Beam extends Entity {
         Bus.getInstance().register(this);
         Bus.getInstance().post(new EntityCreatedEvent(this));
 
+    }
+
+    @Override
+    public void onPlanetaryInhabitantAttached(){
         setActive(false);
     }
 

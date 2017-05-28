@@ -38,7 +38,7 @@ public class StorageTest {
             points += cowList.get(i).getPoints();
         }
 
-//        assertEquals(storage.getScore(), point, 0);
+        assertEquals(storage.getScore(), points, 0);
         assertEquals(storage.getTotalWeight(), weight, 0);
     }
 }

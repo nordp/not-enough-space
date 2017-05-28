@@ -91,9 +91,9 @@
             <!-- Top panel (front layer) with all controls at the top of the screen-->
             <panel id="topPanelFrontLayer" x="0%" y="2%" width="98.3%" height="17%" childLayout="absolute">
                 <text id="cowCount" x="89.6%" y="52%" text="cowCount$$" font="Interface/dFont.fnt" width="10%" height="5%"/>
-                <text id="mm" x="1.4%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
-                <text id="ss" x="5.5%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
-                <text id="hh" x="9.4%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
+                <text id="mm" x="1.25%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
+                <text id="ss" x="5.3%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
+                <text id="hh" x="9.2%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
                 <text id="score" x="5%" y="116%" text="00"  font="Interface/dFont.fnt" width="10%" height="5%"/>
             </panel>
         </layer>
@@ -168,9 +168,9 @@
                         <image filename="Textures/space.jpg" height="100%" width="100%"></image>
         </layer>
         <layer id="foreground" childLayout="center">
-                    <panel id="panel_top" height="30%" width="25%" valign="top" align="center" childLayout="vertical">
-                        <text text="High Score" font="Interface/dFont.fnt"/>
-                        <text text="${CALL.getHighScoreString()}" font="Interface/dFontSmall.fnt"/>
+                    <panel id="panel_top" height="30%" width="100%" valign="top" align="center" childLayout="vertical"  paddingTop="30%">
+                        <text text="High Score" font="Interface/dFont.fnt" align="center"/>
+                        <text text="${CALL.getHighScoreString()}" font="Interface/dFontSmall.fnt" textHAlign="left" align="center"/>
                     </panel>
                     <panel id="panel_bottom" height="35%" width="70%" valign="bottom" childLayout="horizontal">
                         <image filename="Interface/playAgainButton.png" label="PlayAgain" id="PlayAgainButton"

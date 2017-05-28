@@ -32,6 +32,18 @@ public class Menu extends AbstractAppState implements ScreenController {
         app.getInputManager().setCursorVisible(true);
     }
 
+    @Override
+    public void stateAttached(AppStateManager stateManager) {
+        super.stateAttached(stateManager);
+
+        if (currentlyStartingUp) {
+            nifty.gotoScreen("menu");
+            currentlyStartingUp = false;
+        } else {
+            nifty.gotoScreen("highscore");
+        }
+    }
+
 
     public void bind(@Nonnull Nifty nifty, @Nonnull Screen screen) {
         this.nifty = nifty;
@@ -45,12 +57,6 @@ public class Menu extends AbstractAppState implements ScreenController {
     public void setEnabled(boolean enabled) {
         super.setEnabled(enabled);
 
-        if (enabled && isInitialized() && currentlyStartingUp) {
-            nifty.gotoScreen("menu");
-            currentlyStartingUp = false;
-        } else if (enabled && isInitialized()){
-            nifty.gotoScreen("highscore");
-        }
     }
 
     public void startButtonClicked() {

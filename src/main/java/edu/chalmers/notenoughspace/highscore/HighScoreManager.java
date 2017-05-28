@@ -121,7 +121,7 @@ public class HighScoreManager {
             String name = scores.get(i).getName();
             int score = scores.get(i).getScore();
 
-            String row = (i + 1) + ".  " + name + "  " + score + "\n";
+            String row = (i + 1) + ".  " + name + "  -  " + score + "\n";
 
             highScoreString += row;
         }

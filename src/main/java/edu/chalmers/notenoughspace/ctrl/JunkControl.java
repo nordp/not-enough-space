@@ -22,7 +22,7 @@ public class JunkControl extends DetachableControl {
 
 
     protected void controlUpdate(float tpf) {
-        setOriginalScale(); //TODO: What do we do about this? Create an onAttached method?
+        setOriginalScale(); //TODO: Create an onAttached method in DetachableControl (along with a new name).
 
         adjustSizeRelativeToAltitude(); //The higher the smaller.
         checkCollisionWithBeam(tpf);

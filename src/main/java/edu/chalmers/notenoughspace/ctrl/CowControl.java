@@ -32,7 +32,7 @@ public class CowControl extends DetachableControl {
 
     @Override
     protected void controlUpdate(float tpf) {
-        setOriginalScale(); //TODO: What do we do about this? Create an onAttached method?
+        setOriginalScale(); //TODO: Create an onAttached method in DetachableControl (along with a new name).
 
         PlanetaryInhabitant ship = ShipControl.getShip(spatial);
         boolean isTired = cow.getMood() == CowMood.TIRED;

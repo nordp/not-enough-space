@@ -34,7 +34,7 @@ public class CowControl extends DetachableControl {
     protected void controlUpdate(float tpf) {
         setOriginalScale(); //TODO: Create an onAttached method in DetachableControl (along with a new name).
 
-        PlanetaryInhabitant ship = ShipControl.getShip();
+        PlanetaryInhabitant ship = ShipControl.getShip(spatial);
         boolean isTired = cow.getMood() == CowMood.TIRED;
 
         cow.update(ship, tpf);

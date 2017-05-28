@@ -3,15 +3,13 @@ package edu.chalmers.notenoughspace.assets;
 import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioData;
 import com.jme3.audio.AudioNode;
-import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
 /**
  * Loads sound files for the game.
  */
 class SoundLoader implements ISoundLoader {
 
-    private AssetManager assetManager;
+    private final AssetManager assetManager;
 
     public SoundLoader(AssetManager assetManager) {
         this.assetManager = assetManager;
@@ -46,6 +44,12 @@ class SoundLoader implements ISoundLoader {
         } else if (soundID.equals("hayforkHit")) {
             return new AudioNode(assetManager,
                     "Sounds/hayforkHit.WAV", AudioData.DataType.Buffer);
+        } else if (soundID.equals("healthRestored")) {
+            return new AudioNode(assetManager,
+                    "Sounds/healthRestored.WAV", AudioData.DataType.Buffer);
+        } else if (soundID.equals("energyRestored")) {
+            return new AudioNode(assetManager,
+                    "Sounds/electricityRestored.WAV", AudioData.DataType.Buffer);
         } else if (soundID.equals("brodyquest")) {
             return new AudioNode(assetManager, "Sounds/brodyquest.wav", AudioData.DataType.Buffer);
         } else {

@@ -21,28 +21,33 @@ public class Beam extends Entity {
     private static final float CENTERING_FORCE = 0.08f;
     private static final float DISTANCE_WHEN_STORED = 0.6f;
     private static final float ENERGY_COST = 10f;
+    private final PlanetaryInhabitant beamer;
 
     private boolean active = true;
-    private List<BeamableEntity> objectsInBeam;
+    private final List<BeamableEntity> objectsInBeam;
 
-    public Beam(Entity parent) {
+    public Beam(PlanetaryInhabitant beamer) {
         super(new ZeroGravityStrategy());
-
+        this.beamer = beamer;
         objectsInBeam = new ArrayList<BeamableEntity>();
 
         Bus.getInstance().register(this);
         Bus.getInstance().post(new EntityCreatedEvent(this));
 
+    }
+
+    @Override
+    public void onPlanetaryInhabitantAttached(){
         setActive(false);
     }
 
 
-    public synchronized void update(PlanetaryInhabitant shipBody, float tpf) {
+    public synchronized void update(float tpf) {
         if (isActive()) {
             List<BeamableEntity> entitiesToMoveToStorage = new ArrayList<BeamableEntity>();
 
             for (BeamableEntity candidate : objectsInBeam) {
-                boolean wasBeamedIntoStorage = beamObject(candidate, shipBody, tpf);
+                boolean wasBeamedIntoStorage = beamObject(candidate, beamer, tpf);
                 if (wasBeamedIntoStorage){
                     entitiesToMoveToStorage.add(candidate);
                 }
@@ -65,7 +70,7 @@ public class Beam extends Entity {
 
     @Subscribe
     public synchronized void removeFromBeam(BeamExitedEvent event) {
-        BeamableEntity beamable = event.getBeamableEntity();
+        BeamableEntity beamable = event.getBeamable();
         if (objectsInBeam.contains(beamable)) {
             objectsInBeam.remove(beamable);
         }
@@ -97,11 +102,11 @@ public class Beam extends Entity {
     /**
      *
      * @param entity Entity to beam.
-     * @param shipBody The PlanetaryInhabitant to beam towards.
+     * @param beamer The PlanetaryInhabitant to beam towards.
      * @return true if entity is close enough to be moved into storage.
      * Pulls the entity inwards and upwards towards the beaming PlanetaryInhabitant.
      */
-    private synchronized boolean beamObject(BeamableEntity entity, PlanetaryInhabitant shipBody, float tpf) {
+    private synchronized boolean beamObject(BeamableEntity entity, PlanetaryInhabitant beamer, float tpf) {
         PlanetaryInhabitant inhabitant = entity.getPlanetaryInhabitant();
         float currentHeight = inhabitant.getDistanceFromPlanetsCenter();
 
@@ -111,7 +116,7 @@ public class Beam extends Entity {
             return true;
         } else {
             lift(inhabitant, currentHeight, entity.getWeight(), tpf);
-            pullTowardsBeamsCenter(inhabitant, shipBody, tpf);
+            pullTowardsBeamsCenter(inhabitant, beamer, tpf);
 
             return false;
         }
@@ -128,8 +133,8 @@ public class Beam extends Entity {
         inhabitant.setDistanceFromPlanetsCenter(newHeight);
     }
 
-    private void pullTowardsBeamsCenter(PlanetaryInhabitant inhabitant, PlanetaryInhabitant shipBody, float tpf) {
-        if (atCenter(inhabitant, shipBody)) {
+    private void pullTowardsBeamsCenter(PlanetaryInhabitant inhabitant, PlanetaryInhabitant beamer, float tpf) {
+        if (atCenter(inhabitant, beamer)) {
             return;
         }
 
@@ -143,22 +148,22 @@ public class Beam extends Entity {
         forward.rotateSideways(CENTERING_FORCE * tpf);
         back.rotateSideways(-CENTERING_FORCE * tpf);
 
-        if (left.distanceTo(shipBody) < right.distanceTo(shipBody)){
+        if (left.distanceTo(beamer) < right.distanceTo(beamer)){
             inhabitant.rotateForward(CENTERING_FORCE * tpf);
         } else {
             inhabitant.rotateForward(-CENTERING_FORCE * tpf);
         }
 
-        if (forward.distanceTo(shipBody) < back.distanceTo(shipBody)){
+        if (forward.distanceTo(beamer) < back.distanceTo(beamer)){
             inhabitant.rotateSideways(CENTERING_FORCE * tpf);
         } else {
             inhabitant.rotateSideways(-CENTERING_FORCE * tpf);
         }
     }
 
-    private boolean atCenter(PlanetaryInhabitant inhabitant, PlanetaryInhabitant shipBody) {
-        float hypotenuse = inhabitant.distanceTo(shipBody);
-        float yDistance = shipBody.getDistanceFromPlanetsCenter() - inhabitant.getDistanceFromPlanetsCenter();
+    private boolean atCenter(PlanetaryInhabitant inhabitant, PlanetaryInhabitant beamer) {
+        float hypotenuse = inhabitant.distanceTo(beamer);
+        float yDistance = beamer.getDistanceFromPlanetsCenter() - inhabitant.getDistanceFromPlanetsCenter();
         float hSquared = hypotenuse * hypotenuse;
         float ySquared = yDistance * yDistance;
         float xDistance = (float) Math.sqrt(hSquared - ySquared);

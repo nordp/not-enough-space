@@ -5,19 +5,22 @@ import com.jme3.effect.ParticleEmitter;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 
+/**
+ * Utility class for setting up sound and special effect nodes to be used in the game.
+ */
 class NodeUtil {
 
-    static void setUpAudioNode(AudioNode audioNode, float refDistance, float volume, boolean looping,
-                                Node parentNode, String name) {
-        audioNode.setPositional(true);  // Use 3D audio
-        audioNode.setRefDistance(refDistance);  // Distance of 50% volume
-        audioNode.setMaxDistance(1000f); // Stops going quieter
-        audioNode.setVolume(volume);         // Default volume
+    static void setUpAudioNode(AudioNode audioNode, float refDistance, float volume,
+                               boolean looping, Node parentNode, String name) {
+        audioNode.setPositional(true);  //Use 3D audio.
+        audioNode.setRefDistance(refDistance);  //Distance of 50% volume.
+        audioNode.setMaxDistance(1000f); //Stops going quieter after this.
+        audioNode.setVolume(volume);
         audioNode.setLooping(looping);
 
-        Spatial point = parentNode.getChild(0);
-        audioNode.setLocalTranslation(point.getLocalTranslation());
-        audioNode.setLocalRotation(point.getLocalRotation());
+        Spatial emissionPoint = parentNode.getChild(0);
+        audioNode.setLocalTranslation(emissionPoint.getLocalTranslation());
+        audioNode.setLocalRotation(emissionPoint.getLocalRotation());
 
         audioNode.setName(name);
         parentNode.attachChild(audioNode);
@@ -29,11 +32,12 @@ class NodeUtil {
     }
 
     static void setUpEffectNode(ParticleEmitter emitter, Node parentNode){
-        Spatial point = parentNode.getChild(0);
-        emitter.setLocalTranslation(point.getLocalTranslation());
+        Spatial emissionPoint = parentNode.getChild(0);
+        emitter.setLocalTranslation(emissionPoint.getLocalTranslation());
         emitter.move(0f, 0.2f, 0.1f);
-        emitter.setLocalRotation(point.getLocalRotation());
+        emitter.setLocalRotation(emissionPoint.getLocalRotation());
 
         parentNode.attachChild(emitter);
     }
+
 }

@@ -1,9 +1,5 @@
 package edu.chalmers.notenoughspace.highscore;
 
-/**
- * Created by juliaortheden on 2017-05-23.
- */
-
 import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.GameOverEvent;
@@ -11,59 +7,72 @@ import edu.chalmers.notenoughspace.event.GameOverEvent;
 import java.util.*;
 import java.io.*;
 
+/**
+ * Singleton class for storing and updating the high score table.
+ */
 public class HighScoreManager {
-    // An arraylist of the type "score" we will use to work with the scores inside the class
-    private ArrayList<Score> scores;
-    private String newName = "hej";
+
+    private static final String HIGHSCORE_FILE = "scores.dat";
+    private static final int NUMBER_OF_SCORES_TO_SHOW = 10;
 
     private static HighScoreManager highScoreManager;
 
-    // The name of the file where the highscores will be saved
-    private static final String HIGHSCORE_FILE = "scores.dat";
-
-    //Initialising an in and outputStream for working with the file
-    ObjectOutputStream outputStream = null;
-    ObjectInputStream inputStream = null;
+    private ObjectOutputStream outputStream;
+    private ObjectInputStream inputStream;
+    private ArrayList<Score> scores;
 
     private HighScoreManager() {
-        //initialising the scores-arraylist
         scores = loadScoreFile();
+        scores.clear();
+        scores.add(new Score("Philip", 865));
+        scores.add(new Score("Julia", 1758));
+        scores.add(new Score("Jonas", 6327));
+        scores.add(new Score("Fredrik", 5637));
+        scores.add(new Score("Joachim", 6547));
+        sort(scores);
         Bus.getInstance().register(this);
     }
 
+
+    public static HighScoreManager getHighScoreManager(){
+        if (highScoreManager == null) {
+            highScoreManager = new HighScoreManager();
+        }
+
+        return highScoreManager;
+    }
+
     public ArrayList<Score> getScores() {
-        return scores;
+        return (ArrayList<Score>) scores.clone();
     }
 
     public void setScores(ArrayList<Score> scores){
+        sort(scores);
         this.scores = scores;
-        sort(this.scores);
+
         updateScoreFile();
     }
 
     public void clearScores(){
         scores.clear();
+
         updateScoreFile();
     }
 
-    private void sort(ArrayList<Score> scores) {
-        HighScoreComparator comparator = new HighScoreComparator();
-        Collections.sort(scores, comparator);
-    }
-
-    public void addScoreToList(String name, int score) {
+    public void addScore(String name, int score) {
         scores.add(new Score(name, score));
         sort(scores);
+
         updateScoreFile();
     }
 
-    @Subscribe
-    public void levelOver(GameOverEvent event){addScoreToList(newName, (int) event.getPoints());}
-
-    public ArrayList<Score> loadScoreFile() {
+    private ArrayList<Score> loadScoreFile() {
         ArrayList<Score> scores = null;
+
         try {
-            inputStream = new ObjectInputStream(new FileInputStream(HIGHSCORE_FILE));
+            FileInputStream fileInputStream = new FileInputStream(HIGHSCORE_FILE);
+            inputStream = new ObjectInputStream(fileInputStream);
+
             scores = (ArrayList<Score>) inputStream.readObject();
         } catch (FileNotFoundException e) {
             System.out.println("[Laad] FNF Error: " + e.getMessage());
@@ -74,22 +83,24 @@ public class HighScoreManager {
         } finally {
             try {
                 if (inputStream != null) {
-                   // inputStream.flush();
                     inputStream.close();
                 }
             } catch (IOException e) {
                 System.out.println("[Laad] IO Error: " + e.getMessage());
             }
         }
+
         return scores;
     }
 
-    public void updateScoreFile() {
+    private void updateScoreFile() {
         try {
-            outputStream = new ObjectOutputStream(new FileOutputStream(HIGHSCORE_FILE));
+            FileOutputStream fileOutputStream = new FileOutputStream(HIGHSCORE_FILE);
+            outputStream = new ObjectOutputStream(fileOutputStream);
+
             outputStream.writeObject(scores);
         } catch (FileNotFoundException e) {
-            System.out.println("[Update] FNF Error: " + e.getMessage() + ",the program will try and make a new file");
+            System.out.println("[Update] FNF Error: " + e.getMessage() + ", the program will try and make a new file");
         } catch (IOException e) {
             System.out.println("[Update] IO Error: " + e.getMessage());
         } finally {
@@ -103,29 +114,42 @@ public class HighScoreManager {
             }
         }
     }
+
     public String getHighScoreString() {
         String highScoreString = "";
-        final int max = 10;
+        ArrayList<Score> scores = getScores();
 
-        ArrayList<Score> scores;
-        scores = getScores();
+        int numberOfScores = scores.size();
+        if (numberOfScores > NUMBER_OF_SCORES_TO_SHOW) {
+            numberOfScores = NUMBER_OF_SCORES_TO_SHOW;
+        }
 
-        int i = 0;
-        int x = scores.size();
-        if (x > max) {
-            x = max;
+        for (int i = 0; i < numberOfScores; i++) {
+            String name = scores.get(i).getName();
+            int score = scores.get(i).getScore();
+
+            String row = (i + 1) + ".  " + name + "  -  " + score + "\n";
+
+            highScoreString += row;
         }
-        while (i < x) {
-            highScoreString += (i + 1) + ".  " + scores.get(i).getName() + "  " + scores.get(i).getScore() + "\n";
-            i++;
-        }
+
         return highScoreString;
     }
 
-    public static HighScoreManager getHighScoreManager(){
-        if(highScoreManager == null){
-            highScoreManager= new HighScoreManager();
-        }
-        return highScoreManager;
+    @Subscribe
+    public void levelOver(GameOverEvent event){
+        int score = event.getScore();
+        String userName = System.getProperty("user.name");
+        addScore(userName, score);
+    }
+
+
+    private void sort(ArrayList<Score> scores) {
+        HighScoreComparator comparator = new HighScoreComparator();
+        Collections.sort(scores, comparator);
+    }
+
+    public static void initialize() {
+        getHighScoreManager();
     }
 }

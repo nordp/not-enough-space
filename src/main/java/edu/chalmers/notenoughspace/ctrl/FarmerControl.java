@@ -2,44 +2,62 @@ package edu.chalmers.notenoughspace.ctrl;
 
 import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
+import com.jme3.audio.AudioNode;
+import com.jme3.audio.AudioSource;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
-import edu.chalmers.notenoughspace.core.entity.ship.Ship;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 
 /**
- * Created by Phnor on 2017-05-13.
+ * Control responsible for telling the farmer when to update and when and how farmer related
+ * animations and sounds should be played.
  */
 public class FarmerControl extends DetachableControl {
-    private Farmer farmer;
-    private Ship ship;
+
+    private final Farmer farmer;
 
     public FarmerControl(Farmer farmer){
         this.farmer = farmer;
     }
 
+
     protected void controlUpdate(float tpf) {
-        farmer.update(new JMEInhabitant(ControlUtil.getRoot(spatial).getChild("ship")), tpf);
-        //TODO: Borde ej skapa nytt objekt varje update
+        PlanetaryInhabitant ship = ShipControl.getShip();
+
+        farmer.update(ship, tpf);
         setAnimation();
     }
 
+
     private void setAnimation() {
         setAngryAnimation();
-    }
+    }   //Prepared for possibly adding more animations.
 
     private void setAngryAnimation() {
-        Spatial model = ((Node) spatial).getChild(0);
-        AnimControl control = model.getControl(AnimControl.class);
+        AnimControl control = getModel().getControl(AnimControl.class);
         AnimChannel channel = control.createChannel();
+
         channel.setAnim("run.001");
         channel.setSpeed(8f);
+
+        playAngryFarmerSound();
     }
 
-    protected void controlRender(RenderManager renderManager, ViewPort viewPort) {
 
+    private void playAngryFarmerSound() {
+        if (!isTalking()) {
+            ((AudioNode)((Node) spatial).getChild("audio")).play();
+        }
     }
+
+    private boolean isTalking() {
+        AudioNode angryFarmerSound = (AudioNode)((Node) spatial).getChild("audio");
+        return angryFarmerSound.getStatus() == AudioSource.Status.Playing;
+    }
+
+    private Spatial getModel() {
+        return ((Node) spatial).getChild(0);
+    }
+
 }

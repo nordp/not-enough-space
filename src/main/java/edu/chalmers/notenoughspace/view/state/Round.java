@@ -15,6 +15,7 @@ import com.jme3.light.LightList;
 import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
+import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
@@ -31,144 +32,81 @@ import edu.chalmers.notenoughspace.view.scene.SpatialHandler;
 
 import javax.annotation.Nonnull;
 
+/**
+ * A round of the game. This class is responsible for passing on update calls to Level, the scene and the HUD.
+ * There is also some scene initialization here, since the core model doesn't handle lighting or the sun.
+ */
 public class Round extends AbstractAppState implements ScreenController {
 
     private SimpleApplication app;
     private Nifty nifty;
-
     private Level level;
-    private SpatialHandler spatialHandler;
+    private ActionListener actionListener;
+    private StateManager stateManager;
 
     private Spatial sun;
     private PointLight sunLight;
     private AmbientLight ambientLight;
-    private AudioNode happy;
-    private ActionListener actionListener;
-    private StateManager stateManager;
+    private AudioNode music;
     private Element healthBarElement;
     private Element energyBarElement;
 
-    private Node rootNode;
+    private final SpatialHandler spatialHandler;
+    private final Node rootNode;
 
     private boolean gameOver;
 
     public Round(){
         Bus.getInstance().register(this);
+
         spatialHandler = new SpatialHandler();
         rootNode = new Node();
+
         initScene();
         initSound();
         initInput();
     }
 
+
     @Override
     public void initialize(AppStateManager stateManager, Application application) {
         super.initialize(stateManager, application);
+
         this.stateManager = (StateManager) stateManager;
-        //Init level
         level = new Level();
         gameOver = false;
 
         enableScene(rootNode);
         enableSound(rootNode);
         enableInput(app);
+
         app.getViewPort().attachScene(rootNode);
     }
 
     @Override
     public void stateAttached(AppStateManager stateManager) {
         super.stateAttached(stateManager);
+
         app = (SimpleApplication) stateManager.getApplication();
         spatialHandler.setApp((SimpleApplication) stateManager.getApplication());
         spatialHandler.setRootNode(rootNode);
+
         nifty.gotoScreen("hud");
-    }
-
-    private void initScene() {
-
-        //Sun:
-        sun = AssetLoaderFactory.getModelLoader().loadModel("sun");
-        sun.move(-20, 0, 10);
-        sun.setLocalTranslation(-100, 0, 0);
-        sun.rotate(0, 0, FastMath.HALF_PI); //It has an ugly line at the equator,
-        // that's why the rotation is currently needed...
-
-        //Sunlight:
-        sunLight = new PointLight(sun.getWorldTranslation(), ColorRGBA.White.mult(0.5f), 1000);
-//        sunLight.setDirection(new Vector3f(2, 0, -1).normalizeLocal());
-//        sunLight.setColor(ColorRGBA.White);
-
-        //AmbientLight:
-        ambientLight = new AmbientLight(ColorRGBA.White.mult(0.3f));
-        ambientLight.setEnabled(true);
-    }
-
-    private void enableScene(Node rootNode){
-        rootNode.attachChild(AssetLoaderFactory.getModelLoader().loadModel("sky"));
-        rootNode.attachChild(sun);
-        rootNode.addLight(sunLight);
-        rootNode.addLight(ambientLight);
-    }
-
-    private void initSound() {
-        //Happy :)
-        happy = AssetLoaderFactory.getSoundLoader().loadSound("brodyquest");
-        happy.setLooping(true);  // activate continuous playing
-        happy.setPositional(false);
-        happy.setVolume(1);
-    }
-
-    private void enableSound(Node rootNode){
-        rootNode.attachChild(happy);
-        happy.play(); // play continuously!
-    }
-
-    private void initInput() {
-        actionListener = new ActionListener() {
-
-            public void onAction(String name, boolean value, float tpf) {
-                if (name.equals("pause") && !value) {
-                    pausePressed();
-                }
-
-                /*if (name.equals("cameraMode") && !value) {
-                    if (ship.getShipControl().hasThirdPersonViewAttached()) {
-                        getShipControl().detachThirdPersonView();
-                    } else {
-                        getShipControl().attachThirdPersonView(
-                                app.getCamera(), PLANET_RADIUS, SHIP_ALTITUDE);
-                    }
-                }*/
-            }
-        };
-    }
-
-    private void enableInput(SimpleApplication app){
-        app.getInputManager().addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
-//        //Adds option to change camera view:
-//        app.getInputManager().addMapping("cameraMode", new KeyTrigger(KeyInput.KEY_T)); Moved to shipcontrol
-
-        app.getInputManager().addListener(actionListener, "pause");
-    }
-
-    private void pausePressed() {
-        setEnabled(!isEnabled());
     }
 
     @Override
     public void cleanup() {
-
         level.cleanup();
 
         rootNode.detachChild(sun);
-        rootNode.detachChild(happy);
+        rootNode.detachChild(music);
 
-        LightList ll = rootNode.getLocalLightList().clone();
-        for(Light l : ll){
-            rootNode.removeLight(l);
+        LightList lights = rootNode.getLocalLightList().clone();
+        for(Light light : lights){
+            rootNode.removeLight(light);
         }
 
-        happy.stop();   //Why is this needed? (Without it the music keeps playing!)
+        music.stop();
 
         app.getInputManager().deleteMapping("pause");
         app.getInputManager().removeListener(actionListener);
@@ -184,28 +122,30 @@ public class Round extends AbstractAppState implements ScreenController {
 
     @Override
     public void setEnabled(boolean enabled) {
-        if(enabled == this.isEnabled())
+        if (enabled == this.isEnabled()) {
             return;
-        // Pause and unpause
-        super.setEnabled(enabled);
-        if (enabled) {
-            //Restore control
-            happy.play();
-        } else {
-            //Remove control
-            happy.pause();
         }
+
+        super.setEnabled(enabled);
+
+        if (enabled) {
+            music.play();
+        } else {
+            music.pause();
+        }
+
+        Element pauseMenu = nifty.getCurrentScreen().findElementById("pauseMenu");
         app.getInputManager().setCursorVisible(!enabled);
         nifty.gotoScreen("hud");
-        nifty.getCurrentScreen().findElementById("pauseMenu").setVisible(!enabled);
+        pauseMenu.setVisible(!enabled);
     }
 
-    // Note that update is only called while the state is both attached and enabled.
+    //Note that update is only called while the state is both attached and enabled.
     @Override
     public void update(float tpf) {
         level.update(tpf);
         rootNode.updateLogicalState(tpf);
-        hudUpdate(); //TODO Get values from storage
+        hudUpdate();
     }
 
     @Override
@@ -215,81 +155,53 @@ public class Round extends AbstractAppState implements ScreenController {
 
     @Override
     public void postRender() {
-        if(gameOver){
+        if (gameOver) {
             stateManager.setState(GameState.STOPPED);
-            nifty.gotoScreen("highscore");
         }
     }
 
-    private void hudUpdate() {
-        float timeLeft = level.getTimeLeft();
-        String[] time = toTimeFormat(timeLeft).split(":");
-        Element mmElement = nifty.getCurrentScreen().findElementById("mm");
-        mmElement.getRenderer(TextRenderer.class).setText(time[0]);
-
-        Element ssElement = nifty.getCurrentScreen().findElementById("ss");
-        ssElement.getRenderer(TextRenderer.class).setText(time[1]);
-
-        Element hhElement = nifty.getCurrentScreen().findElementById("hh");
-        hhElement.getRenderer(TextRenderer.class).setText(time[2]);
-
-//        float energy = level.getShipsEnergy();
-//        Element energyElement = nifty.getCurrentScreen().findElementById("energy");
-//        energyElement.getRenderer(TextRenderer.class).setText("Energy: " + (int) energy);
-
-//        final int MIN_WIDTH = 32;
-//        int pixelWidth = (int) (MIN_WIDTH + (healthBarElement.getParent().getWidth() - MIN_WIDTH) * newHealth);
-
-//        energyBarElement.setConstraintWidth(new SizeValue(energy + "%"));
-        
-//        energyBarElement.getParent().layoutElements();
+    public void bind(@Nonnull Nifty nifty, @Nonnull Screen screen) {
+        this.nifty = nifty;
+        healthBarElement = nifty.getScreen("hud").findElementById("healthBar");
+        energyBarElement = nifty.getScreen("hud").findElementById("energyBar");
     }
 
-    //** Eventbased HUD updates */
+    public void quitButtonClicked(){
+        stateManager.setState(GameState.STOPPED);
+    }
+
+    public void restartButtonClicked() {
+        stateManager.setState(GameState.RUNNING);
+    }
+
+    public void resumeButtonClicked() {
+        setEnabled(true);
+    }
+
+    public void onStartScreen() {}
+
+    public void onEndScreen() {}
+
     @Subscribe
-    public void storageChange(StorageChangeEvent event){
-        Element counterElement = nifty.getCurrentScreen().findElementById("cowCount");
-        int nCows = event.getNumberOfCows();
-        String count = (nCows > 9) ? "" + nCows : "0" + nCows;
-        counterElement.getRenderer(TextRenderer.class).setText(count);
-
-        Element pointsElement = nifty.getCurrentScreen().findElementById("score");
-        pointsElement.getRenderer(TextRenderer.class).setText(event.getNewScore() + "");
+    public void levelOver(GameOverEvent event){
+        gameOver = true;
     }
 
-    //TODO: Remove
-    private String toScoreFormat(int newScore) {
-        if (newScore == 0) {
-            return "00000000";
-        }
+    @Subscribe
+    public void storageChange(StorageChangedEvent event){
+        Element cowCountDisplay = nifty.getCurrentScreen().findElementById("cowCount");
 
-        if (newScore >= Math.pow(10, 7)) {
-            return "00" + newScore;
-        } else if (newScore >= Math.pow(10, 6)) {
-            return "0" + newScore;
-        } else {
-            String zeroes = "";
-            int checkValue = newScore;
-            while (checkValue < Math.pow(10, 6)) {
-                zeroes += "0";
-                checkValue *= 10;
-            }
-            return zeroes + checkValue;
-        }
+        int numberOfCows = event.getNumberOfCows();
+        String count = toTwoDigitsFormat(numberOfCows);
+        cowCountDisplay.getRenderer(TextRenderer.class).setText(count);
+
+        Element scoreDisplay = nifty.getCurrentScreen().findElementById("score");
+        scoreDisplay.getRenderer(TextRenderer.class).setText(event.getNewScore() + "");
     }
 
     @Subscribe
     public void healthChanged(HealthChangedEvent event) {
-//        Element healthElement = nifty.getCurrentScreen().findElementById("health");
-//        healthElement.getRenderer(TextRenderer.class).setText("Health: " + event.getCurrentHealthLevel());
-
-//        final int MIN_WIDTH = 32;
-//        int pixelWidth = (int) (MIN_WIDTH + (healthBarElement.getParent().getWidth() - MIN_WIDTH) * newHealth);
-        if (event.getHealthLevel() > 8) {
-            healthBarElement.setConstraintWidth(new SizeValue(event.getHealthLevel() + "%"));
-        } else {
-            healthBarElement.setConstraintWidth(new SizeValue("8%"));
-        }
+        healthBarElement.setConstraintWidth(new SizeValue(event.getHealthLevel() + "%"));   //Adjusts health meter.
         healthBarElement.getParent().layoutElements();
     }
 
@@ -299,28 +211,79 @@ public class Round extends AbstractAppState implements ScreenController {
         energyBarElement.getParent().layoutElements();
     }
 
-    public void bind(@Nonnull Nifty nifty, @Nonnull Screen screen) {
-        this.nifty = nifty;
-        healthBarElement = nifty.getScreen("hud").findElementById("healthBar");
-        energyBarElement = nifty.getScreen("hud").findElementById("energyBar");
+
+    private void initScene() {
+        sun = AssetLoaderFactory.getModelLoader().loadModel("sun");
+        sun.setLocalTranslation(-100, 0, 0);
+        sun.rotate(0, 0, FastMath.HALF_PI);
+
+        Vector3f sunPosition = sun.getWorldTranslation();
+        ColorRGBA sunLightColor = ColorRGBA.White.mult(0.5f);
+        int sunLightRadius = 1000;
+        sunLight = new PointLight(sunPosition, sunLightColor, sunLightRadius);
+
+        ColorRGBA ambientLightColor = ColorRGBA.White.mult(0.4f);
+        ambientLight = new AmbientLight(ambientLightColor);
+        ambientLight.setEnabled(true);
     }
 
-    public void onStartScreen() {
+    private void enableScene(Node rootNode){
+        Spatial sky = AssetLoaderFactory.getModelLoader().loadModel("sky");
 
+        rootNode.attachChild(sky);
+        rootNode.attachChild(sun);
+        rootNode.addLight(sunLight);
+        rootNode.addLight(ambientLight);
     }
 
-    public void onEndScreen() {
+    private void initSound() {
+        music = AssetLoaderFactory.getSoundLoader().loadSound("brodyquest");
 
+        music.setLooping(true);
+        music.setPositional(false);
+        music.setVolume(1);
     }
 
-    /** Util methods */
+    private void enableSound(Node rootNode){
+        rootNode.attachChild(music);
+        music.play();
+    }
 
-    /**
-     * Converts a given number of seconds into standard
-     * digital clock format: mm:ss:hh.
-     *
-     * @param seconds The number of seconds to convert. If negative the time 00:00:00 is returned.
-     */
+    private void initInput() {
+        actionListener = new ActionListener() {
+
+            public void onAction(String name, boolean value, float tpf) {
+                if (name.equals("pause") && !value) {
+                    pausePressed();
+                }
+            }
+        };
+    }
+
+    private void enableInput(SimpleApplication app) {
+        app.getInputManager().addMapping("pause", new KeyTrigger(KeyInput.KEY_P));
+        app.getInputManager().addListener(actionListener, "pause");
+    }
+
+    private void pausePressed() {
+        setEnabled(!isEnabled());
+    }
+
+    private void hudUpdate() {
+        float timeLeft = level.getTimeLeft();
+        String[] time = toTimeFormat(timeLeft).split(":");
+
+        Element minutesDisplay = nifty.getCurrentScreen().findElementById("mm");
+        minutesDisplay.getRenderer(TextRenderer.class).setText(time[0]);
+
+        Element secondsDisplay = nifty.getCurrentScreen().findElementById("ss");
+        secondsDisplay.getRenderer(TextRenderer.class).setText(time[1]);
+
+        Element hundredthsDisplay = nifty.getCurrentScreen().findElementById("hh");
+        hundredthsDisplay.getRenderer(TextRenderer.class).setText(time[2]);
+    }
+
+
     private static String toTimeFormat(float seconds) {
         if (seconds < 0) {
             seconds = 0;
@@ -344,20 +307,4 @@ public class Round extends AbstractAppState implements ScreenController {
         return "" + number;
     }
 
-    @Subscribe
-    public void levelOver(GameOverEvent event){
-        gameOver = true;
-    }
-
-    public void quitButtonClicked(){
-        stateManager.setState(GameState.STOPPED);
-    }
-
-    public void restartButtonClicked() {
-        stateManager.setState(GameState.RUNNING);
-    }
-
-    public void resumeButtonClicked() {
-        setEnabled(true);
-    }
 }

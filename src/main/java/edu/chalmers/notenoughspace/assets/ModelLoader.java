@@ -2,6 +2,7 @@ package edu.chalmers.notenoughspace.assets;
 
 import com.jme3.animation.AnimControl;
 import com.jme3.asset.AssetManager;
+import com.jme3.material.Material;
 import com.jme3.math.FastMath;
 import com.jme3.math.Quaternion;
 import com.jme3.scene.Geometry;
@@ -16,7 +17,7 @@ import edu.chalmers.notenoughspace.core.entity.Planet;
  */
 class ModelLoader implements IModelLoader {
 
-    private AssetManager assetManager;
+    private final AssetManager assetManager;
 
     public ModelLoader(AssetManager assetManager){
         this.assetManager = assetManager;
@@ -40,15 +41,16 @@ class ModelLoader implements IModelLoader {
             model = assetManager.loadModel("Models/barn.j3o");
             model.scale(0.26f);
         } else if (modelID.equals("tree")){
-            model = assetManager.loadModel("Models/spookytree.obj");
+            model = assetManager.loadModel("Models/sprouse.obj");
             model.setMaterial(assetManager.loadMaterial("Materials/tree.j3m"));
-            model.scale(0.01f);
-            model.rotate(new Quaternion(-0.707f,0,0,0.707f));
+            model.scale(0.3f);
         } else if (modelID.equals("barrel")){
-            model = assetManager.loadModel("Models/cupbarrel.obj");
-            model.setMaterial(assetManager.loadMaterial("Materials/barrel.j3m"));
-            model.scale(0.004f);
-            model.rotate(new Quaternion(-0.707f,0,0,0.707f));
+            model = assetManager.loadModel("Models/barrel.j3o");
+            model.scale(0.12f);
+            //Old model:
+            //model = assetManager.loadModel("Models/cupbarrel.obj");
+            //model.setMaterial(assetManager.loadMaterial("Materials/barrel.j3m"));
+            //model.rotate(new Quaternion(-0.707f,0,0,0.707f));
         } else if (modelID.equals("ship")){
             model = assetManager.loadModel("Models/redUFO.j3o");
             model.scale(0.36f);
@@ -76,6 +78,14 @@ class ModelLoader implements IModelLoader {
         } else if (modelID.equals("hayfork")) {
             model = assetManager.loadModel("Models/spear.j3o");
             model.scale(0.3f);
+        } else if (modelID.equals("healthPowerup")) {
+            model = assetManager.loadModel("Models/healthPowerup.j3o");
+            model.scale(0.12f);
+            model.rotate(FastMath.DEG_TO_RAD * 25, FastMath.DEG_TO_RAD * 15, FastMath.DEG_TO_RAD * 15);
+        } else if (modelID.equals("energyPowerup")) {
+            model = assetManager.loadModel("Models/energyPowerup.j3o");
+            model.scale(0.12f);
+            model.rotate(FastMath.DEG_TO_RAD * 25, FastMath.DEG_TO_RAD * 15, FastMath.DEG_TO_RAD * 15);
         } else if (modelID.equals("sky")) {
             model = SkyFactory.createSky(
                     assetManager, "Textures/skybox.dds", SkyFactory.EnvMapType.CubeMap);

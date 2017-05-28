@@ -1,17 +1,19 @@
 package edu.chalmers.notenoughspace.event;
 
 /**
- * Created by Vibergf on 25/05/2017.
+ * Event fired when the ship's energy level is changed.
  */
 public class EnergyChangedEvent {
 
-    private float energyLevel;
+    private final float energyLevel;
 
     public EnergyChangedEvent(float energyLevel){
         this.energyLevel = energyLevel;
     }
 
+
     public float getEnergyLevel(){
-        return this.energyLevel;
+        return energyLevel;
     }
+
 }

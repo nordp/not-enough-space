@@ -5,7 +5,7 @@ package edu.chalmers.notenoughspace.core.entity.powerup;
  */
 public class PowerupFactory {
 
-    private static float BONUS_CHANCE = 0.3f;
+    private static final float BONUS_CHANCE = 0.3f;
 
     public static Powerup createRandomPowerup(){
         float random = (float) Math.random();

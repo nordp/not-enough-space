@@ -2,7 +2,6 @@ package edu.chalmers.notenoughspace.core.entity.ship;
 
 import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.core.entity.Entity;
-import edu.chalmers.notenoughspace.core.entity.powerup.Powerup;
 import edu.chalmers.notenoughspace.core.move.*;
 import edu.chalmers.notenoughspace.event.*;
 
@@ -15,11 +14,11 @@ public class Ship extends Entity {
 
     public static final float ALTITUDE = 1.8f;  //Distance to the planet's surface.
 
-    private Health health;
-    private Energy energy;
+    private final Health health;
+    private final Energy energy;
+    private final Storage storage;
+    private final MovementStrategy mover;
     private Beam beam;
-    private Storage storage;
-    private MovementStrategy mover;
 
     private boolean godModeEnabled;
 
@@ -31,12 +30,16 @@ public class Ship extends Entity {
         mover = new AccelerationMovementStrategy(40, 45, 40, 200);
         health = new Health(100, 100);
         energy = new Energy(100, 100,  5);
-        beam = new Beam(this);
         storage = new Storage();
     }
 
+    @Override
+    public void onPlanetaryInhabitantAttached(){
+        beam = new Beam(body);
+    }
+
     public void update(float tpf) {
-        beam.update(body, tpf);
+        beam.update(tpf);
         mover.move(body, tpf);
         updateEnergy(tpf);
     }
@@ -108,8 +111,7 @@ public class Ship extends Entity {
 
     @Subscribe
     public void powerupCollision(PowerupCollisionEvent event) {
-        Powerup powerup = event.getPowerup();
-        powerup.affect(this);
+        event.affect(this);
     }
 
     @Subscribe

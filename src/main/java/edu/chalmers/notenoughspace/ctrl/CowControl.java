@@ -11,6 +11,7 @@ import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
 import edu.chalmers.notenoughspace.core.entity.beamable.CowMood;
 import edu.chalmers.notenoughspace.core.entity.Planet;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 
 /**
  * Control responsible for telling the cow when to update and when and how cow related
@@ -20,7 +21,7 @@ public class CowControl extends DetachableControl {
 
     private float ORIGINAL_SCALE;
 
-    private Cow cow;
+    private final Cow cow;
     private boolean sweatEnabled;
 
     public CowControl(Cow cow) {
@@ -31,9 +32,9 @@ public class CowControl extends DetachableControl {
 
     @Override
     protected void controlUpdate(float tpf) {
-        setOriginalScale(); //TODO: What do we do about this? Create an onAttached method?
+        setOriginalScale(); //TODO: Create an onAttached method in DetachableControl (along with a new name).
 
-        JMEInhabitant ship = ControlUtil.getShip(spatial);
+        PlanetaryInhabitant ship = ShipControl.getShip();
         boolean isTired = cow.getMood() == CowMood.TIRED;
 
         cow.update(ship, tpf);
@@ -155,7 +156,9 @@ public class CowControl extends DetachableControl {
         Spatial beamModel = ControlUtil.getRoot(spatial).getChild("beamModel");
 
         boolean colliding = ControlUtil.checkCollision(getModel(), beamModel);
-        boolean beamVisible = beamModel.getCullHint() == Spatial.CullHint.Never; //TODO: Should we really check the view for game logic?
+
+        //This is bad, we shouldn't check the view for logic. It's much easier than trying to look up the Beam Entity though.
+        boolean beamVisible = beamModel.getCullHint() == Spatial.CullHint.Never;
 
         if (colliding && beamVisible) {
             if (!cow.isInBeam()) {

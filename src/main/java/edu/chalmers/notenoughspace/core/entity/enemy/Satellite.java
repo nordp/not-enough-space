@@ -21,6 +21,10 @@ public class Satellite extends Entity {
     }
 
 
+    public void update(float tpf) {
+        moveInOrbit(tpf);   //TODO: Implement movement strategy for this and for power-up's movement.
+    }
+
     protected void onPlanetaryInhabitantAttached(){
         randomizeDirection();
     }
@@ -31,6 +35,11 @@ public class Satellite extends Entity {
 
     public int getDamage() {
         return DAMAGE;
+    }
+
+
+    private void moveInOrbit(float tpf) {
+        body.rotateForward(0.35f * tpf);
     }
 
 }

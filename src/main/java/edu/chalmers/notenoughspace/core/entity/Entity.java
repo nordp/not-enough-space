@@ -37,14 +37,14 @@ public abstract class Entity {
 
     public String getID(){ return this.toString(); }
 
-    public void randomizePosition(){
+    protected void randomizePosition(){
         if(body == null)
             return;
         body.rotateForward((float)Math.PI*2* new Random().nextFloat());
         body.rotateSideways((float)Math.PI*2* new Random().nextFloat());
     }
 
-    public void randomizeDirection(){
+    protected void randomizeDirection(){
         if(body == null)
             return;
         body.rotateModel((float)Math.PI*2 * new Random().nextFloat());

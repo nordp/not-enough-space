@@ -18,7 +18,7 @@ public class Hayfork extends Entity {
     private final static float THROW_SPEED = 8f;
     private final static int DAMAGE = 10;
 
-    private Entity thrower;
+    private final Entity thrower;
     private Vector3f direction;
 
     public Hayfork(Entity thrower){
@@ -54,7 +54,7 @@ public class Hayfork extends Entity {
         pierceIntoVector.scale(0.32f);
         body.move(pierceIntoVector);
 
-        Bus.getInstance().post(new HayforkCollisionEvent(this));
+        Bus.getInstance().post(new HayforkCollisionEvent(getID(), getDamage()));
     }
 
     public Entity getThrower() {

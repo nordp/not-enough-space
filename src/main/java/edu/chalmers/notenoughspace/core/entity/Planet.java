@@ -1,12 +1,6 @@
 package edu.chalmers.notenoughspace.core.entity;
 
 import com.google.common.eventbus.Subscribe;
-import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
-import edu.chalmers.notenoughspace.core.entity.beamable.Cow;
-import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
-import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
-import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
-import edu.chalmers.notenoughspace.core.entity.powerup.Powerup;
 import edu.chalmers.notenoughspace.core.move.ZeroGravityStrategy;
 import edu.chalmers.notenoughspace.event.*;
 
@@ -20,7 +14,7 @@ public class Planet extends Entity {
 
     public static final float PLANET_RADIUS = 13f;
 
-    private List<Entity> population;
+    private final List<Entity> population;
 
     public Planet(){
         super(new ZeroGravityStrategy());
@@ -42,8 +36,13 @@ public class Planet extends Entity {
         Bus.getInstance().post(new EntityRemovedEvent(this));
     }
 
-    public void addInhabitant(Entity entity) {
-        population.add(entity);
+    public void addInhabitant(Entity inhabitant) {
+        population.add(inhabitant);
+    }
+
+    private void removeInhabitant(Entity inhabtitant){
+        population.remove(inhabtitant);
+        Bus.getInstance().post(new EntityRemovedEvent(inhabtitant));
     }
 
     public void randomizeInhabitantPositions() {
@@ -54,23 +53,17 @@ public class Planet extends Entity {
 
     @Subscribe
     public void satelliteCollision(SatelliteCollisionEvent event){
-        Satellite satellite = event.getSatellite();
-        population.remove(satellite);
-        Bus.getInstance().post(new EntityRemovedEvent(satellite));
+        removeInhabitant(event.getSatellite());
     }
 
     @Subscribe
     public void powerupCollision(PowerupCollisionEvent event){
-        Powerup powerup = event.getPowerup();
-        population.remove(powerup);
-        Bus.getInstance().post(new EntityRemovedEvent(powerup));
+        removeInhabitant(event.getPowerup());
     }
 
     @Subscribe
     public void beamableStored(BeamableStoredEvent event){
-        BeamableEntity beamable = event.getBeamableEntity();
-        population.remove(beamable);
-        Bus.getInstance().post(new EntityRemovedEvent(beamable));
+        removeInhabitant(event.getBeamable());
     }
 
     public String getID() { return "planet"; }

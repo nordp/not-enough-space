@@ -16,7 +16,7 @@ public class Farmer extends Entity {
     private final static float CIRCLE_DISTANCE = 4f;
     private final static float SPRINT_SPEED = 0.8f;
     private final static float TURN_RADIUS = 250;
-    private final static float THROW_CHANCE = 0.7f;
+    private final static float THROW_CHANCE = 1f;
     private final static float CHANGE_DIRECTION_CHANCE = 5f;
 
     private boolean runClockwise = false;
@@ -43,7 +43,7 @@ public class Farmer extends Entity {
     }
 
     private void chaseShip(PlanetaryInhabitant ship, float tpf) {
-        float turnDir = 0f;
+        float turnDir;
 
         //"Should I turn left or right?"
         PlanetaryInhabitant left = body.clone();
@@ -71,9 +71,7 @@ public class Farmer extends Entity {
 
         float angleToTurn = (float) Math.toRadians(turnDir);
         body.rotateModel(angleToTurn);
-//        if (Math.abs(left.distanceTo(ship) - right.distanceTo(ship)) < 0.01f) { //TODO: Explain what this does.
-            body.rotateForward(SPRINT_SPEED * tpf);
-//        }
+        body.rotateForward(SPRINT_SPEED * tpf);
     }
 
     private void randomlyStrollAround(float tpf) {

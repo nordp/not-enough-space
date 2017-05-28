@@ -1,42 +1,75 @@
 package edu.chalmers.notenoughspace.ctrl;
 
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
+import edu.chalmers.notenoughspace.core.entity.Planet;
 import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
+import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 
 /**
- * Created by Phnor on 2017-05-09.
+ * Control responsible for telling the junk when to update and
+ * for notifying it when it is colliding with the beam.
  */
 public class JunkControl extends DetachableControl {
-
-    private Junk junk;
+    
+    private float ORIGINAL_SCALE;
+    
+    private final Junk junk;
 
     public JunkControl(Junk junk){
         this.junk = junk;
     }
 
+
     protected void controlUpdate(float tpf) {
+        setOriginalScale(); //TODO: Create an onAttached method in DetachableControl (along with a new name).
 
-        boolean colliding = ControlUtil.checkCollision(((Node) spatial).getChild(0), (ControlUtil.getRoot(spatial).getChild("beamModel")));
+        adjustSizeRelativeToAltitude(); //The higher the smaller.
+        checkCollisionWithBeam(tpf);
+    }
 
-        if (colliding && ControlUtil.getRoot(spatial).getChild("beamModel").getCullHint() == Spatial.CullHint.Never) {
-            if(!junk.isInBeam()){
-                junk.enterBeam();
-//                ((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);
-            }
-        }else{
-            junk.update(tpf); //Gravitates the junk
-            if(junk.isInBeam()){
-                junk.exitBeam();
-//                ((Node) spatial).getChild(0).rotate(0f, FastMath.DEG_TO_RAD*180f, 0f);
-            }
+
+    private void setOriginalScale() {
+        Spatial model = ((Node) spatial).getChild(0);
+        if (ORIGINAL_SCALE == 0) {
+            ORIGINAL_SCALE = model.getLocalScale().x;   //Or y or z, should always be scaled by same value
+            //in all directions.
         }
     }
 
-    protected void controlRender(RenderManager renderManager, ViewPort viewPort) {
+    private void adjustSizeRelativeToAltitude() {
+        float junkAltitude = junk.getPlanetaryInhabitant().getDistanceFromPlanetsCenter();
+        float yDistanceToShip = (Ship.ALTITUDE + Planet.PLANET_RADIUS) - junkAltitude;
 
+        if (yDistanceToShip > 1f) {
+            float newScale = ORIGINAL_SCALE * yDistanceToShip/Ship.ALTITUDE;
+            getModel().setLocalScale(newScale);
+        }
     }
+
+    private void checkCollisionWithBeam(float tpf) {
+        Spatial beamModel = ControlUtil.getRoot(spatial).getChild("beamModel");
+
+        boolean colliding = ControlUtil.checkCollision(getModel(), beamModel);
+
+        //This is bad, we shouldn't check the view for logic. It's much easier than trying to look up the Beam Entity though.
+        boolean beamVisible = beamModel.getCullHint() == Spatial.CullHint.Never;
+
+        if (colliding && beamVisible) {
+            if(!junk.isInBeam()){
+                junk.enterBeam();
+            }
+        } else {
+            if (junk.isInBeam()) {
+                junk.exitBeam();
+            }
+
+            junk.update(tpf); //Gravitates the junk.
+        }
+    }
+
+    private Spatial getModel() {
+        return ((Node) spatial).getChild(0);
+    }
+
 }

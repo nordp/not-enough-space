@@ -1,6 +1,5 @@
 package edu.chalmers.notenoughspace.core.entity.beamable;
 
-import edu.chalmers.notenoughspace.core.entity.Entity;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 
@@ -24,8 +23,8 @@ public class Junk extends BeamableEntity {
         return 1f;
     }
 
-    public float getPoints() {
-        return 0f;
+    public int getPoints() {
+        return 0;
     }
 
     public void update(float tpf) {

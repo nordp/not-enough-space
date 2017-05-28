@@ -1,33 +1,39 @@
 package edu.chalmers.notenoughspace.ctrl;
 
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
+import com.jme3.scene.Spatial;
 import edu.chalmers.notenoughspace.core.entity.powerup.Powerup;
 
 /**
- * Created by Vibergf on 25/05/2017.
+ * Control responsible for telling the power-up when to update and
+ * for notifying it when it collides with the ship.
  */
 public class PowerupControl extends DetachableControl {
 
-    private Powerup powerup;
+    private final Powerup powerup;
 
     public PowerupControl(Powerup powerup){
         this.powerup = powerup;
     }
 
-    protected void controlUpdate(float v) {
-        spatial.rotate(0.005f, 0, 0);
 
-        //Collision
-        boolean colliding = ControlUtil.checkCollision(((Node) spatial).getChild(0), (ControlUtil.getRoot(spatial).getChild("shipModel")));
+    protected void controlUpdate(float tpf) {
+        powerup.update(tpf);
+        checkCollisionWithShip();
+    }
+
+
+    private void checkCollisionWithShip() {
+        Spatial shipModel = ControlUtil.getRoot(spatial).getChild("shipModel");
+        boolean colliding = ControlUtil.checkCollision(getModel(), shipModel);
 
         if (colliding) {
             powerup.collision();
         }
     }
 
-    protected void controlRender(RenderManager renderManager, ViewPort viewPort) {
-
+    private Spatial getModel() {
+        return ((Node) spatial).getChild(0);
     }
+
 }

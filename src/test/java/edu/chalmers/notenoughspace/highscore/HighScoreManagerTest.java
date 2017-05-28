@@ -18,18 +18,17 @@ public class HighScoreManagerTest {
         HighScoreManager hm = HighScoreManager.getHighScoreManager();
         assertNotNull(hm);
 
-        ArrayList<Score> scores = hm.getScores();
-        ArrayList<Score> originalScores = (ArrayList<Score>) scores.clone();
-        assertNotNull(scores);
+        ArrayList<Score> originalScores = hm.getScores(); //The getScores() method clones the list, so it's not needed here.
+        assertNotNull(originalScores);
 
         hm.clearScores();
-        assertTrue(scores.isEmpty());
+        assertTrue(hm.getScores().isEmpty());
 
-        hm.addScoreToList("Aa", 1);
-        hm.addScoreToList("Cc", 3);
-        hm.addScoreToList("Bb", 2);
-        assertEquals(3, scores.size());
-        assertEquals("Cc", scores.get(0).getName());
+        hm.addScore("Aa", 1);
+        hm.addScore("Cc", 3);
+        hm.addScore("Bb", 2);
+        assertEquals(3, hm.getScores().size());
+        assertEquals("Cc", hm.getScores().get(0).getName());
 
         hm.setScores(originalScores);
     }

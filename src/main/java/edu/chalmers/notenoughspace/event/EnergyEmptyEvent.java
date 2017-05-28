@@ -1,10 +1,13 @@
 package edu.chalmers.notenoughspace.event;
 
 /**
- * Created by Vibergf on 25/05/2017.
+ * Event fired when the ship runs out of energy.
  */
 public class EnergyEmptyEvent {
+
+
     public EnergyEmptyEvent(){
-        System.out.println("EnergyEmptyEvent fired");
+        System.out.println("EnergyEmptyEvent fired.");
     }
+
 }

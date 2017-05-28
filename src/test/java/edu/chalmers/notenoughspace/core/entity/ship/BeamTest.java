@@ -11,13 +11,14 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class BeamTest {
-    TestInhabitant body;
     Beam beam;
 
     @Before
     public void setUp() throws Exception {
-        beam = new Ship().getBeam();
-        body = new TestInhabitant(0,0,0);
+        Ship ship = new Ship();
+        ship.setPlanetaryInhabitant(new TestInhabitant(0, 0, 0));
+        beam = ship.getBeam();
+        beam.setPlanetaryInhabitant(new TestInhabitant(0, 0, 0));
     }
 
     @Test

@@ -7,8 +7,12 @@
             <image filename="Textures/space.jpg" height="100%" width="100%"></image>
         </layer>
         <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
-            <panel id="panel_top" height="50%" width="75%" align="center" childLayout="center">
-                <image filename="Interface/title.png" align="center" valign="center" height="100%" width="75%" ></image>
+            <panel height="20%" width="25%" childLayout="center" align="center" valign="top">
+            <text text="Not Enough Space" font="Interface/dFontSmall.fnt"/>
+            </panel>
+            <panel id="panel_top" height="35%" width="35%" align="center" childLayout="center">
+
+                <image filename="Interface/gameLogo.png" align="center" valign="center" height="85%" width="65%" ></image>
             </panel>
             <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="vertical" marginBottom="90px" >
                 <image filename="Interface/button.png" label="Start" id="StartButton" align="center" valign="center"
@@ -87,9 +91,9 @@
             <!-- Top panel (front layer) with all controls at the top of the screen-->
             <panel id="topPanelFrontLayer" x="0%" y="2%" width="98.3%" height="17%" childLayout="absolute">
                 <text id="cowCount" x="89.6%" y="52%" text="cowCount$$" font="Interface/dFont.fnt" width="10%" height="5%"/>
-                <text id="mm" x="1.4%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
-                <text id="ss" x="5.5%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
-                <text id="hh" x="9.4%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
+                <text id="mm" x="1.25%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
+                <text id="ss" x="5.3%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
+                <text id="hh" x="9.2%" y="46.5%" text="00" font="Interface/dFont.fnt" width="10%" height="5%"/>
                 <text id="score" x="5%" y="116%" text="00"  font="Interface/dFont.fnt" width="10%" height="5%"/>
             </panel>
         </layer>
@@ -147,7 +151,7 @@
                         </effect>
                     </image>
                     <panel height="10%" width="10%"/>
-                    <image filename="Interface/mainMenu.png" label="MainMenu" id="MainMenuButton"
+                    <image filename="Interface/quitbutton.png" label="quit" id="quitButton"
                            height="40%" width="100%" visibleToMouse="true" >
                     <interact onClick="quitButtonClicked()"/>
                     <effect>
@@ -164,21 +168,22 @@
                         <image filename="Textures/space.jpg" height="100%" width="100%"></image>
         </layer>
         <layer id="foreground" childLayout="center">
-                    <panel id="panel_top" height="40%" width="10%" valign="center" align="center" childLayout="vertical">
-                        <text text="High Score" font="Interface/dFont.fnt"/>
-                        <text text="${CALL.getHighScoreString()}" font="Interface/dFont.fnt"/>
+                    <panel id="panel_top" height="30%" width="100%" valign="top" align="center" childLayout="vertical"  paddingTop="30%">
+                        <text text="High Score" font="Interface/dFont.fnt" align="center"/>
+                        <text text="${CALL.getHighScoreString()}" font="Interface/dFontSmall.fnt" textHAlign="left" align="center"/>
                     </panel>
-                    <panel id="panel_bottom" height="30%" width="70%" valign="bottom" childLayout="horizontal">
+                    <panel id="panel_bottom" height="35%" width="70%" valign="bottom" childLayout="horizontal">
                         <image filename="Interface/playAgainButton.png" label="PlayAgain" id="PlayAgainButton"
-                               height="40%" width="50%" visibleToMouse="true" >
+                               height="40%" width="40%" valign="bottom" align="left" visibleToMouse="true" >
                             <interact onClick="startButtonClicked()"/>
                             <effect>
                                 <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
                                 <onHover name="border" post="true" color="999f" border="2px"/>
                             </effect>
                         </image>
+                        <panel height="30%" width="20%"/>
                         <image filename="Interface/mainMenu.png" label="MainMenu" id="MainMenu"
-                           height="40%" width="50%" visibleToMouse="true" >
+                           height="40%" width="40%" valign="bottom" align="right" visibleToMouse="true" >
                         <interact onClick="mainMenuButtonClicked()"/>
                         <effect>
                             <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
@@ -205,13 +210,5 @@
             </image>
         </controlDefinition>
 
-        <!--<useControls filename="nifty-default-controls.xml"/>-->
-            <!--<popup id="niftyPopupMenu" childLayout="absolute-inside"-->
-                   <!--controller="edu.chalmers.notenoughspace.view.state.Menu" width="10%">-->
-                <!--<interact onClick="inputName()" onSecondaryClick="closePopup()" />-->
-                <!--<control id="popupmenu" name="niftyMenu" />-->
-            <!--</popup>-->
-
-
-        </nifty>
+</nifty>
 

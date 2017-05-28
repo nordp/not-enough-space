@@ -1,9 +1,11 @@
 package edu.chalmers.notenoughspace.view.state;
 
 /**
- * Created by Phnor on 2017-05-16.
+ * The state of the current game round.
  */
 enum GameState {
+
     STOPPED,
     RUNNING,
+
 }

@@ -32,14 +32,13 @@ public class StorageTest {
         }
 
         float weight = 0;
-        float point = 0;
+        int points = 0;
         for ( int i = 0; i<cowList.size(); i++){
-            weight+=cowList.get(i).getWeight();
-            point+=cowList.get(i).getPoints();
+            weight += cowList.get(i).getWeight();
+            points += cowList.get(i).getPoints();
         }
-        //TODO: Rewrite with new score method
 
-//        assertEquals(storage.getScore(), point, 0);
+        assertEquals(storage.getScore(), points, 0);
         assertEquals(storage.getTotalWeight(), weight, 0);
     }
 }

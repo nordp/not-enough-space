@@ -3,15 +3,22 @@ package edu.chalmers.notenoughspace.event;
 import edu.chalmers.notenoughspace.core.entity.Entity;
 
 /**
- * Created by Phnor on 2017-05-08.
+ * Event fired when a game entity is created.
  */
 public class EntityCreatedEvent {
-    private Entity entity;
+
+    private final Entity entity;
 
     public EntityCreatedEvent(Entity entity) {
         this.entity = entity;
         System.out.println("EntityCreatedEvent fired: " + getClassName());
     }
+
+
+    public Entity getEntity(){
+        return entity;
+    }
+
 
     private String getClassName() {
         String classString = entity.getClass().toString();
@@ -19,7 +26,4 @@ public class EntityCreatedEvent {
         return words[words.length - 1];
     }
 
-    public Entity getEntity(){
-        return entity;
-    }
 }

@@ -56,7 +56,8 @@ public class ShipTest {
     public void shipHealthTest() throws Exception{
         assertEquals(100, ship.getHealth(), 0f);
 
-        ship.hayforkCollision(new HayforkCollisionEvent(new Hayfork(new Farmer())));
+        Hayfork hayfork = new Hayfork(new Farmer());
+        ship.hayforkCollision(new HayforkCollisionEvent(hayfork.getID(), hayfork.getDamage()));
         assertNotEquals(100, ship.getHealth());
 
         ship.modifyHealth(1000);

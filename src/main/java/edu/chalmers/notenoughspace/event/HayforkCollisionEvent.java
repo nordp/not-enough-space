@@ -1,24 +1,27 @@
 package edu.chalmers.notenoughspace.event;
 
-import edu.chalmers.notenoughspace.core.entity.Entity;
-import edu.chalmers.notenoughspace.core.entity.enemy.Hayfork;
-
 /**
- * Created by Sparven on 2017-05-21.
+ * Event fired when a hayfork collides with the ship.
  */
 public class HayforkCollisionEvent {
-    private Entity hayFork;
 
-    public HayforkCollisionEvent(Entity hayFork) {
-        this.hayFork = hayFork;
+    private final String hayForkID;
+    private final int damage;
+
+    public HayforkCollisionEvent(String hayForkID, int damage) {
+        this.hayForkID = hayForkID;
+        this.damage = damage;
         System.out.println("HayforkCollisionEvent fired");
     }
 
-    public Entity getHayFork() {
-        return hayFork;
+
+    public String getHayForkID() {
+        return hayForkID;
     }
 
+
     public int getDamage() {
-        return ((Hayfork) hayFork).getDamage();
+        return damage;
     }
+
 }

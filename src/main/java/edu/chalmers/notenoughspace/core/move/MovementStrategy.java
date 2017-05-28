@@ -9,7 +9,7 @@ public abstract class MovementStrategy {
     private float currentXSpeed;    //Regulating westward/eastward movement along the planet's surface.
     private float currentYSpeed;    //Regulating northward/southward movement along the planet's surface.
 
-    public MovementStrategy() {
+    MovementStrategy() {
         currentRotationSpeed = 0;
         currentXSpeed = 0;
         currentYSpeed = 0;
@@ -32,15 +32,15 @@ public abstract class MovementStrategy {
         return currentYSpeed;
     }
 
-    public void setCurrentRotationSpeed(float currentRotationSpeed) {
+    void setCurrentRotationSpeed(float currentRotationSpeed) {
         this.currentRotationSpeed = currentRotationSpeed;
     }
 
-    public void setCurrentXSpeed(float currentXSpeed) {
+    void setCurrentXSpeed(float currentXSpeed) {
         this.currentXSpeed = currentXSpeed;
     }
 
-    public void setCurrentYSpeed(float currentYSpeed) {
+    void setCurrentYSpeed(float currentYSpeed) {
         this.currentYSpeed = currentYSpeed;
     }
 }

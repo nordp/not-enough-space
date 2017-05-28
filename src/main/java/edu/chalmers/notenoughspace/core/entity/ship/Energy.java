@@ -9,11 +9,11 @@ import edu.chalmers.notenoughspace.event.EnergyEmptyEvent;
  *  is activated and gradually recharged when beam is inactive. Energy can also be
  *  recharged quickly by picking up a powerup of the energy type.
  */
-public class Energy {
+class Energy {
 
     private final float MAX_ENERGY;
     private float currentEnergyLevel;
-    private float regenerationRate;
+    private final float regenerationRate;
 
     public Energy(float initialEnergy, float MAX_ENERGY, float regenerationRate) {
         this.MAX_ENERGY = MAX_ENERGY;
@@ -37,7 +37,7 @@ public class Energy {
             currentEnergyLevel = MAX_ENERGY;
         }
 
-        if(currentEnergyLevel != oldEnergy) {
+        if (currentEnergyLevel != oldEnergy) {
             Bus.getInstance().post(new EnergyChangedEvent(currentEnergyLevel));
         }
     }

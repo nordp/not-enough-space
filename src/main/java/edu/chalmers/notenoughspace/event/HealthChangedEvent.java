@@ -1,17 +1,19 @@
 package edu.chalmers.notenoughspace.event;
 
 /**
- * Created by Sparven on 2017-05-22.
+ * Event fired when the ship's health level is changed.
  */
 public class HealthChangedEvent {
 
-    private int healthLevel;
+    private final int healthLevel;
 
     public HealthChangedEvent(int healthLevel) {
         this.healthLevel = healthLevel;
     }
 
+
     public int getHealthLevel() {
         return healthLevel;
     }
+
 }

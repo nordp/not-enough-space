@@ -11,7 +11,6 @@ import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.GameOverEvent;
 import edu.chalmers.notenoughspace.event.HealthEmptyEvent;
-import edu.chalmers.notenoughspace.highscore.HighScoreManager;
 
 /**
  * Creates and updates the different parts of a level in the game.
@@ -20,10 +19,10 @@ public class Level {
 
     public final int LEVEL_TIME_IN_SECONDS = 120;
 
-    private EntitySpawner spawner;
-    private CountDownTimer timer;
-    private Ship ship;
-    private Planet planet;
+    private final EntitySpawner spawner;
+    private final CountDownTimer timer;
+    private final Ship ship;
+    private final Planet planet;
 
     public Level() {
         ship = new Ship();
@@ -40,8 +39,6 @@ public class Level {
                 levelOver();
             }
         };
-
-        HighScoreManager.getHighScoreManager(); //Make sure the HighScoreManager singleton is initialized.
 
         Bus.getInstance().register(this);
     }

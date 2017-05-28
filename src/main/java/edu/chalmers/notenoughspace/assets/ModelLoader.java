@@ -76,15 +76,9 @@ class ModelLoader implements IModelLoader {
         } else if (modelID.equals("hayfork")) {
             model = assetManager.loadModel("Models/spear.j3o");
             model.scale(0.3f);
-        } else if (modelID.equals("energy")) {
-            model = assetManager.loadModel("Models/energy.obj");
-            model.setMaterial(assetManager.loadMaterial("Materials/SunMaterial.j3m"));
-            model.scale(0.005f);
-        } else if (modelID.equals("health")) {
-            model = assetManager.loadModel("Models/health.obj");
-            Material mat = assetManager.loadMaterial("Materials/SunMaterial.j3m");
-            model.setMaterial(mat);
-            model.scale(0.005f);
+        } else if (modelID.equals("healthPowerup")) {
+            model = assetManager.loadModel("Models/healthPowerup.j3o");
+            model.scale(0.2f);
         } else if (modelID.equals("sky")) {
             model = SkyFactory.createSky(
                     assetManager, "Textures/skybox.dds", SkyFactory.EnvMapType.CubeMap);

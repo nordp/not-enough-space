@@ -193,7 +193,7 @@ public class SpatialHandler {
         
         } else if (entity instanceof Powerup){
             if (entity instanceof HealthPowerup) {
-                model = modelLoader.loadModel("health");
+                model = modelLoader.loadModel("healthPowerup");
             } else {
                 model = modelLoader.loadModel("energy");
             }

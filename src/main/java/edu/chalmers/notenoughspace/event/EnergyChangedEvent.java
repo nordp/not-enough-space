@@ -9,7 +9,6 @@ public class EnergyChangedEvent {
 
     public EnergyChangedEvent(float energyLevel){
         this.energyLevel = energyLevel;
-        System.out.println("EnergyLevelChangedEvent fired.");
     }
 
 

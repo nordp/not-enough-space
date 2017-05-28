@@ -37,7 +37,7 @@ class Energy {
             currentEnergyLevel = MAX_ENERGY;
         }
 
-        if(currentEnergyLevel != oldEnergy) {
+        if (currentEnergyLevel != oldEnergy) {
             Bus.getInstance().post(new EnergyChangedEvent(currentEnergyLevel));
         }
     }

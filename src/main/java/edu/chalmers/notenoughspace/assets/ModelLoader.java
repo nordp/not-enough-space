@@ -45,10 +45,12 @@ class ModelLoader implements IModelLoader {
             model.setMaterial(assetManager.loadMaterial("Materials/tree.j3m"));
             model.scale(0.3f);
         } else if (modelID.equals("barrel")){
-            model = assetManager.loadModel("Models/cupbarrel.obj");
-            model.setMaterial(assetManager.loadMaterial("Materials/barrel.j3m"));
-            model.scale(0.004f);
-            model.rotate(new Quaternion(-0.707f,0,0,0.707f));
+            model = assetManager.loadModel("Models/barrel.j3o");
+            model.scale(0.12f);
+            //Old model:
+            //model = assetManager.loadModel("Models/cupbarrel.obj");
+            //model.setMaterial(assetManager.loadMaterial("Materials/barrel.j3m"));
+            //model.rotate(new Quaternion(-0.707f,0,0,0.707f));
         } else if (modelID.equals("ship")){
             model = assetManager.loadModel("Models/redUFO.j3o");
             model.scale(0.36f);

@@ -30,7 +30,7 @@ class Health {
             currentHealthLevel = MAX_HEALTH;
         }
 
-        if(currentHealthLevel != oldHealth) {
+        if (currentHealthLevel != oldHealth) {
             Bus.getInstance().post(new HealthChangedEvent(currentHealthLevel));
         }
     }

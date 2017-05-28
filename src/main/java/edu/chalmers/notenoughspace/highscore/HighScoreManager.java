@@ -141,4 +141,7 @@ public class HighScoreManager {
         Collections.sort(scores, comparator);
     }
 
+    public static void initialize() {
+        getHighScoreManager();
+    }
 }

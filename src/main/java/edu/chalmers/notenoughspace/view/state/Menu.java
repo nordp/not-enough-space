@@ -28,7 +28,7 @@ public class Menu extends AbstractAppState implements ScreenController {
 
         app = (SimpleApplication) application;
         this.stateManager = (StateManager) stateManager;
-
+        HighScoreManager.initialize(); //Make sure the HighScoreManager singleton is initialized.
         app.getInputManager().setCursorVisible(true);
     }
 

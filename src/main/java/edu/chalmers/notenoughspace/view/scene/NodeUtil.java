@@ -8,7 +8,7 @@ import com.jme3.scene.Spatial;
 /**
  * Utility class for setting up sound and special effect nodes to be used in the game.
  */
-public class NodeUtil {
+class NodeUtil {
 
     static void setUpAudioNode(AudioNode audioNode, float refDistance, float volume,
                                boolean looping, Node parentNode, String name) {

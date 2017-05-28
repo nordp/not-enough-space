@@ -16,7 +16,7 @@ import edu.chalmers.notenoughspace.core.entity.Planet;
  */
 class ModelLoader implements IModelLoader {
 
-    private AssetManager assetManager;
+    private final AssetManager assetManager;
 
     public ModelLoader(AssetManager assetManager){
         this.assetManager = assetManager;

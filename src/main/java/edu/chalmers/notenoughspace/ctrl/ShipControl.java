@@ -32,14 +32,14 @@ public class ShipControl extends DetachableControl {
     private final float MAX_DISTANCE_TO_CAMERA = 3f;
     private final float CAMERA_DRAG = 5.25f;
 
-    private boolean usingCameraDrag = true;
+    private final boolean usingCameraDrag = true;
     private Camera camera;
     private Node followShipCameraPivotNode;
 
     private InputManager inputManager;
     private Listener audioListener;
 
-    private Ship ship;
+    private final Ship ship;
 
 
     public ShipControl(InputManager inputManager, Listener audioListener, Ship ship) {
@@ -211,7 +211,7 @@ public class ShipControl extends DetachableControl {
         inputManager.removeListener(actionListener);
     }
 
-    private AnalogListener analogListener = new AnalogListener() {
+    private final AnalogListener analogListener = new AnalogListener() {
 
         public void onAnalog(String name, float value, float tpf) {
             if (name.equals(Movement.FORWARD.name())) {
@@ -260,7 +260,7 @@ public class ShipControl extends DetachableControl {
         return shipPos.distance(boundaryPos);
     }
 
-    private ActionListener actionListener = new ActionListener() {
+    private final ActionListener actionListener = new ActionListener() {
 
         public void onAction(String name, boolean value, float tpf) {
             if (name.equals("toggleBeam")) {

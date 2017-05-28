@@ -4,13 +4,9 @@ import com.jme3.animation.AnimChannel;
 import com.jme3.animation.AnimControl;
 import com.jme3.audio.AudioNode;
 import com.jme3.audio.AudioSource;
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
-import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 
 /**
  * Control responsible for telling the farmer when to update and when and how farmer related
@@ -18,7 +14,7 @@ import edu.chalmers.notenoughspace.core.entity.ship.Ship;
  */
 public class FarmerControl extends DetachableControl {
 
-    private Farmer farmer;
+    private final Farmer farmer;
 
     public FarmerControl(Farmer farmer){
         this.farmer = farmer;

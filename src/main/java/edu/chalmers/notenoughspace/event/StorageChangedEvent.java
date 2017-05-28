@@ -1,14 +1,12 @@
 package edu.chalmers.notenoughspace.event;
 
-import edu.chalmers.notenoughspace.core.entity.ship.Storage;
-
 /**
  * Event fired when an object is added to or removed from the ship's storage.
  */
 public class StorageChangedEvent {
 
-    private int score;
-    private int numberOfCows;
+    private final int score;
+    private final int numberOfCows;
 
     public StorageChangedEvent(int score, int numberOfCows) {
         this.score = score;

@@ -3,15 +3,13 @@ package edu.chalmers.notenoughspace.assets;
 import com.jme3.asset.AssetManager;
 import com.jme3.audio.AudioData;
 import com.jme3.audio.AudioNode;
-import com.jme3.scene.Node;
-import com.jme3.scene.Spatial;
 
 /**
  * Loads sound files for the game.
  */
 class SoundLoader implements ISoundLoader {
 
-    private AssetManager assetManager;
+    private final AssetManager assetManager;
 
     public SoundLoader(AssetManager assetManager) {
         this.assetManager = assetManager;

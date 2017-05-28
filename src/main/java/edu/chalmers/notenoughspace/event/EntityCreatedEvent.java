@@ -7,7 +7,7 @@ import edu.chalmers.notenoughspace.core.entity.Entity;
  */
 public class EntityCreatedEvent {
 
-    private Entity entity;
+    private final Entity entity;
 
     public EntityCreatedEvent(Entity entity) {
         this.entity = entity;

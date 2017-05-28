@@ -40,7 +40,6 @@ public class Round extends AbstractAppState implements ScreenController {
     private SimpleApplication app;
     private Nifty nifty;
     private Level level;
-    private SpatialHandler spatialHandler;
     private ActionListener actionListener;
     private StateManager stateManager;
 
@@ -51,7 +50,8 @@ public class Round extends AbstractAppState implements ScreenController {
     private Element healthBarElement;
     private Element energyBarElement;
 
-    private Node rootNode;
+    private final SpatialHandler spatialHandler;
+    private final Node rootNode;
 
     private boolean gameOver;
 

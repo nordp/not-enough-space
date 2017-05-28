@@ -5,7 +5,7 @@ package edu.chalmers.notenoughspace.event;
  */
 public class EnergyChangedEvent {
 
-    private float energyLevel;
+    private final float energyLevel;
 
     public EnergyChangedEvent(float energyLevel){
         this.energyLevel = energyLevel;

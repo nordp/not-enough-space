@@ -4,7 +4,6 @@ import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
 
 /**
@@ -13,7 +12,7 @@ import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
  */
 public class SatelliteControl extends DetachableControl {
 
-    private Satellite satellite;
+    private final Satellite satellite;
 
     public SatelliteControl(Satellite satellite){
         this.satellite = satellite;

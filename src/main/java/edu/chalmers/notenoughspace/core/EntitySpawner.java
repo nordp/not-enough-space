@@ -21,8 +21,8 @@ import java.util.List;
  */
 public class EntitySpawner {
 
-    private List<SpawnTimer> timerList; //For entities to be spawned at regular intervals.
-    private Planet planet;
+    private final List<SpawnTimer> timerList; //For entities to be spawned at regular intervals.
+    private final Planet planet;
 
     public EntitySpawner(Planet planet) {
         this.planet = planet;
@@ -80,8 +80,8 @@ public class EntitySpawner {
      * Timer for spawning entities at regular intervals.
      */
     private class SpawnTimer extends CountDownTimer {
-        private Class<? extends Entity> classOfObjectToSpawn;
-        private float spawnInterval;
+        private final Class<? extends Entity> classOfObjectToSpawn;
+        private final float spawnInterval;
 
         private SpawnTimer(final Class<? extends Entity> classOfObjectToSpawn, final float spawnInterval) {
             super(spawnInterval);

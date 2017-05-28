@@ -5,7 +5,7 @@ package edu.chalmers.notenoughspace.event;
  */
 public class GameOverEvent {
 
-    private int score;
+    private final int score;
 
     public GameOverEvent(int score) {
         this.score = score;

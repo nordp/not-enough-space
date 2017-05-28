@@ -7,7 +7,7 @@ import edu.chalmers.notenoughspace.core.entity.Entity;
  */
 public class EntityRemovedEvent {
 
-    private Entity entity;
+    private final Entity entity;
 
     public EntityRemovedEvent(Entity entity){
         this.entity = entity;

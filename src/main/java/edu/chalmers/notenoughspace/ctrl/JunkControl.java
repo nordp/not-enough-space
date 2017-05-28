@@ -1,10 +1,7 @@
 package edu.chalmers.notenoughspace.ctrl;
 
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
 
 /**
@@ -13,7 +10,7 @@ import edu.chalmers.notenoughspace.core.entity.beamable.Junk;
  */
 public class JunkControl extends DetachableControl {
 
-    private Junk junk;
+    private final Junk junk;
 
     public JunkControl(Junk junk){
         this.junk = junk;

@@ -8,7 +8,7 @@ import edu.chalmers.notenoughspace.core.entity.ship.Ship;
  */
 public class PowerupCollisionEvent {
 
-    private Powerup powerup;
+    private final Powerup powerup;
 
     public PowerupCollisionEvent(Powerup powerup){
         this.powerup = powerup;

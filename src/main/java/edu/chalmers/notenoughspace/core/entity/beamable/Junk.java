@@ -1,6 +1,5 @@
 package edu.chalmers.notenoughspace.core.entity.beamable;
 
-import edu.chalmers.notenoughspace.core.entity.Entity;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
 

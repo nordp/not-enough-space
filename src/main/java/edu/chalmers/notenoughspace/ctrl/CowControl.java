@@ -20,7 +20,7 @@ public class CowControl extends DetachableControl {
 
     private float ORIGINAL_SCALE;
 
-    private Cow cow;
+    private final Cow cow;
     private boolean sweatEnabled;
 
     public CowControl(Cow cow) {

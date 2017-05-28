@@ -11,7 +11,7 @@ public class SoundPlayer {
 
     private static SoundPlayer player;
 
-    private SoundPlayer(){};
+    private SoundPlayer(){}
     
     
     public static SoundPlayer getInstance() {

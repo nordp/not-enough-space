@@ -35,11 +35,11 @@ public class HighScoreManager {
         return highScoreManager;
     }
 
-    public ArrayList<Score> getScores() {
+    private ArrayList<Score> getScores() {
         return scores;
     }
 
-    public void setScores(ArrayList<Score> scores){
+    private void setScores(ArrayList<Score> scores){
         sort(scores);
         this.scores = scores;
 
@@ -59,7 +59,7 @@ public class HighScoreManager {
         updateScoreFile();
     }
 
-    public ArrayList<Score> loadScoreFile() {
+    private ArrayList<Score> loadScoreFile() {
         ArrayList<Score> scores = null;
 
         try {
@@ -86,7 +86,7 @@ public class HighScoreManager {
         return scores;
     }
 
-    public void updateScoreFile() {
+    private void updateScoreFile() {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(HIGHSCORE_FILE);
             outputStream = new ObjectOutputStream(fileOutputStream);

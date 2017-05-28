@@ -5,7 +5,7 @@ package edu.chalmers.notenoughspace.event;
  */
 public class BeamToggleEvent {
 
-    private boolean enabled;
+    private final boolean enabled;
 
     public BeamToggleEvent(boolean enabled){
         this.enabled = enabled;

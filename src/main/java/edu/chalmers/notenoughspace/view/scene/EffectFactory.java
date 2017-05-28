@@ -1,25 +1,19 @@
 package edu.chalmers.notenoughspace.view.scene;
 
-import com.jme3.app.SimpleApplication;
 import com.jme3.asset.AssetManager;
-import com.jme3.effect.Particle;
 import com.jme3.effect.ParticleEmitter;
 import com.jme3.effect.ParticleMesh;
-import com.jme3.effect.shapes.EmitterSphereShape;
-import com.jme3.input.InputManager;
 import com.jme3.material.Material;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.Vector3f;
 import com.jme3.renderer.RenderManager;
 import com.jme3.renderer.ViewPort;
-import com.jme3.scene.Node;
 import com.jme3.scene.control.AbstractControl;
-import edu.chalmers.notenoughspace.event.Bus;
 
 /**
  * Factory for creating special effects occurring in the game.
  */
-public class EffectFactory {
+class EffectFactory {
 
 
     private EffectFactory(){}

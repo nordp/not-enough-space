@@ -14,11 +14,11 @@ public class Ship extends Entity {
 
     public static final float ALTITUDE = 1.8f;  //Distance to the planet's surface.
 
-    private Health health;
-    private Energy energy;
-    private Beam beam;
-    private Storage storage;
-    private MovementStrategy mover;
+    private final Health health;
+    private final Energy energy;
+    private final Beam beam;
+    private final Storage storage;
+    private final MovementStrategy mover;
 
     public Ship(){
         super(new ZeroGravityStrategy());
@@ -28,12 +28,12 @@ public class Ship extends Entity {
         mover = new AccelerationMovementStrategy(40, 45, 40, 200);
         health = new Health(100, 100);
         energy = new Energy(100, 100,  5);
-        beam = new Beam(this);
+        beam = new Beam(body);
         storage = new Storage();
     }
 
     public void update(float tpf) {
-        beam.update(body, tpf);
+        beam.update(tpf);
         mover.move(body, tpf);
         updateEnergy(tpf);
     }

@@ -1,10 +1,7 @@
 package edu.chalmers.notenoughspace.ctrl;
 
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
-import com.jme3.scene.control.AbstractControl;
 import edu.chalmers.notenoughspace.core.entity.enemy.Hayfork;
 
 /**
@@ -13,7 +10,7 @@ import edu.chalmers.notenoughspace.core.entity.enemy.Hayfork;
  */
 public class HayforkControl extends DetachableControl {
 
-    private Hayfork hayfork;
+    private final Hayfork hayfork;
 
     public HayforkControl(Hayfork hayfork) {
         this.hayfork = hayfork;

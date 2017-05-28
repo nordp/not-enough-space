@@ -2,7 +2,6 @@ package edu.chalmers.notenoughspace;
 
 import com.jme3.app.SimpleApplication;
 import com.jme3.niftygui.NiftyJmeDisplay;
-import com.jme3.renderer.RenderManager;
 import com.jme3.system.AppSettings;
 import de.lessvoid.nifty.Nifty;
 import edu.chalmers.notenoughspace.assets.AssetLoaderFactory;

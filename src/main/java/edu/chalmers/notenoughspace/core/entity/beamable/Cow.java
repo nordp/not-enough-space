@@ -1,6 +1,5 @@
 package edu.chalmers.notenoughspace.core.entity.beamable;
 
-import edu.chalmers.notenoughspace.core.entity.Entity;
 import edu.chalmers.notenoughspace.core.entity.Planet;
 import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
@@ -12,29 +11,29 @@ import edu.chalmers.notenoughspace.event.Bus;
  */
 public class Cow extends BeamableEntity {
 
-    public static final float REACTION_DISTANCE = 3f;
+    private static final float REACTION_DISTANCE = 3f;
 
-    public static final float SPRINT_SPEED = 0.3f;
-    public static final float MAX_TURNING_DIR = 90;
-    public static final int SPRINT_COOLDOWN = 3000;
-    public static final int MAX_STAMINA = 3000;
-    public static final int STAMINA_REDUCTION = 1000;
-    public static final float MIN_WALKSPEED = 0.01f;
-    public static final float MAX_WALKSPEED = 0.15f;
-    public static final int CHANGE_SPEED_CHANCE = 2;
-    public static final int CHANGE_DIRECTION_CHANCE = 2;
+    private static final float SPRINT_SPEED = 0.3f;
+    private static final float MAX_TURNING_DIR = 90;
+    private static final int SPRINT_COOLDOWN = 3000;
+    private static final int MAX_STAMINA = 3000;
+    private static final int STAMINA_REDUCTION = 1000;
+    private static final float MIN_WALKSPEED = 0.01f;
+    private static final float MAX_WALKSPEED = 0.15f;
+    private static final int CHANGE_SPEED_CHANCE = 2;
+    private static final int CHANGE_DIRECTION_CHANCE = 2;
 
-    public static final float MIN_SIZE = 0.70f;
-    public static final float MAX_SIZE = 1.50f;
+    private static final float MIN_SIZE = 0.70f;
+    private static final float MAX_SIZE = 1.50f;
 
-    public static final float BASE_WEIGHT = 1f;
-    public static final float BASE_POINTS = 1f;
+    private static final float BASE_WEIGHT = 1f;
+    private static final float BASE_POINTS = 1f;
 
     //Control variables for golden cows.
-    public static final int GOLD_CHANCE = 5;
-    public static final float GOLD_SIZE = 0.60f;
-    public static final float GOLD_POINTS_MODIFIER = 5f;
-    public static final float GOLD_SPEED_MODIFIER = 2f;
+    private static final int GOLD_CHANCE = 5;
+    private static final float GOLD_SIZE = 0.60f;
+    private static final float GOLD_POINTS_MODIFIER = 5f;
+    private static final float GOLD_SPEED_MODIFIER = 2f;
 
 
     private float walkDir;

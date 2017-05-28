@@ -10,8 +10,8 @@ import edu.chalmers.notenoughspace.event.Bus;
  */
 public class StateManager extends AppStateManager {
 
-    private AbstractAppState stopped;
-    private AbstractAppState running;
+    private final AbstractAppState stopped;
+    private final AbstractAppState running;
     private AbstractAppState current;
 
     public StateManager(SimpleApplication app, AbstractAppState stopped, AbstractAppState running){

@@ -7,7 +7,7 @@ import edu.chalmers.notenoughspace.core.entity.beamable.BeamableEntity;
  */
 public class BeamExitedEvent {
 
-    private BeamableEntity beamable;
+    private final BeamableEntity beamable;
 
     public BeamExitedEvent(BeamableEntity beamable){
         this.beamable = beamable;

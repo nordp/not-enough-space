@@ -8,7 +8,7 @@ import edu.chalmers.notenoughspace.event.HealthEmptyEvent;
  * The fitness of the ship, which drops when the ship is hit by hayforks and
  * satellites and rises when a health powerup is picked up.
  */
-public class Health {
+class Health {
 
     private final int MAX_HEALTH;
     private int currentHealthLevel;

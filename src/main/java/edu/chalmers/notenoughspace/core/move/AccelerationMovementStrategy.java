@@ -5,13 +5,13 @@ package edu.chalmers.notenoughspace.core.move;
  */
 public class AccelerationMovementStrategy extends MovementStrategy {
 
-    private float maxRotationSpeed;
-    private float rotationAccelerationRate;
-    private float rotationDecelerationRate;
+    private final float maxRotationSpeed;
+    private final float rotationAccelerationRate;
+    private final float rotationDecelerationRate;
 
-    private float maxSpeed;
-    private float decelerationRate; //High deceleration rate = object slows down quickly.
-    private float accelerationRate; //High acceleration rate = object speeds up quickly.
+    private final float maxSpeed;
+    private final float decelerationRate; //High deceleration rate = object slows down quickly.
+    private final float accelerationRate; //High acceleration rate = object speeds up quickly.
 
     public AccelerationMovementStrategy(float maxSpeed, float accelerationRate, float maxRotationSpeed, float rotationAccelerationRate){
         this.maxSpeed = maxSpeed;

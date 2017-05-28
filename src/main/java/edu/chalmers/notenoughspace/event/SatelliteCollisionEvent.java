@@ -7,7 +7,7 @@ import edu.chalmers.notenoughspace.core.entity.enemy.Satellite;
  */
 public class SatelliteCollisionEvent {
 
-    private Satellite satellite;
+    private final Satellite satellite;
 
     public SatelliteCollisionEvent(Satellite satellite){
         this.satellite = satellite;

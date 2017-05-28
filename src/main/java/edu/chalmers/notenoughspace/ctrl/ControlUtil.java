@@ -8,7 +8,7 @@ import com.jme3.scene.Spatial;
 /**
  * Utility class for control related tasks.
  */
-public class ControlUtil {
+class ControlUtil {
 
     private static JMEInhabitant ship;
 
@@ -40,9 +40,8 @@ public class ControlUtil {
         BoundingVolume boundingVolume = first.getWorldBound();
 
         second.collideWith(boundingVolume, results);
-        boolean colliding = results.size() > 0;
 
-        return colliding;
+        return results.size() > 0;
     }
 
 }

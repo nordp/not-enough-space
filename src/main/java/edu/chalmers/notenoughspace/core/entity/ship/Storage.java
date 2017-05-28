@@ -14,7 +14,7 @@ import java.util.*;
  */
 public class Storage {
 
-    private List<BeamableEntity> storedObjects;
+    private final List<BeamableEntity> storedObjects;
 
     public Storage() {
         storedObjects = new ArrayList<BeamableEntity>();
@@ -36,7 +36,7 @@ public class Storage {
         return (int) (score * 100000);
     }
 
-    public int getNumberOfCows() {
+    private int getNumberOfCows() {
         int count = 0;
         for (BeamableEntity b : storedObjects) {
             if (b instanceof Cow) {

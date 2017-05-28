@@ -1,7 +1,5 @@
 package edu.chalmers.notenoughspace.ctrl;
 
-import com.jme3.renderer.RenderManager;
-import com.jme3.renderer.ViewPort;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import edu.chalmers.notenoughspace.core.entity.powerup.Powerup;
@@ -12,7 +10,7 @@ import edu.chalmers.notenoughspace.core.entity.powerup.Powerup;
  */
 public class PowerupControl extends DetachableControl {
 
-    private Powerup powerup;
+    private final Powerup powerup;
 
     public PowerupControl(Powerup powerup){
         this.powerup = powerup;

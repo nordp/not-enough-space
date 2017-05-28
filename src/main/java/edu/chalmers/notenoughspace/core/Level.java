@@ -20,10 +20,10 @@ public class Level {
 
     public final int LEVEL_TIME_IN_SECONDS = 120;
 
-    private EntitySpawner spawner;
-    private CountDownTimer timer;
-    private Ship ship;
-    private Planet planet;
+    private final EntitySpawner spawner;
+    private final CountDownTimer timer;
+    private final Ship ship;
+    private final Planet planet;
 
     public Level() {
         ship = new Ship();

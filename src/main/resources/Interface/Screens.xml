@@ -168,11 +168,11 @@
                         <image filename="Textures/space.jpg" height="100%" width="100%"></image>
         </layer>
         <layer id="foreground" childLayout="center">
-                    <panel id="panel_top" height="30%" width="10%" valign="top" align="center" childLayout="vertical">
+                    <panel id="panel_top" height="30%" width="25%" valign="top" align="center" childLayout="vertical">
                         <text text="High Score" font="Interface/dFont.fnt"/>
                         <text text="${CALL.getHighScoreString()}" font="Interface/dFontSmall.fnt"/>
                     </panel>
-                    <panel id="panel_bottom" height="30%" width="80%" align="center" valign="bottom" childLayout="horizontal">
+                    <panel id="panel_bottom" height="35%" width="70%" valign="bottom" childLayout="horizontal">
                         <image filename="Interface/playAgainButton.png" label="PlayAgain" id="PlayAgainButton"
                                height="40%" width="40%" valign="bottom" align="left" visibleToMouse="true" >
                             <interact onClick="startButtonClicked()"/>
@@ -181,6 +181,7 @@
                                 <onHover name="border" post="true" color="999f" border="2px"/>
                             </effect>
                         </image>
+                        <panel height="30%" width="20%"/>
                         <image filename="Interface/mainMenu.png" label="MainMenu" id="MainMenu"
                            height="40%" width="40%" valign="bottom" align="right" visibleToMouse="true" >
                         <interact onClick="mainMenuButtonClicked()"/>

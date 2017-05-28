@@ -9,7 +9,10 @@ import com.jme3.audio.AudioNode;
 import com.jme3.input.KeyInput;
 import com.jme3.input.controls.ActionListener;
 import com.jme3.input.controls.KeyTrigger;
-import com.jme3.light.*;
+import com.jme3.light.AmbientLight;
+import com.jme3.light.Light;
+import com.jme3.light.LightList;
+import com.jme3.light.PointLight;
 import com.jme3.math.ColorRGBA;
 import com.jme3.math.FastMath;
 import com.jme3.math.Vector3f;
@@ -41,14 +44,8 @@ public class Round extends AbstractAppState implements ScreenController {
     private StateManager stateManager;
 
     private Spatial sun;
-    private DirectionalLight sunLight;
-    private AmbientLight ambientLight0;
-    private DirectionalLight ambientLight1;
-    private DirectionalLight ambientLight2;
-    private DirectionalLight ambientLight3;
-    private DirectionalLight ambientLight4;
-    private DirectionalLight ambientLight5;
-    private DirectionalLight ambientLight6;
+    private PointLight sunLight;
+    private AmbientLight ambientLight;
     private AudioNode music;
     private Element healthBarElement;
     private Element energyBarElement;
@@ -222,25 +219,12 @@ public class Round extends AbstractAppState implements ScreenController {
 
         Vector3f sunPosition = sun.getWorldTranslation();
         ColorRGBA sunLightColor = ColorRGBA.White.mult(0.5f);
-//        int sunLightRadius = 1000;
-        sunLight = new DirectionalLight(sunPosition.negate(), sunLightColor);
+        int sunLightRadius = 1000;
+        sunLight = new PointLight(sunPosition, sunLightColor, sunLightRadius);
 
-        ColorRGBA ambientLightColor = ColorRGBA.White.mult(0.2f);
-//        ambientLight = new AmbientLight(ambientLightColor);
-        ambientLight0 = new AmbientLight(ColorRGBA.White.mult(0.3f));
-        ambientLight0.setEnabled(true);
-        ambientLight1 = new DirectionalLight(new Vector3f(1f, 0f, 0f), ambientLightColor);
-        ambientLight1.setEnabled(true);
-        ambientLight2 = new DirectionalLight(new Vector3f(-1f, 0f, 0f), ambientLightColor);
-        ambientLight2.setEnabled(true);
-        ambientLight3 = new DirectionalLight(new Vector3f(0f, 1f, 0f), ambientLightColor);
-        ambientLight3.setEnabled(true);
-        ambientLight4 = new DirectionalLight(new Vector3f(0f, -1f, 0f), ambientLightColor);
-        ambientLight4.setEnabled(true);
-        ambientLight5 = new DirectionalLight(new Vector3f(0f, 0f, 1f), ambientLightColor);
-        ambientLight5.setEnabled(true);
-        ambientLight6 = new DirectionalLight(new Vector3f(0f, 0f, -1f), ambientLightColor);
-        ambientLight6.setEnabled(true);
+        ColorRGBA ambientLightColor = ColorRGBA.White.mult(0.4f);
+        ambientLight = new AmbientLight(ambientLightColor);
+        ambientLight.setEnabled(true);
     }
 
     private void enableScene(Node rootNode){
@@ -249,13 +233,7 @@ public class Round extends AbstractAppState implements ScreenController {
         rootNode.attachChild(sky);
         rootNode.attachChild(sun);
         rootNode.addLight(sunLight);
-        rootNode.addLight(ambientLight0);
-        rootNode.addLight(ambientLight1);
-        rootNode.addLight(ambientLight2);
-        rootNode.addLight(ambientLight3);
-        rootNode.addLight(ambientLight4);
-        rootNode.addLight(ambientLight5);
-        rootNode.addLight(ambientLight6);
+        rootNode.addLight(ambientLight);
     }
 
     private void initSound() {

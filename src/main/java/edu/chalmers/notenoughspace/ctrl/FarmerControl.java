@@ -7,6 +7,7 @@ import com.jme3.audio.AudioSource;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
 import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 
 /**
  * Control responsible for telling the farmer when to update and when and how farmer related
@@ -22,7 +23,7 @@ public class FarmerControl extends DetachableControl {
 
 
     protected void controlUpdate(float tpf) {
-        JMEInhabitant ship = ControlUtil.getShip(spatial);
+        PlanetaryInhabitant ship = ShipControl.getShip(spatial);
 
         farmer.update(ship, tpf);
         setAnimation();

@@ -4,13 +4,14 @@ import com.jme3.bounding.BoundingVolume;
 import com.jme3.collision.CollisionResults;
 import com.jme3.scene.Node;
 import com.jme3.scene.Spatial;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 
 /**
  * Utility class for control related tasks.
  */
 class ControlUtil {
 
-    private static JMEInhabitant ship;
+    private static PlanetaryInhabitant ship;
 
     private ControlUtil(){}
 
@@ -23,16 +24,6 @@ class ControlUtil {
             spatial = spatial.getParent();
         }
         return (Node) spatial;
-    }
-
-    public static JMEInhabitant getShip(Spatial spatial) {
-        if (ship == null) {
-            Node rootNode = getRoot(spatial);
-            Spatial shipSpatial = rootNode.getChild("ship");
-            ship = new JMEInhabitant(shipSpatial);
-        }
-
-        return ship;
     }
 
     public static boolean checkCollision(Spatial first, Spatial second){

@@ -19,6 +19,7 @@ import com.jme3.scene.Spatial;
 import edu.chalmers.notenoughspace.core.entity.Planet;
 import edu.chalmers.notenoughspace.core.move.Movement;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
+import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 import edu.chalmers.notenoughspace.event.BeamableStoredEvent;
 import edu.chalmers.notenoughspace.event.Bus;
 
@@ -39,7 +40,7 @@ public class ShipControl extends DetachableControl {
     private InputManager inputManager;
     private Listener audioListener;
 
-    private final Ship ship;
+    private static Ship ship;
 
 
     public ShipControl(InputManager inputManager, Listener audioListener, Ship ship) {
@@ -61,6 +62,10 @@ public class ShipControl extends DetachableControl {
     public void onDetach(){
         cleanupMovementKeys();
         Bus.getInstance().unregister(this);
+    }
+
+    public static PlanetaryInhabitant getShip(Spatial spatial) {
+        return ship.getPlanetaryInhabitant();
     }
 
     @Subscribe

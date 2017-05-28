@@ -23,7 +23,7 @@ public class FarmerControl extends DetachableControl {
 
 
     protected void controlUpdate(float tpf) {
-        PlanetaryInhabitant ship = ShipControl.getShip(spatial);
+        PlanetaryInhabitant ship = ShipControl.getShip();
 
         farmer.update(ship, tpf);
         setAnimation();

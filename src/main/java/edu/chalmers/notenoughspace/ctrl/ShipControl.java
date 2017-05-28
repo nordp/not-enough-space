@@ -64,7 +64,7 @@ public class ShipControl extends DetachableControl {
         Bus.getInstance().unregister(this);
     }
 
-    public static PlanetaryInhabitant getShip(Spatial spatial) {
+    public static PlanetaryInhabitant getShip() {
         return ship.getPlanetaryInhabitant();
     }
 

@@ -34,7 +34,7 @@ public class CowControl extends DetachableControl {
     protected void controlUpdate(float tpf) {
         setOriginalScale(); //TODO: What do we do about this? Create an onAttached method?
 
-        PlanetaryInhabitant ship = ShipControl.getShip(spatial);
+        PlanetaryInhabitant ship = ShipControl.getShip();
         boolean isTired = cow.getMood() == CowMood.TIRED;
 
         cow.update(ship, tpf);

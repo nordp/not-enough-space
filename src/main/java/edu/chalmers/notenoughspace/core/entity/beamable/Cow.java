@@ -27,12 +27,12 @@ public class Cow extends BeamableEntity {
     private static final float MAX_SIZE = 1.50f;
 
     private static final float BASE_WEIGHT = 1f;
-    private static final float BASE_POINTS = 1f;
+    private static final float BASE_POINTS = 1.2f;
 
     //Control variables for golden cows.
     private static final int GOLD_CHANCE = 5;
     private static final float GOLD_SIZE = 0.60f;
-    private static final float GOLD_POINTS_MODIFIER = 5f;
+    private static final float GOLD_POINTS_MODIFIER = 3f;
     private static final float GOLD_SPEED_MODIFIER = 2f;
 
 

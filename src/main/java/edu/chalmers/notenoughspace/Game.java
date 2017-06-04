@@ -4,6 +4,7 @@ import com.jme3.app.SimpleApplication;
 import com.jme3.niftygui.NiftyJmeDisplay;
 import com.jme3.system.AppSettings;
 import de.lessvoid.nifty.Nifty;
+import de.lessvoid.nifty.render.batch.BatchRenderConfiguration;
 import edu.chalmers.notenoughspace.assets.AssetLoaderFactory;
 import edu.chalmers.notenoughspace.view.state.Menu;
 import edu.chalmers.notenoughspace.view.state.Round;
@@ -27,7 +28,7 @@ public class Game extends SimpleApplication {
         setOverallDisplayMode(app);
 
         Logger.getLogger("com.jme3").setLevel(SEVERE);
-        Logger.getLogger("de.lessvoid.nifty").setLevel(SEVERE);
+//        Logger.getLogger("de.lessvoid.nifty").setLevel(SEVERE);
 
         app.start();
     }
@@ -40,14 +41,18 @@ public class Game extends SimpleApplication {
         Menu menu = new Menu();
         Round round = new Round();
 
+        BatchRenderConfiguration config = new BatchRenderConfiguration();
+        config.atlasHeight = 4096;
+        config.atlasWidth = 4096;
+        config.atlasTolerance = 0.75f;
+
         NiftyJmeDisplay niftyDisplay = NiftyJmeDisplay.newNiftyJmeDisplay(
-                assetManager, inputManager, audioRenderer, guiViewPort);
+                assetManager, inputManager, audioRenderer, guiViewPort, config);
         Nifty nifty = niftyDisplay.getNifty();
 
         nifty.fromXml("Interface/Screens.xml", "menu", menu, round);
         menu.bind(nifty, nifty.getScreen("menu"));
         round.bind(nifty, nifty.getScreen("hud"));
-        menu.bind(nifty, nifty.getScreen("highscore"));
 
         guiViewPort.addProcessor(niftyDisplay);
         stateManager = new StateManager(this, menu, round);

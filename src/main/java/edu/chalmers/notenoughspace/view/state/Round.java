@@ -31,6 +31,7 @@ import edu.chalmers.notenoughspace.event.*;
 import edu.chalmers.notenoughspace.view.scene.SpatialHandler;
 
 import javax.annotation.Nonnull;
+import java.util.concurrent.Callable;
 
 /**
  * A round of the game. This class is responsible for passing on update calls to Level, the scene and the HUD.
@@ -72,7 +73,6 @@ public class Round extends AbstractAppState implements ScreenController {
     public void initialize(AppStateManager stateManager, Application application) {
         super.initialize(stateManager, application);
 
-        this.stateManager = (StateManager) stateManager;
         level = new Level();
         gameOver = false;
 
@@ -81,6 +81,13 @@ public class Round extends AbstractAppState implements ScreenController {
         enableInput(app);
 
         app.getViewPort().attachScene(rootNode);
+
+        app.enqueue(new Callable(){
+            public Object call() throws Exception {
+                nifty.gotoScreen("hud");
+                return null;
+            }
+        });
     }
 
     @Override
@@ -88,10 +95,9 @@ public class Round extends AbstractAppState implements ScreenController {
         super.stateAttached(stateManager);
 
         app = (SimpleApplication) stateManager.getApplication();
+        this.stateManager = (StateManager) stateManager;
         spatialHandler.setApp((SimpleApplication) stateManager.getApplication());
         spatialHandler.setRootNode(rootNode);
-
-        nifty.gotoScreen("hud");
     }
 
     @Override
@@ -122,10 +128,6 @@ public class Round extends AbstractAppState implements ScreenController {
 
     @Override
     public void setEnabled(boolean enabled) {
-        if (enabled == this.isEnabled()) {
-            return;
-        }
-
         super.setEnabled(enabled);
 
         if (enabled) {
@@ -134,7 +136,7 @@ public class Round extends AbstractAppState implements ScreenController {
             music.pause();
         }
 
-        Element pauseMenu = nifty.getCurrentScreen().findElementById("pauseMenu");
+        Element pauseMenu = nifty.getScreen("hud").findElementById("pauseMenu");
         app.getInputManager().setCursorVisible(!enabled);
         nifty.gotoScreen("hud");
         pauseMenu.setVisible(!enabled);

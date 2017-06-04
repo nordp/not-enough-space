@@ -4,7 +4,7 @@
     <useControls filename="nifty-default-controls.xml" />
     <screen id="menu" controller="edu.chalmers.notenoughspace.view.state.Menu">
         <layer id="background" childLayout="center">
-            <image filename="Textures/space.jpg" height="100%" width="100%"></image>
+            <image filename="Textures/space.jpg" height="100%" width="100%" />
         </layer>
         <layer id="foreground" backgroundColor="#0000" childLayout="vertical">
             <panel height="20%" width="25%" childLayout="center" align="center" valign="top">
@@ -12,7 +12,7 @@
             </panel>
             <panel id="panel_top" height="35%" width="35%" align="center" childLayout="center">
 
-                <image filename="Interface/gameLogo.png" align="center" valign="center" height="85%" width="65%" ></image>
+                <image filename="Interface/gameLogo.png" align="center" valign="center" height="85%" width="65%" />
             </panel>
             <panel id="panel_bottom" height="25%" width="75%" align="center" childLayout="vertical" marginBottom="90px" >
                 <image filename="Interface/button.png" label="Start" id="StartButton" align="center" valign="center"
@@ -165,25 +165,25 @@
     </screen>
     <screen id="highscore" controller="edu.chalmers.notenoughspace.view.state.Menu">
         <layer id="background" childLayout="center">
-                        <image filename="Textures/space.jpg" height="100%" width="100%"></image>
+                        <image filename="Textures/space.jpg" height="100%" width="100%" />
         </layer>
         <layer id="foreground" childLayout="center">
                     <panel id="panel_top" height="30%" width="100%" valign="top" align="center" childLayout="vertical"  paddingTop="30%">
                         <text text="High Score" font="Interface/dFont.fnt" align="center"/>
-                        <text text="${CALL.getHighScoreString()}" font="Interface/dFontSmall.fnt" textHAlign="left" align="center"/>
+                        <text id="highScoreList" text="${CALL.getHighScoreString()}" font="Interface/dFontSmall.fnt" textHAlign="left" align="center"/>
                     </panel>
-                    <panel id="panel_bottom" height="35%" width="70%" valign="bottom" childLayout="horizontal">
+                    <panel id="panel_bottom" height="35%" width="100%" valign="bottom" childLayout="horizontal" align="center" padding="0%,10%">
                         <image filename="Interface/playAgainButton.png" label="PlayAgain" id="PlayAgainButton"
-                               height="40%" width="40%" valign="center" align="left" visibleToMouse="true" >
+                               height="40%" width="45%" valign="center" align="left" visibleToMouse="true">
                             <interact onClick="startButtonClicked()"/>
                             <effect>
                                 <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>
                                 <onHover name="border" post="true" color="999f" border="2px"/>
                             </effect>
                         </image>
-                        <panel height="30%" width="10%"/>
+                        <panel width="*" childLayout="horizontal" />
                         <image filename="Interface/mainMenu.png" label="MainMenu" id="MainMenu"
-                           height="40%" width="40%" valign="center" align="right" visibleToMouse="true" >
+                           height="40%" width="45%" valign="center" align="right" visibleToMouse="true">
                         <interact onClick="mainMenuButtonClicked()"/>
                         <effect>
                             <onHover name="pulsate" scaleFactor="0.008" endColor="#fff5" overlay="true" post="true"/>

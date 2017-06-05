@@ -129,10 +129,10 @@ public class AccelerationMovementStrategy extends MovementStrategy {
     }
 
     private void stopIfTooSlow(float tpf) {
-        if (Math.abs(getCurrentYSpeed()) < 0.001) {
+        if (Math.abs(getCurrentYSpeed()) < 0.0001) {
             setCurrentYSpeed(0);
         }
-        if (Math.abs(getCurrentXSpeed()) < 0.001) {
+        if (Math.abs(getCurrentXSpeed()) < 0.0001) {
             setCurrentXSpeed(0);
         }
         if (Math.abs(getCurrentRotationSpeed()) < tpf * rotationDecelerationRate * 1.0/50) {
@@ -158,18 +158,44 @@ public class AccelerationMovementStrategy extends MovementStrategy {
     }
 
     private void decelerateYSpeed(float tpf) {
+//        if (getCurrentYSpeed() > 0) {
+//            setCurrentYSpeed((float)(getCurrentYSpeed() - tpf * decelerationRate * 1.0/400));
+//        } else if (getCurrentYSpeed() < 0) {
+//            setCurrentYSpeed((float)(getCurrentYSpeed() + tpf * decelerationRate * 1.0/400));
+//        }
         if (getCurrentYSpeed() > 0) {
-            setCurrentYSpeed((float)(getCurrentYSpeed() - tpf * decelerationRate * 1.0/400));
+            float speedChange = (float)(tpf * decelerationRate * 1.0/400);
+            if(getCurrentYSpeed() > speedChange)
+                setCurrentYSpeed(getCurrentYSpeed() - speedChange);
+            else
+                setCurrentYSpeed(getCurrentYSpeed() * 0.9f);
         } else if (getCurrentYSpeed() < 0) {
-            setCurrentYSpeed((float)(getCurrentYSpeed() + tpf * decelerationRate * 1.0/400));
+            float speedChange = (float)( -tpf * decelerationRate * 1.0/400);
+            if(getCurrentYSpeed() < speedChange)
+                setCurrentYSpeed(getCurrentYSpeed() - speedChange);
+            else
+                setCurrentYSpeed(getCurrentYSpeed() * 0.9f);
         }
     }
 
     private void decelerateXSpeed(float tpf) {
+//        if (getCurrentXSpeed() > 0) {
+//            setCurrentXSpeed((float)(getCurrentXSpeed() - tpf * decelerationRate * 1.0/400));
+//        } else if (getCurrentXSpeed() < 0) {
+//            setCurrentXSpeed((float)(getCurrentXSpeed() + tpf * decelerationRate * 1.0/400));
+//        }
         if (getCurrentXSpeed() > 0) {
-            setCurrentXSpeed((float)(getCurrentXSpeed() - tpf * decelerationRate * 1.0/400));
+            float speedChange = (float)(tpf * decelerationRate * 1.0/400);
+            if(getCurrentXSpeed() > speedChange)
+                setCurrentXSpeed(getCurrentXSpeed() - speedChange);
+            else
+                setCurrentXSpeed(getCurrentXSpeed() * 0.9f);
         } else if (getCurrentXSpeed() < 0) {
-            setCurrentXSpeed((float)(getCurrentXSpeed() + tpf * decelerationRate * 1.0/400));
+            float speedChange = (float)( -tpf * decelerationRate * 1.0/400);
+            if(getCurrentXSpeed() < speedChange)
+                setCurrentXSpeed(getCurrentXSpeed() - speedChange);
+            else
+                setCurrentXSpeed(getCurrentXSpeed() * 0.9f);
         }
     }
 

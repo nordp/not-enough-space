@@ -89,7 +89,11 @@ class ModelLoader implements IModelLoader {
         } else if (modelID.equals("sky")) {
             model = SkyFactory.createSky(
                     assetManager, "Textures/skybox.dds", SkyFactory.EnvMapType.CubeMap);
-        } else {
+        } else if (modelID.equals("shootWeapon")){
+            model = assetManager.loadModel("Models/Beata.j3o");
+            model.scale(0.08f);
+        }
+        else {
             throw new IllegalArgumentException("No such model listed in loader.");
         }
 

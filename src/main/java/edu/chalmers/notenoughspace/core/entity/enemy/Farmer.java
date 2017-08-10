@@ -1,10 +1,13 @@
 package edu.chalmers.notenoughspace.core.entity.enemy;
 
+import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.core.entity.Entity;
+import edu.chalmers.notenoughspace.core.entity.ship.Health;
 import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 import edu.chalmers.notenoughspace.core.move.ZeroGravityStrategy;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
+import edu.chalmers.notenoughspace.event.ShootCollisionEvent;
 
 import java.util.Random;
 
@@ -22,12 +25,14 @@ public class Farmer extends Entity {
     private final static float CHANGE_DIRECTION_CHANCE = 5f;
 
     private final Random pseudoThrowChance;
+    private final Health health;
 
     private boolean runClockwise = false;
 
     public Farmer(){
         super(new ZeroGravityStrategy());
         pseudoThrowChance = new Random();
+        health = new Health(100, 100);
 
         Bus.getInstance().post(new EntityCreatedEvent(this));
     }
@@ -93,5 +98,16 @@ public class Farmer extends Entity {
     private void throwHayfork() {
         new Hayfork(this);
     }
+
+    public float getHealth() { return health.getCurrentHealthLevel();}
+
+    @Subscribe
+    public void ShootCollisionEvent(ShootCollisionEvent event){
+        int damage = event.getDamage();
+        health.modifyHealth(-damage);
+    }
+
+    //metod som påverkar kast av hälsan? stoppar för några sekunder
+
 
 }

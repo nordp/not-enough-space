@@ -2,7 +2,12 @@ package edu.chalmers.notenoughspace.core.entity.ship;
 
 import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.core.entity.Entity;
+import edu.chalmers.notenoughspace.core.entity.Planet;
+import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
+import edu.chalmers.notenoughspace.core.entity.enemy.Hayfork;
 import edu.chalmers.notenoughspace.core.move.*;
+import edu.chalmers.notenoughspace.ctrl.FarmerControl;
+import edu.chalmers.notenoughspace.ctrl.ShootControl;
 import edu.chalmers.notenoughspace.event.*;
 
 /**
@@ -19,6 +24,7 @@ public class Ship extends Entity {
     private final Storage storage;
     private final MovementStrategy mover;
     private Beam beam;
+    private ShootWeapon shootWeapon;
 
     public Ship(){
         super(new ZeroGravityStrategy());
@@ -34,10 +40,13 @@ public class Ship extends Entity {
     @Override
     public void onPlanetaryInhabitantAttached(){
         beam = new Beam(body);
+        shootWeapon = new ShootWeapon(this);
     }
+
 
     public void update(float tpf) {
         beam.update(tpf);
+        shootWeapon.update(tpf);
         mover.move(body, tpf);
         updateEnergy(tpf);
     }
@@ -47,6 +56,8 @@ public class Ship extends Entity {
         Bus.getInstance().post(new EntityRemovedEvent(beam));
         Bus.getInstance().unregister(this);
         Bus.getInstance().post(new EntityRemovedEvent(this));
+        Bus.getInstance().unregister(shootWeapon);
+        Bus.getInstance().post(new EntityRemovedEvent(shootWeapon));
     }
 
     public void addMoveInput(Movement movement, float tpf) {
@@ -58,6 +69,8 @@ public class Ship extends Entity {
     }
 
     public Beam getBeam(){ return beam; }
+
+    public ShootWeapon getWeapon(){ return shootWeapon; }
 
     public Storage getStorage(){ return storage; }
 
@@ -90,6 +103,12 @@ public class Ship extends Entity {
     public int getScore() {
         return storage.getScore();
     }
+
+    public void shootWeapon() {
+        new ShootWeapon(this);
+
+    }
+
 
     @Subscribe
     public void hayforkCollision(HayforkCollisionEvent event) {

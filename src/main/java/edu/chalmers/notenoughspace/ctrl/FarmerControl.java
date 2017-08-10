@@ -15,7 +15,7 @@ import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
  */
 public class FarmerControl extends DetachableControl {
 
-    private final Farmer farmer;
+    private Farmer farmer;
 
     public FarmerControl(Farmer farmer){
         this.farmer = farmer;
@@ -57,7 +57,17 @@ public class FarmerControl extends DetachableControl {
     }
 
     private Spatial getModel() {
-        return ((Node) spatial).getChild(0);
+        return ((Node) spatial).getChild("farmerModel");
+    }
+
+    public static PlanetaryInhabitant getFarmer(Spatial spatialInScene) {
+        Spatial farmerNode = ControlUtil.getRoot(spatialInScene).getChild("farmerModel");
+        System.out.println("farmer child" + farmerNode);
+        FarmerControl control = farmerNode.getControl(FarmerControl.class);
+        System.out.println("farmer control" + control);
+
+        return control.farmer.getPlanetaryInhabitant();
+
     }
 
 }

@@ -29,6 +29,7 @@ import edu.chalmers.notenoughspace.core.entity.powerup.HealthPowerup;
 import edu.chalmers.notenoughspace.core.entity.powerup.Powerup;
 import edu.chalmers.notenoughspace.core.entity.ship.Beam;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
+import edu.chalmers.notenoughspace.core.entity.ship.ShootWeapon;
 import edu.chalmers.notenoughspace.ctrl.*;
 import edu.chalmers.notenoughspace.event.*;
 
@@ -137,6 +138,15 @@ public class SpatialHandler {
             
             control = new JunkControl((Junk) entity);
             parent = rootNode.getChild("planet");
+
+        } else if (entity instanceof Farmer) {
+            model = modelLoader.loadModel("farmer");
+            model.setName("farmerModel");
+            model.setLocalTranslation(0, Planet.PLANET_RADIUS + 0.95f, 0);
+
+            node.setLocalRotation(otherSideOfPlanet());
+            control = new FarmerControl((Farmer) entity);
+            System.out.println("new farmer control " + control);
         
         } else if (entity instanceof Ship) {
             model = modelLoader.loadModel("ship");
@@ -168,13 +178,6 @@ public class SpatialHandler {
         } else if (entity instanceof Planet) {
             model = modelLoader.loadModel("planet");
             model.setName("planetModel");
-    
-        } else if (entity instanceof Farmer) {
-            model = modelLoader.loadModel("farmer");
-            model.setLocalTranslation(0, Planet.PLANET_RADIUS + 0.95f, 0);
-            
-            node.setLocalRotation(otherSideOfPlanet());
-            control = new FarmerControl((Farmer) entity);
         
         } else if (entity instanceof Hayfork) {
             Hayfork hayfork = (Hayfork) entity;
@@ -202,6 +205,22 @@ public class SpatialHandler {
 
             node.setLocalRotation(otherSideOfPlanet());
             control = new PowerupControl((Powerup) entity);
+
+        } else if (entity instanceof ShootWeapon) {
+            ShootWeapon shootWeapon = (ShootWeapon) entity;
+            model = modelLoader.loadModel("shootWeapon");
+
+            Entity shooter = shootWeapon.getShooter();
+
+            javax.vecmath.Vector3f throwerWorldTranslation =
+                    shooter.getPlanetaryInhabitant().getPosition();
+            model.setLocalTranslation(new Vector3f(
+                    throwerWorldTranslation.x,
+                    throwerWorldTranslation.y,
+                    throwerWorldTranslation.z));
+
+            control = new ShootControl(shootWeapon);
+            //parent = rootNode.getChild("shipModel");
 
         } else {
             throw new IllegalArgumentException("Unknown entity (not in model package).");
@@ -242,6 +261,29 @@ public class SpatialHandler {
         Vector3f upVector = new com.jme3.math.Vector3f(0, shipPosition.z, -shipPosition.y);
         hayforkModel.setLocalTranslation(hayforkPositionInShipNode);
         hayforkModel.lookAt(shipPosition, upVector);
+    }
+
+    @Subscribe
+    public void shotHitFarmer(ShootCollisionEvent event) {
+        SoundPlayer.getInstance().play("hayforkHit");
+
+        String shootID = event.getID();
+        Spatial shootWeapon = rootNode.getChild(shootID);
+        Spatial shootWeaponModel = ((Node) shootWeapon).getChild(0);
+        Node farmerNode = ((Node) rootNode.getChild("farmer"));
+        Spatial farmer = farmerNode.getChild("farmerModel");
+
+        Vector3f shootPositionInFarmerNode = new Vector3f();
+        farmerNode.worldToLocal(shootWeaponModel.getWorldTranslation(), shootPositionInFarmerNode);
+
+
+        shootWeapon.removeControl(ShootControl.class);
+        farmerNode.attachChild(shootWeaponModel); //It detaches automatically from whatever node it's currently on
+
+        Vector3f farmerPosition = farmer.getWorldTranslation();
+        Vector3f upVector = new com.jme3.math.Vector3f(0, farmerPosition.z, -farmerPosition.y);
+        shootWeaponModel.setLocalTranslation(shootPositionInFarmerNode);
+        shootWeaponModel.lookAt(farmerPosition, upVector);
     }
 
     @Subscribe
@@ -332,6 +374,10 @@ public class SpatialHandler {
             AudioNode swishAudio = soundLoader.loadSound("hayforkThrown");
             NodeUtil.setUpAudioNode(swishAudio, 0.4f, 15, false, node, "audio");
             swishAudio.play();
+        } else if (entity instanceof ShootWeapon) {
+            AudioNode swishAudio = soundLoader.loadSound("hayforkThrown");
+            NodeUtil.setUpAudioNode(swishAudio, 0.4f, 15, false, node, "audio");
+            swishAudio.play();
         }
     }
 
@@ -348,6 +394,8 @@ public class SpatialHandler {
             ((AudioNode)node.getChild("audio")).stop();
 
         } else if (entity instanceof Hayfork) {
+            ((AudioNode)node.getChild("audio")).stop();
+        }else if (entity instanceof ShootWeapon) {
             ((AudioNode)node.getChild("audio")).stop();
         }
     }

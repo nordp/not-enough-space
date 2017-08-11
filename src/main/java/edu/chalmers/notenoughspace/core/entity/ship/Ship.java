@@ -25,6 +25,7 @@ public class Ship extends Entity {
     private final MovementStrategy mover;
     private Beam beam;
     private ShootWeapon shootWeapon;
+    private Shield shield;
 
     public Ship(){
         super(new ZeroGravityStrategy());
@@ -32,15 +33,17 @@ public class Ship extends Entity {
         Bus.getInstance().register(this);
 
         mover = new AccelerationMovementStrategy(40, 45, 40, 200);
-        health = new Health(100, 100);
+        health = new Health(100, 100, 5);
         energy = new Energy(100, 100,  5);
         storage = new Storage();
+
     }
 
     @Override
     public void onPlanetaryInhabitantAttached(){
         beam = new Beam(body);
         shootWeapon = new ShootWeapon(this);
+        shield = new Shield();
     }
 
 
@@ -54,6 +57,8 @@ public class Ship extends Entity {
     public void cleanup(){
         Bus.getInstance().unregister(beam);
         Bus.getInstance().post(new EntityRemovedEvent(beam));
+        Bus.getInstance().unregister(shield);
+        Bus.getInstance().post(new EntityRemovedEvent(shield));
         Bus.getInstance().unregister(this);
         Bus.getInstance().post(new EntityRemovedEvent(this));
         Bus.getInstance().unregister(shootWeapon);
@@ -71,6 +76,8 @@ public class Ship extends Entity {
     public Beam getBeam(){ return beam; }
 
     public ShootWeapon getWeapon(){ return shootWeapon; }
+
+    public Shield getShield(){ return shield; }
 
     public Storage getStorage(){ return storage; }
 
@@ -106,18 +113,27 @@ public class Ship extends Entity {
 
     public void shootWeapon() {
         new ShootWeapon(this);
+    }
 
+    public void useShield(boolean active){
+        shield.setActive(active);
     }
 
 
     @Subscribe
     public void hayforkCollision(HayforkCollisionEvent event) {
+        if(shield.isActive()){
+            return;
+        }
         int damage = event.getDamage();
         health.modifyHealth(-damage);
     }
 
     @Subscribe
     public void satelliteCollision(SatelliteCollisionEvent event) {
+        if(shield.isActive()){
+            return;
+        }
         int damage = event.getDamage();
         health.modifyHealth(-damage);
     }
@@ -130,12 +146,16 @@ public class Ship extends Entity {
     @Subscribe
     public void energyEmpty(EnergyEmptyEvent event) {
         toggleBeam(false);
+        useShield(false);
     }
 
 
     private void updateEnergy(float tpf) {
         if (beam.isActive()) {
             float expendedEnergy = Beam.getEnergyCost() * tpf;
+            energy.modifyEnergy(-expendedEnergy);
+        } else if(shield.isActive()){
+            float expendedEnergy = Shield.getEnergyCost() * tpf;
             energy.modifyEnergy(-expendedEnergy);
         } else {
             energy.regenerate(tpf);

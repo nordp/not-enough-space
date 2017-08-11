@@ -2,9 +2,7 @@ package edu.chalmers.notenoughspace.assets;
 
 import com.jme3.animation.AnimControl;
 import com.jme3.asset.AssetManager;
-import com.jme3.material.Material;
 import com.jme3.math.FastMath;
-import com.jme3.math.Quaternion;
 import com.jme3.scene.Geometry;
 import com.jme3.scene.Spatial;
 import com.jme3.scene.shape.Sphere;
@@ -92,13 +90,16 @@ class ModelLoader implements IModelLoader {
         } else if (modelID.equals("shootWeapon")){
             model = assetManager.loadModel("Models/Beata.j3o");
             model.scale(0.08f);
+        } else if (modelID.equals("shield")){
+            model = assetManager.loadModel("Models/redUFO.j3o");
+            model.scale(0.47f);
         }
         else {
             throw new IllegalArgumentException("No such model listed in loader.");
         }
 
         if (modelID.equals("cow") || modelID.equals("goldenCow") ||
-                modelID.equals("ship") || modelID.equals("farmer")) {
+                modelID.equals("ship") || modelID.equals("shield") || modelID.equals("farmer")) {
             setUpAnimationChannel(model);
         }
 

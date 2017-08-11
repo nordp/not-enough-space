@@ -11,6 +11,10 @@ import edu.chalmers.notenoughspace.event.ShootEvent;
 
 import java.util.List;
 
+/**
+ * Control responsible for telling the shoot weapon when to update and
+ * for notifying it when it collides with the farmer.
+ */
 
 public class ShootControl extends DetachableControl {
 

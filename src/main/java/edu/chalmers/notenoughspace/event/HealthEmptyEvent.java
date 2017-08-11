@@ -5,7 +5,6 @@ package edu.chalmers.notenoughspace.event;
  */
 public class HealthEmptyEvent {
 
-
     public HealthEmptyEvent() {
         System.out.println("HealthEmptyEvent fired.");
     }

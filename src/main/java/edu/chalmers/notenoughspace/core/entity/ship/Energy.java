@@ -9,7 +9,7 @@ import edu.chalmers.notenoughspace.event.EnergyEmptyEvent;
  *  is activated and gradually recharged when beam is inactive. Energy can also be
  *  recharged quickly by picking up a powerup of the energy type.
  */
-class Energy {
+public class Energy {
 
     private final float MAX_ENERGY;
     private float currentEnergyLevel;

@@ -29,6 +29,9 @@ public class SoundPlayer {
         if (soundID.equals("beamed")) {
             audio = soundLoader.loadSound("beamed");
             audio.setLooping(false);
+        }else if (soundID.equals("shield")) {
+                audio = soundLoader.loadSound("beamed");
+                audio.setLooping(false);
         } else if (soundID.equals("explosion")) {
             audio = soundLoader.loadSound("explosion");
             audio.setLooping(false);

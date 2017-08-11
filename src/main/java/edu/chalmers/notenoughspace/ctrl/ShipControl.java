@@ -198,6 +198,7 @@ public class ShipControl extends DetachableControl {
         inputManager.addMapping(Movement.ROTATION_LEFT.name(), new KeyTrigger(KeyInput.KEY_Z));
         inputManager.addMapping(Movement.ROTATION_RIGHT.name(), new KeyTrigger(KeyInput.KEY_X));
         inputManager.addMapping("shootWeapon", new KeyTrigger(KeyInput.KEY_BACK));
+        inputManager.addMapping("shield", new KeyTrigger(KeyInput.KEY_S));
         inputManager.addMapping("toggleBeam", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("cameraMode", new KeyTrigger(KeyInput.KEY_T));
 
@@ -205,7 +206,7 @@ public class ShipControl extends DetachableControl {
                 Movement.FORWARD.name(),Movement.LEFT.name(),Movement.RIGHT.name(),Movement.BACKWARD.name(),
                 Movement.ROTATION_LEFT.name(), Movement.ROTATION_RIGHT.name());
         inputManager.addListener(actionListener,
-                "shootWeapon", "toggleBeam", "cameraMode");
+                "shootWeapon", "shield", "toggleBeam", "cameraMode");
     }
 
     private void cleanupMovementKeys() {
@@ -215,6 +216,7 @@ public class ShipControl extends DetachableControl {
         inputManager.deleteMapping("toggleBeam");
         inputManager.deleteMapping("cameraMode");
         inputManager.deleteMapping("shootWeapon");
+        inputManager.deleteMapping("shield");
 
         inputManager.removeListener(analogListener);
         inputManager.removeListener(actionListener);
@@ -276,6 +278,8 @@ public class ShipControl extends DetachableControl {
                 ship.toggleBeam(value);
             } else if (name.equals("shootWeapon")) {
                 ship.shootWeapon();
+            } else if (name.equals("shield")) {
+                ship.useShield(value);
             } else if (name.equals("cameraMode") && !value) {
                 toggleThirdPersonCamera();
             }

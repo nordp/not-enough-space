@@ -5,9 +5,7 @@ import edu.chalmers.notenoughspace.core.entity.Entity;
 import edu.chalmers.notenoughspace.core.entity.ship.Health;
 import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 import edu.chalmers.notenoughspace.core.move.ZeroGravityStrategy;
-import edu.chalmers.notenoughspace.event.Bus;
-import edu.chalmers.notenoughspace.event.EntityCreatedEvent;
-import edu.chalmers.notenoughspace.event.ShootCollisionEvent;
+import edu.chalmers.notenoughspace.event.*;
 
 import java.util.Random;
 
@@ -28,11 +26,12 @@ public class Farmer extends Entity {
     private final Health health;
 
     private boolean runClockwise = false;
+    private boolean canThrow = true;
 
     public Farmer(){
         super(new ZeroGravityStrategy());
         pseudoThrowChance = new Random();
-        health = new Health(100, 100);
+        health = new Health(100, 100, 5);
 
         Bus.getInstance().post(new EntityCreatedEvent(this));
     }
@@ -41,7 +40,7 @@ public class Farmer extends Entity {
     public void update(PlanetaryInhabitant ship, float tpf) {
         if (body.distanceTo(ship) <= AGGRO_DISTANCE) {
             chaseShip(ship, tpf);
-            if (pseudoThrowChance.nextFloat() * 100 <= THROW_CHANCE) {
+            if (pseudoThrowChance.nextFloat() * 100 <= THROW_CHANCE && canThrow == true) {
                 throwHayfork();
             }
             if (Math.random() * 100 <= CHANGE_DIRECTION_CHANCE) {
@@ -50,6 +49,7 @@ public class Farmer extends Entity {
         } else {
             randomlyStrollAround(tpf);
         }
+        increaseHealth(tpf);
     }
 
     private void chaseShip(PlanetaryInhabitant ship, float tpf) {
@@ -105,9 +105,21 @@ public class Farmer extends Entity {
     public void ShootCollisionEvent(ShootCollisionEvent event){
         int damage = event.getDamage();
         health.modifyHealth(-damage);
+        System.out.println("current health: " + health);
     }
 
-    //metod som påverkar kast av hälsan? stoppar för några sekunder
+    private void increaseHealth(float tpf){
+        health.regenerate(tpf);
+        if(health.getCurrentHealthLevel() > 50){
+            canThrow = true;
+        }
+        }
+
+    @Subscribe
+    public void FarmerHealthEmptyEvent(FarmerHealthEmptyEvent event){
+        canThrow = false;
+        }
+
+    }
 
 
-}

@@ -28,6 +28,7 @@ import edu.chalmers.notenoughspace.core.entity.powerup.EnergyPowerup;
 import edu.chalmers.notenoughspace.core.entity.powerup.HealthPowerup;
 import edu.chalmers.notenoughspace.core.entity.powerup.Powerup;
 import edu.chalmers.notenoughspace.core.entity.ship.Beam;
+import edu.chalmers.notenoughspace.core.entity.ship.Shield;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
 import edu.chalmers.notenoughspace.core.entity.ship.ShootWeapon;
 import edu.chalmers.notenoughspace.ctrl.*;
@@ -166,14 +167,22 @@ public class SpatialHandler {
             
             control = new SatelliteControl((Satellite) entity);
         
-        } else if (entity instanceof Beam){
+        } else if (entity instanceof Beam) {
             model = modelLoader.loadModel("beam");
             model.setName("beamModel");
             model.setLocalTranslation(0f, 0.24f, 0f);
             model.move(rootNode.getChild("shipModel").getLocalTranslation());
-            
+
             control = new BeamControl();
             parent = rootNode.getChild("ship");
+
+        } else if (entity instanceof Shield){
+                model = modelLoader.loadModel("shield");
+                model.setName("shieldModel");
+                model.move(rootNode.getChild("shipModel").getLocalTranslation());
+
+                control = new ShieldControl();
+                parent = rootNode.getChild("ship");
         
         } else if (entity instanceof Planet) {
             model = modelLoader.loadModel("planet");
@@ -220,7 +229,6 @@ public class SpatialHandler {
                     throwerWorldTranslation.z));
 
             control = new ShootControl(shootWeapon);
-            //parent = rootNode.getChild("shipModel");
 
         } else {
             throw new IllegalArgumentException("Unknown entity (not in model package).");
@@ -266,12 +274,12 @@ public class SpatialHandler {
     @Subscribe
     public void shotHitFarmer(ShootCollisionEvent event) {
         SoundPlayer.getInstance().play("hayforkHit");
-
+/*
         String shootID = event.getID();
         Spatial shootWeapon = rootNode.getChild(shootID);
         Spatial shootWeaponModel = ((Node) shootWeapon).getChild(0);
         Node farmerNode = ((Node) rootNode.getChild("farmer"));
-        Spatial farmer = farmerNode.getChild("farmerModel");
+        Spatial farmer =  rootNode.getChild("farmerModel");
 
         Vector3f shootPositionInFarmerNode = new Vector3f();
         farmerNode.worldToLocal(shootWeaponModel.getWorldTranslation(), shootPositionInFarmerNode);
@@ -283,7 +291,7 @@ public class SpatialHandler {
         Vector3f farmerPosition = farmer.getWorldTranslation();
         Vector3f upVector = new com.jme3.math.Vector3f(0, farmerPosition.z, -farmerPosition.y);
         shootWeaponModel.setLocalTranslation(shootPositionInFarmerNode);
-        shootWeaponModel.lookAt(farmerPosition, upVector);
+        shootWeaponModel.lookAt(farmerPosition, upVector);*/
     }
 
     @Subscribe
@@ -370,6 +378,10 @@ public class SpatialHandler {
             AudioNode beamAudio = soundLoader.loadSound("beam");
             NodeUtil.setUpAudioNode(beamAudio, 0.2f, 0.2f, true, node, "audio");
 
+        } else if (entity instanceof Shield) {
+                AudioNode beamAudio = soundLoader.loadSound("beam");
+                NodeUtil.setUpAudioNode(beamAudio, 0.2f, 0.2f, true, node, "audio");
+
         } else if (entity instanceof Hayfork) {
             AudioNode swishAudio = soundLoader.loadSound("hayforkThrown");
             NodeUtil.setUpAudioNode(swishAudio, 0.4f, 15, false, node, "audio");
@@ -392,7 +404,8 @@ public class SpatialHandler {
 
         } else if (entity instanceof Beam) {
             ((AudioNode)node.getChild("audio")).stop();
-
+        } else if (entity instanceof Shield) {
+            ((AudioNode)node.getChild("audio")).stop();
         } else if (entity instanceof Hayfork) {
             ((AudioNode)node.getChild("audio")).stop();
         }else if (entity instanceof ShootWeapon) {
@@ -402,11 +415,12 @@ public class SpatialHandler {
 
     private void addCorrespondingEffectNode(Entity entity, Node node){
         if (entity instanceof Cow) {
-            if(((Cow) entity).isGolden()){
+            if (((Cow) entity).isGolden()) {
                 NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "goldGlitter"), node);
             }
             NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "sweat"), node);
-
+        } else if(( entity instanceof Shield)){
+                NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "goldGlitter"), node);
         } else if (entity instanceof HealthPowerup) {
             NodeUtil.setUpEffectNode(EffectFactory.createEffect(app.getAssetManager(), "healthPowerup"), node);
 

@@ -12,14 +12,20 @@ public class Health {
 
     private final int MAX_HEALTH;
     private int currentHealthLevel;
+    private final float regenerationRate;
 
-    public Health(int initialHealth, int MAX_HEALTH) {
+    public Health(int initialHealth, int MAX_HEALTH, float regenerationRate) {
         this.MAX_HEALTH = MAX_HEALTH;
         modifyHealth(initialHealth);
+        this.regenerationRate = regenerationRate;
+    }
+
+    public void regenerate(float tpf){
+        modifyHealth(regenerationRate * tpf);
     }
 
 
-    public void modifyHealth(int dHealth) {
+    public void modifyHealth(float dHealth) {
         int oldHealth = currentHealthLevel;
         currentHealthLevel += dHealth;
 

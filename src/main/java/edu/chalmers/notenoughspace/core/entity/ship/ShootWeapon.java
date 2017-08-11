@@ -1,5 +1,10 @@
 package edu.chalmers.notenoughspace.core.entity.ship;
 
+/**
+ * Entity shot by the ship. Can collide with the farmer,
+ * thereby causing a reduction of the farmer's health.
+ */
+
 import edu.chalmers.notenoughspace.core.entity.Entity;
 import edu.chalmers.notenoughspace.core.move.RealisticGravityStrategy;
 import edu.chalmers.notenoughspace.event.*;

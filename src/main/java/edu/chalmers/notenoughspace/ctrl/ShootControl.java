@@ -6,8 +6,7 @@ import com.jme3.scene.Spatial;
 import edu.chalmers.notenoughspace.core.entity.enemy.Farmer;
 import edu.chalmers.notenoughspace.core.entity.ship.ShootWeapon;
 import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
-import edu.chalmers.notenoughspace.event.Bus;
-import edu.chalmers.notenoughspace.event.ShootEvent;
+import edu.chalmers.notenoughspace.event.*;
 
 import java.util.List;
 
@@ -29,6 +28,7 @@ public class ShootControl extends DetachableControl {
 
         shootWeapon.update(tpf);
         checkCollisionWithFarmer();
+        checkCollisionWithPlanet();
     }
 
     private void checkCollisionWithFarmer() {
@@ -37,6 +37,15 @@ public class ShootControl extends DetachableControl {
 
         if (colliding) {
             shootWeapon.hitSomething();
+        }
+    }
+
+    private void checkCollisionWithPlanet() {
+        Spatial planetModel =  ControlUtil.getRoot(spatial).getChild("planetModel");
+        boolean colliding = ControlUtil.checkCollision(getModel(), planetModel);
+
+        if (colliding) {
+            spatial.setCullHint(Spatial.CullHint.Always);
         }
     }
 

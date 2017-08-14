@@ -5,6 +5,7 @@ package edu.chalmers.notenoughspace.core.entity.ship;
  * thereby causing a reduction of the farmer's health.
  */
 
+import com.jme3.scene.Spatial;
 import edu.chalmers.notenoughspace.core.entity.Entity;
 import edu.chalmers.notenoughspace.core.move.RealisticGravityStrategy;
 import edu.chalmers.notenoughspace.event.*;
@@ -13,7 +14,7 @@ import javax.vecmath.Vector3f;
 
 public class ShootWeapon extends Entity {
 
-    private final static float SHOOT_SPEED = 8f;
+    private final static float SHOOT_SPEED = 3f;
     private final static int DAMAGE = 10;
 
     private final Entity shooter;
@@ -58,7 +59,7 @@ public class ShootWeapon extends Entity {
                 setDirectionTowards();
 
             }
-            body.move(distanceToMove(tpf));
+            body.move(new Vector3f(distanceToMove(tpf)));
         }
 
         private void setDirectionTowards() {
@@ -66,7 +67,7 @@ public class ShootWeapon extends Entity {
             Vector3f planetCenter = new Vector3f(0, 0, 0);
             body.setDirection(planetCenter);
 
-            planetCenter.sub(myPosition);   //Results in vector directed directly towards the center of the earth.
+            planetCenter.sub(myPosition);//Results in vector directed directly towards the center of the earth.
             planetCenter.normalize();
             planetCenter.scale(SHOOT_SPEED);
             direction = planetCenter;

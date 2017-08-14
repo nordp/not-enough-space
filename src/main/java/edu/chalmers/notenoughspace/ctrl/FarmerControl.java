@@ -17,7 +17,7 @@ public class FarmerControl extends DetachableControl {
 
     private Farmer farmer;
 
-    public FarmerControl(Farmer farmer){
+    public FarmerControl(Farmer farmer) {
         this.farmer = farmer;
     }
 
@@ -47,27 +47,18 @@ public class FarmerControl extends DetachableControl {
 
     private void playAngryFarmerSound() {
         if (!isTalking()) {
-            ((AudioNode)((Node) spatial).getChild("audio")).play();
+            ((AudioNode) ((Node) spatial).getChild("audio")).play();
         }
     }
 
     private boolean isTalking() {
-        AudioNode angryFarmerSound = (AudioNode)((Node) spatial).getChild("audio");
+        AudioNode angryFarmerSound = (AudioNode) ((Node) spatial).getChild("audio");
         return angryFarmerSound.getStatus() == AudioSource.Status.Playing;
     }
 
     private Spatial getModel() {
-        return ((Node) spatial).getChild("farmerModel");
-    }
-
-    public static PlanetaryInhabitant getFarmer(Spatial spatialInScene) {
-        Spatial farmerNode = ControlUtil.getRoot(spatialInScene).getChild("farmerModel");
-        System.out.println("farmer child" + farmerNode);
-        FarmerControl control = farmerNode.getControl(FarmerControl.class);
-        System.out.println("farmer control" + control);
-
-        return control.farmer.getPlanetaryInhabitant();
+            return ((Node) spatial).getChild("farmerModel");
+        }
 
     }
 
-}

@@ -1,21 +1,20 @@
-package edu.chalmers.notenoughspace.core.entity.ship;
+package edu.chalmers.notenoughspace.core.entity.enemy;
 
-import edu.chalmers.notenoughspace.core.entity.Entity;
+import edu.chalmers.notenoughspace.event.*;
 import edu.chalmers.notenoughspace.event.Bus;
 import edu.chalmers.notenoughspace.event.HealthChangedEvent;
-import edu.chalmers.notenoughspace.event.HealthEmptyEvent;
 
 /**
- * The fitness of the ship, which drops when the ship is hit by hayforks and
- * satellites and rises when a health powerup is picked up.
+ * The fitness of the farmer, which drops when the farmer is hit by shots, which results in that he has to wait to be able to throw
+ * and rises with time.
  */
-public class Health {
+public class FarmerHealth {
 
     private final int MAX_HEALTH;
     private int currentHealthLevel;
     private final float regenerationRate;
 
-    public Health(int initialHealth, int MAX_HEALTH, float regenerationRate) {
+    public FarmerHealth(int initialHealth, int MAX_HEALTH, float regenerationRate) {
         this.MAX_HEALTH = MAX_HEALTH;
         modifyHealth(initialHealth);
         this.regenerationRate = regenerationRate;
@@ -32,13 +31,9 @@ public class Health {
 
         if (currentHealthLevel <= 0) {
             currentHealthLevel = 0;
-            Bus.getInstance().post(new HealthEmptyEvent());
+            //Bus.getInstance().post(new FarmerHealthEmptyEvent());
         } else if (currentHealthLevel > MAX_HEALTH) {
             currentHealthLevel = MAX_HEALTH;
-        }
-
-        if (currentHealthLevel != oldHealth) {
-            Bus.getInstance().post(new HealthChangedEvent(currentHealthLevel));
         }
     }
 
@@ -52,3 +47,4 @@ public class Health {
     }
 
 }
+

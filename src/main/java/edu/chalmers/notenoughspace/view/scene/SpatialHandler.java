@@ -147,7 +147,6 @@ public class SpatialHandler {
 
             node.setLocalRotation(otherSideOfPlanet());
             control = new FarmerControl((Farmer) entity);
-            System.out.println("new farmer control " + control);
         
         } else if (entity instanceof Ship) {
             model = modelLoader.loadModel("ship");
@@ -274,24 +273,6 @@ public class SpatialHandler {
     @Subscribe
     public void shotHitFarmer(ShootCollisionEvent event) {
         SoundPlayer.getInstance().play("hayforkHit");
-/*
-        String shootID = event.getID();
-        Spatial shootWeapon = rootNode.getChild(shootID);
-        Spatial shootWeaponModel = ((Node) shootWeapon).getChild(0);
-        Node farmerNode = ((Node) rootNode.getChild("farmer"));
-        Spatial farmer =  rootNode.getChild("farmerModel");
-
-        Vector3f shootPositionInFarmerNode = new Vector3f();
-        farmerNode.worldToLocal(shootWeaponModel.getWorldTranslation(), shootPositionInFarmerNode);
-
-
-        shootWeapon.removeControl(ShootControl.class);
-        farmerNode.attachChild(shootWeaponModel); //It detaches automatically from whatever node it's currently on
-
-        Vector3f farmerPosition = farmer.getWorldTranslation();
-        Vector3f upVector = new com.jme3.math.Vector3f(0, farmerPosition.z, -farmerPosition.y);
-        shootWeaponModel.setLocalTranslation(shootPositionInFarmerNode);
-        shootWeaponModel.lookAt(farmerPosition, upVector);*/
     }
 
     @Subscribe
@@ -299,6 +280,17 @@ public class SpatialHandler {
         String name = event.getSatellite().getID();
         Node parent = (Node) rootNode.getChild(name);
  
+        Spatial explosion = EffectFactory.createEffect(app.getAssetManager(), "satelliteExplosion");
+        explosion.setLocalTranslation(parent.getChild(0).getWorldTranslation());
+        rootNode.attachChild(explosion);
+        SoundPlayer.getInstance().play("explosion");
+    }
+
+    @Subscribe
+    public void farmerDead(FarmerHealthEmptyEvent event) {
+        String name = event.getFarmer().getID();
+        Node parent = (Node) rootNode.getChild(name);
+
         Spatial explosion = EffectFactory.createEffect(app.getAssetManager(), "satelliteExplosion");
         explosion.setLocalTranslation(parent.getChild(0).getWorldTranslation());
         rootNode.attachChild(explosion);

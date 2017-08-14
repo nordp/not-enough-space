@@ -2,7 +2,6 @@ package edu.chalmers.notenoughspace.core.entity.enemy;
 
 import com.google.common.eventbus.Subscribe;
 import edu.chalmers.notenoughspace.core.entity.Entity;
-import edu.chalmers.notenoughspace.core.entity.ship.Health;
 import edu.chalmers.notenoughspace.core.move.PlanetaryInhabitant;
 import edu.chalmers.notenoughspace.core.move.ZeroGravityStrategy;
 import edu.chalmers.notenoughspace.event.*;
@@ -22,26 +21,34 @@ public class Farmer extends Entity {
     private final static float THROW_CHANCE = 1f;
     private final static float CHANGE_DIRECTION_CHANCE = 5f;
 
+
     private final Random pseudoThrowChance;
-    private final Health health;
+    private final FarmerHealth health;
 
     private boolean runClockwise = false;
-    private boolean canThrow = true;
 
     public Farmer(){
         super(new ZeroGravityStrategy());
         pseudoThrowChance = new Random();
-        health = new Health(100, 100, 5);
+        health = new FarmerHealth(100, 100, 5);
 
         Bus.getInstance().post(new EntityCreatedEvent(this));
+        Bus.getInstance().register(this);
     }
 
 
     public void update(PlanetaryInhabitant ship, float tpf) {
+
+        if (getHealth() == 0) {
+            Bus.getInstance().post(new FarmerHealthEmptyEvent(this));
+            this.randomizePosition();
+            health.modifyHealth(100);
+        }
         if (body.distanceTo(ship) <= AGGRO_DISTANCE) {
             chaseShip(ship, tpf);
-            if (pseudoThrowChance.nextFloat() * 100 <= THROW_CHANCE && canThrow == true) {
+            if (pseudoThrowChance.nextFloat() * 100 <= THROW_CHANCE && (getHealth() < 70)) {
                 throwHayfork();
+                health.regenerate(1);
             }
             if (Math.random() * 100 <= CHANGE_DIRECTION_CHANCE) {
                 runClockwise = !runClockwise;
@@ -49,7 +56,6 @@ public class Farmer extends Entity {
         } else {
             randomlyStrollAround(tpf);
         }
-        increaseHealth(tpf);
     }
 
     private void chaseShip(PlanetaryInhabitant ship, float tpf) {
@@ -105,21 +111,7 @@ public class Farmer extends Entity {
     public void ShootCollisionEvent(ShootCollisionEvent event){
         int damage = event.getDamage();
         health.modifyHealth(-damage);
-        System.out.println("current health: " + health);
     }
-
-    private void increaseHealth(float tpf){
-        health.regenerate(tpf);
-        if(health.getCurrentHealthLevel() > 50){
-            canThrow = true;
-        }
-        }
-
-    @Subscribe
-    public void FarmerHealthEmptyEvent(FarmerHealthEmptyEvent event){
-        canThrow = false;
-        }
-
-    }
+}
 
 

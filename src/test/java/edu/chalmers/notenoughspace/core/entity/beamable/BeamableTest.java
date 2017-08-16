@@ -2,7 +2,9 @@ package edu.chalmers.notenoughspace.core.entity.beamable;
 
 import edu.chalmers.notenoughspace.core.entity.Planet;
 import edu.chalmers.notenoughspace.core.entity.ship.Beam;
+import edu.chalmers.notenoughspace.core.entity.ship.Shield;
 import edu.chalmers.notenoughspace.core.entity.ship.Ship;
+import edu.chalmers.notenoughspace.core.entity.ship.ShootWeapon;
 import edu.chalmers.notenoughspace.ctrl.TestInhabitant;
 import org.junit.Before;
 import org.junit.Test;
@@ -13,6 +15,9 @@ public class BeamableTest {
     BeamableEntity beamable;
     Beam beam;
     Ship ship;
+    Shield shield;
+    ShootWeapon shootWeapon;
+
 
     @Before
     public void setUp() throws Exception {
@@ -20,6 +25,10 @@ public class BeamableTest {
         ship.setPlanetaryInhabitant(new TestInhabitant(0f, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0f));
         beam = ship.getBeam();
         beam.setPlanetaryInhabitant(new TestInhabitant(0f, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0f));
+        shield = ship.getShield();
+        shield.setPlanetaryInhabitant(new TestInhabitant(0f, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0f));
+        shootWeapon = ship.getWeapon();
+        shootWeapon.setPlanetaryInhabitant(new TestInhabitant(0f, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0f));
         beamable = new TestBeamable();
         beamable.setPlanetaryInhabitant(new TestInhabitant(0f, Planet.PLANET_RADIUS, 0f));
     }

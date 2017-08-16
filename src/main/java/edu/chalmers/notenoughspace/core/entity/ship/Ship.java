@@ -122,20 +122,20 @@ public class Ship extends Entity {
 
     @Subscribe
     public void hayforkCollision(HayforkCollisionEvent event) {
-        if(shield.isActive()){
-            return;
+        if (shield.isActive()) {
+        } else {
+            int damage = event.getDamage();
+            health.modifyHealth(-damage);
         }
-        int damage = event.getDamage();
-        health.modifyHealth(-damage);
     }
 
     @Subscribe
     public void satelliteCollision(SatelliteCollisionEvent event) {
         if(shield.isActive()){
-            return;
+        } else {
+            int damage = event.getDamage();
+            health.modifyHealth(-damage);
         }
-        int damage = event.getDamage();
-        health.modifyHealth(-damage);
     }
 
     @Subscribe

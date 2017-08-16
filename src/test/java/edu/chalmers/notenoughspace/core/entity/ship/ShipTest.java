@@ -21,6 +21,8 @@ import static org.junit.Assert.*;
 public class ShipTest {
     Beam beam;
     Ship ship;
+    ShootWeapon shootWeapon;
+    Shield shield;
 
     @Before
     public void setUp() throws Exception {
@@ -28,6 +30,11 @@ public class ShipTest {
         ship.setPlanetaryInhabitant(new TestInhabitant(0f, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0f));
         beam = ship.getBeam();
         beam.setPlanetaryInhabitant(new TestInhabitant(0f, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0f));
+        shield = ship.getShield();
+        shield.setPlanetaryInhabitant(new TestInhabitant(0f, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0f));
+        shootWeapon = ship.getWeapon();
+        shootWeapon.setPlanetaryInhabitant(new TestInhabitant(0f, Planet.PLANET_RADIUS + Ship.ALTITUDE, 0f));
+
     }
 
     @Test

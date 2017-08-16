@@ -17,7 +17,7 @@ import edu.chalmers.notenoughspace.event.HealthEmptyEvent;
  */
 public class Level {
 
-    public final int LEVEL_TIME_IN_SECONDS = 120;
+    public final int LEVEL_TIME_IN_SECONDS = 60;
 
     private final EntitySpawner spawner;
     private final CountDownTimer timer;
@@ -36,6 +36,7 @@ public class Level {
         timer = new CountDownTimer(LEVEL_TIME_IN_SECONDS) {
             @Override
             public void onTimeOut() {
+                System.out.println("Time is up");
                 levelOver();
             }
         };
@@ -65,6 +66,7 @@ public class Level {
 
     @Subscribe
     public void shipOutOfHealth(HealthEmptyEvent event) {
+        System.out.println("No health left");
         levelOver();
     }
 

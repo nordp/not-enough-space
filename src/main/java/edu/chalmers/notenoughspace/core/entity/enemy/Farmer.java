@@ -30,7 +30,7 @@ public class Farmer extends Entity {
     public Farmer(){
         super(new ZeroGravityStrategy());
         pseudoThrowChance = new Random();
-        health = new FarmerHealth(100, 100, 5);
+        health = new FarmerHealth(15, 100, 5);
 
         Bus.getInstance().post(new EntityCreatedEvent(this));
         Bus.getInstance().register(this);

@@ -16,6 +16,6 @@ The goal of the game is to abduct as many cows as possible, while managing not t
 
 ### Controls:
 
-Use WASD or the arrow keys to steer the U.F.O. and use _space_-bar to activate the tractor beam. You can also use Z and X to turn around quickly.
+Use the arrow keys to steer the U.F.O. and use _space_-bar to activate the tractor beam. You can also use Z and X to turn around quickly. To shoot press F (fire) and to activate the shield keep S (shield) pressed.
 
-    Make sure to save enough energy to keep the beam available!
+    Make sure to save enough energy to keep the beam and the shield available!

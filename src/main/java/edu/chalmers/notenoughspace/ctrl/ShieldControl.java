@@ -29,12 +29,15 @@ public class ShieldControl extends DetachableControl {
 
         if(shieldSwitchedOn) {
             showShield();
-            System.out.println("Shield switched on");
             resumeBuzzingSound();
         } else {
             hideShield();
             pauseBuzzingSound();
         }
+    }
+    @Override
+    public void onDetach() {
+        Bus.getInstance().unregister(this);
     }
     private void hideShield() {spatial.setCullHint(Spatial.CullHint.Always);}
 
@@ -49,8 +52,5 @@ public class ShieldControl extends DetachableControl {
     private void pauseBuzzingSound() {
         ((AudioNode) ((Node) spatial).getChild("audio")).stop();
     }
-    @Override
-    public void onDetach() {
-        Bus.getInstance().unregister(this);
-    }
+
 }

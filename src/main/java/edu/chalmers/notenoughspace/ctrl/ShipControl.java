@@ -197,7 +197,7 @@ public class ShipControl extends DetachableControl {
         inputManager.addMapping(Movement.BACKWARD.name(), new KeyTrigger(KeyInput.KEY_DOWN));
         inputManager.addMapping(Movement.ROTATION_LEFT.name(), new KeyTrigger(KeyInput.KEY_Z));
         inputManager.addMapping(Movement.ROTATION_RIGHT.name(), new KeyTrigger(KeyInput.KEY_X));
-        inputManager.addMapping("shootWeapon", new KeyTrigger(KeyInput.KEY_BACK));
+        inputManager.addMapping("shootWeapon", new KeyTrigger(KeyInput.KEY_F));
         inputManager.addMapping("shield", new KeyTrigger(KeyInput.KEY_S));
         inputManager.addMapping("toggleBeam", new KeyTrigger(KeyInput.KEY_SPACE));
         inputManager.addMapping("cameraMode", new KeyTrigger(KeyInput.KEY_T));

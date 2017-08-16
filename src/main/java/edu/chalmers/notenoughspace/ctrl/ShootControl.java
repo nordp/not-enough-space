@@ -37,6 +37,7 @@ public class ShootControl extends DetachableControl {
 
         if (colliding) {
             shootWeapon.hitSomething();
+            spatial.setCullHint(Spatial.CullHint.Always);
         }
     }
 

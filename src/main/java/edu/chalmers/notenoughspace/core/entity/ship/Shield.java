@@ -14,7 +14,7 @@ import edu.chalmers.notenoughspace.event.ShieldActiveEvent;
  */
 public class Shield extends Entity {
 
-    private boolean active = false;
+    private boolean active = true;
     private static final float ENERGY_COST = 5f;
 
     public Shield() {

@@ -46,7 +46,7 @@ public class Farmer extends Entity {
         }
         if (body.distanceTo(ship) <= AGGRO_DISTANCE) {
             chaseShip(ship, tpf);
-            if (pseudoThrowChance.nextFloat() * 100 <= THROW_CHANCE && (getHealth() < 70)) {
+            if (pseudoThrowChance.nextFloat() * 100 <= THROW_CHANCE) {
                 throwHayfork();
                 health.regenerate(1);
             }
